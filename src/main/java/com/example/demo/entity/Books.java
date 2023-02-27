@@ -21,6 +21,23 @@ import javax.persistence.Transient;
 @Table(name="books")
 public class Books {
 	
+//	  `book_id` INT NOT NULL,
+//	  `title` VARCHAR(128) NOT NULL,
+//	  `author` VARCHAR(32) NOT NULL,
+//	  `publisher` VARCHAR(32) NOT NULL,
+//	  `publication_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+//	  `price` INT NOT NULL,
+//	  `image` VARCHAR(128) NOT NULL,
+//	  `description` TEXT NOT NULL,
+//	  `category_id` INT NOT NULL,
+//	  PRIMARY KEY (`book_id`),
+//	  INDEX `a13_idx` (`category_id` ASC) VISIBLE,
+//	  CONSTRAINT `a13`
+//	    FOREIGN KEY (`category_id`)
+//	    REFERENCES `bookquest`.`categories` (`category_id`)
+//	    ON DELETE NO ACTION
+//	    ON UPDATE NO ACTION);
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer bookId;
