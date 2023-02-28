@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -29,8 +31,9 @@ public class Payment {
 	@Column(name="payment_id")
 	private Integer paymentId;
 	
-	@Column(name="user_id", nullable = false)
-	private Integer userId;
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
 
 	@Column(name = "card_name", length = 32, nullable = false)
 	private String cardName;

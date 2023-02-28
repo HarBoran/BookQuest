@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -52,8 +54,12 @@ public class Book {
 	@Column(nullable = false)
 	private String description; 
 	//한국십진분류표
-	@Column(name="category_id")
-	private Integer categoryid;
+	@ManyToOne
+	@JoinColumn(name="category_id")
+	private Category category;
+	
+//	@OneToMany(mappedBy = "book")
+//    private List<OrderDetail> orderDetails = new ArrayList<>();
 	
 //	  PRIMARY KEY (`book_id`),
 //	  INDEX `a13_idx` (`category_id` ASC) VISIBLE,

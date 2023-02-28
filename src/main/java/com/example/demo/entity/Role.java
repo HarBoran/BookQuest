@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -21,8 +22,9 @@ import lombok.ToString;
 @Table(name="roles")
 public class Role {
 
-	@Column(length = 16, nullable = false, unique = true)
-	private String authority;
+	@Id
+	@Column(name="role_name", length = 16, nullable = false, unique = true)
+	private String roleName;
 	
 
 }

@@ -1,12 +1,17 @@
 package com.example.demo.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +36,11 @@ public class Category {
 	@Column(length = 16, nullable = false)
 	private String name;
 
-	@Column(name = "parent_id", length = 255, nullable = false)
-	private Integer parentId;
+	@OneToOne
+	@JoinColumn(name = "parent_id")
+	private Category parent;
+	
+	@OneToMany(mappedBy="parent")
+	private Set<Category> children = new HashSet<>();
 
 }
