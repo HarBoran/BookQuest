@@ -39,4 +39,52 @@ public class UsedBook {
 	private Integer amount;
 	
 	public UsedBook(){}
+
+	@Override
+	public String toString() {
+		return "UsedBook [usedBookId=" + usedBookId + ", user=" + user + ", book=" + book + ", status=" + status
+				+ ", amount=" + amount + "]";
+	}
+
+	public Integer getUsedBookId() {
+		return usedBookId;
+	}
+
+	public void setUsedBookId(Integer usedBookId) {
+		this.usedBookId = usedBookId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Integer getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Integer amount) {
+		this.amount = amount;
+	}
+	
+	
 }

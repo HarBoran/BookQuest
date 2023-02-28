@@ -37,4 +37,44 @@ public class Payment {
 	
 	public Payment(){}
 
+	@Override
+	public String toString() {
+		return "Payment [paymentId=" + paymentId + ", user=" + user + ", cardName=" + cardName + ", cardNumber="
+				+ cardNumber + "]";
+	}
+
+	public Integer getPaymentId() {
+		return paymentId;
+	}
+
+	public void setPaymentId(Integer paymentId) {
+		this.paymentId = paymentId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getCardName() {
+		return cardName;
+	}
+
+	public void setCardName(String cardName) {
+		this.cardName = cardName;
+	}
+
+	public String getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+	
+	
+
 }

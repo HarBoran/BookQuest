@@ -22,4 +22,19 @@ public class Role {
 	
 	public Role(){}
 
+	@Override
+	public String toString() {
+		return "Role [roleName=" + roleName + "]";
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+	
+	
+
 }

@@ -39,5 +39,58 @@ public class BooksBranch {
 	@Column(nullable = false)
 	private Integer quantity;
 
-	public BooksBranch(){}	
+	public BooksBranch(){}
+
+	@Override
+	public String toString() {
+		return "BooksBranch [booksBranchId=" + booksBranchId + ", branch=" + branch + ", book=" + book + ", status="
+				+ status + ", quantity=" + quantity + "]";
+	}
+
+	public Integer getBooksBranchId() {
+		return booksBranchId;
+	}
+
+	public void setBooksBranchId(Integer booksBranchId) {
+		this.booksBranchId = booksBranchId;
+	}
+
+	public Branch getBranch() {
+		return branch;
+	}
+
+	public void setBranch(Branch branch) {
+		this.branch = branch;
+	}
+
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}	
+	
+	
+	
+	
+	
+	
+	
 }

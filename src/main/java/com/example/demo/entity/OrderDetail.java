@@ -41,4 +41,52 @@ public class OrderDetail {
 	
 	public OrderDetail(){}
 
+	@Override
+	public String toString() {
+		return "OrderDetail [orderDetailId=" + orderDetailId + ", order=" + order + ", book=" + book
+				+ ", orderQuantity=" + orderQuantity + ", price=" + price + "]";
+	}
+
+	public Integer getOrderDetailId() {
+		return orderDetailId;
+	}
+
+	public void setOrderDetailId(Integer orderDetailId) {
+		this.orderDetailId = orderDetailId;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
+	}
+
+	public Integer getOrderQuantity() {
+		return orderQuantity;
+	}
+
+	public void setOrderQuantity(Integer orderQuantity) {
+		this.orderQuantity = orderQuantity;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+	
+	
+
 }

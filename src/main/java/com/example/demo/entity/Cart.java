@@ -37,5 +37,44 @@ public class Cart {
 	private Integer cartQuantity;
 	
 	public Cart(){}
+
+	@Override
+	public String toString() {
+		return "Cart [cartId=" + cartId + ", user=" + user + ", book=" + book + ", cartQuantity=" + cartQuantity + "]";
+	}
+
+	public Integer getCartId() {
+		return cartId;
+	}
+
+	public void setCartId(Integer cartId) {
+		this.cartId = cartId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
+	}
+
+	public Integer getCartQuantity() {
+		return cartQuantity;
+	}
+
+	public void setCartQuantity(Integer cartQuantity) {
+		this.cartQuantity = cartQuantity;
+	}
+	
+	
 	   
 }

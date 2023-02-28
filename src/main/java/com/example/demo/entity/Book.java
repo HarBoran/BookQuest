@@ -52,7 +52,87 @@ public class Book {
 	@JoinColumn(name="category_id")
 	private Category category;
 	
-	public Book(){}	
+	public Book(){}
+
+	@Override
+	public String toString() {
+		return "Book [bookId=" + bookId + ", title=" + title + ", author=" + author + ", publisher=" + publisher
+				+ ", publicationDate=" + publicationDate + ", price=" + price + ", image=" + image + ", description="
+				+ description + ", category=" + category + "]";
+	}
+
+	public Integer getBookId() {
+		return bookId;
+	}
+
+	public void setBookId(Integer bookId) {
+		this.bookId = bookId;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+
+	public LocalDate getPublicationDate() {
+		return publicationDate;
+	}
+
+	public void setPublicationDate(LocalDate publicationDate) {
+		this.publicationDate = publicationDate;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}	
+	
 
 
 }

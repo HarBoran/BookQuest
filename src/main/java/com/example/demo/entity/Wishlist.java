@@ -38,4 +38,44 @@ public class Wishlist {
 
 	public Wishlist(){}
 
+	@Override
+	public String toString() {
+		return "Wishlist [wishlistId=" + wishlistId + ", user=" + user + ", book=" + book + ", wishlistQuantity="
+				+ wishlistQuantity + "]";
+	}
+
+	public Integer getWishlistId() {
+		return wishlistId;
+	}
+
+	public void setWishlistId(Integer wishlistId) {
+		this.wishlistId = wishlistId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
+	}
+
+	public Integer getWishlistQuantity() {
+		return wishlistQuantity;
+	}
+
+	public void setWishlistQuantity(Integer wishlistQuantity) {
+		this.wishlistQuantity = wishlistQuantity;
+	}
+	
+	
+
 }

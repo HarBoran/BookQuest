@@ -48,5 +48,69 @@ public class Order {
 	private String orderStatus;
 	
 	public Order(){}
+
+	@Override
+	public String toString() {
+		return "Order [orderId=" + orderId + ", user=" + user + ", orderDate=" + orderDate + ", totalPrice="
+				+ totalPrice + ", address=" + address + ", payment=" + payment + ", orderStatus=" + orderStatus + "]";
+	}
+
+	public Integer getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public LocalDateTime getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(LocalDateTime orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public Integer getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(Integer totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+	
+	
 	   
 }

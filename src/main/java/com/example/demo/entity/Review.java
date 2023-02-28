@@ -46,4 +46,60 @@ public class Review {
 	
 	public Review(){}
 
+	@Override
+	public String toString() {
+		return "Review [reviewsid=" + reviewsid + ", user=" + user + ", book=" + book + ", starRating=" + starRating
+				+ ", comment=" + comment + ", commentDate=" + commentDate + "]";
+	}
+
+	public Integer getReviewsid() {
+		return reviewsid;
+	}
+
+	public void setReviewsid(Integer reviewsid) {
+		this.reviewsid = reviewsid;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
+	}
+
+	public String getStarRating() {
+		return starRating;
+	}
+
+	public void setStarRating(String starRating) {
+		this.starRating = starRating;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public LocalDateTime getCommentDate() {
+		return commentDate;
+	}
+
+	public void setCommentDate(LocalDateTime commentDate) {
+		this.commentDate = commentDate;
+	}
+	
+	
+
 }
