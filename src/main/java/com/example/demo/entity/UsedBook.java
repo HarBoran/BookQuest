@@ -9,10 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -40,4 +37,6 @@ public class UsedBook {
 	
 	@Column(nullable = false)
 	private Integer amount;
+	
+	public UsedBook(){}
 }
