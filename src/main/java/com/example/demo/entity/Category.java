@@ -13,13 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-@ToString
-@Getter
-@Setter
 @Entity
 @Table(name="categories")
 public class Category {
@@ -47,7 +40,6 @@ public class Category {
 	public Category(Integer categoryId) {
 		this.categoryId = categoryId;
 	}
-
 
 	public Category(String pureNotation, String name) {
 		this.pureNotation = pureNotation;
