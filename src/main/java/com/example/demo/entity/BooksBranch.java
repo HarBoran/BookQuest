@@ -1,11 +1,46 @@
 package com.example.demo.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name="books_branch")
 public class BooksBranch {
-//	books_branch_id` INT NOT NULL,
-//	  `branch_id` INT NOT NULL,
-//	  `book_id` INT NOT NULL,
-//	  `condition` VARCHAR(45) NOT NULL,
-//	  `quantity` INT NOT NULL,
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "books_branch_id")
+	private Integer booksBranchId;
+	
+	@Column(name = "branch_id", nullable = false)
+	private Integer branchId;
+   
+	@Column(name = "book_id", nullable = false)
+	private Integer bookId;
+   
+	@Column(length = 45, nullable = false) 
+	private String condition;
+   
+	@Column(nullable = false)
+	private Integer quantity;
+
 //	  PRIMARY KEY (`books_branch_id`),
 //	  INDEX `a12_idx` (`branch_id` ASC) VISIBLE,
 //	  INDEX `a13_idx` (`book_id` ASC) VISIBLE,
@@ -19,5 +54,6 @@ public class BooksBranch {
 //	    REFERENCES `bookquest`.`books` (`book_id`)
 //	    ON DELETE NO ACTION
 //	    ON UPDATE NO ACTION);
+
 
 }

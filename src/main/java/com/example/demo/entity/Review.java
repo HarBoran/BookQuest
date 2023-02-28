@@ -1,11 +1,48 @@
 package com.example.demo.entity;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name="reviews")
 public class Review {
-//	  `reviews_id` INT NOT NULL,
-//	  `user_id` INT NOT NULL,
-//	  `book_id` INT NOT NULL,
-//	  `comment` TEXT NOT NULL,
-//	  `comment_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "reviews_id")
+	private Integer reviewsid;
+	
+	@Column(name = "user_id",nullable = false)
+	private Integer userId;
+	
+	@Column(name = "book_id", nullable = false)
+	private Integer bookId;
+	
+	@Column(nullable = false)
+	private String comment;
+	
+	@Column(name = "comment_date",length = 255)
+	private LocalDateTime commentDate;
+	
 //	  PRIMARY KEY (`reviews_id`),
 //	  INDEX `a10_idx` (`user_id` ASC) VISIBLE,
 //	  INDEX `a11_idx` (`book_id` ASC) VISIBLE,

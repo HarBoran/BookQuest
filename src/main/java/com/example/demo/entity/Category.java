@@ -21,18 +21,17 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="branch")
-public class Branch {
-	
+@Table(name="categories")
+public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="branch_id")
-	private Integer branchId;
+	@Column(name="category_id")
+	private Integer categoryId;
 	
-	@Column(name="branch_name", length = 16, nullable = false)
-	private String branchName;
+	@Column(length = 16, nullable = false)
+	private String name;
 
-	@Column(name="branch_address",length = 64, nullable = false)
-	private String branchAddress;
+	@Column(name = "parent_id", length = 255, nullable = false)
+	private Integer parentId;
 
 }

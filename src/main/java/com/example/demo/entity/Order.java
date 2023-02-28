@@ -1,12 +1,51 @@
 package com.example.demo.entity;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name="orders")
 public class Order {
-//	  `order_id` INT NOT NULL,
-//	  `user_id` INT NOT NULL,
-//	  `order_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-//	  `total_price` INT NOT NULL,
-//	  `payment_id` INT NOT NULL,
-//	  `order_status` VARCHAR(45) NOT NULL,
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="order_id")
+	private Integer orderId;
+
+	@Column(name="user_id")
+	private Integer userId;
+	
+	@Column(name="order_date")
+	private LocalDateTime orderDate;
+	
+	@Column(name="total_price")
+	private Integer totalPrice;
+	
+	@Column(name= "payment_id", nullable = false)
+	private Integer paymentId;
+
+	@Column(name= "order_status", length = 45, nullable = false)
+	private String orderStatus;
+	
 //	  PRIMARY KEY (`order_id`),
 //	  INDEX `a1_idx` (`user_id` ASC) VISIBLE,
 //	  INDEX `a2_idx` (`payment_id` ASC) VISIBLE,
@@ -21,4 +60,7 @@ public class Order {
 //	    ON DELETE NO ACTION
 //	    ON UPDATE NO ACTION);
 
+			    
+	   
+	   
 }
