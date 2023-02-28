@@ -21,9 +21,6 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-@NoArgsConstructor
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name="books")
 public class Book {
@@ -58,21 +55,7 @@ public class Book {
 	@JoinColumn(name="category_id")
 	private Category category;
 	
-//	@OneToMany(mappedBy = "book")
-//    private List<OrderDetail> orderDetails = new ArrayList<>();
-	
-//	  PRIMARY KEY (`book_id`),
-//	  INDEX `a13_idx` (`category_id` ASC) VISIBLE,
-//	  CONSTRAINT `a13`
-//	    FOREIGN KEY (`category_id`)
-//	    REFERENCES `bookquest`.`categories` (`category_id`)
-//	    ON DELETE NO ACTION
-//	    ON UPDATE NO ACTION);
-	
-
-//	@ManyToMany(fetch = FetchType.EAGER)
-//	@JoinTable(name = "users_roles",joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="role_id"))
-//	private Set<Role> roles = new HashSet<>();
+	public Book(){}	
 
 
 }

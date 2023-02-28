@@ -22,9 +22,6 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-@NoArgsConstructor
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name="categories")
 public class Category {
@@ -43,4 +40,5 @@ public class Category {
 	@OneToMany(mappedBy="parent")
 	private Set<Category> children = new HashSet<>();
 
+	public Category(){}
 }

@@ -21,9 +21,6 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-@NoArgsConstructor
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name="orders")
 public class Order {
@@ -53,21 +50,6 @@ public class Order {
 	@Column(name= "order_status", length = 45, nullable = false)
 	private String orderStatus;
 	
-//	  PRIMARY KEY (`order_id`),
-//	  INDEX `a1_idx` (`user_id` ASC) VISIBLE,
-//	  INDEX `a2_idx` (`payment_id` ASC) VISIBLE,
-//	  CONSTRAINT `a1`
-//	    FOREIGN KEY (`user_id`)
-//	    REFERENCES `bookquest`.`users` (`user_id`)
-//	    ON DELETE NO ACTION
-//	    ON UPDATE NO ACTION,
-//	  CONSTRAINT `a2`
-//	    FOREIGN KEY (`payment_id`)
-//	    REFERENCES `bookquest`.`payment` (`payment_id`)
-//	    ON DELETE NO ACTION
-//	    ON UPDATE NO ACTION);
-
-			    
-	   
+	public Order(){}
 	   
 }

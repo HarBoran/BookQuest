@@ -19,9 +19,6 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-@NoArgsConstructor
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "wishlist")
 public class Wishlist {
@@ -42,18 +39,6 @@ public class Wishlist {
 	@Column(name = "wishlist_quantity", nullable = false)
 	private Integer wishlistQuantity;
 
-//		   PRIMARY KEY (`wishlist_id`),
-//		   INDEX `a8_idx` (`book_id` ASC) VISIBLE,
-//		   INDEX `a9_idx` (`user_id` ASC) VISIBLE,
-//		   CONSTRAINT `a8`
-//		     FOREIGN KEY (`book_id`)
-//		     REFERENCES `bookquest`.`books` (`book_id`)
-//		     ON DELETE NO ACTION
-//		     ON UPDATE NO ACTION,
-//		   CONSTRAINT `a9`
-//		     FOREIGN KEY (`user_id`)
-//		     REFERENCES `bookquest`.`users` (`user_id`)
-//		     ON DELETE NO ACTION
-//		     ON UPDATE NO ACTION);
+	public Wishlist(){}
 
 }

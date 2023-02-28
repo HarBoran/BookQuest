@@ -15,9 +15,6 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-@NoArgsConstructor
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name="roles")
 public class Role {
@@ -26,5 +23,6 @@ public class Role {
 	@Column(name="role_name", length = 16, nullable = false, unique = true)
 	private String roleName;
 	
+	public Role(){}
 
 }

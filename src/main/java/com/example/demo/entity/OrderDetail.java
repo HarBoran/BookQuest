@@ -19,9 +19,6 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-@NoArgsConstructor
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name="order_details")
 public class OrderDetail {
@@ -44,5 +41,7 @@ public class OrderDetail {
 	
 	@Column(nullable = false)
 	private Integer price;
+	
+	public OrderDetail(){}
 
 }

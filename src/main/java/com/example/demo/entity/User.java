@@ -21,9 +21,6 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-@NoArgsConstructor
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name="users")
 public class User {
@@ -62,5 +59,7 @@ public class User {
 	
 	@Column(length = 16, nullable = false)
 	private String role;
+	
+	public User(){}
 
 }

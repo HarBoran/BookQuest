@@ -21,9 +21,6 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-@NoArgsConstructor
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name="reviews")
 public class Review {
@@ -50,18 +47,6 @@ public class Review {
 	@Column(name = "comment_date",length = 255)
 	private LocalDateTime commentDate;
 	
-//	  PRIMARY KEY (`reviews_id`),
-//	  INDEX `a10_idx` (`user_id` ASC) VISIBLE,
-//	  INDEX `a11_idx` (`book_id` ASC) VISIBLE,
-//	  CONSTRAINT `a10`
-//	    FOREIGN KEY (`user_id`)
-//	    REFERENCES `bookquest`.`users` (`user_id`)
-//	    ON DELETE NO ACTION
-//	    ON UPDATE NO ACTION,
-//	  CONSTRAINT `a11`
-//	    FOREIGN KEY (`book_id`)
-//	    REFERENCES `bookquest`.`books` (`book_id`)
-//	    ON DELETE NO ACTION
-//	    ON UPDATE NO ACTION);
+	public Review(){}
 
 }

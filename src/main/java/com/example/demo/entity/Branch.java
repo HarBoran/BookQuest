@@ -17,9 +17,6 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-@NoArgsConstructor
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name="branch")
 public class Branch {
@@ -35,4 +32,6 @@ public class Branch {
 	@Column(name="branch_address",length = 64, nullable = false)
 	private String branchAddress;
 
+	
+	public Branch(){}
 }
