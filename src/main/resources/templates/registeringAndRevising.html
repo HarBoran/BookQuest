@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+
+	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
+</head>
+
+<body>
+	<div th:replace="commonspace :: menu" />
+
+	<div class="container">
+		<div class="border border-secondary rounded p-3">
+
+			<form th:action="@{/categories/save}" th:object="${registeringAndRevising}" method="POST"
+				enctype="multipart/form-data" style="max-width: 500px; margin: 0 auto;"
+				onsubmit="return checkNameUnique(this)">
+
+				<input type="hidden" th:field="*{bookId}" />
+
+				<div class="form-group row">
+					<label for="title" class="col-sm-4 col-form-label">Title :</label>
+					<div class="col-sm-8">
+						<input type="text" th:field="*{title}" class="form-control" placeholder="작가" required>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label class="col-sm-4">Category</label>
+					<div class="col-sm-8">
+						<select class="form-control" th:field="*{category}" required>
+							<option value="0" disabled>카테고리를 선택하세요</option>
+							<th:block th:each="category : ${categoryList}">
+								<option th:value="${category.categoryId}" th:disabled="${category.parent == null}">
+									[[${category.pureNotation}]] [[${category.name}]]</option>
+							</th:block>
+						</select>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="author" class="col-sm-4 col-form-label">Author :</label>
+					<div class="col-sm-8">
+						<input type="text" th:field="*{author}" class="form-control" placeholder="출판사" required>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="publisher" class="col-sm-4 col-form-label">Publisher :</label>
+					<div class="col-sm-8">
+						<input type="text" th:field="*{publisher}" class="form-control" placeholder="출판일" required>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="publicationDate" class="col-sm-4 col-form-label">PublicationDate :</label>
+					<div class="col-sm-8">
+						<input type="text" th:field="*{publicationDate}" class="form-control" placeholder="출판일" required>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="price" class="col-sm-4 col-form-label">Price :</label>
+					<div class="col-sm-8">
+						<input type="text" th:field="*{price}" class="form-control" placeholder="가격" required>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="image" class="col-sm-4 col-form-label">Image :</label>
+					<div class="col-sm-8">
+						<input type="text" th:field="*{image}" class="form-control" placeholder="책표지" required>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="description" class="col-sm-4 col-form-label">Description :</label>
+					<div class="col-sm-8">
+						<input type="text" th:field="*{description}" class="form-control" placeholder="책소개" required>
+					</div>
+				</div>
+				
+				
+				
+			</form>
+		</div>
+	</div>
+
+
+	<div th:replace="commonspace :: footer" />
+</body>
+
+</html>

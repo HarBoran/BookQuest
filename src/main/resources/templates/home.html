@@ -3,38 +3,21 @@
 xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
-    <meta charset="UTF-8">
-    <title>clock2</title>
+	<head th:replace="commonspace :: page_head('Home - Book Quest')"/>
 </head>
+
 <body>
+	<div th:replace="commonspace :: menu"/>
+	
+	<div class="text-center my-3">찾고싶은 도서명을 검색하세요.</div>
+	<div style="text-align:center;">
+		<input type="text" style="width:400px; border-radius:50px;" placeholder="  도서명 검색하기">
+	</div>
 
-    <div style="text-align: center;">
-        <span id="clock" style="color:gray; font-size: 100px;">clock</span>
-        <span id="apm" style="color:gray; font-size: 50px;"  >ampm</span>
-    </div>
-
-    <script>
-        var Target = document.getElementById("clock");
-        var Target_apm = document.getElementById("apm");
-        function clock() {
-            var time = new Date();
-            var hours = time.getHours();
-            var minutes = time.getMinutes();
-            var seconds = time.getSeconds();
-            var AmPm ="AM";
-            if(hours > 12){   
-                var AmPm ="PM";
-                hours %= 12;
-            }
-
-            Target.innerText = 
-            `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
-
-            Target_apm.innerText = `${AmPm}`;
-
-        }
-        clock();
-        setInterval(clock, 1000); // 1초마다 실행
-    </script>
+	
+	<img th:src="@{/images/exe.jpg}" style="width:1200px;" />
+	
+	<div th:replace="commonspace :: footer"/>
 </body>
+
 </html>

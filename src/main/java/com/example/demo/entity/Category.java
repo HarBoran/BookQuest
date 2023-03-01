@@ -1,7 +1,7 @@
 package com.example.demo.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,7 +33,7 @@ public class Category {
 	private Category parent;
 	
 	@OneToMany(mappedBy="parent")
-	private Set<Category> children = new HashSet<>();
+	private List<Category> children = new ArrayList<>();
 
 	public Category(){}
 	
@@ -53,7 +53,8 @@ public class Category {
 
 	@Override
 	public String toString() {
-		return "Category [categoryId=" + categoryId + ", pureNotation=" + pureNotation + ", name=" + name + "]";
+		return "Category [categoryId=" + categoryId + ", pureNotation=" + pureNotation + ", name=" + name + ", parent="
+				+ parent + "]";
 	}
 
 	public Integer getCategoryId() {
@@ -88,12 +89,27 @@ public class Category {
 		this.parent = parent;
 	}
 
-	public Set<Category> getChildren() {
+	public List<Category> getChildren() {
 		return children;
 	}
 
-	public void setChildren(Set<Category> children) {
+	public void setChildren(List<Category> children) {
 		this.children = children;
+	}
+
+	public static Category copyFull(Category category) {	
+		Category copyCategory= new Category();
+		copyCategory.setCategoryId(category.getCategoryId());
+		copyCategory.setPureNotation(category.getPureNotation());
+		copyCategory.setName(category.getName());
+		copyCategory.setParent(category.getParent());
+		return copyCategory;
+	}
+	
+	public static Category copyFull(Category category, String name) {	
+		Category copyCategory= Category.copyFull(category);
+		copyCategory.setName(name);
+		return copyCategory;
 	}
 
 	
