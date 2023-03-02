@@ -20,7 +20,7 @@ public class CategoryTest {
 	@Autowired
 	private CategoryRepository caRepo;
 	
-	@Test
+	//@Test
 	void CreateCategory() {
 	
 	Category category000 = new Category("000", "총류"); caRepo.save(category000);

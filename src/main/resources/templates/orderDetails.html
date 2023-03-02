@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta charset="UTF-8">
+	<title>orderDetails</title>
+</head>
+
+<body>
+	<div th:each="order:${orderDetails}">
+		<hr>
+		ORDER >>>>>>
+		<hr>
+		<div th:each="orders:${order}">
+			<table border="1">
+				<tr>
+					<th>ID</th>
+					<th>order</th>
+					<th>book</th>
+					<th>Quantity</th>
+					<th>price</th>
+				</tr>
+				<tr>
+					<td th:text="${orders.orderDetailId}"></td>
+					<td
+						th:text="${orders.order.orderId}+|+${orders.order.orderDate}+${orders.order.totalPrice}+${orders.order.address}+${orders.order.orderStatus}">
+					</td>
+					<td th:text="${orders.book}"></td>
+					<td th:text="${orders.orderQuantity}"></td>
+					<td th:text="${orders.price}"></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+
+</html>

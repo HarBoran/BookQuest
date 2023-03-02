@@ -31,13 +31,13 @@ public class HomeController {
 	
 	@GetMapping("/bookregistration")
 	public String viewCommonSpcae(Model theModel) {
-		Book registeringAndRevising = new Book();
+		Book registering = new Book();
 		List<Category> categoryList = categoryService.findCategory();
 
-		theModel.addAttribute("registeringAndRevising", registeringAndRevising);
+		theModel.addAttribute("registering", registering);
 		theModel.addAttribute("categoryList", categoryList);
 		
-		return "registeringAndRevising";
+		return "bookRegisteringAndRevising";
 	}
 
 
