@@ -25,7 +25,7 @@
 			</a>
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a class="nav-link" th:href="@{/users}">도서찾기</a>
+					<a class="nav-link" th:href="@{/users}">도서찾기(카테고리)</a>
 				</li>
 				
 				<li class="nav-item">
@@ -37,15 +37,19 @@
 				</li>
 				
 				<li class="nav-item">
-					<a class="nav-link" th:href="@{/products}">매장찾기</a>
+					<a class="nav-link" th:href="@{/products}">매장찾기(지역)</a>
 				</li>
 				
 				<li class="nav-item">
-					<a class="nav-link" th:href="@{/bookregistration}">신간도서등록</a>
+					<a class="nav-link" th:href="@{/newBookregistration}">신간도서등록</a>
 				</li>
 				
 				<li class="nav-item">
-					<a class="nav-link" th:href="@{/customers}">중고책등록</a>
+					<a class="nav-link" th:href="@{/oldBookregistration}">중고책등록</a>
+				</li>
+				
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/storeInformation}">매장정보 확인하기</a>
 				</li>
 
 				<li class="nav-item">
@@ -99,8 +103,8 @@
 		</nav>
 	</div>
 	
-	<div th:fragment="footer" class="text-center my-3">
-		<ul style="list-style-type: none;">
+	<div th:fragment="footer" class="text-center my-3" style = "background-color: darkslategray;">
+		<ul style="list-style-type: none; color:white">
 			<li>서울특별시 종로구 묘동 56 단성사 빌딩 3층</li>
 			<li>TEL)010-7748-5107</li>
 			<li>Copyright &copy;BookQuest</li>

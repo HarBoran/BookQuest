@@ -17,6 +17,8 @@
 	<div th:replace="commonspace :: menu" />
 
 	<div class="container">
+		
+		1. bookTable에 들어갈 정보 직접입력
 		<div class="border border-secondary rounded p-3">
 
 			<form th:action="@{/categories/save}" th:object="${registering}" method="POST"

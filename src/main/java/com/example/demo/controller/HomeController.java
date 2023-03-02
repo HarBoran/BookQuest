@@ -29,16 +29,29 @@ public class HomeController {
 		return "home";
 	}
 	
-	@GetMapping("/bookregistration")
-	public String viewCommonSpcae(Model theModel) {
+	@GetMapping("/newBookregistration")
+	public String newBookregistration(Model theModel) {
 		Book registering = new Book();
 		List<Category> categoryList = categoryService.findCategory();
 
 		theModel.addAttribute("registering", registering);
 		theModel.addAttribute("categoryList", categoryList);
 		
-		return "bookRegisteringAndRevising";
+		return "newBookRegisteringAndRevising";
 	}
+	
+	@GetMapping("/oldBookregistration")
+	public String oldBookregistration(Model theModel) {
+
+		return "oldBookRegisteringAndRevising";
+	}
+	
+	@GetMapping("/storeInformation")
+	public String storeInformation(Model theModel) {
+
+		return "storePage";
+	}
+	
 
 
 }

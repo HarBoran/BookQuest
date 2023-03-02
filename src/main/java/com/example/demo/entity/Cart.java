@@ -26,14 +26,14 @@ public class Cart {
 	@JoinColumn(name="book_id")
 	private Book book;
 	
-	@Column(name="cart_quantity", nullable = false)
-	private Integer cartQuantity;
+	@Column(name="book_quantity", nullable = false)
+	private Integer bookQuantity;
 	
 	public Cart(){}
 
 	@Override
 	public String toString() {
-		return "Cart [cartId=" + cartId + ", user=" + user + ", book=" + book + ", cartQuantity=" + cartQuantity + "]";
+		return "Cart [cartId=" + cartId + ", user=" + user + ", book=" + book + ", bookQuantity=" + bookQuantity + "]";
 	}
 
 	public Integer getCartId() {
@@ -60,12 +60,12 @@ public class Cart {
 		this.book = book;
 	}
 
-	public Integer getCartQuantity() {
-		return cartQuantity;
+	public Integer getBookQuantity() {
+		return bookQuantity;
 	}
 
-	public void setCartQuantity(Integer cartQuantity) {
-		this.cartQuantity = cartQuantity;
+	public void setBookQuantity(Integer cartQuantity) {
+		this.bookQuantity = cartQuantity;
 	}
 	
 	
