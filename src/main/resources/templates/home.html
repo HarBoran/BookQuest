@@ -1,28 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
-	<head th:replace="commonspace :: page_head('Home - Book Quest')"/>
+
+	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
 </head>
 
 <body>
-	<div th:replace="commonspace :: menu"/>
-	
+	<div th:replace="commonspace :: menu" />
+
 	<div class="text-center my-3">찾고 싶은 도서명을 검색하세요. 🔍</div>
-	
+
 	3. 베스트 샐러(order순)<br>
 	4. 이주의 특가 상품 <br>
-	5. 신상품 
-	
-	<div style="text-align:center;">
-		<input type="text" style="width:400px; border-radius:50px;" placeholder="  도서명 검색하기 ">
-	</div>
+	5. 신상품
 
-	
+	<form th:action="@{/book}" style="text-align:center;">
+		<input type="search" name="keyword" th:value="${keyword}" style="width:400px; border-radius:50px;"
+			placeholder="  도서명 검색하기 ">
+		<button type="submit" class="btn btn-primary">검색</button>
+	</form>
+
+
+
 	<img th:src="@{/images/exe.jpg}" style="width:100%;" />
-	
-	<div th:replace="commonspace :: footer"/>
+
+	<div th:replace="commonspace :: footer" />
 </body>
 
 </html>
