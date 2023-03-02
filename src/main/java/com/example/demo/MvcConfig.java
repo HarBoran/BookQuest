@@ -10,12 +10,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //웹에 이미지가 들어나게 하는 부분
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
-   
-   @Override
-   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-      String dirName = "bookCover";
-      Path bookCoverDir = Paths.get(dirName);  
-      String bookCoverPath = bookCoverDir.toFile().getAbsolutePath();
-      registry.addResourceHandler("/"+dirName+"/**").addResourceLocations("file:/"+bookCoverPath+"/");
-   }
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		String dirName = "bookCover";
+		Path bookCoverDir = Paths.get(dirName);
+		String bookCoverPath = bookCoverDir.toFile().getAbsolutePath();
+		registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/" + bookCoverPath + "/");
+		// 맥용코드
+		registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:" + bookCoverPath + "/");
+	}
+
 }
