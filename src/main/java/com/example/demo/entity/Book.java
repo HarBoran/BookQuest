@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="books")
@@ -44,6 +45,13 @@ public class Book {
 	@ManyToOne
 	@JoinColumn(name="category_id")
 	private Category category;
+	
+	@Transient
+	public String getPhotosImagePath() {
+		if (bookId == null || image == null)
+			return "/images/default-user.png";
+		return "/bookCover/" + this.bookId + "/" + this.image;
+	}
 	
 	public Book(){}
 

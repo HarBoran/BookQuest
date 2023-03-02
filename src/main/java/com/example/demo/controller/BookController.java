@@ -49,11 +49,13 @@ public class BookController {
          
          return "book";
       }
+
       @GetMapping("/bestseller")
       public String bestseller(Model model) {
-         List<OrderDetail> bestseller = new ArrayList<OrderDetail>();
+         List<Object> bestseller = new ArrayList<Object>();
          bestseller.addAll(orderdetailservice.bestseller());
          model.addAttribute("books",bestseller);
          return "book";
       }
+      
 }

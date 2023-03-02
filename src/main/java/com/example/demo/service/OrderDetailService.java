@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,4 +23,8 @@ public class OrderDetailService {
 		return repo.findOrderDetailsByOrder(order);
 	}
 
+	
+	public  List<Object> bestseller() {
+		return repo.bestseller();
+	}
 }

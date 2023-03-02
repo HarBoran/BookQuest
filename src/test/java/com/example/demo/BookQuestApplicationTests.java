@@ -13,7 +13,7 @@ import org.springframework.test.annotation.Rollback;
 import com.example.demo.entity.Book;
 import com.example.demo.entity.Category;
 import com.example.demo.repository.BookRepository;
-import com.example.demo.repository.CategoryRepository;
+import com.example.demo.repository.OrderDetailRepository;
 
 @DataJpaTest(showSql = false)
 //데이터 베이스의 데이터가 더 우세 하니 바꾸지 말아라
@@ -23,7 +23,6 @@ class BookQuestApplicationTests {
 
 	@Autowired
 	private BookRepository repo;
-
 	
 	@Test
 	void saveNewBookInformation() {
@@ -44,4 +43,5 @@ class BookQuestApplicationTests {
 		repo.save(book1);	
 	}
 	
+
 }

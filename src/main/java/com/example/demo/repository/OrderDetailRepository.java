@@ -7,6 +7,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.dto.BestSellers;
 import com.example.demo.entity.Order;
 import com.example.demo.entity.OrderDetail;
 
@@ -15,4 +16,8 @@ public interface OrderDetailRepository extends PagingAndSortingRepository<OrderD
 	
 	@Query("SELECT o FROM OrderDetail o WHERE o.order =:order")
 	public List<OrderDetail> findOrderDetailsByOrder(@Param("order") Order order);
+
+	@Query("SELECT o.book FROM OrderDetail o GROUP BY o.book ORDER BY COUNT(o.book) DESC")
+	public List<Object> bestseller();
+	
 }
