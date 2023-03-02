@@ -8,24 +8,23 @@
 
 <body>
 	<div th:replace="commonspace :: menu" />
-
-	<div class="text-center my-3">찾고 싶은 도서명을 검색하세요. 🔍</div>
-	
 	<div class="container">
+		
 		<div th:if = "${message != null}" class="alert alert-success text-center">
 			[[${message}]]
 		</div>
+		
+		<div class="text-center my-3">찾고 싶은 도서명을 검색하세요. 🔍</div>
 		3. 베스트 샐러(order순)<br>
 		4. 이주의 특가 상품 <br>
 		5. 신상품
+
+		<form th:action="@{/book}" style="text-align:center;">
+			<input type="search" name="keyword" th:value="${keyword}" style="width:400px; border-radius:50px;"
+				placeholder="  도서명 검색하기 ">
+			<button type="submit" class="btn btn-primary">검색</button>
+		</form>
 	</div>
-
-	<form th:action="@{/book}" style="text-align:center;">
-		<input type="search" name="keyword" th:value="${keyword}" style="width:400px; border-radius:50px;"
-			placeholder="  도서명 검색하기 ">
-		<button type="submit" class="btn btn-primary">검색</button>
-	</form>
-
 
 
 	<img th:src="@{/images/exe.jpg}" style="width:100%;" />

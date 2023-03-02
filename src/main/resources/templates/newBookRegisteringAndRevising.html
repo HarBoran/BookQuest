@@ -4,74 +4,32 @@
 <head>
 
 	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
-	
+
 	<script type="text/javascript">
 
-	$(document).ready(function () { 
-		$("#fileImage").change(function(){
-		fileSize = this.files[0].size;
-			if(fileSize > 1048576*2){
-				this.setCustomValidity("You must choose an image less than 2MB!");
-				this.reportValidity();
-			}else{
-				this.setCustomValidity("");
-				showImageThumbnail(this);
-			}
-		});
-	});
-	
-	  function showImageThumbnail(fileInput){
-       var file = fileInput.files[0];
-       var reader = new FileReader();
-       reader.onload = function(e){
-          $("#thumbnail").attr("src",e.target.result);
-       };
-       reader.readAsDataURL(file);
-    }
-    
-
-	$(document).ready(function() {
-		$("#logoutLink").on("click", function(e){;
-			e.preventDefault();
-			document.logoutForm.submit();
-			//$("#logoutForm").submit();
-		});
-	});
-
-	function checkNameUnique(form) {
-		url = "[[@{/categories/check_unique}]]";
-		categoryId = $("#id").val();
-		categoryName = $("#name").val();
-		categoryAlias = $("#alias").val();
-		csrfValue = $("input[name='_csrf']").val();
-		params = {id: categoryId, name: categoryName, alias: categoryAlias, _csrf: csrfValue};
-
-		$.post(url, params, function (response) {
-				if (response == "OK") {
-					form.submit();
-				} else if (response == "Duplicated") {
-					showModalDialog("Warning", "categoryName : " + categoryName+ " categoryAlias : "+ categoryAlias + " is alread exist!!");
-				} else if (response == "NameDuplicated") {
-					showModalDialog("Warning", "categoryName : " + categoryName+" is alread exist!!");
-				} else if (response == "AliasDuplicated") {
-					showModalDialog("Warning", "categoryAlias : " + categoryAlias+" is alread exist!!");
-				}else{
-					showModalDialog("Error", "Unkown response from server");
+		$(document).ready(function () {
+			$("#bookCover").change(function () {
+				fileSize = this.files[0].size;
+				if (fileSize > 1048576 * 2) {
+					this.setCustomValidity("You must choose an image less than 2MB!");
+					this.reportValidity();
+				} else {
+					this.setCustomValidity("");
+					showImageThumbnail(this);
 				}
-			})
-			.fail(function(){
-				showModalDialog("Error", "Could no connect to this server");
-			});				
-		return false;
-		}
-		
-		function showModalDialog(title, message) {
-			$("#modalTitle").text(title);
-			$("#modalBody").text(message);
-			$("#modalDialog").modal();
+			});
+		});
+
+		function showImageThumbnail(fileInput) {
+			var file = fileInput.files[0];
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$("#thumbnail").attr("src", e.target.result);
+			};
+			reader.readAsDataURL(file);
 		}
 
-</script>
+	</script>
 
 </head>
 
@@ -79,20 +37,13 @@
 	<div th:replace="commonspace :: menu" />
 
 	<div class="container">
-
-		1. bookTable에 들어갈 정보 직접입력
-
+	
 
 		<form th:action="@{/saveBookInformation}" th:object="${registering}" method="POST" enctype="multipart/form-data"
 			style="max-width: 550px; margin: 0 auto;" onsubmit="return checkNameUnique(this)">
 			<div class="border border-secondary rounded p-3">
-				<div class="text-center">
-					<button type="submit" class="btn btn-primary mb-4 col-3 m-3">
-						<div th:if="${bookId == null}">등록완료</div>
-						<div th:if="${bookId != null}">수정완료</div>
-					</button>
-					<a th:href="@{/}" class="btn btn-secondary mb-4 col-3 m-3">Cancel</a>
-				</div>
+				
+				<h2>신간도서 등록하기</h2>
 
 				<input type="hidden" th:field="*{bookId}" />
 
@@ -109,7 +60,8 @@
 						<select class="form-control" th:field="*{category}" required>
 							<option value="" hidden>카테고리를 선택하세요</option>
 							<th:block th:each="category : ${categoryList}">
-								<option th:value="${category.categoryId}" th:disabled="${category.parent == null}">[[${category.name}]]</option>
+								<option th:value="${category.categoryId}" th:disabled="${category.parent == null}">
+									[[${category.name}]]</option>
 							</th:block>
 						</select>
 					</div>
@@ -132,7 +84,8 @@
 				<div class="form-group row">
 					<label for="publicationDate" class="col-sm-4 col-form-label">PublicationDate :</label>
 					<div class="col-sm-8">
-						<input type="text" th:field="*{publicationDate}" class="form-control" placeholder="출판일" required>
+						<input type="text" th:field="*{publicationDate}" class="form-control" placeholder="출판일"
+							required>
 					</div>
 				</div>
 
@@ -142,21 +95,32 @@
 						<input type="number" th:field="*{price}" class="form-control" placeholder="가격" required>
 					</div>
 				</div>
-	
+
 				<div class="form-group row">
 					<label for="description" class="col-sm-4 col-form-label">Description :</label>
 					<div class="col-sm-8">
-						<input type="text" th:field="*{description}" class="form-control" placeholder="책소개" style="max-width:auto; height:150px; word-break: break-all;" required>
+						<input type="text" th:field="*{description}" class="form-control" placeholder="책소개"
+							style="max-width:auto; height:150px; word-break: break-all;" required>
 					</div>
 				</div>
-						
+
 				<div class="form-group row">
 					<label for="image" class="col-sm-4 col-form-label">Book Cover :</label>
 					<div class="col-sm-8">
-						<input type="hidden" th:field="*{image}"/>
-						<input type="file" id="fileImage" name="image" accept="image/png,image/jpeg" class="mb-2" th:required="${registering.image == null}"/>
-		            	<img id="thumbnail" alt="Book Cover preview" th:src="@{${registering.photosImagePath}}" style="max-width:300px;" class="img-fluid" />
+						<input type="hidden" th:field="*{image}" />
+						<input type="file" id="bookCover" name="uploadBookCover" accept="image/png,image/jpeg"
+							class="mb-2" th:required="${registering.image == null}" />
+						<img id="thumbnail" alt="Book Cover preview" th:src="@{${registering.imagePath}}"
+							style="max-width:300px;" class="img-fluid" />
 					</div>
+				</div>
+
+				<div class="text-center">
+					<button type="submit" class="btn btn-primary mb-4 col-3 m-3">
+						<div th:if="${bookId == null}">등록완료</div>
+						<div th:if="${bookId != null}">수정완료</div>
+					</button>
+					<a th:href="@{/}" class="btn btn-secondary mb-4 col-3 m-3">Cancel</a>
 				</div>
 
 			</div>

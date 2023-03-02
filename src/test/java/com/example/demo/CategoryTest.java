@@ -25,7 +25,7 @@ public class CategoryTest {
 
 		Category category000 = new Category("국내도서"); caRepo.save(category000);
 		Category category100 = new Category("외국도서"); caRepo.save(category100);
-
+		
 		caRepo.save(new Category("건강/취미", category000));
 		caRepo.save(new Category("경제경영", category000));
 		caRepo.save(new Category("공무원 수험서", category000));

@@ -11,9 +11,35 @@
 
 	<div class="container">
 		<th:block th:each="book:${books}">
-			<a th:href="@{/book/detail(book=${book.bookId})}"> [[${books}]]</a>
+			<a th:href="@{/book/detail(book=${book.bookId})}">
+				[[${book.bookId}]]
+				<img th:src="@{${book.imagePath}}" style="width:100px;" class="img-fluid" tilte="${book.image}">
+				[[${book.title}]]
+				[[${book.author}]]
+				[[${book.publisher}]]
+				[[${book.publicationDate}]]
+				[[${book.price}]]
+				[[${book.description}]]
+				[[${book.image}]]
+				<br>
+			</a>
 		</th:block>
-
+		
+		<table class="table table-striped table-hover table-dark">
+			<tr th:each="book : ${books}">
+				<td>[[${book.bookId}]]</td>
+				<td><img th:src="@{${book.imagePath}}" style="width:100px;" class="img-fluid" tilte="${book.image}"></td>
+				<td>[[${book.title}]]</td>
+				<td>[[${book.author}]]</td>
+				<td>[[${book.publisher}]]</td>
+				<td>[[${book.publicationDate}]]</td>
+				<td>[[${book.price}]]</td>
+				<td>[[${book.description}]]</td>
+				<td>[[${book.image}]]</td>
+				<td>[[${book.imagePath}]]</td>
+			</tr>		
+		</table>
+		
 	</div>
 
 	<div th:replace="commonspace :: footer" />

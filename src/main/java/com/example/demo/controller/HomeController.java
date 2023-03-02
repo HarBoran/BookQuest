@@ -64,20 +64,20 @@ public class HomeController {
 	}
 
 	@PostMapping("/saveBookInformation")
-	public String saveBookInformation(Book registering, @RequestParam("fileImage") MultipartFile multipartFile, RedirectAttributes redirectAttributes) throws IOException {
-		System.err.println(registering);
+	public String saveBookInformation(Book registering, @RequestParam("uploadBookCover") MultipartFile multipartFile, RedirectAttributes redirectAttributes) throws IOException {
 		
+
 		if (!multipartFile.isEmpty()) {
 
 			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			registering.setImage(fileName);
 
 			Book saveBook = bookService.save(registering);
-			String uploadDir = "../category-images/" + saveBook.getBookId();
+			String uploadDir = "bookCover/" + saveBook.getCategory().getName();
 
 			FileUploadUtil.cleanDir(uploadDir);
 			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-
+			
 		} else {
 			bookService.save(registering);
 		}

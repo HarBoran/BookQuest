@@ -47,12 +47,11 @@ public class Book {
 	private Category category;
 	
 	@Transient
-	public String getPhotosImagePath() {
-		if (bookId == null || image == null)
-			return "/images/default-user.png";
-		return "/bookCover/" + this.bookId + "/" + this.image;
+	public String getImagePath() {
+		if (bookId == null || image == null) return "/images/blank-book-cover-white.jpg";
+		return "/bookCover/" + this.category.getName() + "/" + this.image;
 	}
-	
+
 	public Book(){}
 
 	@Override
