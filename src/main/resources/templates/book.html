@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
-	<head th:replace="commonspace :: page_head('Home - Book Quest')"/>
+
+	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
 </head>
 
 <body>
-	<div th:replace="commonspace :: menu"/>
-	
+	<div th:replace="commonspace :: menu" />
+
 	<div class="container">
-		<div th:each="best:${books}">
-			[[${best}]]<br>
-		</div>
+		<th:block th:each="book:${books}">
+			<a th:href="@{/book/detail(book=${book.bookId})}"> [[${books}]]</a>
+		</th:block>
 
 	</div>
 
-	<div th:replace="commonspace :: footer"/>
+	<div th:replace="commonspace :: footer" />
 </body>
 
 </html>

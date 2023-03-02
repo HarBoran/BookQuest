@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+
+	<head th:replace="commonspace :: page_head('Home - orderDetails')" />
+</head>
+
+<body>
+	<div th:replace="commonspace :: menu" />
+
+	<body>
+		[[${cartList}]]
+
+		<div th:each="carts:${cartList}">
+			<hr>
+			Book >>>>>>
+			<hr>
+			<div th:each="cart:${carts.book}">
+				<table border="1">
+					<tr>
+						<th>bookId</th>
+						<th>title</th>
+						<th>author</th>
+						<th>publisher</th>
+						<th>publicationDate</th>
+						<th>price</th>
+						<th>image</th>
+						<th>description</th>
+						<th>image</th>
+						<th>category</th>
+						<th>구매하기</th>
+					</tr>
+					<tr>
+						<td th:text="${cart.bookId}"></td>
+						<td th:text="${cart.title}"></td>
+						<td th:text="${cart.author}"></td>
+						<td th:text="${cart.publisher}"></td>
+						<td th:text="${cart.publicationDate}"></td>
+						<td th:text="${cart.price}"></td>
+						<td th:text="${cart.image}"></td>
+						<td th:text="${cart.description}"></td>
+						<td th:text="${cart.image}"></td>
+						<td th:text="${cart.category}"></td>
+						<th><a class="nav-link" th:href="@{|/order/buy/${carts.cartId}|}">구매하기</a></th>
+
+
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<div th:replace="commonspace :: footer" />
+	</body>
+
+</html>

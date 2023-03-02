@@ -1,11 +1,9 @@
 package com.example.demo.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,9 +20,16 @@ public class OrderService {
 
 
    public List<Order> findOrderByUser(User user) {
-      // TODO Auto-generated method stub
       return repo.findOrderByUser(user);
    }
    
+   public void save(Order order) {
+	      System.out.println("test==============="+ order.getUser());
+	      order.setOrderDate(LocalDateTime.now());
+	      order.setUser(order.getUser());
+	      order.setOrderStatus("배송중");
+	      repo.save(order);
+	   }
+
    
 }

@@ -8,13 +8,15 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <body>
 	<div th:replace="commonspace :: menu"/>
+	
 	<div class="container">
-		1. 지점선택(관리자) or 1.판매자 정보 등록하기(일반회원)<br>
-		2. 책정보 불러오기
+		<div th:each="best:${bookdetail}">
+			[[${bookdetail}]]
+		</div>
+
 	</div>
 
 	<div th:replace="commonspace :: footer"/>
-	
 </body>
 
 </html>

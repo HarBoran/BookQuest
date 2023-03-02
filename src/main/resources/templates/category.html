@@ -8,21 +8,22 @@
 
 <body>
 	<div th:replace="commonspace :: menu" />
-	
+
 	<div class="container">
-		<div class="form-group row">
-			<label class="col-4 col-form-label">Category: </label>
+		<div class="form-group row" style="height: 500px;">
+			<label class="col-4 col-form-label" style="width:100px;"> Category: </label>
 			<div class="col-8">
-				<div class="form-control">
+				<div class="form-control" style="height: 500px;">
 					<th:block th:each="cat : ${listCategories}">
-						<a th:href="@{/book(category=${cat.categoryId})}">[[${cat.name}]][[${cat.pureNotation}]]</p>
+						<a th:href="@{/book(category=${cat.categoryId})}">[[${cat.name}]]</a>
 					</th:block>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	<div th:replace="commonspace :: footer">
 
-	<div th:replace="commonspace :: footer" />
 </body>
 
 </html>

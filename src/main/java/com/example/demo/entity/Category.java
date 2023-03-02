@@ -14,47 +14,43 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="categories")
+@Table(name = "categories")
 public class Category {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="category_id")
+	@Column(name = "category_id")
 	private Integer categoryId;
-	
-	@Column(name="pure_notation")
-	private String pureNotation;
-	
+
 	@Column(length = 32, nullable = false)
 	private String name;
 
 	@OneToOne
 	@JoinColumn(name = "parent_id")
 	private Category parent;
-	
-	@OneToMany(mappedBy="parent")
+
+	@OneToMany(mappedBy = "parent")
 	private List<Category> children = new ArrayList<>();
 
-	public Category(){}
+	public Category() {
+	}
 	
 	public Category(Integer categoryId) {
 		this.categoryId = categoryId;
 	}
-
-	public Category(String pureNotation, String name) {
-		this.pureNotation = pureNotation;
+	
+	public Category(String name) {
 		this.name = name;
 	}
 
-	public Category(String pureNotation, String name, Category parent) {
-		this(pureNotation,name);
+	public Category(String name, Category parent) {
+		this(name);
 		this.parent = parent;
 	}
 
 	@Override
 	public String toString() {
-		return "Category [categoryId=" + categoryId + ", pureNotation=" + pureNotation + ", name=" + name + ", parent="
-				+ parent + "]";
+		return "Category [categoryId=" + categoryId + ", name=" + name + ", parent=" + parent + "]";
 	}
 
 	public Integer getCategoryId() {
@@ -63,14 +59,6 @@ public class Category {
 
 	public void setCategoryId(Integer categoryId) {
 		this.categoryId = categoryId;
-	}
-
-	public String getPureNotation() {
-		return pureNotation;
-	}
-
-	public void setPureNotation(String pureNotation) {
-		this.pureNotation = pureNotation;
 	}
 
 	public String getName() {
@@ -97,20 +85,18 @@ public class Category {
 		this.children = children;
 	}
 
-	public static Category copyFull(Category category) {	
-		Category copyCategory= new Category();
+	public static Category copyFull(Category category) {
+		Category copyCategory = new Category();
 		copyCategory.setCategoryId(category.getCategoryId());
-		copyCategory.setPureNotation(category.getPureNotation());
 		copyCategory.setName(category.getName());
 		copyCategory.setParent(category.getParent());
 		return copyCategory;
 	}
-	
-	public static Category copyFull(Category category, String name) {	
-		Category copyCategory= Category.copyFull(category);
+
+	public static Category copyFull(Category category, String name) {
+		Category copyCategory = Category.copyFull(category);
 		copyCategory.setName(name);
 		return copyCategory;
 	}
 
-	
 }
