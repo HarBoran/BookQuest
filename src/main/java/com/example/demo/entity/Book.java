@@ -53,6 +53,10 @@ public class Book {
 	}
 
 	public Book(){}
+	
+	public Book(Integer bookId) {
+		this.bookId = bookId;
+	}
 
 	@Override
 	public String toString() {

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.FileUploadUtil;
 import com.example.demo.entity.Book;
-import com.example.demo.entity.Branchs;
+import com.example.demo.entity.Branches;
 import com.example.demo.entity.Category;
 import com.example.demo.service.BookService;
 import com.example.demo.service.BranchService;
@@ -41,6 +42,14 @@ public class HomeController {
 	public String viewHomePage(Model theModel) {
 		return "home";
 	}
+	
+	//<div th:replace="commonspace :: menu" />에서는 먹히지 않음
+	@GetMapping("/common")
+	public String commonspace(Model theModel) {
+		List<Branches> branchList = bracnchService.findAll();
+		theModel.addAttribute("branchList", branchList);
+		return "commonspace";
+	}
 
 	@GetMapping("/newBookRegistration")
 	public String newBookregistration(Model theModel) {
@@ -61,10 +70,11 @@ public class HomeController {
 		return "oldBookRegisteringAndRevising";
 	}
 
-	@GetMapping("/informationBranch")
-	public String branchInformation(Model theModel) {
-		List<Branchs> branchList = bracnchService.findBranch();
-		theModel.addAttribute("branchList", branchList);
+	@GetMapping("/informationBranch/{id}")
+	public String branchInformation(@PathVariable ("id") Integer id, Model theModel) {
+		//List<Branchs> branchList = bracnchService.findAll();
+		Branches branchInformation = bracnchService.finById(id);
+		theModel.addAttribute("branchInformation", branchInformation);
 		return "informationBranch";
 	}
 

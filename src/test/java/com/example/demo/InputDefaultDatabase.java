@@ -1,16 +1,23 @@
 package com.example.demo;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
-import com.example.demo.entity.Branchs;
+import com.example.demo.entity.Branches;
 import com.example.demo.entity.Category;
+import com.example.demo.entity.Payment;
+import com.example.demo.entity.User;
 import com.example.demo.repository.BranchRepository;
 import com.example.demo.repository.CategoryRepository;
+import com.example.demo.repository.PaymentRepository;
+import com.example.demo.repository.UserRepository;
 
 @DataJpaTest(showSql = false)
 //데이터 베이스의 데이터가 더 우세 하니 바꾸지 말아라
@@ -23,6 +30,11 @@ public class InputDefaultDatabase {
 	private CategoryRepository caRepo;
 	@Autowired
 	private BranchRepository brRepo;
+	@Autowired
+	private UserRepository userRepo;
+	@Autowired
+	private PaymentRepository payRepo;
+	
 
 	@Test
 	void CreateCategory() {
@@ -33,7 +45,7 @@ public class InputDefaultDatabase {
 		caRepo.save(new Category("건강/취미", category000));
 		caRepo.save(new Category("경제경영", category000));
 		caRepo.save(new Category("공무원 수험서", category000));
-		caRepo.save(new Category("과확", category000));
+		caRepo.save(new Category("과학", category000));
 		caRepo.save(new Category("달력/기타", category000));
 		caRepo.save(new Category("대학교재", category000));
 		caRepo.save(new Category("만화", category000));
@@ -88,7 +100,7 @@ public class InputDefaultDatabase {
 		caRepo.save(new Category("컴퓨터", category100));
 		caRepo.save(new Category("기타언어권", category100));
 		caRepo.save(new Category("독일 도서", category100));
-		caRepo.save(new Category("스폐인 도서", category100));
+		caRepo.save(new Category("스페인 도서", category100));
 		caRepo.save(new Category("중국 도서", category100));
 		caRepo.save(new Category("어린이", category100));
 		caRepo.save(new Category("그림책", category100));
@@ -101,8 +113,42 @@ public class InputDefaultDatabase {
 	
 	@Test
 	void CreateBrach() {
-		brRepo.save(new Branchs("북퀘스트 강남역점", "서울 강남구 강남대로 지하 396", 37.499653202627556, 127.02793300701073));
-		brRepo.save(new Branchs("북퀘스트 시청역점", "서울 중구 세종대로 지하 101", 37.56530800502759, 126.97719822219557));
-		brRepo.save(new Branchs("북퀘스트 부산 수양구청점", "부산 수영구 남천동로 100", 35.14553660471139, 129.1130977151203));
+		brRepo.save(new Branches("BookQuest 강남점", "서울 강남구 강남대로 388", 37.4974321151032, 127.02838169552845));
+		brRepo.save(new Branches("BookQuest 시청점", "서울 중구 세종대로 지하 101",  37.564663964738195, 126.978106746564));
+		brRepo.save(new Branches("BookQuest 노량진점", "서울 동작구 노량진로 138", 37.51317948453074 , 126.94122547645269));
+		brRepo.save(new Branches("BookQuest 부산 W스퀘어점", "부산 남구 분포로 145 더블유스퀘어동", 35.13356779884351, 129.11356988948617));
+		
 	}
+	@Test
+	void CreateUser() {
+		
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String rawPassword = "1";
+		LocalDateTime now = LocalDateTime.now();
+
+		User user = new User();
+		user.setEmail("1");
+		user.setPassword(passwordEncoder.encode(rawPassword));
+		user.setAddress("주소");
+		user.setName("minji");
+		user.setPhone("01011114444");
+		user.setPhoto("사진");
+		user.setRole("User");
+		user.setSignupDate(now);
+		user.setEnabled(true);
+		
+		userRepo.save(user);
+	
+	}
+	
+	@Test
+	void CreatePayment() {
+		User user = new User(1);
+		Payment payment = new Payment();
+		payment.setCardName("테스트용");
+		payment.setCardNumber("1234-456-789");
+		payment.setUser(user);
+		payRepo.save(payment);
+	}
+	
 }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.entity.Book;
 import com.example.demo.entity.Order;
 import com.example.demo.entity.OrderDetail;
+import com.example.demo.entity.User;
 import com.example.demo.repository.OrderDetailRepository;
 
 @Service
@@ -19,7 +20,6 @@ public class OrderDetailService {
 	private OrderDetailRepository repo;
 
 	public List<OrderDetail> findOrderDetailsByOrder(Order order) {
-		// TODO Auto-generated method stub
 		return repo.findOrderDetailsByOrder(order);
 	}
 
@@ -37,5 +37,11 @@ public class OrderDetailService {
 
 		repo.save(orderdetail);
 	}
+
+	public List<OrderDetail> findOrderDetailsByUser(User user) {
+		return repo.findOrderDetailsByUser(user);
+	}
+	
+	
 
 }

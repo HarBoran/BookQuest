@@ -13,8 +13,8 @@ import com.example.demo.entity.User;
 
 @Repository
 public interface OrderRepository extends PagingAndSortingRepository<Order, Integer> {
-   
-   @Query("SELECT o FROM Order o WHERE o.user =:user")
-     public List<Order> findOrderByUser(@Param("user") User user);
+
+	@Query("SELECT o FROM Order o WHERE o.user =:user")
+	public List<Order> findOrderByUser(@Param("user") User user);
 
 }

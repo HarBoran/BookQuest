@@ -13,7 +13,7 @@
 		3. 베스트 샐러(order순)<br>
 		4. 이주의 특가 상품 <br>
 		5. 신상품
-		
+		<div sec:authentication="principal.userid"/>
 		<div th:if = "${message != null}" class="alert alert-success text-center">
 			[[${message}]]
 		</div>

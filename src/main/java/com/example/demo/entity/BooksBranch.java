@@ -19,8 +19,8 @@ public class BooksBranch {
 	private Integer booksBranchId;
 	
 	@ManyToOne
-	@JoinColumn(name ="branchs_id")
-	private Branchs branchs;
+	@JoinColumn(name ="branches_id")
+	private Branches branches;
    
 	@ManyToOne
 	@JoinColumn(name ="book_id")
@@ -33,10 +33,10 @@ public class BooksBranch {
 	private Integer quantity;
 
 	public BooksBranch(){}
-
+	
 	@Override
 	public String toString() {
-		return "BooksBranch [booksBranchId=" + booksBranchId + ", branch=" + branchs + ", book=" + book + ", status="
+		return "BooksBranch [booksBranchId=" + booksBranchId + ", branches=" + branches + ", book=" + book + ", status="
 				+ status + ", quantity=" + quantity + "]";
 	}
 
@@ -48,12 +48,12 @@ public class BooksBranch {
 		this.booksBranchId = booksBranchId;
 	}
 
-	public Branchs getBranch() {
-		return branchs;
+	public Branches getBranches() {
+		return branches;
 	}
 
-	public void setBranch(Branchs branchs) {
-		this.branchs = branchs;
+	public void setBranches(Branches branches) {
+		this.branches = branches;
 	}
 
 	public Book getBook() {
@@ -78,12 +78,7 @@ public class BooksBranch {
 
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
-	}	
-	
-	
-	
-	
-	
-	
-	
+	}
+
+
 }

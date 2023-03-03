@@ -1,22 +1,54 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
-	<head th:replace="commonspace :: page_head('Home - Book Quest')"/>
-</head>
+
+	<head th:replace="commonspace :: page_head('Home - Book Quest')">
+	</head>
 
 <body>
-	<div th:replace="commonspace :: menu"/>
-	
+
+	<div th:replace="commonspace :: menu" />
+
 	<div class="container">
-		<div th:each="best:${bookdetail}">
+		<th:block th:each="best:${bookdetail}">
+			
+			<hr>
 			[[${bookdetail}]]
-		</div>
+			<form th:action="@{/cart/save}" th:object="${cart}" method="POST">
+				<input type="text" id="number" th:name="number" value="0">
+				<input type="button" value="+" onclick="increment()"></input>
+				<input type="button" value="-" onclick="decrement()"></input>
+				<button type="submit">장바구니담기</button>
+			</form>
 
+
+			<form th:action="@{/book/review}" th:object="${review}" method="POST"
+				style="max-width: 600px; margin: 0 auto;">
+			
+
+
+				<div class="border border-secondary rounded p-3">
+
+					<div class="form-group row">
+						<label class="col-4 col-form-label">comment: </label>
+						<div class="col-8">
+							<input type="text" th:field="*{comment}" class="form-control" />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-4 col-form-label">starRating: </label>
+						<div class="col-8">
+							<input type="text" th:field="*{starRating}" class="form-control" />
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary">Save</button>
+			</form>
+			<input type="button" id="buttonCancel" value="Cancel" class="btn btn-outline-secondary mb-4 col-3 m-3">
+		</th:block>
 	</div>
-
-	<div th:replace="commonspace :: footer"/>
 </body>
 
 </html>

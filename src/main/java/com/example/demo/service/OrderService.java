@@ -14,22 +14,28 @@ import com.example.demo.repository.OrderRepository;
 @Service
 @Transactional
 public class OrderService {
-   
-   @Autowired
-   private OrderRepository repo;
 
+	@Autowired
+	private OrderRepository repo;
 
-   public List<Order> findOrderByUser(User user) {
-      return repo.findOrderByUser(user);
-   }
-   
-   public void save(Order order) {
-	      System.out.println("test==============="+ order.getUser());
-	      order.setOrderDate(LocalDateTime.now());
-	      order.setUser(order.getUser());
-	      order.setOrderStatus("배송중");
-	      repo.save(order);
-	   }
+	public List<Order> findOrderByUser(User user) {
+		return repo.findOrderByUser(user);
+	}
 
-   
+	public void save(Order order) {
+		System.out.println("test===============" + order.getUser());
+		order.setOrderDate(LocalDateTime.now());
+		order.setUser(order.getUser());
+		order.setOrderStatus("배송중");
+		repo.save(order);
+	}
+
+	public void saveTotal(Order order, int price, User user) {
+		order.setOrderDate(LocalDateTime.now());
+		order.setUser(user);
+		order.setTotalPrice(price);
+		order.setOrderStatus("배송중");
+		repo.save(order);
+	}
+
 }

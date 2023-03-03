@@ -38,4 +38,8 @@ public class BookService {
 		return repo.findById(bookId);
 	}
 
+	public Book findByID(int bookId) {
+		return repo.findByID(bookId);
+	}
+
 }

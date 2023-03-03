@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<!--   <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+   <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
+   <link rel="stylesheet" type="text/css" th:href="@{/style.css}" />   
+   <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}" ></script>
+   <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" ></script>
+   <script type="text/javascript" th:src="@{/js/common.js}"></script>-->
+</head>
+
+<body>
+	<div style="width: 400px; margin: 0 auto; text-align:center;">
+		<a class="navbar-brand" th:href="@{/}">
+			<img th:src="@{/images/bookquest.png}" />
+		</a>
+		<div class="container">
+			<form th:action="@{/login}" method="post" style="max-width: 350px; margin: 0 auto;">
+
+				<div th:if="${param.error}">
+					<p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+				</div>
+
+				<div th:if="${param.logout}">
+					<p class="text-warning">You have been logged out.</p>
+				</div>
+
+
+				<div class="border border-secondary rounded p-3">
+					<p>Access to Control Panel</p>
+					<p><input type="text" id="email" name="email" placeholder="Email" class="form-control" required />
+					</p>
+					<p><input type="password" id="password" name="password" placeholder="Password" class="form-control"
+							required /></p>
+
+					<div class="text-center">
+						<button type="submit" class="btn btn-warning" value="login">Login</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="text-center">
+			<p>Shopme Control Panel - Copyright &copy; Shope</p>
+		</div>
+	</div>
+</body>
+
+</html>

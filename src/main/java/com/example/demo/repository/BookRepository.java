@@ -13,16 +13,16 @@ import com.example.demo.entity.Category;
 @Repository
 public interface BookRepository extends PagingAndSortingRepository<Book, Integer> {
 
-   
-   @Query("SELECT b FROM Book b WHERE b.category = :category or b.category.parent =:category")
-   public List<Book> findByCategoryId(@Param("category")Category category);
-    
-    @Query("SELECT b FROM Book b WHERE CONCAT(b.title,' ',b.author) LIKE %?1%")
-    public List<Book> findAll(String keyword);
-   
-   @Query("SELECT b FROM Book b ORDER BY b.publicationDate ASC")
-   public List<Book> finByNewBook(Category category);
+	@Query("SELECT b FROM Book b WHERE b.category = :category or b.category.parent =:category")
+	public List<Book> findByCategoryId(@Param("category") Category category);
 
-   
-   
+	@Query("SELECT b FROM Book b WHERE CONCAT(b.title,' ',b.author) LIKE %?1%")
+	public List<Book> findAll(String keyword);
+
+	@Query("SELECT b FROM Book b ORDER BY b.publicationDate ASC")
+	public List<Book> finByNewBook(Category category);
+
+	@Query("SELECT b FROM Book b WHERE b.bookId=:bookId")
+	public Book findByID(int bookId);
+
 }

@@ -11,53 +11,46 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-   
-   
-//   @Bean
-//   public PasswordEncoder passwordEncoder() {
-//      return new BCryptPasswordEncoder();
-//   }
-//   @Bean
-//   public UserDetailsService userDetailsService() {
-//      return new ShopeUserDetailsService();   
-//   	}
-//   
-//   public DaoAuthenticationProvider authenticationProvider() {
-//      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//      authProvider.setUserDetailsService(userDetailsService());
-//      authProvider.setPasswordEncoder(passwordEncoder());
-//      return authProvider;
-//   }
-//   
-//	@Override
-//	protected void configure(HttpSecurity http) throws Exception{
-//		http.authorizeRequests().anyRequest().permitAll();
-//	}
-   
-   @Override
-   protected void configure(HttpSecurity http) throws Exception{
-      http.authorizeRequests()
-      //.antMatchers("/").permitAll()
-      //.antMatchers("/users/**").hasAuthority("Admin")
-      //.antMatchers("/categories/**").hasAnyAuthority("Admin","Editor")
-      .anyRequest().authenticated()
-      .and()
-      .formLogin()
-	         //.loginPage("/login")
-	         //.defaultSuccessUrl("/") // url로 보냄
-	         .successForwardUrl("/categories") // mapping으로 보냄
-	         .usernameParameter("email")
-	         .permitAll();
-      http.logout().permitAll();
+
+   @Bean
+   public PasswordEncoder passwordEncoder() {
+      return new BCryptPasswordEncoder();
    }
-	
+
+   @Bean
+   public UserDetailsService userDetailsService() {
+      return new BookQuestDetailsService();   
+      }
+
+   public DaoAuthenticationProvider authenticationProvider() {
+      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+      authProvider.setUserDetailsService(userDetailsService());
+      authProvider.setPasswordEncoder(passwordEncoder());
+     return authProvider;
+   }
+ 
    @Override
-   public void configure(WebSecurity web) throws Exception{
-      web.ignoring().antMatchers("/images/**","/js/**","/webjars/**");
+   protected void configure(HttpSecurity http) throws Exception {
+      http.authorizeRequests()
+
+//         .antMatchers("/users/**").hasAuthority("Admin")
+//      .antMatchers("/categories/**").hasAnyAuthority("Admin","Editor")
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .loginPage("/login")
+//            .successForwardUrl("/") // mapping으로 보냄
+            .usernameParameter("email")
+            .permitAll()
+      .and().logout().permitAll();
+   }
+
+   @Override
+   public void configure(WebSecurity web) throws Exception {
+      web.ignoring().antMatchers("/images/**", "/js/**", "/webjars/**");
    }
 
 }

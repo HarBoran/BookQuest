@@ -13,143 +13,140 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
-   
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   @Column(name = "user_id")
-   private Integer userId;
-   
-   @Column(length = 32, nullable = false, unique = true)
-   private String email;
-   
-   @Column(length = 32, nullable = false)
-   private String password;
-   
-   @Column(length = 16, nullable = false)
-   private String name;
-   
-   @Column(length = 32, nullable = false)
-   private String phone;
-   
-   @Column(length = 45, nullable = false)
-   private String photo;
-   
-   @Column(length = 128, nullable = false)
-   private String address;
-   
-   @Column(name="signup_date", length = 255, nullable = false)
-   private LocalDateTime signupDate;
-   
-   @Column
-   private Boolean enabled;
-   
 
-   
-   @Column(length = 16, nullable = false)
-   private String role;
-   
-   public User(){}
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
+	private Integer userId;
 
-   
+	@Column(length = 32, nullable = false, unique = true)
+	private String email;
 
-   @Override
-   public String toString() {
-      return "User [userId=" + userId + ", email=" + email + ", password=" + password + ", name=" + name + ", phone="
-            + phone + ", photo=" + photo + ", address=" + address + ", signupDate=" + signupDate + ", enabled="
-            + enabled + ", role=" + role + "]";
-   }
+	@Column(length = 256, nullable = false)
+	private String password;
 
+	@Column(length = 16, nullable = false)
+	private String name;
 
+	@Column(length = 32, nullable = false)
+	private String phone;
 
-   public Integer getUserId() {
-      return userId;
-   }
+	@Column(length = 45, nullable = false)
+	private String photo;
 
-   public void setUserId(Integer userId) {
-      this.userId = userId;
-   }
+	@Column(length = 128, nullable = false)
+	private String address;
 
-   public String getEmail() {
-      return email;
-   }
+	@Column(name = "signup_date", length = 255, nullable = false)
+	private LocalDateTime signupDate;
 
-   public void setEmail(String email) {
-      this.email = email;
-   }
+	@Column
+	private boolean enabled;
 
-   public String getPassword() {
-      return password;
-   }
+	@Column(length = 16, nullable = false)
+	private String role;
 
-   public void setPassword(String password) {
-      this.password = password;
-   }
+	public User() {
+	}
 
-   public String getName() {
-      return name;
-   }
+	public User(Integer userId) {
+		this.userId = userId;
+	}
 
-   public void setName(String name) {
-      this.name = name;
-   }
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", email=" + email + ", password=" + password + ", name=" + name + ", phone="
+				+ phone + ", photo=" + photo + ", address=" + address + ", signupDate=" + signupDate + ", enabled="
+				+ enabled + ", role=" + role + "]";
+	}
 
-   public String getPhone() {
-      return phone;
-   }
+	public Integer getUserId() {
+		return userId;
+	}
 
-   public void setPhone(String phone) {
-      this.phone = phone;
-   }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-   public String getPhoto() {
-      return photo;
-   }
+	public String getEmail() {
+		return email;
+	}
 
-   public void setPhoto(String photo) {
-      this.photo = photo;
-   }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-   public String getAddress() {
-      return address;
-   }
+	public String getPassword() {
+		return password;
+	}
 
-   public void setAddress(String address) {
-      this.address = address;
-   }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-   public LocalDateTime getSignupDate() {
-      return signupDate;
-   }
+	public String getName() {
+		return name;
+	}
 
-   public void setSignupDate(LocalDateTime signupDate) {
-      this.signupDate = signupDate;
-   }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-   public Boolean getEnabled() {
-      return enabled;
-   }
+	public String getPhone() {
+		return phone;
+	}
 
-   public void setEnabled(Boolean enabled) {
-      this.enabled = enabled;
-   }
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
+	public String getPhoto() {
+		return photo;
+	}
 
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
 
-   public String getRole() {
-      return role;
-   }
+	public String getAddress() {
+		return address;
+	}
 
-   public void setRole(String role) {
-      this.role = role;
-   }
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
+	public LocalDateTime getSignupDate() {
+		return signupDate;
+	}
 
-   @Transient
-   public String getPhotosImagePath() {
-      if(userId == null || photo == null)return "/images/default-user.png";
-      return "/user-photos/" + this.userId +"/"+this.photo;
-   }
+	public void setSignupDate(LocalDateTime signupDate) {
+		this.signupDate = signupDate;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	@Transient
+	public String getPhotosImagePath() {
+		if (userId == null || photo == null)
+			return "/images/default-user.png";
+		return "/user-photos/" + this.userId + "/" + this.photo;
+	}
 
 }

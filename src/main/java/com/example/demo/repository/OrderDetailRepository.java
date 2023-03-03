@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.Order;
 import com.example.demo.entity.OrderDetail;
+import com.example.demo.entity.User;
 
 @Repository
 public interface OrderDetailRepository extends PagingAndSortingRepository<OrderDetail, Integer> {
@@ -18,5 +19,9 @@ public interface OrderDetailRepository extends PagingAndSortingRepository<OrderD
 
 	@Query("SELECT o.book FROM OrderDetail o GROUP BY o.book ORDER BY COUNT(o.book) DESC")
 	public List<Object> bestseller();
+
+	@Query("SELECT od FROM OrderDetail od JOIN FETCH od.book WHERE od.order.user = :user")
+	List<OrderDetail> findOrderDetailsByUser(@Param("user") User user);
+
 
 }

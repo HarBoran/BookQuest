@@ -2,54 +2,70 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
-	<head th:replace="commonspace :: page_head('Home - orderDetails')" />
+	<meta charset="UTF-8">
+	<title>orderDetails</title>
 </head>
 
 <body>
-	<div th:replace="commonspace :: menu" />
+	[[${cartList}]]
 
-	<body>
-		[[${cartList}]]
+	<div th:each="carts:${cartList}">
+		<hr>
+		Book >>>>>>
+		<hr>
+		<div th:each="cart:${carts}">
+			<table border="1">
+				<tr>
+					<th>bookId</th>
+					<th>title</th>
+					<th>author</th>
+					<th>publisher</th>
+					<th>publicationDate</th>
+					<th>price</th>
+					<th>image</th>
+					<th>description</th>
+					<th>image</th>
+					<th>category</th>
+					<th>구매하기</th>
+					<th>삭제하기</th>
+					<th>수량</th>
+					<th>총액</th>
+				</tr>
+				<tr>
+					<td th:text="${cart.book.bookId}"></td>
+					<td th:text="${cart.book.title}"></td>
+					<td th:text="${cart.book.author}"></td>
+					<td th:text="${cart.book.publisher}"></td>
+					<td th:text="${cart.book.publicationDate}"></td>
+					<td th:text="${cart.book.price}"></td>
+					<td th:text="${cart.book.image}"></td>
+					<td th:text="${cart.book.description}"></td>
+					<td th:text="${cart.book.image}"></td>
+					<td th:text="${cart.book.category}"></td>
+					<th><a class="nav-link" th:href="@{|/order/buy/${carts.cartId}|}">구매하기</a></th>
+					<th><a class="nav-link" th:href="@{|/cart/delete/${carts.cartId}|}">삭제하기</a></th>
+					<td th:text="${cart.bookQuantity}"></td>
+					<td th:text="${cart.book.price}*${cart.bookQuantity}"></td>
+					<th><a class="nav-link" th:href="@{|/cart/up/${carts.cartId}/${cart.bookQuantity}|}">up</a>
+						<a class="nav-link" th:href="@{|/cart/down/${carts.cartId}/${cart.bookQuantity}|}">down</a>
+					</th>
+				</tr>
+			</table>
 
-		<div th:each="carts:${cartList}">
-			<hr>
-			Book >>>>>>
-			<hr>
-			<div th:each="cart:${carts.book}">
-				<table border="1">
-					<tr>
-						<th>bookId</th>
-						<th>title</th>
-						<th>author</th>
-						<th>publisher</th>
-						<th>publicationDate</th>
-						<th>price</th>
-						<th>image</th>
-						<th>description</th>
-						<th>image</th>
-						<th>category</th>
-						<th>구매하기</th>
-					</tr>
-					<tr>
-						<td th:text="${cart.bookId}"></td>
-						<td th:text="${cart.title}"></td>
-						<td th:text="${cart.author}"></td>
-						<td th:text="${cart.publisher}"></td>
-						<td th:text="${cart.publicationDate}"></td>
-						<td th:text="${cart.price}"></td>
-						<td th:text="${cart.image}"></td>
-						<td th:text="${cart.description}"></td>
-						<td th:text="${cart.image}"></td>
-						<td th:text="${cart.category}"></td>
-						<th><a class="nav-link" th:href="@{|/order/buy/${carts.cartId}|}">구매하기</a></th>
 
-
-					</tr>
-				</table>
-			</div>
 		</div>
 
-		<div th:replace="commonspace :: footer" />
-	</body>
+	</div>
+	</div>
+	<form th:action="@{/order/buytotal}" method="post" style="max-width: 700px; margin: 0 auto;">
+
+
+		<div class="text-center">
+			<input type="submit" value="전체구매" class="btn btn-primary m-3">
+
+		</div>
+	</form>
+
+</body>
 
 </html>

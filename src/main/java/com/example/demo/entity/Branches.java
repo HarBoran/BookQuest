@@ -8,18 +8,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="branchs")
-public class Branchs {
+@Table(name="branches")
+public class Branches {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="branchs_id")
+	@Column(name="branches_id")
 	private Integer branchId;
 	
-	@Column(name="branchs_name", length = 16, nullable = false)
+	@Column(name="branches_name", length = 32, nullable = false)
 	private String branchName;
 
-	@Column(name="branchs_address",length = 64, nullable = false)
+	@Column(name="branches_address",length = 64, nullable = false)
 	private String branchAddress;
 	//위도, 남북
 	@Column(length = 64)
@@ -28,10 +28,10 @@ public class Branchs {
 	@Column(length = 64)
 	private Double longitude;
 	
-	public Branchs() {
+	public Branches() {
 	}
 
-	public Branchs(String branchName, String branchAddress, Double latitude, Double longitude) {
+	public Branches(String branchName, String branchAddress, Double latitude, Double longitude) {
 		this.branchName = branchName;
 		this.branchAddress = branchAddress;
 		this.latitude = latitude;
