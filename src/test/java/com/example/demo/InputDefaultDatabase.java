@@ -141,42 +141,41 @@ public class InputDefaultDatabase {
 		user.setEnabled(true);
 		user.setSignupDate(LocalDateTime.now());
 		userRepo.save(user);
+		
+		
 
 		Payment payment = new Payment();
 		payment.setCardName("테스트용 결제수단");
 		payment.setCardNumber("1234-0456-7189-1005");
 		payment.setUser(user);
 		payRepo.save(payment);
-	}
-
-	@Test
-	void saveNewBookInformation() {
+		
+		
+		
 		LocalDate nowDate = LocalDate.now(); 
-		Book book1 = new Book();
-		book1.setTitle("title");
-		book1.setAuthor("author");
-		book1.setPublisher("publisher");
-		book1.setPublicationDate(nowDate);
-		book1.setPrice(29900);
-		book1.setImage("testBookCover.jpg");
-		book1.setDescription("테스트 코드에서 입력 되었습니다.");
-		book1.setCategory(new Category(3));
-		bookRepo.save(book1);
-	}
-	
+		Book book = new Book();
+		book.setTitle("title");
+		book.setAuthor("author");
+		book.setPublisher("publisher");
+		book.setPublicationDate(nowDate);
+		book.setPrice(29900);
+		book.setImage("testBookCover.jpg");
+		book.setDescription("테스트 코드에서 입력 되었습니다.");
+		book.setCategory(new Category(3));
+		bookRepo.save(book);
+//	}
+//	
 //	@Test
 //	public void saveNewCart() {
-//		Book book = new Book();
-//		System.err.println(book);
+//		Book book = new Book(1);
 //		User user = new User(1);
-//		System.err.println(user);
-//		for(int i =0; i < 3; i++) {
-//			Cart cart = new Cart();
-//			cart.setBookQuantity(1);
-//			cart.setBook(book);
-//			cart.setUser(user);
-//			cartRepo.save(cart);
-//		}
-//	}
+		for(int i =0; i < 3; i++) {
+			Cart cart = new Cart();
+			cart.setBookQuantity(1);
+			cart.setBook(book);
+			cart.setUser(user);
+			cartRepo.save(cart);
+		}
+	}
 	
 }
