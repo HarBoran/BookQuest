@@ -45,8 +45,25 @@ public class UserService {
 	}
 
 	public Optional<User> findByID(String username) {
-		// TODO Auto-generated method stub
 		return repo.finByID(username);
+	}
+
+	public boolean isEmailUnique(Integer id, String email) {
+		User userByEmail = repo.getUserByEmail(email); // null이면 중복되지 않은 것.
+		if (userByEmail == null)
+			return true;
+
+		boolean isCreatingNew = (id == null);
+
+		if (isCreatingNew) {
+			if (userByEmail != null)
+				return false;
+		} else {
+			if (userByEmail.getUserId() != id) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

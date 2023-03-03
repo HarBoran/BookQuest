@@ -11,21 +11,22 @@
 	<div th:replace="commonspace :: menu" />
 
 	<div class="container">
-		<th:block th:each="best:${bookdetail}">
-			
+		<th:block th:each="book:${bookdetail}">
+			[[${book}]]
 			<hr>
-			[[${bookdetail}]]
 			<form th:action="@{/cart/save}" th:object="${cart}" method="POST">
 				<input type="text" id="number" th:name="number" value="0">
 				<input type="button" value="+" onclick="increment()"></input>
 				<input type="button" value="-" onclick="decrement()"></input>
+				<input type="hidden" th:value="${book.bookId}" name="book" />
 				<button type="submit">장바구니담기</button>
 			</form>
-
+			<a th:href="@{/order/buy/}">구매하기</a>
 
 			<form th:action="@{/book/review}" th:object="${review}" method="POST"
 				style="max-width: 600px; margin: 0 auto;">
-			
+				<input type="hidden" th:value="${book.bookId}" name="book" />
+
 
 
 				<div class="border border-secondary rounded p-3">

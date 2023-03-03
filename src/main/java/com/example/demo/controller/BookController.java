@@ -77,8 +77,8 @@ public class BookController {
 	public String bookdetail(Book book, Model model) {
 
 		if (reviewservice.findByBookid(book).isEmpty()) {
-			Book books = bookservice.findByID(book.getBookId());
-			model.addAttribute("bookdetail", books);
+			Optional<Book> books = bookservice.findById(book.getBookId());
+			model.addAttribute("bookdetail", books.get());
 
 		} else if (!reviewservice.findByBookid(book).isEmpty()) {
 
@@ -92,14 +92,16 @@ public class BookController {
 	}
 
 	@PostMapping("/review")
-	public String reviewsave(Book book,@ModelAttribute("review") Review review, Model model,Principal principal) {
-		Book books = bookservice.findByID(book.getBookId());
-		
+	public String reviewsave(@RequestParam("book") int book, @ModelAttribute("review") Review review, Model model,
+			Principal principal) {
+		System.out.println(book);
+		Optional<Book> books = bookservice.findById(book);
+		Book bookId = books.get();
 		String username = principal.getName();
 		Optional<User> user = userservice.findByID(username);
 		User userId = user.get();
-		reviewservice.save(review, userId, books);
-		return "redirect:/book/detail";
+		reviewservice.save(review, userId, bookId);
+		return "redirect:/";
 	}
 
 }

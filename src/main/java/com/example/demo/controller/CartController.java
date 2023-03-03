@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,43 +46,46 @@ public class CartController {
 		return "cart";
 	}
 
-	@PostMapping("/save")
-	public String savecart(Model model, @RequestParam("number") int number, Principal principal,
-			@RequestParam("book")Book book, @ModelAttribute("cart") Cart cart) {
-		Book books = bookservice.findByID(book.getBookId());
-		String username = principal.getName();
-		Optional<User> user = userservice.findByID(username);
-		User userId = user.get();
-		cartService.save(cart, number, books, userId);
+
+	   @PostMapping("/save")
+	   public String savecart(Model model, @RequestParam("number") int number, Principal principal,
+	         @Param("book")int book, @ModelAttribute("cart") Cart cart) {
+	      Optional<Book> books = bookservice.findById(book);
+	      String username = principal.getName();
+	      Optional<User> user = userservice.findByID(username);
+	      User userId = user.get();
+	      cartService.save(cart, number, books.get(), userId);
+	      return "redirect:/cart/";
+	   }
+
+	@GetMapping("/delete/{cartId}")
+	public String deletebook(@PathVariable(name = "cartId") int cartId) {
+
+		cartService.deletecartId(cartId);
+		return "home";
+	}
+
+	@GetMapping("/up/{cartId}/{cartQuantity}")
+	public String CountUp(@PathVariable(name = "cartId") int cartId,
+			@PathVariable(name = "cartQuantity") int cartQuantity) {
+
+		System.out.println(cartId);
+		int UpcartQuantity = cartQuantity + 1;
+		cartService.upQuantity(cartId, UpcartQuantity);
+
 		return "redirect:/cart/";
 	}
-	
-@GetMapping("/delete/{cartId}")
-   public String deletebook(@PathVariable(name="cartId")int cartId) {
-      
-      cartService.deletecartId(cartId);
-      return "home";
-   }
-   
-   @GetMapping("/up/{cartId}/{cartQuantity}")
-   public String CountUp(@PathVariable(name="cartId")int cartId,@PathVariable(name="cartQuantity")int cartQuantity) {
-      
-      System.out.println(cartId);
-      int UpcartQuantity =cartQuantity +1;
-      cartService.upQuantity(cartId,UpcartQuantity);
-      
-      return "redirect:/cart/";
-   }
-   
-   @GetMapping("/down/{cartId}/{cartQuantity}")
-   public String CountDown(@PathVariable(name="cartId")int cartId,@PathVariable(name="cartQuantity")int cartQuantity) {
-      
-      System.out.println(cartId);
-      int DowncartQuantity =cartQuantity -1;
-      cartService.DownQuantity(cartId,DowncartQuantity);
-      
-      return "redirect:/cart/";
-   }
-	   
+
+	@GetMapping("/down/{cartId}/{cartQuantity}")
+	public String CountDown(@PathVariable(name = "cartId") int cartId,
+			@PathVariable(name = "cartQuantity") int cartQuantity) {
+
+		System.out.println(cartId);
+		int DowncartQuantity = cartQuantity - 1;
+		cartService.DownQuantity(cartId, DowncartQuantity);
+
+		return "redirect:/cart/";
+	}
+
 
 }

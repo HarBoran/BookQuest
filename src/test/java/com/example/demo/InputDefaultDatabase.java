@@ -149,8 +149,9 @@ public class InputDefaultDatabase {
 		payment.setCardNumber("1234-0456-7189-1005");
 		payment.setUser(user);
 		payRepo.save(payment);
-		
-		
+	}
+		@Test
+	public void saveNewCart() {
 		
 		LocalDate nowDate = LocalDate.now(); 
 		Book book = new Book();
@@ -163,19 +164,20 @@ public class InputDefaultDatabase {
 		book.setDescription("테스트 코드에서 입력 되었습니다.");
 		book.setCategory(new Category(3));
 		bookRepo.save(book);
+		}
 //	}
 //	
 //	@Test
 //	public void saveNewCart() {
 //		Book book = new Book(1);
 //		User user = new User(1);
-		for(int i =0; i < 3; i++) {
-			Cart cart = new Cart();
-			cart.setBookQuantity(1);
-			cart.setBook(book);
-			cart.setUser(user);
-			cartRepo.save(cart);
-		}
-	}
+//		for(int i =0; i < 3; i++) {
+//			Cart cart = new Cart();
+//			cart.setBookQuantity(1);
+//			cart.setBook(book);
+//			cart.setUser(user);
+//			cartRepo.save(cart);
+//		}
+//	}
 	
 }
