@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.FileUploadUtil;
 import com.example.demo.entity.Book;
+import com.example.demo.entity.Branchs;
 import com.example.demo.entity.Category;
 import com.example.demo.service.BookService;
+import com.example.demo.service.BranchService;
 import com.example.demo.service.CategoryService;
 
 @Controller
@@ -32,6 +33,9 @@ public class HomeController {
 
 	@Autowired
 	CategoryService categoryService;
+	
+	@Autowired
+	BranchService bracnchService;
 
 	@GetMapping("")
 	public String viewHomePage(Model theModel) {
@@ -57,10 +61,11 @@ public class HomeController {
 		return "oldBookRegisteringAndRevising";
 	}
 
-	@GetMapping("/storeInformation")
-	public String storeInformation(Model theModel) {
-
-		return "storePage";
+	@GetMapping("/informationBranch")
+	public String branchInformation(Model theModel) {
+		List<Branchs> branchList = bracnchService.findBranch();
+		theModel.addAttribute("branchList", branchList);
+		return "informationBranch";
 	}
 
 	@PostMapping("/saveBookInformation")

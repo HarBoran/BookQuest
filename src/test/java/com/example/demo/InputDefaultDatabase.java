@@ -7,7 +7,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
+import com.example.demo.entity.Branchs;
 import com.example.demo.entity.Category;
+import com.example.demo.repository.BranchRepository;
 import com.example.demo.repository.CategoryRepository;
 
 @DataJpaTest(showSql = false)
@@ -15,12 +17,14 @@ import com.example.demo.repository.CategoryRepository;
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 //에디터에서 데이터베이스로 데이터 넣기가 가능해짐
 @Rollback(false)
-public class CategoryTest {
+public class InputDefaultDatabase {
 
 	@Autowired
 	private CategoryRepository caRepo;
+	@Autowired
+	private BranchRepository brRepo;
 
-	//@Test
+	@Test
 	void CreateCategory() {
 
 		Category category000 = new Category("국내도서"); caRepo.save(category000);
@@ -93,5 +97,12 @@ public class CategoryTest {
 		caRepo.save(new Category("영어학습", category100));
 		caRepo.save(new Category("챕터북", category100));
 		caRepo.save(new Category("코스북", category100));
+	}
+	
+	@Test
+	void CreateBrach() {
+		brRepo.save(new Branchs("북퀘스트 강남역점", "서울 강남구 강남대로 지하 396", 37.499653202627556, 127.02793300701073));
+		brRepo.save(new Branchs("북퀘스트 시청역점", "서울 중구 세종대로 지하 101", 37.56530800502759, 126.97719822219557));
+		brRepo.save(new Branchs("북퀘스트 부산 수양구청점", "부산 수영구 남천동로 100", 35.14553660471139, 129.1130977151203));
 	}
 }

@@ -16,9 +16,19 @@ public class MvcConfig implements WebMvcConfigurer {
 		String dirName = "bookCover";
 		Path bookCoverDir = Paths.get(dirName);
 		String bookCoverPath = bookCoverDir.toFile().getAbsolutePath();
-		registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/" + bookCoverPath + "/");
-		// 맥용코드
-		registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:" + bookCoverPath + "/");
+		
+		String os = System.getProperty("os.name").toLowerCase();
+		String file= os.contains("win") ? "file:/" : "file:";
+//		윈도우 작동, 맥으로 테스트 해보고 지울 것
+//		String file= "";
+//	        if (os.contains("win")) {
+//	        	file = "file:/";
+//	        } else if (os.contains("mac")) {
+//	        	file = "file:";
+//	        } else {
+//	        	System.err.println("unknown operating system");
+//	        }
+		registry.addResourceHandler("/" + dirName + "/**").addResourceLocations(file + bookCoverPath + "/");
 	}
 
 }

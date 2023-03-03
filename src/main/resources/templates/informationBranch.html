@@ -9,6 +9,17 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <body>
 	<div th:replace="commonspace :: menu"/>
 	<div class="container">
+		
+
+		<th:block th:each="branch : ${branchList}">
+			[[${branch.branchId}]] //
+			[[${branch.branchName}]] //
+			[[${branch.branchAddress}]] //
+			[[${branch.latitude}]] //
+			[[${branch.longitude}]] 
+			<br>
+		</th:block>
+	
 		1. 매장정보(사진 및 주소)<br>
 		2. BookList<br>
 		3. 검색기능창(해당 매장에서 책 검색 가능 하게)<br>
