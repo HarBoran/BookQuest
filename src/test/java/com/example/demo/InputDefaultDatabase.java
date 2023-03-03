@@ -1,6 +1,8 @@
 package com.example.demo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +12,15 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
+import com.example.demo.entity.Book;
 import com.example.demo.entity.Branches;
+import com.example.demo.entity.Cart;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Payment;
 import com.example.demo.entity.User;
+import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.BranchRepository;
+import com.example.demo.repository.CartRepository;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.PaymentRepository;
 import com.example.demo.repository.UserRepository;
@@ -27,6 +33,8 @@ import com.example.demo.repository.UserRepository;
 public class InputDefaultDatabase {
 
 	@Autowired
+	private BookRepository bookRepo;
+	@Autowired
 	private CategoryRepository caRepo;
 	@Autowired
 	private BranchRepository brRepo;
@@ -34,11 +42,13 @@ public class InputDefaultDatabase {
 	private UserRepository userRepo;
 	@Autowired
 	private PaymentRepository payRepo;
+	@Autowired
+	private CartRepository cartRepo;
 	
 
 	@Test
-	void CreateCategory() {
-
+	void CreateDefaultDatabase() {
+		//Category, Brach, User, Payment
 		Category category000 = new Category("국내도서"); caRepo.save(category000);
 		Category category100 = new Category("외국도서"); caRepo.save(category100);
 		
@@ -109,46 +119,65 @@ public class InputDefaultDatabase {
 		caRepo.save(new Category("영어학습", category100));
 		caRepo.save(new Category("챕터북", category100));
 		caRepo.save(new Category("코스북", category100));
-	}
+		
 	
-	@Test
-	void CreateBrach() {
+		
 		brRepo.save(new Branches("BookQuest 강남점", "서울 강남구 강남대로 388", 37.4974321151032, 127.02838169552845));
 		brRepo.save(new Branches("BookQuest 시청점", "서울 중구 세종대로 지하 101",  37.564663964738195, 126.978106746564));
 		brRepo.save(new Branches("BookQuest 노량진점", "서울 동작구 노량진로 138", 37.51317948453074 , 126.94122547645269));
 		brRepo.save(new Branches("BookQuest 부산 W스퀘어점", "부산 남구 분포로 145 더블유스퀘어동", 35.13356779884351, 129.11356988948617));
 		
-	}
-	@Test
-	void CreateUser() {
 		
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String rawPassword = "1";
-		LocalDateTime now = LocalDateTime.now();
 
 		User user = new User();
 		user.setEmail("1");
-		user.setPassword(passwordEncoder.encode(rawPassword));
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		user.setPassword(passwordEncoder.encode("1"));
 		user.setAddress("주소");
-		user.setName("minji");
-		user.setPhone("01011114444");
-		user.setPhoto("사진");
-		user.setRole("User");
-		user.setSignupDate(now);
+		user.setName("이름");
+		user.setPhone("010전화번호");
+		user.setPhoto("프로필사진");
+		user.setRole("유저권한");
 		user.setEnabled(true);
-		
+		LocalDateTime now = LocalDateTime.now();
+		user.setSignupDate(now);
 		userRepo.save(user);
-	
+
+		
+		
+		Payment payment = new Payment();
+		payment.setCardName("테스트용 결제수단");
+		payment.setCardNumber("1234-0456-7189-1005");
+		payment.setUser(user);
+		payRepo.save(payment);
 	}
 	
 	@Test
-	void CreatePayment() {
+	void saveNewBookInformation() {
+		LocalDate now = LocalDate.now(); 
+		Book book1 = new Book();
+		book1.setTitle("title");
+		book1.setAuthor("author");
+		book1.setPublisher("publisher");
+		book1.setPublicationDate(now);
+		book1.setPrice(29900);
+		book1.setImage("testBookCover.jpg");
+		book1.setDescription("테스트 코드에서 입력 되었습니다.");
+		book1.setCategory(new Category(3));
+		bookRepo.save(book1);
+	}
+	
+	@Test
+	public void saveNewCart() {
+		Book book = new Book();
 		User user = new User(1);
-		Payment payment = new Payment();
-		payment.setCardName("테스트용");
-		payment.setCardNumber("1234-456-789");
-		payment.setUser(user);
-		payRepo.save(payment);
+		for(int i =0; i < 3; i++) {
+			Cart cart = new Cart();
+			cart.setBookQuantity(1);
+			cart.setBook(book);
+			cart.setUser(user);
+			cartRepo.save(cart);
+		}
 	}
 	
 }

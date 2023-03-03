@@ -31,7 +31,7 @@ import com.example.demo.repository.UserRepository;
 class BookQuestApplicationTests {
 
 	@Autowired
-	private BookRepository repo;
+	private BookRepository bookRepo;
 
 	@Autowired
 	private BranchRepository BrRepo;
@@ -42,38 +42,6 @@ class BookQuestApplicationTests {
 	@Autowired
 	private CartRepository cartRepo;
 	
-
-	@Test
-	void saveNewBookInformation() {
-
-		String dateString = "2023-02-28";
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDate date = LocalDate.parse(dateString, formatter);
-
-		Book book1 = new Book();
-		book1.setTitle("title");
-		book1.setAuthor("author");
-		book1.setPublisher("publisher");
-		book1.setPublicationDate(date);
-		book1.setPrice(30000);
-		book1.setImage("아직준비중");
-		book1.setDescription("좋은 책입니다");
-		book1.setCategory(new Category(1));
-		repo.save(book1);
-
-	}
-
-	@Test
-	void findBranchListAll() {
-
-		List<Book> BookList = (List<Book>) repo.findAll();
-		System.err.println(BookList);
-
-		List<Branches> brachList = (List<Branches>) BrRepo.findAll();
-		System.out.println(brachList);
-
-	}
-
 	@Test
 	public void testEncodePassword() {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -89,22 +57,9 @@ class BookQuestApplicationTests {
 		User user = userRepo.findByUserId(1);
 		String rawPassword = "1";
 		user.setPassword(passwordEncoder.encode(rawPassword));
-		
 	}
 	
-	@Test
-	public void saveNewCart() {
-		Book book = new Book(2);
-		User user = new User(1);
-		for(int i =0; i < 7; i++) {
-			Cart cart = new Cart();
-			cart.setBookQuantity(1);
-			cart.setCartId(1);
-			cart.setBook(book);
-			cart.setUser(user);
-			cartRepo.save(cart);
-		}
-	}
+
 	
 	
 
