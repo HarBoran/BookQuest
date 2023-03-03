@@ -1,5 +1,5 @@
 function initMap(lat, lng) {
-	
+
 	var container = document.getElementById('map');
 	var options = {
 		center: new kakao.maps.LatLng(lat, lng),
@@ -19,5 +19,6 @@ function initMap(lat, lng) {
 
 	// 마커가 지도 위에 표시되도록 설정합니다
 	marker.setMap(map);
+
 
 }

@@ -27,7 +27,8 @@ import com.example.demo.repository.UserRepository;
 @DataJpaTest(showSql = true)
 //데이터 베이스의 데이터가 더 우세 하니 바꾸지 말아라
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@Rollback(false) // 에디터에서 데이터베이스로 데이터 넣기가 가능해짐
+//에디터에서 데이터베이스로 데이터 넣기가 가능해짐
+@Rollback(false) 
 class BookQuestApplicationTests {
 
 	@Autowired

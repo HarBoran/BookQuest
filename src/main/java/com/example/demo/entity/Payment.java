@@ -25,7 +25,7 @@ public class Payment {
 	@Column(name = "card_name", length = 32, nullable = false)
 	private String cardName;
 	
-	@Column(name = "card_number", length = 16, nullable = false)
+	@Column(name = "card_number", length = 32, nullable = false)
 	private String cardNumber;
 	
 	public Payment(){}
