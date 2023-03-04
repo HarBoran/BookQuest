@@ -3,46 +3,47 @@
 
 <head>
 
-   <head th:replace="commonspace :: page_head('Home - Book Quest')" />
+	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
 </head>
 
 <body>
-   <div th:replace="commonspace :: menu" />
+	<div th:replace="commonspace :: menu" />
 
-   <div class="container">
-      <th:block th:each="book:${books}">
-         <a th:href="@{/book/detail(book=${book.bookId})}">
-            [[${book.bookId}]]
-            <img th:src="@{${book.imagePath}}" style="width:100px;" class="img-fluid" tilte="${book.image}">
-            [[${book.title}]]
-            [[${book.author}]]
-            [[${book.publisher}]]
-            [[${book.publicationDate}]]
-            [[${book.price}]]
-            [[${book.description}]]
-            [[${book.image}]]
-            <br>
-         </a>
-      </th:block>
-      
-      <table class="table table-striped table-hover table-dark">
-         <tr th:each="book : ${books}">
-            <td>[[${book.bookId}]]</td>
-            <td><img th:src="@{${book.imagePath}}" style="width:100px;" class="img-fluid" tilte="${book.image}"></td>
-            <td>[[${book.title}]]</td>
-            <td>[[${book.author}]]</td>
-            <td>[[${book.publisher}]]</td>
-            <td>[[${book.publicationDate}]]</td>
-            <td>[[${book.price}]]</td>
-            <td>[[${book.description}]]</td>
-            <td>[[${book.image}]]</td>
-            <td>[[${book.imagePath}]]</td>
-         </tr>      
-      </table>
-      
-   </div>
+	<div class="container">
+		<table class="table table-striped table-hover table-dark">
 
-   <div th:replace="commonspace :: footer" />
+			<tr>
+				<td>프라이머리키</td>
+				<td>이미지</td>
+				<td>제목</td>
+				<td>작가</td>
+				<td>출판사</td>
+				<td>출판일</td>
+				<td>가격</td>
+				<td>책소개</td>
+				<td>이미지이름</td>
+				<td>디테일페이지</td>
+			</tr>
+			<tr th:each="book : ${books}">
+
+				<td>[[${book.bookId}]]</td>
+				<td><img th:src="@{${book.imagePath}}" style="width:100px;" class="img-fluid" tilte="${book.image}">
+				</td>
+				<td>[[${book.title}]]</td>
+				<td>[[${book.author}]]</td>
+				<td>[[${book.publisher}]]</td>
+				<td>[[${book.publicationDate}]]</td>
+				<td>[[${book.price}]]</td>
+				<td>[[${book.description}]]</td>
+				<td>[[${book.image}]]</td>
+				<td><a th:href="@{/book/detail(book=${book.bookId})}">자세히보기</a></td>
+
+			</tr>
+		</table>
+
+	</div>
+
+	<div th:replace="commonspace :: footer" />
 </body>
 
 </html>

@@ -23,5 +23,7 @@ public interface OrderDetailRepository extends PagingAndSortingRepository<OrderD
 	@Query("SELECT od FROM OrderDetail od JOIN FETCH od.book WHERE od.order.user = :user")
 	List<OrderDetail> findOrderDetailsByUser(@Param("user") User user);
 
+	@Query("SELECT COUNT(*) FROM OrderDetail") 
+	public Long countTotalBooks();
 
 }

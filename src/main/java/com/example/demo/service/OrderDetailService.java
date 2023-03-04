@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +41,11 @@ public class OrderDetailService {
 
 	public List<OrderDetail> findOrderDetailsByUser(User user) {
 		return repo.findOrderDetailsByUser(user);
+	}
+
+	public Long countTotalBooks() {
+		return repo.countTotalBooks();
+
 	}
 	
 	

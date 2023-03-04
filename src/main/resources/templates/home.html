@@ -4,28 +4,46 @@
 <head>
 
 	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
+	<link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}"/>
+
 </head>
 
 <body>
 	<div th:replace="commonspace :: menu" />
+	
 	<div class="container">
 		
-		3. 베스트 샐러(order순)<br>
-		4. 이주의 특가 상품 <br>
-		5. 신상품
-		<div sec:authentication="principal.userid"/>
-		<div th:if = "${message != null}" class="alert alert-success text-center">
+		<div th:if="${message != null}" class="alert alert-success text-center">
 			[[${message}]]
 		</div>
-		
+
 		<div class="text-center my-3">찾고 싶은 도서명을 검색하세요. 🔍</div>
 
 		<form th:action="@{/book}" style="text-align:center;">
-			<input type="search" name="keyword" th:value="${keyword}" style="width:400px; border-radius:50px;" placeholder="  도서명 검색하기 ">
+			<input id = "search" type="search" name="keyword" th:value="${keyword}" placeholder="  도서명 검색하기 ">
 			<button type="submit" class="btn btn-primary">검색</button>
 		</form>
 	</div>
-
+	
+	<div id="recommendationList" th:each="recommendation : ${recommendationList}" >
+			<div id="bundleMent">
+				<div th:text="${recommendation[0]}" />
+				<div><a th:href="@{${recommendation[1]}}">더보기+</a></div>
+			</div>
+			<div id="bundleBooks">
+				<div id="oneBookInfo" th:each="book : ${__${recommendation[2]}__}" >
+					<a th:href="@{/book/detail(book=${book.bookId})}">
+						<img th:src="@{${book.imagePath}}" tilte="${book.image}" />
+						<div th:text="${book.title}" />
+						<div>
+							<div th:text="${book.author}" />
+							<div th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<img th:src="@{/images/exe.jpg}" style="width:100%;" />
 

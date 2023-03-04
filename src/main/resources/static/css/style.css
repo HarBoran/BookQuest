@@ -1,0 +1,120 @@
+a {
+	color: black;
+	/* 링크 색상 변경 */
+	text-decoration: none;
+	/* 밑줄 없애기 */
+}
+
+a:hover {
+	color: black;
+	text-decoration: none;
+}
+
+a:active {
+	color: black;
+	text-decoration: none;
+}
+
+#search {
+	width: 400px;
+	height: 50px;
+	border-radius: 20px;
+	margin-bottom: 50px;
+}
+
+#recommendationList {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 50px;
+}
+
+
+#recommendationList:nth-child(3) {
+  background-color: #dddddd;
+}
+#recommendationList:nth-child(4) {
+  background-color: #fefefe;
+}
+#recommendationList:nth-child(5) {
+  background-color: #cccccc;
+}
+#recommendationList:nth-child(6) {
+  background-color: #efefef;
+}
+
+#bundleMent {
+	width: 75%;
+	padding: 30px;
+}
+
+@media screen and (min-width: 1400px) {
+	#bundleMent {
+		width: 1050px;
+		padding: 30px;
+	}
+}
+
+#bundleMent> :first-child {
+	font-size: 2.5rem;
+	float: left;
+	margin-left: 2%;
+	width: 86%;
+}
+
+#bundleMent> :last-child>* {
+	float: right;
+	width: 10%;
+	margin-right: 2%;
+	color: darkgray;
+}
+
+#bundleBooks {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin: 0 7%;
+}
+
+#bundleBooks>div:nth-child(-n+5) {
+	width: calc(20% - 10px);
+	margin-bottom: 10px;
+}
+
+#oneBookInfo {
+	align-items: center;
+	justify-content: space-between;
+	flex: 0 0 200px;
+	/*flex-grow: 0: 아이템의 확장성을 비활성화합니다. 아이템이 공간을 더 필요로 하는 경우에도 크기가 변하지 않습니다.
+				flex-shrink: 0: 아이템의 축소 가능성을 비활성화합니다. 아이템이 공간이 부족한 경우에도 크기가 줄어들지 않습니다.
+				flex-basis: 200px: 아이템의 기본 크기를 200px로 설정합니다.*/
+}
+
+#recommendationBook>a {
+	display: flex;
+}
+
+#oneBookInfo img {
+	max-width: 200px;
+	height: 300px;
+	border-radius: 20px;
+}
+
+#oneBookInfo>a>div:nth-child(2) {
+	font-size: 20px;
+	height: 75px;
+	overflow: hidden;
+	white-space: wrap;
+	text-overflow: ellipsis;
+}
+
+#oneBookInfo>a>div:nth-child(3)> :first-child {
+	float: left;
+}
+
+#oneBookInfo>a>div:nth-child(3)> :last-child {
+	float: right;
+	text-align: right;
+	color: mediumpurple;
+}

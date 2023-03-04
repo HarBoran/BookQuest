@@ -44,14 +44,15 @@ public class InputDefaultDatabase {
 	private PaymentRepository payRepo;
 	@Autowired
 	private CartRepository cartRepo;
-	
 
 	@Test
 	void CreateDefaultDatabase() {
-		//Category, Brach, User, Payment
-		Category category000 = new Category("국내도서"); caRepo.save(category000);
-		Category category100 = new Category("외국도서"); caRepo.save(category100);
-		
+
+		Category category000 = new Category("국내도서");
+		caRepo.save(category000);
+		Category category100 = new Category("외국도서");
+		caRepo.save(category100);
+
 		caRepo.save(new Category("건강/취미", category000));
 		caRepo.save(new Category("경제경영", category000));
 		caRepo.save(new Category("공무원 수험서", category000));
@@ -82,7 +83,7 @@ public class InputDefaultDatabase {
 		caRepo.save(new Category("초등학교참고서", category000));
 		caRepo.save(new Category("중학교참고서", category000));
 		caRepo.save(new Category("고등학교참고서", category000));
-		
+
 		caRepo.save(new Category("영미도서", category100));
 		caRepo.save(new Category("ETL/어학/사전", category100));
 		caRepo.save(new Category("건강/스포츠", category100));
@@ -119,15 +120,16 @@ public class InputDefaultDatabase {
 		caRepo.save(new Category("영어학습", category100));
 		caRepo.save(new Category("챕터북", category100));
 		caRepo.save(new Category("코스북", category100));
-		
-	
-		
+
 		brRepo.save(new Branches("BookQuest 강남점", "서울 강남구 강남대로 388", 37.4974321151032, 127.02838169552845));
-		brRepo.save(new Branches("BookQuest 시청점", "서울 중구 세종대로 지하 101",  37.564663964738195, 126.978106746564));
-		brRepo.save(new Branches("BookQuest 노량진점", "서울 동작구 노량진로 138", 37.51317948453074 , 126.94122547645269));
+		brRepo.save(new Branches("BookQuest 시청점", "서울 중구 세종대로 지하 101", 37.564663964738195, 126.978106746564));
+		brRepo.save(new Branches("BookQuest 노량진점", "서울 동작구 노량진로 138", 37.51317948453074, 126.94122547645269));
 		brRepo.save(new Branches("BookQuest 부산 W스퀘어점", "부산 남구 분포로 145 더블유스퀘어동", 35.13356779884351, 129.11356988948617));
-		
-		
+
+	}
+
+	@Test
+	public void saveNewUser() {
 
 		User user = new User();
 		user.setEmail("1");
@@ -141,8 +143,6 @@ public class InputDefaultDatabase {
 		user.setEnabled(true);
 		user.setSignupDate(LocalDateTime.now());
 		userRepo.save(user);
-		
-		
 
 		Payment payment = new Payment();
 		payment.setCardName("테스트용 결제수단");
@@ -150,10 +150,10 @@ public class InputDefaultDatabase {
 		payment.setUser(user);
 		payRepo.save(payment);
 	}
-		@Test
-	public void saveNewCart() {
 		
-		LocalDate nowDate = LocalDate.now(); 
+	@Test
+	public void saveNewBook() {
+		LocalDate nowDate = LocalDate.now();
 		Book book = new Book();
 		book.setTitle("title");
 		book.setAuthor("author");
@@ -164,20 +164,28 @@ public class InputDefaultDatabase {
 		book.setDescription("테스트 코드에서 입력 되었습니다.");
 		book.setCategory(new Category(3));
 		bookRepo.save(book);
-		}
-//	}
-//	
-//	@Test
-//	public void saveNewCart() {
-//		Book book = new Book(1);
-//		User user = new User(1);
-//		for(int i =0; i < 3; i++) {
-//			Cart cart = new Cart();
-//			cart.setBookQuantity(1);
-//			cart.setBook(book);
-//			cart.setUser(user);
-//			cartRepo.save(cart);
-//		}
-//	}
+	}
+	@Test
+	public void saveTestBook() {
+		LocalDate nowDate = LocalDate.now();
+		bookRepo.save(new Book("냉정한 츠키시로는 나에게만 너무 귀여워 1", "무라타 텐", "출판사", nowDate, 8000, "냉정한 츠키시로는 나에게만 너무 귀여워 1.jpeg","대충 소개하는 문구", new Category(1))); 
+		bookRepo.save(new Book("너는 나의 후회 1", "시메사바", "출판사", nowDate, 8000, "너는 나의 후회 1.jpeg","대충 소개하는 문구", new Category(1))); 
+		bookRepo.save(new Book("스즈메의 문단속", "신카이 마코토", "출판사", nowDate,14500, "스즈메의 문단속.jpeg","대충 소개하는 문구", new Category(1))); 
+		bookRepo.save(new Book("현자의 제자를 자칭하는 현자 17", "류센 히로츠구","출판사", nowDate, 9000, "현자의 제자를 자칭하는 현자 17.jpeg","대충 소개하는 문구", new Category(1))); 
+	}
 	
+		
+	@Test
+	public void saveNewCart() {
+		Book book = new Book(1);
+		User user = new User(1);
+		for(int i =0; i < 3; i++) {
+			Cart cart = new Cart();
+			cart.setBookQuantity(1);
+			cart.setBook(book);
+			cart.setUser(user);
+			cartRepo.save(cart);
+		}
+	}
+
 }

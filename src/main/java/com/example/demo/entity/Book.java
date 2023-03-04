@@ -23,25 +23,25 @@ public class Book {
 	
 	@Column(length = 128, nullable = false)
 	private String title;
-	//작가
+	
 	@Column(length = 32, nullable = false)
 	private String author; 
-	//출판사
+	
 	@Column(length = 32, nullable = false)
 	private String publisher; 
-	//출판일
+	
 	@Column(name = "publication_date", nullable = false)
 	private LocalDate publicationDate; 
-	//가격
+	
 	@Column(nullable = false)
 	private Integer price; 
 	
 	@Column(length = 128, nullable = false)
 	private String image;
-	//책소개
+	
 	@Column(nullable = false)
 	private String description; 
-	//한국십진분류표
+	
 	@ManyToOne
 	@JoinColumn(name="category_id")
 	private Category category;
@@ -56,6 +56,19 @@ public class Book {
 	
 	public Book(Integer bookId) {
 		this.bookId = bookId;
+	}
+
+
+	public Book(String title, String author, String publisher, LocalDate publicationDate, Integer price,
+			String image, String description, Category category) {
+		this.title = title;
+		this.author = author;
+		this.publisher = publisher;
+		this.publicationDate = publicationDate;
+		this.price = price;
+		this.image = image;
+		this.description = description;
+		this.category = category;
 	}
 
 	@Override
