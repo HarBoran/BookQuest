@@ -19,7 +19,7 @@ public class ReviewService {
 	@Autowired
 	private ReviewRepository repo;
 
-	public List<Object> findByBookid(Book book) {
+	public List<Review> findByBookid(Book book) {
 		return repo.findByBookid(book);
 	}
 

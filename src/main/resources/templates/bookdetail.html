@@ -3,51 +3,84 @@
 
 <head>
 
-	<head th:replace="commonspace :: page_head('Home - Book Quest')">
-	</head>
+	<head th:replace="commonspace :: page_head('Home - Book Quest')"/>
+	<link rel="stylesheet" href="../css/bookdetail.css" th:href="@{/css/bookdetail.css}" />
+
+</head>
 
 <body>
 
 	<div th:replace="commonspace :: menu" />
 
 	<div class="container">
+
+		<hr>
+		<th:block th:each="reivews:${reviewdetail}">
+			<table border="1">
+				<tr>
+					<th>별점</th>
+					<th>comment</th>
+				</tr>
+				<tr>
+					<td th:text="${reivews.starRating}"></td>
+					<td th:text="${reivews.comment}"></td>
+				</tr>
+			</table>
+
+			<hr>
+
+		</th:block>
+
+		<hr>
 		<th:block th:each="book:${bookdetail}">
 			[[${book}]]
-			<hr>
-			<form th:action="@{/cart/save}" th:object="${cart}" method="POST">
-				<input type="text" id="number" th:name="number" value="0">
-				<input type="button" value="+" onclick="increment()"></input>
-				<input type="button" value="-" onclick="decrement()"></input>
-				<input type="hidden" th:value="${book.bookId}" name="book" />
-				<button type="submit">장바구니담기</button>
-			</form>
-			<a th:href="@{/order/buy/}">구매하기</a>
 
-			<form th:action="@{/book/review}" th:object="${review}" method="POST"
-				style="max-width: 600px; margin: 0 auto;">
-				<input type="hidden" th:value="${book.bookId}" name="book" />
+		</th:block>
+		<hr>
+		<form th:action="@{/cart/save}" th:object="${cart}" method="POST">
+			<input type="text" id="number" th:name="number" value="0">
+			<input type="button" value="+" onclick="increment()"></input>
+			<input type="button" value="-" onclick="decrement()"></input>
+			<input type="hidden" th:value="${book.bookId}" name="book" />
+			<button type="submit">장바구니담기</button>
+		</form>
+
+		<form th:action="@{/book/redirectbuy}" th:object="${order}" method="POST">
+			<input type="text" id="bookquantity" th:name="bookquantity" value="0">
+			<input type="button" value="+" onclick="incrementbook()"></input>
+			<input type="button" value="-" onclick="decrementbook()"></input>
+			<input type="hidden" th:value="${book.bookId}" name="book" />
+			<button type="submit">구매하기</button>
+		</form>
+
+		<form th:action="@{/book/review}" th:object="${review}" method="POST" style="max-width: 600px; margin: 0 auto;">
+			<input type="hidden" th:value="${book.bookId}" name="book" />
 
 
 
-				<div class="border border-secondary rounded p-3">
+			<div class="border border-secondary rounded p-3">
 
-					<div class="form-group row">
-						<label class="col-4 col-form-label">comment: </label>
-						<div class="col-8">
-							<input type="text" th:field="*{comment}" class="form-control" />
-						</div>
+				<div id="star">
+					<fieldset>
+						<span class="text-bold">별점을 선택해주세요</span>
+						<input type="radio" th:field="*{starRating}" value="5" id="rate1"><label for="rate1">★</label>
+						<input type="radio" th:field="*{starRating}" value="4" id="rate2"><label for="rate2">★</label>
+						<input type="radio" th:field="*{starRating}" value="3" id="rate3"><label for="rate3">★</label>
+						<input type="radio" th:field="*{starRating}" value="2" id="rate4"><label for="rate4">★</label>
+						<input type="radio" th:field="*{starRating}" value="1" id="rate5"><label for="rate5">★</label>
+					</fieldset>
+				</div>
+				<div class="form-group row">
+					<label class="col-4 col-form-label">comment: </label>
+					<div class="col-8">
+						<input type="text" th:field="*{comment}" class="form-control" />
 					</div>
+				</div>
 
-					<div class="form-group row">
-						<label class="col-4 col-form-label">starRating: </label>
-						<div class="col-8">
-							<input type="text" th:field="*{starRating}" class="form-control" />
-						</div>
-					</div>
 
-					<button type="submit" class="btn btn-primary">Save</button>
-			</form>
-			<input type="button" id="buttonCancel" value="Cancel" class="btn btn-outline-secondary mb-4 col-3 m-3">
+				<button type="submit" class="btn btn-primary">Save</button>
+		</form>
+		<input type="button" id="buttonCancel" value="Cancel" class="btn btn-outline-secondary mb-4 col-3 m-3">
 		</th:block>
 	</div>
 </body>

@@ -19,10 +19,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.entity.Book;
 import com.example.demo.entity.Cart;
 import com.example.demo.entity.Category;
+import com.example.demo.entity.Order;
+import com.example.demo.entity.Payment;
 import com.example.demo.entity.Review;
 import com.example.demo.entity.User;
 import com.example.demo.service.BookService;
 import com.example.demo.service.OrderDetailService;
+import com.example.demo.service.OrderService;
+import com.example.demo.service.PaymentService;
 import com.example.demo.service.ReviewService;
 import com.example.demo.service.UserService;
 
@@ -34,13 +38,19 @@ public class BookController {
 	private BookService bookservice;
 
 	@Autowired
-	private OrderDetailService orderdetailservice;
-
+	private OrderDetailService orderDetailService;
+	
+	@Autowired
+	private OrderService orderService;
+	
 	@Autowired
 	private ReviewService reviewservice;
 
 	@Autowired
 	private UserService userservice;
+	
+	@Autowired
+	private PaymentService paymentService;
 
 	@GetMapping("")
 	public String category_book(Category category, Model model, @Param("keyword") String keyword) {
@@ -68,7 +78,7 @@ public class BookController {
 	@GetMapping("/bestseller")
 	public String bestseller(Model model) {
 		List<Object> bestseller = new ArrayList<Object>();
-		bestseller.addAll(orderdetailservice.bestseller());
+		bestseller.addAll(orderDetailService.bestseller());
 		model.addAttribute("books", bestseller);
 		return "book";
 	}
@@ -76,16 +86,13 @@ public class BookController {
 	@GetMapping("/detail")
 	public String bookdetail(Book book, Model model) {
 
-		if (reviewservice.findByBookid(book).isEmpty()) {
-			Optional<Book> books = bookservice.findById(book.getBookId());
-			model.addAttribute("bookdetail", books.get());
+		Optional<Book> books = bookservice.findById(book.getBookId());
+		model.addAttribute("bookdetail", books.get());
 
-		} else if (!reviewservice.findByBookid(book).isEmpty()) {
+		List<Review> review = reviewservice.findByBookid(book);
+		System.out.println("review====" + review);
+		model.addAttribute("reviewdetail", review);
 
-			List<Object> bookdetail = new ArrayList<Object>();
-			bookdetail.addAll(reviewservice.findByBookid(book));
-			model.addAttribute("bookdetail", bookdetail);
-		}
 		model.addAttribute("review", new Review());
 		model.addAttribute("cart", new Cart());
 		return "bookdetail";
@@ -101,6 +108,45 @@ public class BookController {
 		Optional<User> user = userservice.findByID(username);
 		User userId = user.get();
 		reviewservice.save(review, userId, bookId);
+		return "redirect:/book/detail?book=" + book;
+	}
+
+	@GetMapping("/redirectbuy")
+	public String redirectbuy(Book book, Model model, Principal principal,
+			@RequestParam("bookquantity") int bookquantity) {
+
+		Optional<Book> books = bookservice.findById(book.getBookId());
+		model.addAttribute("bookdetail", books.get());
+		String username = principal.getName();
+		Optional<User> user = userservice.findByID(username);
+		List<Payment> paymentList = paymentService.findPaymentByUser(user.get());
+		model.addAttribute("bookquantity", bookquantity);
+		model.addAttribute("paymentList", paymentList);
+		model.addAttribute("user", user.get());
+		model.addAttribute("orders", new Order());
+		return "redirectbuy";
+	}
+
+	@PostMapping("/orderbuy")
+	public String orderbuy(Model model, Principal principal, @ModelAttribute("orders") Order order,
+			@RequestParam("totalPrice") int totalPrice, Book book, @RequestParam("bookquantity") int bookquantity) {
+		System.out.println(order);
+		System.out.println(totalPrice);
+		System.out.println(book);
+		System.out.println(bookquantity);
+		String userEmail = principal.getName();
+		User user = userservice.getUserByEmail(userEmail);
+		order.setTotalPrice(totalPrice);
+		order.setUser(user);
+		orderService.save(order);
+
+		Optional<Book> books = bookservice.findById(book.getBookId());
+
+		Book book1 = books.get();
+		int bookPrice = book1.getPrice();
+
+		orderDetailService.saveOrderDetails(order, book1, bookPrice, bookquantity);
+
 		return "redirect:/";
 	}
 

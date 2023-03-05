@@ -13,7 +13,11 @@ import com.example.demo.entity.Review;
 @Repository
 public interface ReviewRepository extends PagingAndSortingRepository<Review, Integer> {
 
-	@Query("SELECT r FROM Review r WHERE r.book=:book")
-	public List<Object> findByBookid(@Param("book") Book book);
+//	@Query("SELECT r FROM Review r WHERE r.book=:book")
+//	public List<Object> findByBookid(@Param("book") Book book);
+	
+	@Query("SELECT r FROM Review r WHERE r.book =:book ORDER BY r.commentDate DESC")
+	public List<Review> findByBookid(@Param("book") Book book);
+
 
 }

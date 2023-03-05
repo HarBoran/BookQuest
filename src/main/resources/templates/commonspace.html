@@ -6,12 +6,14 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
 	<title>[[${title}]]</title>
 	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
-	<link rel="stylesheet" th:href="@{/css/style.css}"/>
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
 	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
 	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/map.js}"></script>
-	
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=	4b14a3ed849cebf0e25ce40a26fb2f17"></script>
+
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=	4b14a3ed849cebf0e25ce40a26fb2f17"></script>
+	<link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
@@ -20,18 +22,27 @@
 	<script src="/webjars/jquery/dist/jquery.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
-  
+
 	<script>
 		function increment() {
 			var value = parseInt(document.getElementById("number").value, 10);
 			value++;
 			document.getElementById("number").value = value;
 		}
-
 		function decrement() {
 			var value = parseInt(document.getElementById("number").value, 10);
 			value--;
 			document.getElementById("number").value = value;
+		}
+		function incrementbook() {
+			var value = parseInt(document.getElementById("bookquantity").value, 10);
+			value++;
+			document.getElementById("bookquantity").value = value;
+		}
+		function decrementbook() {
+			var value = parseInt(document.getElementById("bookquantity").value, 10);
+			value--;
+			document.getElementById("bookquantity").value = value;
 		}
 	</script>
 
@@ -64,7 +75,8 @@
 						<div class="dropdown-menu">
 							<th:block th:each="branch : ${branchList}">
 								[[${branch.branchName}]]
-								<a class="dropdown-item" th:href="@{'/informationBranch}/' + ${branch.branchId}">[[${branch.branchName}]]</a>
+								<a class="dropdown-item"
+									th:href="@{'/informationBranch}/' + ${branch.branchId}">[[${branch.branchName}]]</a>
 							</th:block>
 							<a class="dropdown-item" th:href="@{/informationBranch/1}">BookQuest 강남점</a>
 							<a class="dropdown-item" th:href="@{/informationBranch/2}">BookQuest 시청점</a>
@@ -98,22 +110,22 @@
 					<li class="nav-item">
 						<a class="nav-link" th:href="@{/mypage}">마이페이지</a>
 					</li>
-					
+
 					<li class="nav-item">
 						<button type="button" class="btn btn-outline-primary btn-sm">
 							<a class="nav-link" th:href="@{/cart/}">cart</a>
 						</button>
 					</li>
-					
+
 					<li class="nav-item">
 						<div th:if="${#authentication.isAuthenticated()}">
-						    <div th:text="'안녕하세요, ' + ${#authentication.name} + '님'" />
+							<div th:text="'안녕하세요, ' + ${#authentication.name} + '님'" />
 						</div>
 					</li>
-					
+
 					<li class="nav-item">
 						<form th:action="@{/logout}" method="post" th:hidden="false" name="logoutForm">
-							<input type="submit" class="btn" value="로그아웃" style="color : purple" />
+							<input type="submit" class="btn" value="로그아웃" style="color: #5747E6;" />
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 						</form>
 					</li>
