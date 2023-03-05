@@ -13,7 +13,6 @@
 #recommendationList {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
 	padding: 50px;
 }
@@ -68,12 +67,9 @@
 	margin: 0 7%;
 }
 
-#bundleBooks>div:nth-child(-n+5) {
+#oneBookInfo {
 	width: calc(20% - 10px);
 	margin-bottom: 10px;
-}
-
-#oneBookInfo {
 	align-items: center;
 	justify-content: space-between;
 	flex: 0 0 200px;
@@ -82,10 +78,6 @@
 				flex-basis: 200px: 아이템의 기본 크기를 200px로 설정합니다.*/
 }
 
-#recommendationBook>a {
-	display: flex;
-
-}
 
 #oneBookInfo>a {
 	display: block;
