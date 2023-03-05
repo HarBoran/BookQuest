@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+
+	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
+	<link rel="stylesheet" href="../css/css.css" th:href="@{/css/css.css}" />
+
+	<style>
+		#recommendedArea {
+			height: 200px;
+			border: 1px solid cornflowerblue;
+		}
+
+		#mainArea {
+			display: flex;
+			flex-grow: 1;
+		}
+
+		#categoriesMenu {
+			width: 20%;
+			border: 1px solid cadetblue;
+			margin-bottom: 20px;
+		}
+
+		#categoriesMenu div {
+			flex: 1;
+			padding-left: 20px;
+		}
+
+		#bookList {
+			width: 80%;
+			border: 1px solid powderblue;
+		}
+
+		#bookList>a {
+			display: block;
+
+		}
+
+		#bookList>div>a>:first-child {
+			max-width: 200px;
+			border-radius: 20px;
+		}
+
+		#bookList>div>a>div:nth-child(3){
+			float: right;
+			text-align: right;
+			color: mediumpurple;
+		}
+	</style>
+</head>
+
+<body>
+	<div th:replace="commonspace :: menu" />
+
+	<div class="container">
+		1. 지점선택(관리자) or 1.판매자 정보 등록하기(일반회원)<br>
+		2. 책정보 불러오기
+		<div id="recommendedArea">
+			광고내용 //이번주 중고베스트 // 이번주의 추천 도서 // 이주의 추천저자 // 이주의 외국도서
+		</div>
+
+
+		<div id="mainArea">
+
+
+			<div id="categoriesMenu">
+				<label> Category: </label>
+				<div th:each="cat : ${categoryList}">
+					<a th:href="@{/book(category=${cat.categoryId})}" style="font-size: 0.8rem;">
+						[[${cat.name}]]
+					</a>
+				</div>
+			</div>
+
+
+			<div id="bookList" class="row">
+				<div>중고책리스트</div>
+				<div class="col-2 mb-3" th:each="book : ${usedBooks}">
+					<a th:href="@{/book/detail(book=${book.bookId})}">
+						<img th:src="@{${book.imagePath}}" style="width:100px;" class="img-fluid" tilte="${book.image}">
+						<div th:text="'[중고]' + ${book.title}" />
+						<div th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
+					</a>
+				</div>
+			</div>
+
+
+
+
+		</div>
+	</div>
+	</div>
+	</div>
+
+
+
+	<div th:replace="commonspace :: footer" />
+
+</body>
+
+</html>

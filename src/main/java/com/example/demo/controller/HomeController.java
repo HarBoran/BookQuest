@@ -2,6 +2,7 @@
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -93,10 +94,14 @@ public class HomeController {
 		return "newBookRegisteringAndRevising";
 	}
 
-	@GetMapping("/oldBookRegistration")
+	@GetMapping("/usedBookHome")
 	public String oldBookregistration(Model model) {
-
-		return "oldBookRegisteringAndRevising";
+		List<Category> categoryList = categoryService.findCategory();
+		model.addAttribute("categoryList", categoryList);
+		
+		List<Book> usedBooks = bookService.findAll();
+		model.addAttribute("usedBooks", usedBooks);
+		return "usedBookHome";
 	}
 
 	@GetMapping("/informationBranch/{id}")

@@ -18,12 +18,12 @@ import com.example.demo.service.CategoryService;
 public class CategoryController {
 
 	@Autowired
-	CategoryService categoryservice;
+	CategoryService categoryService;
 
 	@GetMapping("")
-	public String listAll(Model theModel) {
-		List<Category> listCategories = categoryservice.findCategory();
-		theModel.addAttribute("listCategories", listCategories);
+	public String listAll(Model model) {
+		List<Category> listCategories = categoryService.findCategory();
+		model.addAttribute("listCategories", listCategories);
 		return "category";
 	}
 

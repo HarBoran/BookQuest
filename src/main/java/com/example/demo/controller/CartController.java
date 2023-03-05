@@ -27,9 +27,9 @@ import com.example.demo.service.UserService;
 public class CartController {
 
 	@Autowired
-	private BookService bookservice;
+	private BookService bookService;
 	@Autowired
-	private UserService userservice;
+	private UserService userService;
 	@Autowired
 	private CartService cartService;
 
@@ -50,9 +50,9 @@ public class CartController {
 	   @PostMapping("/save")
 	   public String savecart(Model model, @RequestParam("number") int number, Principal principal,
 	         @Param("book")int book, @ModelAttribute("cart") Cart cart) {
-	      Optional<Book> books = bookservice.findById(book);
+	      Optional<Book> books = bookService.findById(book);
 	      String username = principal.getName();
-	      Optional<User> user = userservice.findByID(username);
+	      Optional<User> user = userService.findByID(username);
 	      User userId = user.get();
 	      cartService.save(cart, number, books.get(), userId);
 	      return "redirect:/cart/";
