@@ -3,7 +3,7 @@
 
 <head>
 
-	<head th:replace="commonspace :: page_head('Home - Book Quest')"/>
+	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
 	<link rel="stylesheet" href="../css/bookdetail.css" th:href="@{/css/bookdetail.css}" />
 
 </head>
@@ -22,7 +22,41 @@
 					<th>comment</th>
 				</tr>
 				<tr>
-					<td th:text="${reivews.starRating}"></td>
+					<td th:if="${reivews.starRating=='1'}">
+						<span class="star">&#x2605;</span>
+						<span class="unstar">&#x2605;</span>
+						<span class="unstar">&#x2605;</span>
+						<span class="unstar">&#x2605;</span>
+						<span class="unstar">&#x2605;</span>
+					</td>
+					<td th:if="${reivews.starRating=='2'}">
+						<span class="star">&#x2605;</span>
+						<span class="star">&#x2605;</span>
+						<span class="unstar">&#x2605;</span>
+						<span class="unstar">&#x2605;</span>
+						<span class="unstar">&#x2605;</span>
+					</td>
+					<td th:if="${reivews.starRating=='3'}">
+						<span class="star">&#x2605;</span>
+						<span class="star">&#x2605;</span>
+						<span class="star">&#x2605;</span>
+						<span class="unstar">&#x2605;</span>
+						<span class="unstar">&#x2605;</span>
+					</td>
+					<td th:if="${reivews.starRating=='4'}">
+						<span class="star">&#x2605;</span>
+						<span class="star">&#x2605;</span>
+						<span class="star">&#x2605;</span>
+						<span class="star">&#x2605;</span>
+						<span class="unstar">&#x2605;</span>
+					</td>
+					<td th:if="${reivews.starRating=='5'}">
+						<span class="star">&#x2605;</span>
+						<span class="star">&#x2605;</span>
+						<span class="star">&#x2605;</span>
+						<span class="star">&#x2605;</span>
+						<span class="star">&#x2605;</span>
+					</td>
 					<td th:text="${reivews.comment}"></td>
 				</tr>
 			</table>
