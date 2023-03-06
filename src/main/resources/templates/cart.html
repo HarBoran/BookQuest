@@ -2,12 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
+	<head th:replace="commonspace :: page_head('orderDetails')" />
 	<meta charset="UTF-8">
 	<title>orderDetails</title>
 </head>
 
 <body>
-	[[${cartList}]]
+	<div th:replace="commonspace :: menu" />
+		[[${cartList}]]
 
 	<div th:each="carts:${cartList}">
 		<hr>
