@@ -23,12 +23,15 @@ public class UserService {
 	private PasswordEncoder passwordEncoder;
 
 	public User save(User user) {
-		
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setRole("Normal");
 		user.setSignupDate(LocalDateTime.now());
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-
 		return repo.save(user);
+	}
+
+	private void encodePassword(User user) {
+		String encodedPassword = passwordEncoder.encode(user.getPassword());
+		user.setPassword(encodedPassword);
 	}
 
 	public User getUserByEmail(String userEmail) {
@@ -38,11 +41,6 @@ public class UserService {
 
 	public Optional<User> findById(int userid) {
 		return repo.findById(userid);
-	}
-
-	private void encodePassword(User user) {
-		String encodedPassword = passwordEncoder.encode(user.getPassword());
-		user.setPassword(encodedPassword);
 	}
 
 	public User saveencode(User user) {

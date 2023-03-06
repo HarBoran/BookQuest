@@ -24,6 +24,7 @@ import com.example.demo.entity.Payment;
 import com.example.demo.entity.Review;
 import com.example.demo.entity.User;
 import com.example.demo.service.BookService;
+import com.example.demo.service.CategoryService;
 import com.example.demo.service.OrderDetailService;
 import com.example.demo.service.OrderService;
 import com.example.demo.service.PaymentService;
@@ -39,22 +40,26 @@ public class BookController {
 
 	@Autowired
 	private OrderDetailService orderDetailService;
-	
+
 	@Autowired
 	private OrderService orderService;
-	
+
 	@Autowired
 	private ReviewService reviewservice;
 
 	@Autowired
 	private UserService userservice;
-	
+
 	@Autowired
 	private PaymentService paymentService;
 
+	@Autowired
+	CategoryService categoryService;
+
 	@GetMapping("")
 	public String category_book(Category category, Model model, @Param("keyword") String keyword) {
-
+		List<Category> listCategories = categoryService.findCategory();
+		model.addAttribute("listCategories", listCategories);
 		List<Book> books = new ArrayList<Book>();
 		if (keyword == null) {
 			books.addAll(bookservice.listbook(category));
@@ -62,24 +67,30 @@ public class BookController {
 			books.addAll(bookservice.findAll(keyword));
 		}
 		model.addAttribute("books", books);
-
+		model.addAttribute("msg", "도서 찾기");
 		return "book";
 	}
 
 	@GetMapping("/new")
 	public String new_book(Category category, Model model) {
+		List<Category> listCategories = categoryService.findCategory();
+		model.addAttribute("listCategories", listCategories);
 		List<Book> newbooks = new ArrayList<Book>();
 		newbooks.addAll(bookservice.newbooks(category));
 		model.addAttribute("books", newbooks);
+		model.addAttribute("msg", "신간 도서");
 
 		return "book";
 	}
 
 	@GetMapping("/bestseller")
 	public String bestseller(Model model) {
+		List<Category> listCategories = categoryService.findCategory();
+		model.addAttribute("listCategories", listCategories);
 		List<Object> bestseller = new ArrayList<Object>();
 		bestseller.addAll(orderDetailService.bestseller());
 		model.addAttribute("books", bestseller);
+		model.addAttribute("msg", "베스트 셀러");
 		return "book";
 	}
 
@@ -88,11 +99,11 @@ public class BookController {
 
 		Optional<Book> books = bookservice.findById(book.getBookId());
 		model.addAttribute("bookdetail", books.get());
-
 		List<Review> review = reviewservice.findByBookid(book);
-		System.out.println("review====" + review);
 		model.addAttribute("reviewdetail", review);
-
+		if (!review.isEmpty()) {
+			model.addAttribute("avgstar", reviewservice.avgstar(book));
+		}
 		model.addAttribute("review", new Review());
 		model.addAttribute("cart", new Cart());
 		return "bookdetail";
@@ -101,7 +112,6 @@ public class BookController {
 	@PostMapping("/review")
 	public String reviewsave(@RequestParam("book") int book, @ModelAttribute("review") Review review, Model model,
 			Principal principal) {
-		System.out.println(book);
 		Optional<Book> books = bookservice.findById(book);
 		Book bookId = books.get();
 		String username = principal.getName();
@@ -130,10 +140,6 @@ public class BookController {
 	@PostMapping("/orderbuy")
 	public String orderbuy(Model model, Principal principal, @ModelAttribute("orders") Order order,
 			@RequestParam("totalPrice") int totalPrice, Book book, @RequestParam("bookquantity") int bookquantity) {
-		System.out.println(order);
-		System.out.println(totalPrice);
-		System.out.println(book);
-		System.out.println(bookquantity);
 		String userEmail = principal.getName();
 		User user = userservice.getUserByEmail(userEmail);
 		order.setTotalPrice(totalPrice);

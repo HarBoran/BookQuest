@@ -139,7 +139,7 @@ public class InputDefaultDatabase {
 		user.setName("이름");
 		user.setPhone("010전화번호");
 		user.setPhoto("프로필사진");
-		user.setRole("유저권한");
+		user.setRole("admin");
 		user.setEnabled(true);
 		user.setSignupDate(LocalDateTime.now());
 		userRepo.save(user);
@@ -163,15 +163,16 @@ public class InputDefaultDatabase {
 		book.setImage("testBookCover.jpg");
 		book.setDescription("테스트 코드에서 입력 되었습니다.");
 		book.setCategory(new Category(3));
+		System.out.println(book);
 		bookRepo.save(book);
 	}
 	@Test
 	public void saveTestBook() {
 		LocalDate nowDate = LocalDate.now();
-		bookRepo.save(new Book("냉정한 츠키시로는 나에게만 너무 귀여워 1", "무라타 텐", "출판사", nowDate, 8000, "냉정한 츠키시로는 나에게만 너무 귀여워 1.jpeg","대충 소개하는 문구", new Category(1))); 
-		bookRepo.save(new Book("너는 나의 후회 1", "시메사바", "출판사", nowDate, 8000, "너는 나의 후회 1.jpeg","대충 소개하는 문구", new Category(1))); 
-		bookRepo.save(new Book("스즈메의 문단속", "신카이 마코토", "출판사", nowDate,14500, "스즈메의 문단속.jpeg","대충 소개하는 문구", new Category(1))); 
-		bookRepo.save(new Book("현자의 제자를 자칭하는 현자 17", "류센 히로츠구","출판사", nowDate, 9000, "현자의 제자를 자칭하는 현자 17.jpeg","대충 소개하는 문구", new Category(1))); 
+		bookRepo.save(new Book("냉정한 츠키시로는 나에게만 너무 귀여워 1", "무라타 텐", "출판사", nowDate, 8000, "냉정한 츠키시로는 나에게만 너무 귀여워 1.jpeg","대충 소개하는 문구", new Category(1))); 
+		bookRepo.save(new Book("너는 나의 후회 1", "시메사바", "출판사", nowDate, 8000, "너는 나의 후회 1.jpeg","대충 소개하는 문구", new Category(1))); 
+		bookRepo.save(new Book("스즈메의 문단속", "신카이 마코토", "출판사", nowDate,14500, "스즈메의 문단속.jpeg","대충 소개하는 문구", new Category(1))); 
+		bookRepo.save(new Book("현자의 제자를 자칭하는 현자 17", "류센 히로츠구","출판사", nowDate, 9000, "현자의 제자를 자칭하는 현자 17.jpeg","대충 소개하는 문구", new Category(1))); 
 	}
 	
 		
@@ -179,7 +180,7 @@ public class InputDefaultDatabase {
 	public void saveNewCart() {
 		Book book = new Book(1);
 		User user = new User(1);
-		for(int i =0; i < 3; i++) {
+		for(int i =0; i < 10; i++) {
 			Cart cart = new Cart();
 			cart.setBookQuantity(1);
 			cart.setBook(book);

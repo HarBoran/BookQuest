@@ -12,32 +12,33 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="reviews")
+@Table(name = "reviews")
 public class Review {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "reviews_id")
 	private Integer reviewsid;
-	
+
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	@ManyToOne
-	@JoinColumn(name="book_id")
+	@JoinColumn(name = "book_id")
 	private Book book;
-	
-	@Column(name="star_rating", nullable = false)
-	private String starRating;
-	
+
+	@Column(name = "star_rating")
+	private Integer starRating;
+
 	@Column(nullable = false)
 	private String comment;
-	
-	@Column(name = "comment_date",length = 255)
+
+	@Column(name = "comment_date", length = 255)
 	private LocalDateTime commentDate;
-	
-	public Review(){}
+
+	public Review() {
+	}
 
 	@Override
 	public String toString() {
@@ -69,11 +70,11 @@ public class Review {
 		this.book = book;
 	}
 
-	public String getStarRating() {
+	public Integer getStarRating() {
 		return starRating;
 	}
 
-	public void setStarRating(String starRating) {
+	public void setStarRating(Integer starRating) {
 		this.starRating = starRating;
 	}
 
@@ -92,7 +93,5 @@ public class Review {
 	public void setCommentDate(LocalDateTime commentDate) {
 		this.commentDate = commentDate;
 	}
-	
-	
 
 }

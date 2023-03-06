@@ -13,8 +13,52 @@
 	<div th:replace="commonspace :: menu" />
 
 	<div class="container">
+		<p>2. 북디테일 페이지에서 <br>
+	구매하기,장바구니 버튼<br>
+	매장에서 구매하기(재고 없읍이 비활성화), 장바구니, 판매하기 버튼 위치하기<br>
+	1:1거래는 다른 페이지 에서<br>
+	중고로 구매하기 최상(20%)할인률 상(40%)할인 가격<br>
+
+	별점은 토탈 평균으로 보여지게<br>
+	리뷰 및 별점 남기기는 북디테일에서 보여지게<br></p>
 
 		<hr>
+		평균 별점 : [[${avgstar}]]
+		<div th:if="${avgstar >=0 and avgstar < 1}">
+			<span class="star">&#x2605;</span>
+			<span class="unstar">&#x2605;</span>
+			<span class="unstar">&#x2605;</span>
+			<span class="unstar">&#x2605;</span>
+			<span class="unstar">&#x2605;</span>
+		</div>
+		<div th:if="${avgstar >=2 and avgstar < 3}">
+			<span class="star">&#x2605;</span>
+			<span class="star">&#x2605;</span>
+			<span class="unstar">&#x2605;</span>
+			<span class="unstar">&#x2605;</span>
+			<span class="unstar">&#x2605;</span>
+		</div>
+		<div th:if="${avgstar >=3 and avgstar < 4}">
+			<span class="star">&#x2605;</span>
+			<span class="star">&#x2605;</span>
+			<span class="star">&#x2605;</span>
+			<span class="unstar">&#x2605;</span>
+			<span class="unstar">&#x2605;</span>
+		</div>
+		<div th:if="${avgstar >=4 and avgstar < 5}">
+			<span class="star">&#x2605;</span>
+			<span class="star">&#x2605;</span>
+			<span class="star">&#x2605;</span>
+			<span class="star">&#x2605;</span>
+			<span class="unstar">&#x2605;</span>
+		</div>
+		<div th:if="${avgstar ==5}">
+			<span class="star">&#x2605;</span>
+			<span class="star">&#x2605;</span>
+			<span class="star">&#x2605;</span>
+			<span class="star">&#x2605;</span>
+			<span class="star">&#x2605;</span>
+		</div>
 		<th:block th:each="reivews:${reviewdetail}">
 			<table border="1">
 				<tr>
@@ -22,35 +66,35 @@
 					<th>comment</th>
 				</tr>
 				<tr>
-					<td th:if="${reivews.starRating=='1'}">
+					<td th:if="${reivews.starRating==1}">
 						<span class="star">&#x2605;</span>
 						<span class="unstar">&#x2605;</span>
 						<span class="unstar">&#x2605;</span>
 						<span class="unstar">&#x2605;</span>
 						<span class="unstar">&#x2605;</span>
 					</td>
-					<td th:if="${reivews.starRating=='2'}">
+					<td th:if="${reivews.starRating==2}">
 						<span class="star">&#x2605;</span>
 						<span class="star">&#x2605;</span>
 						<span class="unstar">&#x2605;</span>
 						<span class="unstar">&#x2605;</span>
 						<span class="unstar">&#x2605;</span>
 					</td>
-					<td th:if="${reivews.starRating=='3'}">
+					<td th:if="${reivews.starRating==3}">
 						<span class="star">&#x2605;</span>
 						<span class="star">&#x2605;</span>
 						<span class="star">&#x2605;</span>
 						<span class="unstar">&#x2605;</span>
 						<span class="unstar">&#x2605;</span>
 					</td>
-					<td th:if="${reivews.starRating=='4'}">
+					<td th:if="${reivews.starRating==4}">
 						<span class="star">&#x2605;</span>
 						<span class="star">&#x2605;</span>
 						<span class="star">&#x2605;</span>
 						<span class="star">&#x2605;</span>
 						<span class="unstar">&#x2605;</span>
 					</td>
-					<td th:if="${reivews.starRating=='5'}">
+					<td th:if="${reivews.starRating==5}">
 						<span class="star">&#x2605;</span>
 						<span class="star">&#x2605;</span>
 						<span class="star">&#x2605;</span>
@@ -96,12 +140,12 @@
 
 				<div id="star">
 					<fieldset>
-						<span class="text-bold">별점을 선택해주세요</span>
-						<input type="radio" th:field="*{starRating}" value="5" id="rate1"><label for="rate1">★</label>
-						<input type="radio" th:field="*{starRating}" value="4" id="rate2"><label for="rate2">★</label>
-						<input type="radio" th:field="*{starRating}" value="3" id="rate3"><label for="rate3">★</label>
-						<input type="radio" th:field="*{starRating}" value="2" id="rate4"><label for="rate4">★</label>
-						<input type="radio" th:field="*{starRating}" value="1" id="rate5"><label for="rate5">★</label>
+						<span class="text-bold">별점을 선택해주세요</span>	
+						<input type="radio" th:field="*{starRating}" value=5 id="rate1"><label for="rate1">★</label>
+						<input type="radio" th:field="*{starRating}" value=4 id="rate2"><label for="rate2">★</label>
+						<input type="radio" th:field="*{starRating}" value=3 id="rate3"><label for="rate3">★</label>
+						<input type="radio" th:field="*{starRating}" value=2 id="rate4"><label for="rate4">★</label>
+						<input type="radio" th:field="*{starRating}" value=1 id="rate5"><label for="rate5">★</label>
 					</fieldset>
 				</div>
 				<div class="form-group row">

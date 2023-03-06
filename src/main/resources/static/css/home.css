@@ -78,7 +78,6 @@
 				flex-basis: 200px: 아이템의 기본 크기를 200px로 설정합니다.*/
 }
 
-
 #oneBookInfo>a {
 	display: block;
 	position: relative;
@@ -86,8 +85,10 @@
 }
 
 #oneBookInfo img {
-	max-width: 200px;
+	width: 200px;
 	height: 300px;
+	object-fit: cover;
+	overflow: hidden;
 	border-radius: 20px;
 	box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
 	transition: transform 0.3s ease-in-out;
@@ -112,8 +113,20 @@
 	float: left;
 }
 
-#oneBookInfo>a>div:nth-child(3)> :last-child {
+#oneBookInfo>a>div:nth-child(3)>div:nth-child(2) {
 	float: right;
 	text-align: right;
 	color: mediumpurple;
+}
+
+#oneBookInfo>a>div:nth-child(3)>#preDiscountPrice {
+	text-decoration: line-through;
+	color: #777;
+}
+
+#oneBookInfo>a>div:nth-child(3)> :last-child {
+	float: right;
+	text-align: right;
+	color: #c00;
+	font-weight: bold;
 }

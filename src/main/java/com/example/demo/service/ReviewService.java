@@ -31,4 +31,9 @@ public class ReviewService {
 
 	}
 
+	public Float avgstar(Book book) {
+		Float avgstar = repo.sumstar(book) / repo.countbook(book);
+		return avgstar;
+	}
+
 }

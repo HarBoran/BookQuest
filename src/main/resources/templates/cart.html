@@ -2,14 +2,76 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
-	<head th:replace="commonspace :: page_head('orderDetails')" />
 	<meta charset="UTF-8">
+	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 	<title>orderDetails</title>
 </head>
+<script>
+
+	$(document).ready(function () {
+
+		$(".UpBtn").click(function () {
+			cartId = this.value;
+			bookPrice = $("#price" + cartId).text();
+			console.log(bookPrice);
+			$.ajax({
+				type: 'POST',       // 요청 메서드
+				url: '/BookQuest/up',  // 요청 URI
+				headers: {"content-type": "application/json"}, // 요청 헤더
+				dataType: 'json', // 전송받을 데이터의 타입
+				data: JSON.stringify(cartId),  // 서버로 전송할 데이터. stringify()로 직렬화 필요.
+				success: function (result) {
+					bookQuantity = JSON.parse(result);    // 서버로부터 응답이 도착하면 호출될 함수
+					alert("수량이 " + result + "권으로 변경 되었습니다 ");        // result는 서버가 전송한 데이터
+					$("#quantity" + cartId).text(bookQuantity);
+					$("#totalprice" + cartId).text(bookQuantity * bookPrice);
+				},
+				error: function () {alert("error")} // 에러가 발생했을 때, 호출될 함수
+			}); // $.ajax()
+
+		});
+
+	});
+
+
+	$(document).ready(function () {
+
+		$(".DownBtn").click(function () {
+			cartId = this.value;
+			bookPrice = $("#price" + cartId).text();
+			console.log(bookPrice);
+			$.ajax({
+				type: 'POST',       // 요청 메서드
+				url: '/BookQuest/down',  // 요청 URI
+				headers: {"content-type": "application/json"}, // 요청 헤더
+				dataType: 'json', // 전송받을 데이터의 타입
+				data: JSON.stringify(cartId),  // 서버로 전송할 데이터. stringify()로 직렬화 필요.
+				success: function (result) {
+					bookQuantity = JSON.parse(result);    // 서버로부터 응답이 도착하면 호출될 함수
+					alert("수량이 " + result + "권으로 되었습니다 ");       // result는 서버가 전송한 데이터
+					$("#quantity" + cartId).text(bookQuantity);
+					$("#totalprice" + cartId).text(bookQuantity * bookPrice);
+				},
+				error: function () {alert("error")} // 에러가 발생했을 때, 호출될 함수
+			}); // $.ajax()
+
+		});
+
+	});
+
+</script>
 
 <body>
 	<div th:replace="commonspace :: menu" />
-		[[${cartList}]]
+	[[${cartList}]]
+	<hr>
+
+	<div class="data"></div>
 
 	<div th:each="carts:${cartList}">
 		<hr>
@@ -32,6 +94,8 @@
 					<th>삭제하기</th>
 					<th>수량</th>
 					<th>총액</th>
+					<th>수량 </th>
+					<th>수량ajax</th>
 				</tr>
 				<tr>
 					<td th:text="${cart.book.bookId}"></td>
@@ -39,18 +103,21 @@
 					<td th:text="${cart.book.author}"></td>
 					<td th:text="${cart.book.publisher}"></td>
 					<td th:text="${cart.book.publicationDate}"></td>
-					<td th:text="${cart.book.price}"></td>
+					<td th:id="|price${cart.cartId}|" th:value="${cart.book.price}">[[${cart.book.price}]]</td>
 					<td th:text="${cart.book.image}"></td>
 					<td th:text="${cart.book.description}"></td>
 					<td th:text="${cart.book.image}"></td>
 					<td th:text="${cart.book.category}"></td>
-					<th><a class="nav-link" th:href="@{|/order/buy/${carts.cartId}|}">구매하기</a></th>
-					<th><a class="nav-link" th:href="@{|/cart/delete/${carts.cartId}|}">삭제하기</a></th>
-					<td th:text="${cart.bookQuantity}"></td>
-					<td th:text="${cart.book.price}*${cart.bookQuantity}"></td>
-					<th><a class="nav-link" th:href="@{|/cart/up/${carts.cartId}/${cart.bookQuantity}|}">up</a>
+					<td><a class="nav-link" th:href="@{|/order/buy/${carts.cartId}|}">구매하기</a></td>
+					<td><a class="nav-link" th:href="@{|/cart/delete/${carts.cartId}|}">삭제하기</a></th>
+					<td th:id="|quantity${cart.cartId}|">[[${cart.bookQuantity}]]</td>
+					<td th:id="|totalprice${cart.cartId}|">[[${cart.book.price}*${cart.bookQuantity}]]</td>
+					<td><a class="nav-link" th:href="@{|/cart/up/${carts.cartId}/${cart.bookQuantity}|}">up</a>
 						<a class="nav-link" th:href="@{|/cart/down/${carts.cartId}/${cart.bookQuantity}|}">down</a>
-					</th>
+					</td>
+					<td><button class="UpBtn" type="button" th:value="${carts.cartId}">Up</button>
+						<button class="DownBtn" type="button" th:value="${carts.cartId}">Down</button>
+					</td>
 				</tr>
 			</table>
 
@@ -59,6 +126,29 @@
 
 	</div>
 	</div>
+	<div>
+		<nav>
+			<ul class="pagination justify-content-center">
+				<li th:class="${currentpage != 1 ? 'page-item active':'page-item disabled'}">
+					<a class="page-link" th:href="@{'/cart/page/' + ${1}}">First</a>
+				</li>
+				<li th:class="${currentpage > 1 ? 'page-item':'page-item disabled'}">
+					<a class="page-link" th:href="@{'/cart/page/' + ${pre}}">Previous</a>
+				</li>
+				<li th:class="${currentpage != 1 ? 'page-item':'page-item active'}"
+					th:each="i : ${#numbers.sequence(1,totalPages)}">
+					<a class="page-link" th:href="@{'/cart/page/' + ${i}}">[[${i}]]</a>
+				</li>
+				<li th:class="${currentpage < totalPages ? 'page-item':'page-item disabled'}">
+					<a class="page-link" th:href="@{'/cart/page/' + ${next}}">Next</a>
+				</li>
+				<li th:class="${currentpage != totalPages ? 'page-item active':'page-item disabled'}">
+					<a class="page-link" th:href="@{'/cart/page/' + ${totalPages}}">Last</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+
 	<form th:action="@{/order/buytotal}" method="post" style="max-width: 700px; margin: 0 auto;">
 
 
@@ -67,6 +157,8 @@
 
 		</div>
 	</form>
+
+
 
 </body>
 

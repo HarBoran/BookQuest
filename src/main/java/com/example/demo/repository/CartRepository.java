@@ -2,6 +2,8 @@ package com.example.demo.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -36,5 +38,8 @@ public interface CartRepository extends PagingAndSortingRepository<Cart, Integer
 	@Modifying
 	@Query("UPDATE Cart c set c.bookQuantity = ?2 where c.cartId = ?1")
 	public void downQuantity(int cartId, int downcartQuantity);
+
+	@Query("SELECT c FROM Cart c WHERE c.user =:user")
+	public Page<Cart> findAll(Pageable pageable, User user);
 
 }

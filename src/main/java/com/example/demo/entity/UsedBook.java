@@ -29,14 +29,14 @@ public class UsedBook {
 	private String status;
 	
 	@Column(nullable = false)
-	private Integer amount;
+	private Integer price;
 	
 	public UsedBook(){}
 
 	@Override
 	public String toString() {
 		return "UsedBook [usedBookId=" + usedBookId + ", user=" + user + ", book=" + book + ", status=" + status
-				+ ", amount=" + amount + "]";
+				+ ", price=" + price + "]";
 	}
 
 	public Integer getUsedBookId() {
@@ -71,13 +71,12 @@ public class UsedBook {
 		this.status = status;
 	}
 
-	public Integer getAmount() {
-		return amount;
+	public Integer getPrice() {
+		return price;
 	}
 
-	public void setAmount(Integer amount) {
-		this.amount = amount;
+	public void setPrice(Integer price) {
+		this.price = price;
 	}
-	
-	
+
 }

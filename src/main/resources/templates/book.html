@@ -4,44 +4,76 @@
 <head>
 
 	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
+	<link rel="stylesheet" href="../css/book.css" th:href="@{/css/book.css}" />
 </head>
+
 
 <body>
 	<div th:replace="commonspace :: menu" />
 
 	<div class="container">
-		<table class="table table-striped table-hover table-dark">
+		<div id="recommendedArea">
 
-			<tr>
-				<td>프라이머리키</td>
-				<td>이미지</td>
-				<td>제목</td>
-				<td>작가</td>
-				<td>출판사</td>
-				<td>출판일</td>
-				<td>가격</td>
-				<td>책소개</td>
-				<td>이미지이름</td>
-				<td>디테일페이지</td>
-			</tr>
-			<tr th:each="book : ${books}">
+			<nav class="navbar navbar-expand-lg bg-light navbar-light">
 
-				<td>[[${book.bookId}]]</td>
-				<td><img th:src="@{${book.imagePath}}" style="width:100px;" class="img-fluid" tilte="${book.image}">
-				</td>
-				<td>[[${book.title}]]</td>
-				<td>[[${book.author}]]</td>
-				<td>[[${book.publisher}]]</td>
-				<td>[[${book.publicationDate}]]</td>
-				<td>[[${book.price}]]</td>
-				<td>[[${book.description}]]</td>
-				<td>[[${book.image}]]</td>
-				<td><a th:href="@{/book/detail(book=${book.bookId})}">자세히보기</a></td>
+				<div class="collapse navbar-collapse justify-content-between" id="collapsibleNavbar">
+					<ul class="navbar-nav">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/book/new}">신상품순</a>
+						</li>
 
-			</tr>
-		</table>
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/book/bestseller}">베스트셀러순</a>
+						</li>
 
+						<li class="nav-item">
+							<a class="nav-link" href="#">평점순</a>
+
+						</li>
+					</ul>
+				</div>
+
+			</nav>
+		</div>
+
+		<div id="mainArea">
+			<div id="categoriesMenu">
+				<label> Category: </label>
+				<div th:each="cat : ${listCategories}">
+					<a th:href="@{/book(category=${cat.categoryId})}" style="font-size: 0.8rem;">
+						[[${cat.name}]]
+					</a>
+				</div>
+			</div>
+
+			<div id="bookList">
+				<div>
+					<h2>[[${msg}]]</h2>
+				</div>
+				<div id="bundleBooks">
+					<div id="book" th:each="book : ${books}">
+						<a th:href="@{/book/detail(book=${book.bookId})}">
+							<img th:src="@{${book.imagePath}}" tilte="${book.image}">
+							<div th:text="${book.title}" />
+							<div th:text="${book.author}" />
+							<div th:text="${book.publisher}" />
+							<div th:text="${book.publicationDate}" />
+							<div th:text="${book.description}" />
+							<div th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+
+
 
 	<div th:replace="commonspace :: footer" />
 </body>

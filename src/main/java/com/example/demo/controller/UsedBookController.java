@@ -12,25 +12,34 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.example.demo.entity.Book;
 import com.example.demo.entity.Category;
 import com.example.demo.service.BookService;
+import com.example.demo.service.BranchService;
 import com.example.demo.service.CategoryService;
+import com.example.demo.service.OrderDetailService;
 
 @Controller
-@RequestMapping(value = "/categories", method = { RequestMethod.GET, RequestMethod.POST })
-public class CategoryController {
+@RequestMapping(value = "/usedBookHome", method = { RequestMethod.GET, RequestMethod.POST })
+public class UsedBookController {
+
 	@Autowired
-	private BookService bookservice;
+	BookService bookService;
 
 	@Autowired
 	CategoryService categoryService;
+	
+	@Autowired
+	BranchService bracnchService;
+	
+	@Autowired
+	OrderDetailService orderdetailService;
 
 	@GetMapping("")
-	public String listAll(Model model) {
-		List<Category> listCategories = categoryService.findCategory();
-		model.addAttribute("listCategories", listCategories);
-		List<Book> books = bookservice.findAll();
-		model.addAttribute("books", books);
-
-		return "category";
+	public String oldBookregistration(Model model) {
+		List<Category> categoryList = categoryService.findCategory();
+		model.addAttribute("categoryList", categoryList);
+		
+		List<Book> usedBooks = bookService.findAll();
+		model.addAttribute("usedBooks", usedBooks);
+		return "usedBook/usedBookHome";
 	}
-
+	
 }

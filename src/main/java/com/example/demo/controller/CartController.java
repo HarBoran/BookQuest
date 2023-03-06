@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,28 +36,54 @@ public class CartController {
 
 	@GetMapping("/")
 	public String CartList(Model themodel, Principal principal) {
+		/*
+		 * String userEmail = principal.getName(); User user =
+		 * cartService.getUserByEmail(userEmail);
+		 * 
+		 * List<Cart> cartList = cartService.findCartByUser(user);
+		 * 
+		 * themodel.addAttribute("cartList", cartList);
+		 */
+		return listByPage(1, themodel, principal);
+	}
+
+	@GetMapping("/page/{pageNum}")
+	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model, Principal principal) {
 
 		String userEmail = principal.getName();
 		User user = cartService.getUserByEmail(userEmail);
 
-		List<Cart> cartList = cartService.findCartByUser(user);
+		Page<Cart> page = cartService.findCartByUserpaging(user, pageNum);
+		List<Cart> cartList = page.getContent();
 
-		System.out.println(cartList);
-		themodel.addAttribute("cartList", cartList);
+		long startCount = (pageNum - 1) * cartService.CARTS_PER_PAGE + 1;
+		long endCount = startCount + cartService.CARTS_PER_PAGE - 1;
+		if (endCount > page.getTotalElements()) {
+			endCount = page.getTotalElements();
+		}
+
+		model.addAttribute("currentpage", pageNum);
+		model.addAttribute("pre", page.getNumber());
+		model.addAttribute("next", (page.getNumber() + 2));
+		model.addAttribute("totalPages", page.getTotalPages());
+		model.addAttribute("startCount", startCount);
+		model.addAttribute("endCount", endCount);
+		model.addAttribute("totalItems", page.getTotalElements());
+		model.addAttribute("cartList", cartList);
+
 		return "cart";
 	}
 
-
-	   @PostMapping("/save")
-	   public String savecart(Model model, @RequestParam("number") int number, Principal principal,
-	         @Param("book")int book, @ModelAttribute("cart") Cart cart) {
-	      Optional<Book> books = bookService.findById(book);
-	      String username = principal.getName();
-	      Optional<User> user = userService.findByID(username);
-	      User userId = user.get();
-	      cartService.save(cart, number, books.get(), userId);
-	      return "redirect:/cart/";
-	   }
+	@PostMapping("/save")
+	public String savecart(Model model, @RequestParam("number") int number, Principal principal,
+			@Param("book") int book, @ModelAttribute("cart") Cart cart) {
+		Optional<Book> books = bookService.findById(book);
+		String username = principal.getName();
+		Optional<User> user = userService.findByID(username);
+		User userId = user.get();
+		cartService.save(cart, number, books.get(), userId);
+		return "redirect:/cart/";
+	}
 
 	@GetMapping("/delete/{cartId}")
 	public String deletebook(@PathVariable(name = "cartId") int cartId) {
@@ -86,6 +113,5 @@ public class CartController {
 
 		return "redirect:/cart/";
 	}
-
 
 }

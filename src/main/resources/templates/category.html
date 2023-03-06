@@ -2,25 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
+
 	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
+	<link rel="stylesheet" href="../css/css.css" th:href="@{/css/css.css}" />
+	<link rel="stylesheet" href="../css/category.css" th:href="@{/css/category.css}" />
+
 </head>
 
 <body>
 	<div th:replace="commonspace :: menu" />
 
 	<div class="container">
-		<div class="form-group row" style="height: 500px;">
-			<label class="col-4 col-form-label" style="width:100px;"> Category: </label>
-			<div class="col-8">
-				<div class="form-control" style="height: 500px;">
-					<th:block th:each="cat : ${listCategories}">
-						<a th:href="@{/book(category=${cat.categoryId})}">[[${cat.name}]]</a>
-					</th:block>
+
+		<div id="mainArea">
+			<div id="categoriesMenu">
+				<label> Category: </label>
+				<div th:each="cat : ${listCategories}">
+					<a th:href="@{/book(category=${cat.categoryId})}" style="font-size: 0.8rem;">
+						[[${cat.name}]]
+					</a>
+				</div>
+			</div>
+
+			<div id="bookList">
+				<div>
+					<h2>도서 찾기</h2>
+				</div>
+				<div id="bundleBooks">
+					<div id="book" th:each="book : ${books}">
+						<a th:href="@{/book/detail(book=${book.bookId})}">
+							<img th:src="@{${book.imagePath}}" tilte="${book.image}">
+							<div th:text="${book.title}" />
+							<div th:text="${book.author}" />
+							<div th:text="${book.publisher}" />
+							<div th:text="${book.publicationDate}" />
+							<div th:text="${book.description}" />
+							<div th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
 	<div th:replace="commonspace :: footer">
 
 </body>

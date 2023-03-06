@@ -11,17 +11,20 @@
 	<div th:replace="commonspace :: menu" />
 	<div class="container">
 
-		
-		
-		<input type="hidden" id="lat" , th:value="${branchInformation.latitude}" />
+
+
+		<input type="hidden" id="lat" th:value="${branchInformation.latitude}" />
 		<input type="hidden" id="lng" th:value="${branchInformation.longitude}" />
 
 
-
-		1. 매장정보(사진 및 주소)<br>
-		2. BookList<br>
-		3. 검색기능창(해당 매장에서 책 검색 가능 하게)<br>
-
+		<p>
+			1. 매장정보(사진 및 주소)<br>
+			2. BookList<br>
+			3. 검색기능창(해당 매장에서 책 검색 가능 하게)<br>
+			5. 매장찾기 페이지<br>
+			매장 정보 보여주기<br>
+			매장이 가지고 있는 중고책 리스트 보여주기<br>
+		</p>
 
 		<div id="map" style="width:500px;height:400px;"></div>
 		<script>

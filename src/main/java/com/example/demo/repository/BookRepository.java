@@ -2,6 +2,8 @@ package com.example.demo.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -18,6 +20,9 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
 
 	@Query("SELECT b FROM Book b WHERE CONCAT(b.title,' ',b.author) LIKE %?1%")
 	public List<Book> findAll(String keyword);
+	
+	@Query("SELECT b FROM Book b WHERE CONCAT(b.title, ' ', b.author, ' ', b.publisher) LIKE %?1%")
+	public Page<Book> findAll(String keyword, Pageable pageable);
 
 	@Query("SELECT b FROM Book b ORDER BY b.publicationDate ASC")
 	public List<Book> finByNewBook(Category category);
@@ -27,7 +32,5 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
 
 	@Query("SELECT COUNT(*) FROM Book") 
 	public Long countTotlaBooks();
-	
-
 
 }

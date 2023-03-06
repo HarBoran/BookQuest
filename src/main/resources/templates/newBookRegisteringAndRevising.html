@@ -84,8 +84,7 @@
 				<div class="form-group row">
 					<label for="publicationDate" class="col-sm-4 col-form-label">PublicationDate :</label>
 					<div class="col-sm-8">
-						<input type="text" th:field="*{publicationDate}" class="form-control" placeholder="출판일"
-							required>
+						<input type="text" th:field="*{publicationDate}" class="form-control" placeholder="출판일" required>
 					</div>
 				</div>
 
@@ -100,6 +99,13 @@
 					<label for="description" class="col-sm-4 col-form-label">Description :</label>
 					<div class="col-sm-8">
 						<textarea th:field="*{description}" class="form-control" placeholder="책소개" rows="5" style="max-width:auto; height:150px; word-break: break-all;" required/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="discountRate" class="col-sm-4 col-form-label">DiscountRate :</label>
+					<div class="col-sm-8">
+						<input type="number" th:field="*{discountRate}" class="form-control" placeholder="할인율 %" th:disabled="${bookId ==null}"/>
 					</div>
 				</div>
 
@@ -120,6 +126,7 @@
 						<div th:if="${bookId != null}">수정완료</div>
 					</button>
 					<a th:href="@{/}" class="btn btn-secondary mb-4 col-3 m-3">Cancel</a>
+					<a th:href="@{/deleteBookInformation/{bookId}(bookId=${bookId})}">삭제하기</a>
 				</div>
 
 			</div>

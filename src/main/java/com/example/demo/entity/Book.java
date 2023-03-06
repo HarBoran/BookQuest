@@ -13,54 +13,58 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="books")
+@Table(name = "books")
 public class Book {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="book_id")
+	@Column(name = "book_id")
 	private Integer bookId;
-	
+
 	@Column(length = 128, nullable = false)
 	private String title;
-	
+
 	@Column(length = 32, nullable = false)
-	private String author; 
-	
+	private String author;
+
 	@Column(length = 32, nullable = false)
-	private String publisher; 
-	
+	private String publisher;
+
 	@Column(name = "publication_date", nullable = false)
-	private LocalDate publicationDate; 
-	
+	private LocalDate publicationDate;
+
 	@Column(nullable = false)
-	private Integer price; 
-	
+	private Integer price;
+
+	@Column(name = "discount_rate")
+	private Integer discountRate;
+
 	@Column(length = 128, nullable = false)
 	private String image;
-	
+
 	@Column(nullable = false)
-	private String description; 
-	
+	private String description;
+
 	@ManyToOne
-	@JoinColumn(name="category_id")
+	@JoinColumn(name = "category_id")
 	private Category category;
-	
+
 	@Transient
 	public String getImagePath() {
-		if (bookId == null || image == null) return "/images/blank-book-cover-white.jpg";
+		if (bookId == null || image == null)
+			return "/images/blank-book-cover-white.jpg";
 		return "/bookCover/" + this.category.getName() + "/" + this.image;
 	}
 
-	public Book(){}
-	
+	public Book() {
+	}
+
 	public Book(Integer bookId) {
 		this.bookId = bookId;
 	}
 
-
-	public Book(String title, String author, String publisher, LocalDate publicationDate, Integer price,
-			String image, String description, Category category) {
+	public Book(String title, String author, String publisher, LocalDate publicationDate, Integer price, String image,
+			String description, Category category) {
 		this.title = title;
 		this.author = author;
 		this.publisher = publisher;
@@ -74,8 +78,8 @@ public class Book {
 	@Override
 	public String toString() {
 		return "Book [bookId=" + bookId + ", title=" + title + ", author=" + author + ", publisher=" + publisher
-				+ ", publicationDate=" + publicationDate + ", price=" + price + ", image=" + image + ", description="
-				+ description + ", category=" + category + "]";
+				+ ", publicationDate=" + publicationDate + ", price=" + price + ", discountRate=" + discountRate
+				+ ", image=" + image + ", description=" + description + ", category=" + category + "]";
 	}
 
 	public Integer getBookId() {
@@ -126,6 +130,14 @@ public class Book {
 		this.price = price;
 	}
 
+	public Integer getDiscountRate() {
+		return discountRate;
+	}
+
+	public void setDiscountRate(Integer discountRate) {
+		this.discountRate = discountRate;
+	}
+
 	public String getImage() {
 		return image;
 	}
@@ -148,8 +160,6 @@ public class Book {
 
 	public void setCategory(Category category) {
 		this.category = category;
-	}	
-	
-
+	}
 
 }
