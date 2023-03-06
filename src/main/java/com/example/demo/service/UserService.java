@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.User;
+import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 
 @Service
@@ -22,10 +23,10 @@ public class UserService {
 	private PasswordEncoder passwordEncoder;
 
 	public User save(User user) {
-
-		System.out.println("test2221221" + user);
+		
 		user.setRole("Normal");
 		user.setSignupDate(LocalDateTime.now());
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 		return repo.save(user);
 	}
@@ -42,6 +43,23 @@ public class UserService {
 	private void encodePassword(User user) {
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
+	}
+
+	public User saveencode(User user) {
+
+		Boolean isUpdatingUser = (user.getUserId() != null);
+		if (isUpdatingUser) {
+			User exstingUser = repo.findById(user.getUserId()).get();
+			if (user.getPassword().isEmpty()) {
+				user.setPassword(exstingUser.getPassword());
+			} else {
+				encodePassword(user);
+			}
+		} else {
+			encodePassword(user);
+		}
+		return repo.save(user);
+
 	}
 
 	public Optional<User> findByID(String username) {
