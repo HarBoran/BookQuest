@@ -28,8 +28,53 @@
 			};
 			reader.readAsDataURL(file);
 		}
+		
+      $(document).ready(function(){
+    	  $("#deleteButton").click(function(){
+	         if (!confirm("책정보를 삭제합니다")) {
+	            return false;
+	        } else {
+	        	 if (!confirm("삭제 후에는 복구가 불가능합니다.\n정말로 삭제하시겟습니까?")) {
+	 	            return false;
+	 	        } else {
+	 	            alert("삭제가 완료되었습니다.");
+	 	        }
+	        }
+    	 });
+      });
+
 
 	</script>
+	<style>
+		#cancelButton {
+			display: inline-block;
+			padding: 0.5em 1em;
+			text-decoration: none;
+			background-color: #5747E6;
+			color: #fff;
+			border-radius: 0.25em;
+			border: none;
+		}
+	
+		#cancelButton:hover {
+			background-color: #5734C0;
+		}
+	
+		#deleteButton {
+			display: inline-block;
+			padding: 0.5em 1em;
+			text-decoration: none;
+			background-color: #FF1321;
+			color: #fff;
+			border-radius: 0.25em;
+			border: none;
+		}
+	
+		#deleteButton:hover {
+			background-color: #FF5733;
+		}
+	</style>
+	
 
 </head>
 
@@ -121,12 +166,12 @@
 				</div>
 
 				<div class="text-center">
-					<button type="submit" class="btn btn-primary mb-4 col-3 m-3">
+					<button type="submit">
 						<div th:if="${bookId == null}">등록완료</div>
 						<div th:if="${bookId != null}">수정완료</div>
 					</button>
-					<a th:href="@{/}" class="btn btn-secondary mb-4 col-3 m-3">Cancel</a>
-					<a th:href="@{/deleteBookInformation/{bookId}(bookId=${bookId})}">삭제하기</a>
+					<a th:href="@{/}" id="cancelButton">Cancel</a>
+					<a th:if="${bookId != null}" th:href="@{/deleteBookInformation/{bookId}(bookId=${bookId})}" id="deleteButton">삭제하기</a>
 				</div>
 
 			</div>

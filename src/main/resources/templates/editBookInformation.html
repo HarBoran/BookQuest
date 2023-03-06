@@ -158,7 +158,6 @@
 						<th>수정하기</th>
 					</tr>
 					<tr th:each="book : ${books}">
-
 						<td>[[${book.bookId}]]</td>
 						<td><img th:src="@{${book.imagePath}}" style="width:100px;" class="img-fluid"
 								tilte="${book.image}">

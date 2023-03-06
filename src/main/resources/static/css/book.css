@@ -51,7 +51,8 @@
 }
 
 #book>a>img {
-	max-width: 150px;
+	width: 150px;
+	height: 225px;
 	border-radius: 20px;
 }
 

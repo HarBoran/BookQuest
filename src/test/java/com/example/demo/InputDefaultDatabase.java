@@ -154,39 +154,34 @@ public class InputDefaultDatabase {
 	@Test
 	public void saveNewBook() {
 		LocalDate nowDate = LocalDate.now();
-		Book book = new Book();
-		book.setTitle("title");
-		book.setAuthor("author");
-		book.setPublisher("publisher");
-		book.setPublicationDate(nowDate);
-		book.setPrice(29900);
-		book.setImage("testBookCover.jpg");
-		book.setDescription("테스트 코드에서 입력 되었습니다.");
-		book.setCategory(new Category(3));
-		System.out.println(book);
-		bookRepo.save(book);
-	}
-	@Test
-	public void saveTestBook() {
-		LocalDate nowDate = LocalDate.now();
-		bookRepo.save(new Book("냉정한 츠키시로는 나에게만 너무 귀여워 1", "무라타 텐", "출판사", nowDate, 8000, "냉정한 츠키시로는 나에게만 너무 귀여워 1.jpeg","대충 소개하는 문구", new Category(1))); 
-		bookRepo.save(new Book("너는 나의 후회 1", "시메사바", "출판사", nowDate, 8000, "너는 나의 후회 1.jpeg","대충 소개하는 문구", new Category(1))); 
-		bookRepo.save(new Book("스즈메의 문단속", "신카이 마코토", "출판사", nowDate,14500, "스즈메의 문단속.jpeg","대충 소개하는 문구", new Category(1))); 
-		bookRepo.save(new Book("현자의 제자를 자칭하는 현자 17", "류센 히로츠구","출판사", nowDate, 9000, "현자의 제자를 자칭하는 현자 17.jpeg","대충 소개하는 문구", new Category(1))); 
+		String[] testImages = {"뉴진스.jpeg","뉴진스페페.png","다니엘.jpeg","다니엘2.jpeg","민지.jpeg",
+							"하니.jpeg","하니2.jpeg","혜린.jpeg","혜린2.jpeg","혜인.jpeg"};
+		for(int i =0; i<testImages.length; i++) {
+			Book book = new Book();
+			book.setTitle("title" + i);
+			book.setAuthor("author" + i);
+			book.setPublisher("publisher" + i);
+			book.setPublicationDate(nowDate);
+			book.setPrice(29000 + i*100);
+			book.setDescription("테스트 코드에서 입력 되었습니다.");
+			book.setCategory(new Category(3));
+			book.setImage(testImages[i]);
+			bookRepo.save(book);
+		}
+
 	}
 	
-		
-	@Test
-	public void saveNewCart() {
-		Book book = new Book(1);
-		User user = new User(1);
-		for(int i =0; i < 10; i++) {
-			Cart cart = new Cart();
-			cart.setBookQuantity(1);
-			cart.setBook(book);
-			cart.setUser(user);
-			cartRepo.save(cart);
-		}
-	}
+//	@Test
+//	public void saveNewCart() {
+//		Book book = new Book(1);
+//		User user = new User(1);
+//		for(int i =0; i < 3; i++) {
+//			Cart cart = new Cart();
+//			cart.setBookQuantity(1);
+//			cart.setBook(book);
+//			cart.setUser(user);
+//			cartRepo.save(cart);
+//		}
+//	}
 
 }

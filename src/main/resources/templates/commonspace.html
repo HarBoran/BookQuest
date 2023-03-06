@@ -73,8 +73,7 @@
 						<div class="dropdown-menu">
 							<th:block th:each="branch : ${branchList}">
 								[[${branch.branchName}]]
-								<a class="dropdown-item"
-									th:href="@{'/informationBranch}/' + ${branch.branchId}">[[${branch.branchName}]]</a>
+								<a class="dropdown-item" th:href="@{'/informationBranch}/' + ${branch.branchId}">[[${branch.branchName}]]</a>
 							</th:block>
 							<a class="dropdown-item" th:href="@{/informationBranch/1}">BookQuest 강남점</a>
 							<a class="dropdown-item" th:href="@{/informationBranch/2}">BookQuest 시청점</a>

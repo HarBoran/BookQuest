@@ -18,7 +18,7 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
 	@Query("SELECT b FROM Book b WHERE b.category = :category or b.category.parent =:category")
 	public List<Book> findByCategoryId(@Param("category") Category category);
 
-	@Query("SELECT b FROM Book b WHERE CONCAT(b.title,' ',b.author) LIKE %?1%")
+	@Query("SELECT b FROM Book b WHERE CONCAT(b.title,' ',b.author, ' ', b.publisher) LIKE %?1%")
 	public List<Book> findAll(String keyword);
 	
 	@Query("SELECT b FROM Book b WHERE CONCAT(b.title, ' ', b.author, ' ', b.publisher) LIKE %?1%")

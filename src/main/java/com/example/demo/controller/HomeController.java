@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,9 +64,10 @@ public class HomeController {
 		List<Book> newbooks = bookService.newbooks(category);
 		model.addAttribute("newbooks", totalBooks < showBookMain ? newbooks : newbooks.subList(0, showBookMain));
 
-		String[][] recommendationList = { { "A.I가 추천해주 내 취향 도서(책리스트 잘못됨)", "/categories", "randomBooks" },
-				{ "신상품", "/book/new", "newbooks" }, { "베스트 샐러(order순)", "/book/bestseller", "bestseller" },
-				{ "이주의 특가 상품(책리스트 잘못됨)", "/categories", "randomBooks" } };
+		String[][] recommendationList = { { "A.I가 추천해주는 내 취향 도서(책리스트 잘못됨)", "/categories", "randomBooks" },
+											{ "신간도서", "/book/new", "newbooks" }, 
+											{ "베스트 샐러(order순)", "/book/bestseller", "bestseller" },
+											{ "이주의 특가 상품(책리스트 잘못됨)", "/categories", "randomBooks" } };
 		if (authentication == null) {
 			recommendationList = Arrays.copyOfRange(recommendationList, 1, recommendationList.length);
 		}
@@ -114,7 +115,7 @@ public class HomeController {
 		} else {
 			bookService.save(registering);
 		}
-		redirectAttributes.addFlashAttribute("message", "A Book has been saved successfully.");
+		redirectAttributes.addFlashAttribute("message", "<" + registering.getTitle()+"> has been saved successfully.");
 		return "redirect:/editBookInformation";
 
 	}
@@ -190,10 +191,12 @@ public class HomeController {
 
 	@GetMapping("/deleteBookInformation/{bookId}")
 	public String deleteBookInformation(@PathVariable("bookId") Integer bookId, RedirectAttributes redirectAttributes) {
-
+		Book book = bookService.findById(bookId).get();
 		try {
 			bookService.deleteById(bookId);
-			redirectAttributes.addFlashAttribute("message", "The Book ID <" + bookId + "> has been deleted successfully.");
+			String uploadDir = "bookCover/" + book.getCategory().getName();
+			FileUploadUtil.delete(uploadDir, book.getImage());
+			redirectAttributes.addFlashAttribute("message","<" + book.getTitle() + "> has been deleted successfully.");
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
 		}

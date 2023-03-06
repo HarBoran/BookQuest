@@ -5,7 +5,7 @@
 
 	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
 	<link rel="stylesheet" href="../css/css.css" th:href="@{/css/css.css}" />
-	<link rel="stylesheet" href="../css/usedBook/usedBookHome.css" th:href="@{/css/usedBook/usedBookHome.css}" />
+	<link rel="stylesheet" href="../css/usedBook/usedBookSearchPage.css" th:href="@{/css/usedBook/usedBookSearchPage.css}" />
 
 </head>
 
@@ -15,14 +15,7 @@
 	<div class="container">
 
 		<div id="recommendedArea">
-			1. 지점선택(관리자) or 1.판매자 정보 등록하기(일반회원)<br>
-			2. 책정보 불러오기<br>
-			광고내용 //이번주 중고베스트 // 이번주의 추천 도서 // 이주의 추천저자 // 이주의 외국도서<br>
-			6. 중고책 페이지 들어가며 책 리스트 바로 보이게<br>
-			판매할책 등록하기<br>
-			amount 테이블 변경해서 price컬럼 추가해서 가격 설정할수 있게하고, 기존 판매가랑 비교해서 보여주기/<br>
-			중고책 디테일 페이지<br>
-			구매하기, 장바구니
+
 		</div>
 
 
@@ -46,21 +39,40 @@
 				</form>
 				
 				<div>
-					<h2>개인간 거래가 가능한 책리스트(아직 아님)</h2>
+					<h2>판매할 리스트 선택하기</h2>
 				</div>
 				<div id="bundleBooks">
 					<div id="book" th:each="book : ${usedBooks}">
 						<a th:href="@{/book/detail(book=${book.bookId})}">
 							<img th:src="@{${book.imagePath}}" tilte="${book.image}">
 							<div>
-								<div th:utext="'<b>'+'[중고]' + ${book.title}+'</b>'" />
-								<div th:text="${book.author} +' | '+ ${book.publisher} +' | '+ ${book.publicationDate}" />
-								<div th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
-								<form th:action="@{/usedBookHome/usedBookBuy/{id}(id=${book.bookId})}" method="POST">
-									<button type="submit">구매하기</button>
-								</form>
+								<div th:utext="'<b>'+ ${book.title}+'</b>'" />
+								<div
+									th:text="${book.author} +' | '+ ${book.publisher} +' | '+ ${book.publicationDate}" />
+
+								<table id="priceTable">
+									<tr>
+										<td>정가</td>
+										<td><b>최상</b>매입가</td>
+										<td><b>상</b>매입가</td>
+									</tr>
+									<tr>
+										<td>
+											<div th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
+										</td>
+										<td>
+											<div th:text="${#numbers.formatDecimal(book.price*0.5, 0, 'COMMA', 0, 'POINT') + '원'}" />
+										</td>
+										<td>
+											<div th:text="${#numbers.formatDecimal(book.price*0.4, 0, 'COMMA', 0, 'POINT') + '원'}" />
+										</td>
+									</tr>
+								</table>
 							</div>
 						</a>
+						<form th:action="@{/usedBookHome/usedBookSell/{id}(id=${book.bookId})}" method="POST">
+							<button type="submit">판매등록하기</button>
+						</form>
 					</div>
 				</div>
 			</div>
