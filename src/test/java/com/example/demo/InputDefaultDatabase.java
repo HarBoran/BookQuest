@@ -154,13 +154,13 @@ public class InputDefaultDatabase {
 	@Test
 	public void saveNewBook() {
 		LocalDate nowDate = LocalDate.now();
-		String[] testImages = {"뉴진스.jpeg","뉴진스페페.png","다니엘.jpeg","다니엘2.jpeg","민지.jpeg",
-							"하니.jpeg","하니2.jpeg","혜린.jpeg","혜린2.jpeg","혜인.jpeg"};
+		String[] testImages = {"뉴진스.jpeg","뉴진스페페1.png","다니엘.jpeg","다니엘2.jpeg","민지.jpeg",
+								"하니.jpeg","하니2.jpeg","해린.jpeg","해린2.jpeg","혜인.jpeg"};
 		for(int i =0; i<testImages.length; i++) {
 			Book book = new Book();
-			book.setTitle("title" + i);
-			book.setAuthor("author" + i);
-			book.setPublisher("publisher" + i);
+			book.setTitle(testImages[i].substring(0,testImages[i].length()-5));
+			book.setAuthor("author");
+			book.setPublisher("publisher");
 			book.setPublicationDate(nowDate);
 			book.setPrice(29000 + i*100);
 			book.setDescription("테스트 코드에서 입력 되었습니다.");
