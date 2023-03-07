@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name="order_details")
 public class OrderDetail {
@@ -20,11 +23,16 @@ public class OrderDetail {
 
 	@ManyToOne
 	@JoinColumn(name="order_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Order order;
 
 	@ManyToOne
 	@JoinColumn(name="book_id")
 	private Book book;
+	
+	@ManyToOne
+	@JoinColumn(name="books_branch_id")
+	private BooksBranch BooksBranch;
 	
 	@Column(name="order_quantity", nullable = false)
 	private Integer orderQuantity;
@@ -36,8 +44,8 @@ public class OrderDetail {
 
 	@Override
 	public String toString() {
-		return "OrderDetail [orderDetailId=" + orderDetailId + ", order=" + order + ", book=" + book
-				+ ", orderQuantity=" + orderQuantity + ", price=" + price + "]";
+		return "OrderDetail [orderDetailId=" + orderDetailId + ", order=" + order + ", book=" + book + ", BooksBranch="
+				+ BooksBranch + ", orderQuantity=" + orderQuantity + ", price=" + price + "]";
 	}
 
 	public Integer getOrderDetailId() {
@@ -62,6 +70,14 @@ public class OrderDetail {
 
 	public void setBook(Book book) {
 		this.book = book;
+	}
+	
+	public BooksBranch getBooksBranch() {
+		return BooksBranch;
+	}
+
+	public void setBooksBranch(BooksBranch booksBranch) {
+		BooksBranch = booksBranch;
 	}
 
 	public Integer getOrderQuantity() {

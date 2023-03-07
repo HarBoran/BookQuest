@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name="orders")
 public class Order {
@@ -22,6 +25,7 @@ public class Order {
 
 	@ManyToOne
 	@JoinColumn(name="user_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 	
 	@Column(name="order_date")
@@ -37,15 +41,16 @@ public class Order {
 	@JoinColumn(name= "payment_id")
 	private Payment payment;
 
-	@Column(name= "order_status", length = 45, nullable = false)
-	private String orderStatus;
+	@Column(name= "delivery_status", length = 45, nullable = false)
+	private String deliveryStatus;
 	
 	public Order(){}
-
+	
 	@Override
 	public String toString() {
 		return "Order [orderId=" + orderId + ", user=" + user + ", orderDate=" + orderDate + ", totalPrice="
-				+ totalPrice + ", address=" + address + ", payment=" + payment + ", orderStatus=" + orderStatus + "]";
+				+ totalPrice + ", address=" + address + ", payment=" + payment + ", deliveryStatus=" + deliveryStatus
+				+ "]";
 	}
 
 	public Integer getOrderId() {
@@ -96,14 +101,12 @@ public class Order {
 		this.payment = payment;
 	}
 
-	public String getOrderStatus() {
-		return orderStatus;
+	public String getDeliveryStatus() {
+		return deliveryStatus;
 	}
 
-	public void setOrderStatus(String orderStatus) {
-		this.orderStatus = orderStatus;
+	public void setDeliveryStatus(String deliveryStatus) {
+		this.deliveryStatus = deliveryStatus;
 	}
-	
-	
-	   
+   
 }

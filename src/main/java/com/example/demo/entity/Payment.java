@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name="payment")
 public class Payment {
@@ -20,20 +23,21 @@ public class Payment {
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 
-	@Column(name = "card_name", length = 32, nullable = false)
-	private String cardName;
+	@Column(length = 32, nullable = false)
+	private String bank;
 	
-	@Column(name = "card_number", length = 32, nullable = false)
-	private String cardNumber;
+	@Column(name = "account_number", length = 32, nullable = false)
+	private String accountNumber;
 	
 	public Payment(){}
 
 	@Override
 	public String toString() {
-		return "Payment [paymentId=" + paymentId + ", user=" + user + ", cardName=" + cardName + ", cardNumber="
-				+ cardNumber + "]";
+		return "Payment [paymentId=" + paymentId + ", user=" + user + ", bank=" + bank + ", accountNumber="
+				+ accountNumber + "]";
 	}
 
 	public Integer getPaymentId() {
@@ -52,22 +56,21 @@ public class Payment {
 		this.user = user;
 	}
 
-	public String getCardName() {
-		return cardName;
+	public String getBank() {
+		return bank;
 	}
 
-	public void setCardName(String cardName) {
-		this.cardName = cardName;
+	public void setBank(String bank) {
+		this.bank = bank;
 	}
 
-	public String getCardNumber() {
-		return cardNumber;
+	public String getAccountNumber() {
+		return accountNumber;
 	}
 
-	public void setCardNumber(String cardNumber) {
-		this.cardNumber = cardNumber;
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
 	}
-	
-	
+
 
 }

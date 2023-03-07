@@ -83,7 +83,7 @@
 				<label class="col-4 col-form-label">payMent: </label>
 				<div class="col-sm-8">
 					<th:block th:each="payment: ${paymentList}">
-						<input type="checkbox" th:field="*{payment}" th:text="${payment.cardName}"
+						<input type="checkbox" th:field="*{payment}" th:text="${payment.bank}"
 							th:value="${payment.paymentId}" class="m-2" />
 						<br />
 					</th:block>

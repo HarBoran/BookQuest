@@ -9,27 +9,32 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
-@Table(name="carts")
+@Table(name = "carts")
 public class Cart {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="cart_id")
+	@Column(name = "cart_id")
 	private Integer cartId;
-	
+
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
-	
+
 	@ManyToOne
-	@JoinColumn(name="book_id")
+	@JoinColumn(name = "book_id")
 	private Book book;
-	
-	@Column(name="book_quantity", nullable = false)
+
+	@Column(name = "book_quantity", nullable = false)
 	private Integer bookQuantity;
-	
-	public Cart(){}
+
+	public Cart() {
+	}
 
 	@Override
 	public String toString() {
@@ -67,7 +72,5 @@ public class Cart {
 	public void setBookQuantity(Integer cartQuantity) {
 		this.bookQuantity = cartQuantity;
 	}
-	
-	
-	   
+
 }

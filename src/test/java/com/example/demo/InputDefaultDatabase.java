@@ -145,8 +145,8 @@ public class InputDefaultDatabase {
 		userRepo.save(user);
 
 		Payment payment = new Payment();
-		payment.setCardName("테스트용 결제수단");
-		payment.setCardNumber("1234-0456-7189-1005");
+		payment.setBank("국민은행");
+		payment.setAccountNumber("1234-0456-7189-1005");
 		payment.setUser(user);
 		payRepo.save(payment);
 	}
