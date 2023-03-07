@@ -82,4 +82,9 @@ public class UserService {
 		return true;
 	}
 
+	public void delete(int userId) {
+		repo.deleteById(userId);
+
+	}
+
 }
