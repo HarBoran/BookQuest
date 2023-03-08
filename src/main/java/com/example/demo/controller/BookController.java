@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Book;
 import com.example.demo.entity.Cart;
@@ -73,24 +74,24 @@ public class BookController {
 
 	@GetMapping("/new")
 	public String new_book(Category category, Model model) {
-		List<Category> listCategories = categoryService.findCategory();
-		model.addAttribute("listCategories", listCategories);
 		List<Book> newbooks = new ArrayList<Book>();
 		newbooks.addAll(bookservice.newbooks(category));
 		model.addAttribute("books", newbooks);
 		model.addAttribute("msg", "신간 도서");
+		List<Category> listCategories = categoryService.findCategory();
+		model.addAttribute("listCategories", listCategories);
 
 		return "book";
 	}
 
 	@GetMapping("/bestseller")
 	public String bestseller(Model model) {
-		List<Category> listCategories = categoryService.findCategory();
-		model.addAttribute("listCategories", listCategories);
 		List<Object> bestseller = new ArrayList<Object>();
 		bestseller.addAll(orderDetailService.bestseller());
 		model.addAttribute("books", bestseller);
 		model.addAttribute("msg", "베스트 셀러");
+		List<Category> listCategories = categoryService.findCategory();
+		model.addAttribute("listCategories", listCategories);
 		return "book";
 	}
 
@@ -101,6 +102,7 @@ public class BookController {
 		model.addAttribute("bookdetail", books.get());
 		List<Review> review = reviewservice.findByBookid(book);
 		model.addAttribute("reviewdetail", review);
+
 		if (!review.isEmpty()) {
 			model.addAttribute("avgstar", reviewservice.avgstar(book));
 		}
@@ -123,18 +125,23 @@ public class BookController {
 
 	@GetMapping("/redirectbuy")
 	public String redirectbuy(Book book, Model model, Principal principal,
-			@RequestParam("bookquantity") int bookquantity) {
+			@RequestParam("bookquantity") int bookquantity, RedirectAttributes r) {
+		if (bookquantity == 0) {
+			r.addFlashAttribute("rmsg", "책의 수량을 선택해주세요");
+		} else if (bookquantity != 0) {
+			Optional<Book> books = bookservice.findById(book.getBookId());
+			model.addAttribute("bookdetail", books.get());
+			String username = principal.getName();
+			Optional<User> user = userservice.findByID(username);
+			List<Payment> paymentList = paymentService.findPaymentByUser(user.get());
+			model.addAttribute("bookquantity", bookquantity);
+			model.addAttribute("paymentList", paymentList);
+			model.addAttribute("user", user.get());
+			model.addAttribute("orders", new Order());
 
-		Optional<Book> books = bookservice.findById(book.getBookId());
-		model.addAttribute("bookdetail", books.get());
-		String username = principal.getName();
-		Optional<User> user = userservice.findByID(username);
-		List<Payment> paymentList = paymentService.findPaymentByUser(user.get());
-		model.addAttribute("bookquantity", bookquantity);
-		model.addAttribute("paymentList", paymentList);
-		model.addAttribute("user", user.get());
-		model.addAttribute("orders", new Order());
-		return "redirectbuy";
+			return "redirectbuy";
+		}
+		return "redirect:/book/detail?book=" + book.getBookId();
 	}
 
 	@PostMapping("/orderbuy")
@@ -154,6 +161,16 @@ public class BookController {
 		orderDetailService.saveOrderDetails(order, book1, bookPrice, bookquantity);
 
 		return "redirect:/";
+	}
+
+	@GetMapping("/descReview")
+	public String descReview(Book book, Model model) {
+		System.out.println(">>>>>>>>>>>>>>>>>>>>" + book);
+		List<Category> listCategories = categoryService.findCategory();
+		model.addAttribute("listCategories", listCategories);
+
+		model.addAttribute("msg", "평점순");
+		return "test";
 	}
 
 }

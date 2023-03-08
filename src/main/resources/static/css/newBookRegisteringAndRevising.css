@@ -1,0 +1,61 @@
+form {
+	max-width: 1000px;
+	margin: 0 auto;
+}
+
+table,
+th,
+td {
+	border: 1px solid lightseagreen;
+}
+
+table th {
+	width: 100px;
+	height: 50px;
+}
+
+table td {
+	width: 400px;
+}
+
+#thumbnail {
+	max-width: 300px;
+}
+
+#description {
+	width: 800px;
+	height: 150px;
+	word-break: break-all;
+}
+
+#buttonArea {
+	float: right;
+}
+
+#cancelButton {
+	display: inline-block;
+	padding: 0.5em 1em;
+	text-decoration: none;
+	background-color: #5747E6;
+	color: #fff;
+	border-radius: 0.25em;
+	border: none;
+}
+
+#cancelButton:hover {
+	background-color: #5734C0;
+}
+
+#deleteButton {
+	display: inline-block;
+	padding: 0.5em 1em;
+	text-decoration: none;
+	background-color: #FF1321;
+	color: #fff;
+	border-radius: 0.25em;
+	border: none;
+}
+
+#deleteButton:hover {
+	background-color: #FF5733;
+}

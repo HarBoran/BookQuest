@@ -42,7 +42,7 @@ public class UsedBookController {
 		
 		List<Book> usedBooks = bookService.findAll();
 		model.addAttribute("usedBooks", usedBooks);
-		return "usedBook/usedBookHome";
+		return "usedBookHome";
 	}
 	
 	@GetMapping("/usedBookSearchPage")
@@ -52,20 +52,20 @@ public class UsedBookController {
 		
 		List<Book> usedBooks = bookService.findAll(keyword);
 		model.addAttribute("usedBooks", usedBooks);
-		return "usedBook/usedBookSearchPage";
+		return "usedBookSearchPage";
 	}
 
 	@RequestMapping(value = "/usedBookSell/{bookId}", method = { RequestMethod.GET, RequestMethod.POST })
 	public String usedBookSell(@PathVariable("bookId") Integer bookId, Model model) {
 		Book sellBook = bookService.findById(bookId).get();
 		model.addAttribute("sellBook", sellBook);
-		return "usedBook/usedBookSell";
+		return "usedBookSell";
 	}
 	
 	@PostMapping("/usedBookBuy/{bookId}")
 	public String usedBookBuy(@PathVariable("bookId") Integer bookId, Model model) {
 		Book buyBook = bookService.findById(bookId).get();
 		model.addAttribute("buyBook", buyBook);
-		return "usedBook/usedBookBuy";
+		return "usedBookBuy";
 	}	
 }

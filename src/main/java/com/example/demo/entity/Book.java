@@ -52,7 +52,7 @@ public class Book {
 	@Transient
 	public String getImagePath() {
 		if (bookId == null || image == null)
-			return "/images/blank-book-cover-white.jpg";
+			return "/images/defaultBookCover.png";
 		return "/bookCover/" + this.category.getName() + "/" + this.image;
 	}
 

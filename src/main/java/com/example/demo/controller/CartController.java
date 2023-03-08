@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Book;
 import com.example.demo.entity.Cart;
@@ -76,13 +77,19 @@ public class CartController {
 
 	@PostMapping("/save")
 	public String savecart(Model model, @RequestParam("number") int number, Principal principal,
-			@Param("book") int book, @ModelAttribute("cart") Cart cart) {
-		Optional<Book> books = bookService.findById(book);
-		String username = principal.getName();
-		Optional<User> user = userService.findByID(username);
-		User userId = user.get();
-		cartService.save(cart, number, books.get(), userId);
-		return "redirect:/cart/";
+			@Param("book") int book, @ModelAttribute("cart") Cart cart, RedirectAttributes r) {
+		if (number == 0) {
+			r.addFlashAttribute("rmsg", "책의 수량을 선택해주세요");
+		} else if (number != 0) {
+			Optional<Book> books = bookService.findById(book);
+			String username = principal.getName();
+			Optional<User> user = userService.findByID(username);
+			User userId = user.get();
+			cartService.save(cart, number, books.get(), userId);
+			return "redirect:/cart/";
+		}
+
+		return "redirect:/book/detail?book=" + book;
 	}
 
 	@GetMapping("/delete/{cartId}")
