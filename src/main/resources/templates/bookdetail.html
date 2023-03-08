@@ -47,20 +47,21 @@
 			<hr>
 			[[${rmsg}]]
 			<form th:action="@{/cart/save}" th:object="${cart}" method="POST">
-				<input type="text" id="number" th:name="number" value="0">
+				<input type="text" id="number" th:name="number" value="1">
 				<input type="button" value="+" onclick="increment()"></input>
 				<input type="button" value="-" onclick="decrement()"></input>
 				<input type="hidden" th:value="${book.bookId}" name="book" />
 				<button type="submit">장바구니담기</button>
 			</form>
 
-			<form th:action="@{|/order/buy/${book.bookId}|}" method="GET">
-				<input type="text" id="bookquantity" th:name="bookquantity" value="0">
+			<form th:action="@{|/order/buy|}" method="POST">
+				<input type="hidden" name="book" th:value="${book.bookId}" />
+				<input type="text" id="bookquantity" th:name="bookquantity" value="1">
 				<input type="button" value="+" onclick="incrementbook()"></input>
 				<input type="button" value="-" onclick="decrementbook()"></input>
 				<button type="submit">구매하기</button>
 			</form>
-
+			
 			<div th:if="${check=='a'}">
 				<form th:action="@{/wishlist/save}" th:object="${wishlist}" method="POST">
 					<input type="hidden" th:value="${book.bookId}" name="book" />

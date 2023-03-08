@@ -100,7 +100,8 @@
 			<form th:action="@{/order/buy}" method="post">
 				<div th:each="cart:${cartList}">
 					<div id="book" th:each="book:${cart.book}">
-						<input type="checkbox" name="book" value="book.bookId" />
+						<input type="checkbox" th:name="book" value="book.bookId" />
+						[[${book.bookId}]]
 						<a th:href="@{/book/detail(book=${book.bookId})}">
 							<img th:src="@{${book.imagePath}}" tilte="${book.image}">
 						</a>
@@ -116,7 +117,7 @@
 							<button class="UpBtn" type="button" th:value="${cart.cartId}">Up</button>
 							<button class="DownBtn" type="button" th:value="${cart.cartId}">Down</button>
 
-							<a class="btn btn-primary m-3" th:href="@{|/order/buy/${book.bookId}?bookquantity=${cart.bookQuantity}|}">구매하기</a>
+							<a class="btn btn-primary m-3" th:href="@{|/order/buy/?book=${book.bookId}&&bookquantity=${cart.bookQuantity}|}">구매하기</a>
 							<a class="btn btn-danger m-3" th:href="@{|/cart/delete/${cart.cartId}|}">삭제하기</a>
 						</div>
 
@@ -152,7 +153,6 @@
 			<div class="text-center">
 				선택항목 구매하기
 				<div th:id="totalPriceForBuy" th:text="${totalPrice}" th:value="${totalPrice}"></div>
-
 				<input type="submit" value="선택항목 구매하기" class="btn btn-primary m-3">
 			</div>
 			</form>

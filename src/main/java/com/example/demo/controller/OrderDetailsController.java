@@ -72,9 +72,12 @@ public class OrderDetailsController {
 	}
 	
 
-	@RequestMapping(value = "/buy/{book}", method = { RequestMethod.GET, RequestMethod.POST })
-	public String orderBuyOne(Book book, @RequestParam("bookquantity") int bookquantity, Model model, 
+	@RequestMapping(value = "/buy", method = { RequestMethod.GET, RequestMethod.POST })
+	public String orderBuyOne(Book book, int bookquantity, Model model, 
 			Principal principal,RedirectAttributes redirectAttributes) {
+		System.err.println(book); 
+		System.err.println(bookquantity);
+		
 		if (bookquantity == 0) {
 			redirectAttributes.addFlashAttribute("rmsg", "책의 수량을 선택해주세요");
 		} else if (bookquantity != 0) {
