@@ -23,7 +23,6 @@ public class OrderService {
 	}
 
 	public void save(Order order) {
-		System.out.println("test===============" + order.getUser());
 		order.setOrderDate(LocalDateTime.now());
 		order.setUser(order.getUser());
 		order.setDeliveryStatus("배송준비중");

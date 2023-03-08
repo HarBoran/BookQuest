@@ -1,18 +1,27 @@
 package com.example.demo.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.entity.Book;
 import com.example.demo.entity.User;
 import com.example.demo.entity.Wishlist;
+import com.example.demo.service.BookService;
+import com.example.demo.service.UserService;
 import com.example.demo.service.WishlistService;
 
 @Controller
@@ -20,7 +29,13 @@ import com.example.demo.service.WishlistService;
 public class WishListController {
    
    @Autowired
-   private WishlistService wishlistService;
+  private  WishlistService wishlistService;
+   
+   @Autowired
+	private	UserService userService;
+   
+	@Autowired
+	private	BookService bookService;
    
    @GetMapping("/")
    public String wishList(Model themodel, Principal principal) {
@@ -53,6 +68,40 @@ public class WishListController {
       model.addAttribute("wishList", wishList);
 
       return "wishlist";
+   }
+   
+   @PostMapping("/save")
+   public String savewishlist(Model model, @RequestParam("book") int bookId, Principal principal,
+          @ModelAttribute("wishlist") Wishlist wishlist,RedirectAttributes r) {
+   
+      String username = principal.getName();
+      Optional<User> user = userService.findByID(username);
+      User userId = user.get();
+   
+      
+      List<Wishlist> wishlistForUser = wishlistService.findByid(userId);
+      
+      List<Integer> booksnumber = new ArrayList<>();
+      
+      for(int i=0; i<wishlistForUser.size(); i++) {
+         booksnumber.add(wishlistForUser.get(i).getBook().getBookId());
+      }
+      
+      if(booksnumber.contains(bookId)) {
+         Book book = bookService.findById(bookId).get();
+         wishlistService.delete(book);
+         
+         
+         return "redirect:/book/detail?book=" + bookId;
+      }else if (!booksnumber.contains(bookId)){
+         Book book = bookService.findById(bookId).get();
+         wishlistService.save(wishlist,book, userId);
+      
+      }
+      
+      
+
+      return "redirect:/book/detail?book=" + bookId;
    }
 
 }

@@ -4,8 +4,8 @@
 <head>
 
 	<head th:replace="commonspace :: page_head('buyInfoDetails')" />
-	<link rel="stylesheet" th:href="@{/css/redirectbuy.css}" />
-	<script type="text/javascript" th:src="@{/js/redirectbuy.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/orderbuy.css}" />
+	<script type="text/javascript" th:src="@{/js/orderbuy.js}"></script>
 </head>
 
 <body>
@@ -44,7 +44,7 @@
 
 			<div>배송지 정보 입력</div>
 
-			<form th:action="@{/book/orderbuy}" th:object="${orders}" method="post">
+			<form th:action="@{/order/orderbuy}" th:object="${orders}" method="post">
 				<input type="hidden" th:field="*{orderId}" />
 				<input type="hidden" th:value="${book.bookId}" name="bookId" />
 				<input type="hidden" th:value="${bookquantity}" name="bookquantity" />

@@ -15,16 +15,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Book;
-import com.example.demo.entity.BooksBranch;
 import com.example.demo.entity.Cart;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Order;
-import com.example.demo.entity.Payment;
 import com.example.demo.entity.Review;
 import com.example.demo.entity.User;
+import com.example.demo.entity.Wishlist;
 import com.example.demo.service.BookService;
 import com.example.demo.service.BooksBranchService;
 import com.example.demo.service.CategoryService;
@@ -33,13 +31,14 @@ import com.example.demo.service.OrderService;
 import com.example.demo.service.PaymentService;
 import com.example.demo.service.ReviewService;
 import com.example.demo.service.UserService;
+import com.example.demo.service.WishlistService;
 
 @Controller
 @RequestMapping(value = "/book", method = { RequestMethod.GET, RequestMethod.POST })
 public class BookController {
 
 	@Autowired
-	private BookService bookservice;
+	private BookService bookService;
 
 	@Autowired
 	private OrderDetailService orderDetailService;
@@ -48,10 +47,10 @@ public class BookController {
 	private OrderService orderService;
 
 	@Autowired
-	private ReviewService reviewservice;
+	private ReviewService reviewService;
 
 	@Autowired
-	private UserService userservice;
+	private UserService userService;
 
 	@Autowired
 	private PaymentService paymentService;
@@ -59,6 +58,9 @@ public class BookController {
 	@Autowired
 	private CategoryService categoryService;
 	
+	@Autowired
+	private WishlistService wishlistService;
+
 	@Autowired
 	private BooksBranchService booksbranchService;
 
@@ -68,9 +70,9 @@ public class BookController {
 		model.addAttribute("listCategories", listCategories);
 		List<Book> books = new ArrayList<Book>();
 		if (keyword == null) {
-			books.addAll(bookservice.listbook(category));
+			books.addAll(bookService.listbook(category));
 		} else if (keyword != null) {
-			books.addAll(bookservice.findAll(keyword));
+			books.addAll(bookService.findAll(keyword));
 		}
 		model.addAttribute("books", books);
 		model.addAttribute("msg", "도서 찾기");
@@ -80,7 +82,7 @@ public class BookController {
 	@GetMapping("/new")
 	public String new_book(Category category, Model model) {
 		List<Book> newbooks = new ArrayList<Book>();
-		newbooks.addAll(bookservice.newbooks(category));
+		newbooks.addAll(bookService.newbooks(category));
 		model.addAttribute("books", newbooks);
 		model.addAttribute("msg", "신간 도서");
 		List<Category> listCategories = categoryService.findCategory();
@@ -101,83 +103,53 @@ public class BookController {
 	}
 
 	@GetMapping("/detail")
-	public String bookdetail(Book book, Model model) {
+	public String bookdetail(Book book, Model model, Principal principal) {
+		int bookId = book.getBookId();
+		String username = principal.getName();
+		Optional<User> user = userService.findByID(username);
+		User userId = user.get();
 
-		Optional<Book> books = bookservice.findById(book.getBookId());
+		List<Wishlist> wishlistForUser = wishlistService.findByid(userId);
+
+		List<Integer> booksnumber = new ArrayList<>();
+
+		for (int i = 0; i < wishlistForUser.size(); i++) {
+			booksnumber.add(wishlistForUser.get(i).getBook().getBookId());
+		}
+
+		if (booksnumber.contains(bookId)) {
+			model.addAttribute("check", "a");
+
+		} else if (!booksnumber.contains(bookId)) {
+			model.addAttribute("check", "b");
+
+		}
+
+		Optional<Book> books = bookService.findById(book.getBookId());
 		model.addAttribute("bookdetail", books.get());
-		List<Review> review = reviewservice.findByBookid(book);
+		List<Review> review = reviewService.findByBookid(book);
 		model.addAttribute("reviewdetail", review);
-
 		if (!review.isEmpty()) {
-			model.addAttribute("avgstar", reviewservice.avgstar(book));
+			model.addAttribute("avgstar", reviewService.avgstar(book));
 		}
 		model.addAttribute("review", new Review());
 		model.addAttribute("cart", new Cart());
-
-		List<BooksBranch> bookbranch = booksbranchService.findById(book);
-		if (!bookbranch.isEmpty()) {
-			model.addAttribute("bookbranch", bookbranch);
-		} else if (bookbranch.isEmpty()) {
-			model.addAttribute("branchmsg", "재고수량이 없습니다");
-		}
-
 		return "bookdetail";
 	}
 
 	@PostMapping("/review")
 	public String reviewsave(@RequestParam("book") int book, @ModelAttribute("review") Review review, Model model,
 			Principal principal) {
-		Optional<Book> books = bookservice.findById(book);
+		Optional<Book> books = bookService.findById(book);
 		Book bookId = books.get();
 		String username = principal.getName();
-		Optional<User> user = userservice.findByID(username);
+		Optional<User> user = userService.findByID(username);
 		User userId = user.get();
-		reviewservice.save(review, userId, bookId);
+		reviewService.save(review, userId, bookId);
 		return "redirect:/book/detail?book=" + book;
 	}
 
-	@GetMapping("/redirectbuy")
-	public String redirectbuy(Book book, Model model, Principal principal,
-			@RequestParam("bookquantity") int bookquantity, RedirectAttributes r) {
-		if (bookquantity == 0) {
-			r.addFlashAttribute("rmsg", "책의 수량을 선택해주세요");
-		} else if (bookquantity != 0) {
-			Optional<Book> books = bookservice.findById(book.getBookId());
-			model.addAttribute("bookdetail", books.get());
-			String username = principal.getName();
-			Optional<User> user = userservice.findByID(username);
-			List<Payment> paymentList = paymentService.findPaymentByUser(user.get());
-			model.addAttribute("bookquantity", bookquantity);
-			model.addAttribute("paymentList", paymentList);
-			model.addAttribute("user", user.get());
-			Order order = new Order();
-			order.setUser(user.get());
-			order.setAddress(user.get().getAddress());
-			model.addAttribute("orders", order);
 
-			return "redirectbuy";
-		}
-		return "redirect:/book/detail?book=" + book.getBookId();
-	}
-
-	@PostMapping("/orderbuy")
-	public String orderbuy(Model model, Principal principal, @ModelAttribute("orders") Order order,
-			@RequestParam("totalPrice") int totalPrice, Book book, @RequestParam("bookquantity") int bookquantity) {
-		String userEmail = principal.getName();
-		User user = userservice.getUserByEmail(userEmail);
-		order.setTotalPrice(totalPrice);
-		order.setUser(user);
-		orderService.save(order);
-
-		Optional<Book> books = bookservice.findById(book.getBookId());
-
-		Book book1 = books.get();
-		int bookPrice = book1.getPrice();
-
-		orderDetailService.saveOrderDetails(order, book1, bookPrice, bookquantity);
-
-		return "redirect:/";
-	}
 
 	@GetMapping("/descReview")
 	public String descReview(Book book, Model model) {

@@ -31,10 +31,6 @@ $(document).ready(function() {
 
 	});
 
-});
-
-
-$(document).ready(function() {
 
 	$(".DownBtn").click(function() {
 		var token = $("meta[name='_csrf']").attr("content");

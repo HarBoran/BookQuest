@@ -86,7 +86,7 @@
 								<button type="submit">장바구니담기</button>
 							</form>
 
-							<form th:action="@{/book/redirectbuy}" th:object="${order}" method="POST">
+							<form th:action"@{|/order/buy/${book.bookId}|}" th:object="${order}" method="POST">
 								<input type="hidden" th:value="1" name="bookquantity" />
 								<input type="hidden" th:value="${book.bookId}" name="book" />
 								<button type="submit">구매하기</button>

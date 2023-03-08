@@ -38,6 +38,17 @@
 							<div th:text="${book.description}" />
 							<div th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
 						</a>
+							<form th:action="@{/cart/save}" th:object="${cart}" method="POST">
+								<input type="hidden" th:value="1" name="number" />
+								<input type="hidden" th:value="${book.bookId}" name="book" />
+								<button type="submit">장바구니담기</button>
+							</form>
+
+							<form th:action="@{|/order/buy/${book.bookId}|}" th:object="${order}" method="POST">
+								<input type="hidden" th:value="1" name="bookquantity" />
+								<input type="hidden" th:value="${book.bookId}" name="book" />
+								<button type="submit">구매하기</button>
+							</form>
 					</div>
 				</div>
 			</div>

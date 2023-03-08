@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Book;
 import com.example.demo.entity.Cart;
@@ -66,32 +68,75 @@ public class OrderDetailsController {
 
 		theModel.addAttribute("orderDetails", orderDetails);
 
-		/*
-		 * System.out.println("order=========="+orders);
-		 * System.out.println("orderDetails=========="+orderDetails);
-		 */
 		return "orderDetails";
 	}
+	
 
-	@GetMapping("/buy/{cartId}")
-	public String buyBook(@PathVariable(name = "cartId") int cartId, Model model, Principal principal) {
+	@RequestMapping(value = "/buy/{book}", method = { RequestMethod.GET, RequestMethod.POST })
+	public String orderBuyOne(Book book, @RequestParam("bookquantity") int bookquantity, Model model, 
+			Principal principal,RedirectAttributes redirectAttributes) {
+		if (bookquantity == 0) {
+			redirectAttributes.addFlashAttribute("rmsg", "책의 수량을 선택해주세요");
+		} else if (bookquantity != 0) {
+			Book bookone = bookService.findById(book.getBookId()).get();
+			model.addAttribute("bookdetail", bookone);
+			String username = principal.getName();
+			Optional<User> user = userService.findByID(username);
+			List<Payment> paymentList = paymentService.findPaymentByUser(user.get());
+			model.addAttribute("bookquantity", bookquantity);
+			model.addAttribute("paymentList", paymentList);
+			model.addAttribute("user", user.get());
+			Order order = new Order();
+			order.setUser(user.get());
+			order.setAddress(user.get().getAddress());
+			model.addAttribute("orders", order);
+
+			return "orderbuy";
+		}
+		return "redirect:/book/detail?book=" + (book.getBookId());
+	}
+	
+	@PostMapping("/orderbuy")
+	public String orderbuyBook(Model model, Principal principal, @ModelAttribute("orders") Order order,
+			@RequestParam("totalPrice") int totalPrice, Book book, @RequestParam("bookquantity") int bookquantity) {
 		String userEmail = principal.getName();
 		User user = userService.getUserByEmail(userEmail);
+		order.setTotalPrice(totalPrice);
+		order.setUser(user);
+		orderService.save(order);
 
-		List<Payment> paymentList = paymentService.findPaymentByUser(user);
-		List<Cart> cartListq = cartService.findCartByUser(user);
+		Optional<Book> books = bookService.findById(book.getBookId());
 
-		Cart cartList = cartService.findById(cartId);
+		Book book1 = books.get();
+		int bookPrice = book1.getPrice();
 
-		model.addAttribute("cartList", cartList);
-		model.addAttribute("paymentList", paymentList);
-		model.addAttribute("order", new Order());
+		orderDetailService.saveOrderDetails(order, book1, bookPrice, bookquantity);
 
-		return "buyInfoDetails";
+		return "redirect:/";
 	}
 
+//	@GetMapping("/buy/cart/{cartId}")
+//	public String buyBook(@PathVariable(name = "cartId") int cartId, Model model, Principal principal) {
+//		String userEmail = principal.getName();
+//		User user = userService.getUserByEmail(userEmail);
+//
+//		List<Payment> paymentList = paymentService.findPaymentByUser(user);
+//		List<Cart> cartListq = cartService.findCartByUser(user);
+//
+//		Cart cartList = cartService.findById(cartId);
+//
+//		model.addAttribute("cartList", cartList);
+//		model.addAttribute("paymentList", paymentList);
+//		model.addAttribute("order", new Order());
+//
+//		return "buyInfoDetails";
+//	}
+	
+
 	@PostMapping("/buytotal")
-	public String buyTotal(Model model, Principal principal) {
+	public String orderBuyAll(Book book, @RequestParam("bookquantity") int bookquantity, Model model, 
+			Principal principal,RedirectAttributes redirectAttributes) {
+		System.err.println(bookquantity);
 		int totalPrice = 0;
 		String userEmail = principal.getName();
 		User user = userService.getUserByEmail(userEmail);
