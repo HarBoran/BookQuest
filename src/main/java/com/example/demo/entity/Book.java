@@ -37,7 +37,7 @@ public class Book {
 	private Integer price;
 
 	@Column(name = "discount_rate")
-	private Integer discountRate;
+	private Integer discountRate = 0;
 
 	@Column(length = 128, nullable = false)
 	private String image;

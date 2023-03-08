@@ -3,9 +3,7 @@ form {
 	margin: 0 auto;
 }
 
-table,
-th,
-td {
+th, td {
 	border: 1px solid lightseagreen;
 }
 

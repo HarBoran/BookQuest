@@ -3,91 +3,104 @@
 
 <head>
 
-   <head th:replace="commonspace :: page_head('Home - Book Quest')" />
-    <link rel="stylesheet" th:href="@{/css/book.css}" />
+	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
+	<link rel="stylesheet" th:href="@{/css/book.css}" />
 
 </head>
 
 <body>
-   <div th:replace="commonspace :: menu" />
-   
-<div class="container">
-      <div id="recommendedArea">
-         
-      <nav class="navbar navbar-expand-lg bg-light navbar-light">
-         
-         <div class="collapse navbar-collapse justify-content-between" id="collapsibleNavbar">
-            <ul class="navbar-nav">
-               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-               <li class="nav-item">
-                  <a class="nav-link" th:href="@{/book/new}">신상품순</a>
-               </li>
+	<div th:replace="commonspace :: menu" />
 
-               <li class="nav-item">
-                  <a class="nav-link" th:href="@{/book/bestseller}">베스트셀러순</a>
-               </li>
+	<div class="container">
+		<div id="recommendedArea">
 
-               <li class="nav-item">
-                  <a class="nav-link" th:href="@{/book/descReview}">평점순</a>
-            
-               </li>
-               </ul>
-         </div>
-         
-      </nav>
-   </div>
+			<nav class="navbar navbar-expand-lg bg-light navbar-light">
 
-   <div id="mainArea">
-   <div id="categoriesMenu">
-            <label> Category: </label>
-            <div th:if="${listCategories != null}" th:each="cat : ${listCategories}">
-               <a th:href="@{/book(category=${cat.categoryId})}" style="font-size: 0.8rem;">
-                  [[${cat.name}]]
-               </a>
-            </div>
-         </div>
-         
-            <div id="bookList">
-            <div>
-               <h2>[[${msg}]]</h2>
-            </div>
-            <div id="bundleBooks">
-               <div id="book" th:each="book : ${books}">
-                  <a th:href="@{/book/detail(book=${book.bookId})}">
-                     <img th:src="@{${book.imagePath}}" tilte="${book.image}">
-                     <div th:text="${book.title}" />
-                     <div th:text="${book.author}" />
-                     <div th:text="${book.publisher}" />
-                     <div th:text="${book.publicationDate}" />
-                     <div th:text="${book.description}" />
-                     <div th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
-                  <div th:text="중고책판매가 + ${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
-            <form th:action="@{/cart/save}" th:object="${cart}" method="POST">
-               <input type="hidden" th:value="1" name="number" />
-               <input type="hidden" th:value="${book.bookId}" name="book" />
-               <button type="submit">장바구니담기</button>
-            </form>
-      
-            <form th:action="@{/book/redirectbuy}" th:object="${order}" method="POST">
-                  <input type="hidden" th:value="1" name="bookquantity" />
-               <input type="hidden" th:value="${book.bookId}" name="book" />
-               <button type="submit">구매하기</button>
-            </form>
-                  </a>
-               </div>
-            </div>
-         </div>
-   </div>
-   </div>
-   
+				<div class="collapse navbar-collapse justify-content-between" id="collapsibleNavbar">
+					<ul class="navbar-nav">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/book/new}">신상품순</a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/book/bestseller}">베스트셀러순</a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/book/descReview}">평점순</a>
+
+						</li>
+					</ul>
+				</div>
+
+			</nav>
+		</div>
+
+		<div id="mainArea">
+			<div th:if="${listCategories != null}" id="categoriesMenu">
+				<label> Category: </label>
+				<div th:each="cat : ${listCategories}">
+					<a th:href="@{/book(category=${cat.categoryId})}" style="font-size: 0.8rem;">
+						[[${cat.name}]]
+					</a>
+				</div>
+			</div>
+
+			<div th:if="${listCategories == null}" style="width: 100%;
+   border: 1px solid powderblue;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 50px;" />
+
+			<div id="bookList">
+				<div>
+					<h2>[[${msg}]]</h2>
+				</div>
+				<div id="bundleBooks">
+					<div id="book" th:each="book : ${books}">
+						<a th:href="@{/book/detail(book=${book.bookId})}">
+							<img th:src="@{${book.imagePath}}" tilte="${book.image}">
+							<div th:text="${book.title}" />
+							<div th:text="${book.author}" />
+							<div th:text="${book.publisher}" />
+							<div th:text="${book.publicationDate}" />
+							<div th:text="${book.description}" />
+							<div th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
+							<div
+								th:text="중고책판매가 + ${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
+							[[${branchmsg}]]
+							<th:block th:each="bookbranch : ${bookbranch}">
+								<div th:if="${bookbranch!=null}" th:text="재고수량+${bookbranch.quantity}+권" />
+								<div th:text="${bookbranch.branches.branchName}" />
+							</th:block>
+							<form th:action="@{/cart/save}" th:object="${cart}" method="POST">
+								<input type="hidden" th:value="1" name="number" />
+								<input type="hidden" th:value="${book.bookId}" name="book" />
+								<button type="submit">장바구니담기</button>
+							</form>
+
+							<form th:action="@{/book/redirectbuy}" th:object="${order}" method="POST">
+								<input type="hidden" th:value="1" name="bookquantity" />
+								<input type="hidden" th:value="${book.bookId}" name="book" />
+								<button type="submit">구매하기</button>
+							</form>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
-   <div th:replace="commonspace :: footer" />
+
+	<div th:replace="commonspace :: footer" />
 </body>
 
 </html>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Book;
+import com.example.demo.entity.BooksBranch;
 import com.example.demo.entity.Cart;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Order;
@@ -25,6 +26,7 @@ import com.example.demo.entity.Payment;
 import com.example.demo.entity.Review;
 import com.example.demo.entity.User;
 import com.example.demo.service.BookService;
+import com.example.demo.service.BooksBranchService;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.OrderDetailService;
 import com.example.demo.service.OrderService;
@@ -55,7 +57,10 @@ public class BookController {
 	private PaymentService paymentService;
 
 	@Autowired
-	CategoryService categoryService;
+	private CategoryService categoryService;
+	
+	@Autowired
+	private BooksBranchService booksbranchService;
 
 	@GetMapping("")
 	public String category_book(Category category, Model model, @Param("keyword") String keyword) {
@@ -108,6 +113,14 @@ public class BookController {
 		}
 		model.addAttribute("review", new Review());
 		model.addAttribute("cart", new Cart());
+
+		List<BooksBranch> bookbranch = booksbranchService.findById(book);
+		if (!bookbranch.isEmpty()) {
+			model.addAttribute("bookbranch", bookbranch);
+		} else if (bookbranch.isEmpty()) {
+			model.addAttribute("branchmsg", "재고수량이 없습니다");
+		}
+
 		return "bookdetail";
 	}
 
@@ -137,7 +150,10 @@ public class BookController {
 			model.addAttribute("bookquantity", bookquantity);
 			model.addAttribute("paymentList", paymentList);
 			model.addAttribute("user", user.get());
-			model.addAttribute("orders", new Order());
+			Order order = new Order();
+			order.setUser(user.get());
+			order.setAddress(user.get().getAddress());
+			model.addAttribute("orders", order);
 
 			return "redirectbuy";
 		}
@@ -152,6 +168,9 @@ public class BookController {
 		order.setTotalPrice(totalPrice);
 		order.setUser(user);
 		orderService.save(order);
+
+		System.err.println(user);
+		System.err.println(order);
 
 		Optional<Book> books = bookservice.findById(book.getBookId());
 

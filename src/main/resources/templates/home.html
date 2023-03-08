@@ -35,9 +35,9 @@
 					<div>
 						<div th:text="${book.author}" />
 						<div th:id="${book.discountRate == null or book.discountRate == 0} ? '' : 'preDiscountPrice'"
-							th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
+							th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT')} + '원'" />
 						<div th:unless="${book.discountRate == null  or book.discountRate == 0}"
-							th:text="'→ ' + ${#numbers.formatDecimal(book.price*(100-book.discountRate)/100, 0, 'COMMA', 0, 'POINT') + '원'} +' ('+ ${book.discountRate} + '% 할인)'" />
+							th:text="'→ ' + ${#numbers.formatDecimal(book.price*(100-book.discountRate)/100, 0, 'COMMA', 0, 'POINT')} + '원' +' ('+ ${book.discountRate} + '% 할인)'" />
 					</div>
 				</a>
 			</div>

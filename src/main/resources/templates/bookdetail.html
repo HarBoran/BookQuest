@@ -34,6 +34,11 @@
                      <div th:text="${book.publicationDate}" />
                      <div th:text="${book.description}" />
                      <div th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
+                        [[${branchmsg}]]
+                     <th:block th:each="bookbranch : ${bookbranch}">
+                     <div th:if="${bookbranch!=null}"th:text="재고수량+${bookbranch.quantity}+권"/>
+                       <div th:text="${bookbranch.branches.branchName}" />
+                     </th:block>
                </div>
             </div>
    

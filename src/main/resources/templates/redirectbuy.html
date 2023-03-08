@@ -4,6 +4,31 @@
 <head>
 	
 	<head th:replace="commonspace :: page_head('buyInfoDetails')" />
+	
+	<style>
+		
+		th, td {
+			border: 1px solid lightseagreen;
+		}
+		#title{
+			width: 500px;
+		}
+		#price{
+			width: 300px;
+		}
+		#bookquantity{
+			width: 100px;
+		}
+		#orderTable{
+			max-width: 700px;
+			margin: 0 auto;
+		}
+		
+	</style>
+	
+	<script>
+
+	</script>
 
 </head>
 
@@ -17,76 +42,55 @@
 	<div>주문 상품 정보</div>
 	
 	<div th:each="book:${bookdetail}">
-		<table border="1">
+		<table>
 			<tr>
 				<th>상품명</th>
 				<th>가격</th>
 				<th>수량</th>
 			</tr>
 			<tr>
-				<td th:text="${book.title}"></td>
-				<td th:text="${book.price}"></td>
-				<td th:id="${book.discountRate == null or book.discountRate == 0} ? '' : 'preDiscountPrice'"
-					th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" /></td>
-				<td th:unless="${book.discountRate == null  or book.discountRate == 0}"
-					th:text="'→ ' + ${#numbers.formatDecimal(book.price*(100-book.discountRate)/100, 0, 'COMMA', 0, 'POINT') + '원'} +' ('+ ${book.discountRate} + '% 할인)'" /></td>
+				<td id= "title" th:text="${book.title}"></td>
+				<td id= "price" th:text="${#numbers.formatDecimal(book.price*(100-book.discountRate)/100, 0, 'COMMA', 0, 'POINT')} + '원'" />
+				</td>
+				<td id= "bookquantity">
+					[[${bookquantity}]]
+				</td>
 			</tr>
 		</table>
+		<div th:text="'총 결제 예상 금액' + ${#numbers.formatDecimal(book.price*(100-book.discountRate)/100*bookquantity, 0, 'COMMA', 0, 'POINT')} + '원'" />
 	</div>
-
 	
+	<div>배송지 정보 입력</div>
 	
-	</div>
-
-	<form th:action="@{/book/orderbuy}" th:object="${orders}" method="post" style="max-width: 700px; margin: 0 auto;">
-		<input type="hidden" th:field="*{orderId}" />
-		<input type="hidden" th:value="${book.bookId}" name="bookId" />
-		<input type="hidden" th:value="${bookquantity}" name="bookquantity" />
-		<div class="border border-secondary rounded p-3">
-			<div class="form-group row">
-				<label class="col-4 col-form-label">User_Info </label>
-				<div class="col-sm-8">
-					<th:text="${user}" th:value="${user}" class="m-2" />
-
-					[[${user}]]
-
-				</div>
-			</div>
-
-			<div class="form-group row">
-				<label class="col-4 col-form-label">address </label>
-				<div class="col-sm-8">
-					<input type="text" th:field="*{address}" class="form-control" required minlength="8"
-						maxlength="128" />
-				</div>
-			</div>
-
-
-			<div class="form-group row">
-				<label class="col-4 col-form-label">total_Price </label>
-				<div class="col-sm-8">
-					<th:text="${book.price}" class="m-2">[[${book.price}*${bookquantity}]]</th:text>
-						<input type="hidden" th:value="${book.price}*${bookquantity}" name="totalPrice" />
-				</div>
-			</div>
-
-
-
-
-			<div class="form-group row">
-				<label class="col-4 col-form-label">payMent: </label>
-				<div class="col-sm-8">
-					<th:block th:each="payment: ${paymentList}">
-						<input type="checkbox" th:field="*{payment}" th:text="${payment.bank}"
-							th:value="${payment.paymentId}" class="m-2" />
-						<br />
-					</th:block>
-				</div>
-
+		<form th:action="@{/book/orderbuy}" th:object="${orders}" method="post">
+			<input type="hidden" th:field="*{orderId}" />
+			<input type="hidden" th:value="${book.bookId}" name="bookId" />
+			<input type="hidden" th:value="${bookquantity}" name="bookquantity" />
+			<input type="hidden" th:value="${book.price*(100-book.discountRate)/100}*${bookquantity}" name="totalPrice" />
+		
+		<table id="orderTable">
+			<tr><th><label>배송지선택</label></th></tr>
+			<tr><th><label for="user.name">주문인</label></th>
+				<td><input type="text" th:field="*{user.name}"/></td></td>
+			</tr>
+			<tr><th><label for="address">주소</label></th>
+				<td><input type="text" th:field="*{address}"/></td>
+			</tr>
+			<tr><th><label for="user.phone">휴대전화번호</label></th>
+				<td><input type="text" th:field="*{user.phone}"/></td></td>
+			</tr>
+		</table>
+		
+		<div><label for="payment.paymentId">payMent: </label>	
+				<th:block th:each="payment: ${paymentList}">
+						<input type="checkbox" th:field="*{payment}" th:value="${payment.paymentId}"  th:text="${payment.bank}"/>
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</th:block>
+		</div>
 
 				<div class="text-center">
-					<input type="submit" value="Save" class="btn btn-primary m-3">
-					<input type="button" value="Cancel" class="btn btn-secondary" id="buttonCancel" />
+					<input type="submit" value="Save" onclick="return validateForm()">
+					<input type="button" value="Cancel" id="buttonCancel" />
 				</div>
 			</div>
 	</form>
