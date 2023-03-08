@@ -26,7 +26,7 @@ public class OrderService {
 		System.out.println("test===============" + order.getUser());
 		order.setOrderDate(LocalDateTime.now());
 		order.setUser(order.getUser());
-		order.setDeliveryStatus("배송중");
+		order.setDeliveryStatus("배송준비중");
 		repo.save(order);
 	}
 
@@ -34,7 +34,7 @@ public class OrderService {
 		order.setOrderDate(LocalDateTime.now());
 		order.setUser(user);
 		order.setTotalPrice(price);
-		order.setDeliveryStatus("배송중");
+		order.setDeliveryStatus("배송준비중");
 		repo.save(order);
 	}
 

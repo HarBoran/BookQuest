@@ -26,7 +26,6 @@ public class CartRestController {
 	@ResponseBody
 	public int up(@RequestBody int cartId) {
 
-		System.out.println("cartId=" + cartId);
 		Cart cartOriginal = cartService.findById(cartId);
 		int UpcartQuantity = cartOriginal.getBookQuantity() + 1;
 		cartService.upQuantity(cartId, UpcartQuantity);
@@ -37,14 +36,15 @@ public class CartRestController {
 	@PostMapping("/down")
 	@ResponseBody
 	public int Down(@RequestBody int cartId) {
-		System.out.println("cartId=" + cartId);
 
 		Cart cart = cartService.findById(cartId);
 		int DowncartQuantity = cart.getBookQuantity() - 1;
-		System.out.println("getBookQuantity=" + DowncartQuantity);
+		if (DowncartQuantity <= 0) {
+			return -1;
+		}
+
 		cartService.DownQuantity(cartId, DowncartQuantity);
 
 		return DowncartQuantity;
 	}
-
 }

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.User;
-import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 
 @Service
@@ -85,6 +85,16 @@ public class UserService {
 	public void delete(int userId) {
 		repo.deleteById(userId);
 
+	}
+
+	public User get(Integer userId) throws Exception {
+		try {
+			return repo.findById(userId).get();
+
+		} catch (NoSuchElementException ex) {
+			throw new Exception("Could not find any user with ID " + userId);
+
+		}
 	}
 
 }

@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //         .antMatchers("/users/**").hasAuthority("Admin")
 //      .antMatchers("/categories/**").hasAnyAuthority("Admin","Editor")
             .anyRequest().authenticated()
-            .and().csrf().disable()
+            .and()//.csrf().disable()
             .formLogin()
             .loginPage("/login")
 //            .successForwardUrl("/") // mapping으로 보냄

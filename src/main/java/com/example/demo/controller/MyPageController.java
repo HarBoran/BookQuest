@@ -31,10 +31,8 @@ public class MyPageController {
 	@GetMapping("")
 	public String getUserMyPage(Model model, Principal principal) {
 		String email = principal.getName();
-		System.out.println(email);
 
 		User user = userService.getUserByEmail(email);
-		System.out.println(user);
 
 		List<OrderDetail> orderDetails = orderDetailService.findOrderDetailsByUser(user);
 		model.addAttribute("user", user);

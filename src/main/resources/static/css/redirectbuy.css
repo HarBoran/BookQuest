@@ -1,0 +1,20 @@
+th,td {
+	border: 1px solid lightseagreen;
+}
+
+#title {
+	width: 500px;
+}
+
+#price {
+	width: 300px;
+}
+
+#bookquantity {
+	width: 100px;
+}
+
+#orderTable {
+	max-width: 700px;
+	margin: 0 auto;
+}

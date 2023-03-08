@@ -169,9 +169,6 @@ public class BookController {
 		order.setUser(user);
 		orderService.save(order);
 
-		System.err.println(user);
-		System.err.println(order);
-
 		Optional<Book> books = bookservice.findById(book.getBookId());
 
 		Book book1 = books.get();
@@ -184,7 +181,6 @@ public class BookController {
 
 	@GetMapping("/descReview")
 	public String descReview(Book book, Model model) {
-		System.out.println(">>>>>>>>>>>>>>>>>>>>" + book);
 		List<Category> listCategories = categoryService.findCategory();
 		model.addAttribute("listCategories", listCategories);
 

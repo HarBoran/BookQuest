@@ -50,7 +50,7 @@ public class CartController {
 
 	@GetMapping("/page/{pageNum}")
 	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model, Principal principal) {
-
+		int totalPrice = 0;
 		String userEmail = principal.getName();
 		User user = cartService.getUserByEmail(userEmail);
 
@@ -63,6 +63,14 @@ public class CartController {
 			endCount = page.getTotalElements();
 		}
 
+		List<Cart> cartLists = cartService.findCartByUser(user);
+
+		for (int i = 0; i < cartLists.size(); i++) {
+			int Price = cartLists.get(i).getBook().getPrice() * cartLists.get(i).getBookQuantity();
+
+			totalPrice += Price;
+		}
+		model.addAttribute("totalPrice", totalPrice);
 		model.addAttribute("currentpage", pageNum);
 		model.addAttribute("pre", page.getNumber());
 		model.addAttribute("next", (page.getNumber() + 2));
@@ -103,7 +111,6 @@ public class CartController {
 	public String CountUp(@PathVariable(name = "cartId") int cartId,
 			@PathVariable(name = "cartQuantity") int cartQuantity) {
 
-		System.out.println(cartId);
 		int UpcartQuantity = cartQuantity + 1;
 		cartService.upQuantity(cartId, UpcartQuantity);
 
@@ -114,7 +121,6 @@ public class CartController {
 	public String CountDown(@PathVariable(name = "cartId") int cartId,
 			@PathVariable(name = "cartQuantity") int cartQuantity) {
 
-		System.out.println(cartId);
 		int DowncartQuantity = cartQuantity - 1;
 		cartService.DownQuantity(cartId, DowncartQuantity);
 

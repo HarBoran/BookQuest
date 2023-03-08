@@ -49,7 +49,6 @@ public class SignUpController {
 	@PostMapping("/save")
 	public String Save(@ModelAttribute("user") User user, Model themodel, RedirectAttributes ttt,
 			@RequestParam("image") MultipartFile multipartFile) throws IOException {
-		System.out.println(user.getPhoto());
 		if (multipartFile.getOriginalFilename().isEmpty()) {
 			userService.save(user);
 
@@ -59,7 +58,6 @@ public class SignUpController {
 				String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 
 				user.setPhoto(fileName);
-				System.out.println("fileName====" + fileName);
 				User saveUser = userService.save(user);
 				String uploadDir = "user-photos/" + saveUser.getUserId(); // 유저의 번호를 가져와서 폴더를 만드는 과정
 
