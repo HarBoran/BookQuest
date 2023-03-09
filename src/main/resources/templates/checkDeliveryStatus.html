@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+
+	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
+	<link rel="stylesheet" th:href="@{/css/home.css}" />
+
+</head>
+
+<body>
+	<div th:replace="commonspace :: menu" />
+
+	<div class="container">
+	<table border="1">
+		<tr>
+			<th>책제목</th>
+			<th>판매자</th>
+			<th>배송상태</th>
+			<th>목적지</th>
+			<th></th>
+		</tr>
+		<tr th:each ="sale:${listCheckDeliveryStatus}">
+			<td><div th:text = "${sale.salesId}"/></td>
+			<td><div th:text = "${sale.user}"/></td>
+			<td><div th:text = "${sale.branches}"/></td>
+			<td><div th:text = "${sale.salesDate}"/></td>
+			<td><div th:text = "${sale.totalPrice}"/></td>
+			<td><div th:text = "${sale.address}"/></td>
+			<td><div th:text = "${sale.payment}"/></td>
+			<td><div th:text = "${sale.deliveryStatus}"/></td>
+		</tr>
+	</table>
+
+	<div th:replace="commonspace :: footer" />
+</body>
+
+</html>

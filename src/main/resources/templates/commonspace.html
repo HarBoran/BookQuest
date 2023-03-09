@@ -46,19 +46,15 @@
 							매장찾기(지역)
 						</a>
 						<div class="dropdown-menu">
-							<th:block th:each="branch : ${branchList}">
+							<th:block th:each="branch : ${branchLists}">
 								[[${branch.branchName}]]
-								<a class="dropdown-item" th:href="@{'/informationBranch}/' + ${branch.branchId}">[[${branch.branchName}]]</a>
+								<a class="dropdown-item" th:href="@{'/informationBranch/' + ${branch.branchId}">[[${branch.branchName}]]</a>
 							</th:block>
 							<a class="dropdown-item" th:href="@{/informationBranch/1}">BookQuest 강남점</a>
 							<a class="dropdown-item" th:href="@{/informationBranch/2}">BookQuest 시청점</a>
 							<a class="dropdown-item" th:href="@{/informationBranch/3}">BookQuest 노량진점</a>
 							<a class="dropdown-item" th:href="@{/informationBranch/4}">BookQuest 부산 W스퀘어점</a>
 						</div>
-					</li>
-
-					<li class="nav-item">
-						<a class="nav-link" th:href="@{/usedBookHome}">책사고팔기</a>
 					</li>
 				</ul>
 
@@ -116,7 +112,7 @@
 						<div class="dropdown-menu">
 							<a class="dropdown-item" th:href="@{/newBookRegistration}">신간도서등록</a>
 							<a class="dropdown-item" th:href="@{/editBookInformation}">책 정보 수정하기</a>
-							<a class="dropdown-item" href="#">배송상태 수정하기</a>
+							<a class="dropdown-item" th:href="@{/checkDeliveryStatus}">배송상태 수정하기</a>
 						</div>
 					</li>
 					

@@ -3,185 +3,199 @@
 
 <head>
 
-   <head th:replace="commonspace :: page_head('Cart')" />
-   <link rel="stylesheet" th:href="@{/css/cart.css}" />
+	<head th:replace="commonspace :: page_head('Cart')" />
+	<link rel="stylesheet" th:href="@{/css/cart.css}" />
 
-   <meta name="_csrf" th:content="${_csrf.token}" />
-   <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 
 </head>
 <script>
 
 
-    function agreeCheck(frm){
-               if (frm.checkButton.disabled==true)
-                frm.checkButton.disabled=false
-               else
-                frm.checkButton.disabled=true
-     }
+	function agreeCheck(frm) {
+		if (frm.checkButton.disabled == true)
+			frm.checkButton.disabled = false
+		else
+			frm.checkButton.disabled = true
+	}
 
 
-   $(document).ready(function () {
+	$(document).ready(function () {
 
-      $(".UpBtn").click(function () {
-         var token = $("meta[name='_csrf']").attr("content");
-         var header = $("meta[name='_csrf_header']").attr("content");
-         cartId = this.value;
-         bookPrice = $("#price" + cartId).text();
-         totalPriceForBuy = $("#totalPriceForBuy").text();
-         bookPriceint = parseFloat(bookPrice);
-         totalPriceForBuyint = parseFloat(totalPriceForBuy);
-         console.log(bookPriceint + totalPriceForBuyint);
-         $.ajax({
-            type: 'POST',       // 요청 메서드
-            url: '/BookQuest/up',  // 요청 URI
-            headers: {"content-type": "application/json"}, // 요청 헤더
-            dataType: 'json', // 전송받을 데이터의 타입
-            data: JSON.stringify(cartId),
-            beforeSend: function (xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-               xhr.setRequestHeader(header, token);
-            },
-            success: function (result) {
-               bookQuantity = JSON.parse(result);    // 서버로부터 응답이 도착하면 호출될 함수
-               //   alert("수량이 " + result + "권으로 변경 되었습니다 ");        // result는 서버가 전송한 데이터
-               $("#quantity" + cartId).text(bookQuantity);
-               $("#totalprice" + cartId).text(bookQuantity * bookPrice);
-               $("#totalPriceForBuy").text(bookPriceint + totalPriceForBuyint);
-            },
+		$(".UpBtn").click(function () {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			cartId = this.value;
+			bookPrice = $("#price" + cartId).text();
+			totalPriceForBuy = $("#totalPriceForBuy").text();
+			bookPriceint = parseFloat(bookPrice);
+			totalPriceForBuyint = parseFloat(totalPriceForBuy);
+			console.log(bookPriceint + totalPriceForBuyint);
+			$.ajax({
+				type: 'POST',       // 요청 메서드
+				url: '/BookQuest/up',  // 요청 URI
+				headers: {"content-type": "application/json"}, // 요청 헤더
+				dataType: 'json', // 전송받을 데이터의 타입
+				data: JSON.stringify(cartId),
+				beforeSend: function (xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+					xhr.setRequestHeader(header, token);
+				},
+				success: function (result) {
+					bookQuantity = JSON.parse(result);    // 서버로부터 응답이 도착하면 호출될 함수
+					//   alert("수량이 " + result + "권으로 변경 되었습니다 ");        // result는 서버가 전송한 데이터
+					$("#quantity" + cartId).text(bookQuantity);
+					$("#totalprice" + cartId).text(bookQuantity * bookPrice);
+					$("#totalPriceForBuy").text(bookPriceint + totalPriceForBuyint);
+				},
 
-            error: function () {alert("error")} // 에러가 발생했을 때, 호출될 함수
-         }); // $.ajax()
+				error: function () {alert("error")} // 에러가 발생했을 때, 호출될 함수
+			}); // $.ajax()
 
-      });
+		});
 
-   });
+	});
 
 
-   $(document).ready(function () {
+	$(document).ready(function () {
 
-      $(".DownBtn").click(function () {
-         var token = $("meta[name='_csrf']").attr("content");
-         var header = $("meta[name='_csrf_header']").attr("content");
-         cartId = this.value;
-         bookPrice = $("#price" + cartId).text();
-         totalPriceForBuy = $("#totalPriceForBuy").text();
-         bookPriceint = parseFloat(bookPrice);
-         totalPriceForBuyint = parseFloat(totalPriceForBuy);
-         console.log(bookPrice);
-         $.ajax({
-            type: 'POST',       // 요청 메서드
-            url: '/BookQuest/down',  // 요청 URI
-            headers: {"content-type": "application/json"}, // 요청 헤더
-            dataType: 'json', // 전송받을 데이터의 타입
-            data: JSON.stringify(cartId),
-            beforeSend: function (xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-               xhr.setRequestHeader(header, token);
-            },
-            success: function (result) {
+		$(".DownBtn").click(function () {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			cartId = this.value;
+			bookPrice = $("#price" + cartId).text();
+			totalPriceForBuy = $("#totalPriceForBuy").text();
+			bookPriceint = parseFloat(bookPrice);
+			totalPriceForBuyint = parseFloat(totalPriceForBuy);
+			console.log(bookPrice);
+			$.ajax({
+				type: 'POST',       // 요청 메서드
+				url: '/BookQuest/down',  // 요청 URI
+				headers: {"content-type": "application/json"}, // 요청 헤더
+				dataType: 'json', // 전송받을 데이터의 타입
+				data: JSON.stringify(cartId),
+				beforeSend: function (xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+					xhr.setRequestHeader(header, token);
+				},
+				success: function (result) {
 
-               bookQuantity = JSON.parse(result);
-               if (bookQuantity == -1) {
-                  alert("이미 최소 수량입니다");
-                  return;
-               }
+					bookQuantity = JSON.parse(result);
+					if (bookQuantity == -1) {
+						alert("이미 최소 수량입니다");
+						return;
+					}
 
-               //alert("수량이 " + result + "권으로 되었습니다 ");       // result는 서버가 전송한 데이터
-               $("#quantity" + cartId).text(bookQuantity);
-               $("#totalprice" + cartId).text(bookQuantity * bookPrice);
-               $("#totalPriceForBuy").text(totalPriceForBuyint - bookPriceint);
-            },
-            error: function () {alert("error")} // 에러가 발생했을 때, 호출될 함수
-         }); // $.ajax()
+					//alert("수량이 " + result + "권으로 되었습니다 ");       // result는 서버가 전송한 데이터
+					$("#quantity" + cartId).text(bookQuantity);
+					$("#totalprice" + cartId).text(bookQuantity * bookPrice);
+					$("#totalPriceForBuy").text(totalPriceForBuyint - bookPriceint);
+				},
+				error: function () {alert("error")} // 에러가 발생했을 때, 호출될 함수
+			}); // $.ajax()
 
-      });
+		});
 
-   });
+	});
+	function validForm() {
+		var checkboxes = document.querySelectorAll('input[type=checkbox]');
+		var checked = false;
+		for (var i = 0; i < checkboxes.length; i++) {
+			if (checkboxes[i].checked) {
+				checked = true;
+				break;
+			}
+		}
+		if (!checked) {
+			alert("한 가지의 상품을 선택해주세요");
+			return false;
+		}
+		return true;
+	}
 
 </script>
 
 <body>
 
-   <div th:replace="commonspace :: menu" />
+	<div th:replace="commonspace :: menu" />
 
 
-   <div id="container">
-      <div id="left">
-         <form th:action="@{/order/buyselect}" method="post" id="myForm">
-            <div th:each="cart:${cartList}">
-               <input type="checkbox" th:name="selectItem" th:value="${cart.cartId}" checked="checked"/>
-               <div id="book" th:each="book:${cart.book}">
-               
-                  [[${book.bookId}]]
-                  <a th:href="@{/book/detail(book=${book.bookId})}">
-                     <img th:src="@{${book.imagePath}}" tilte="${book.image}">
-                  </a>
-                  <div>
-                     <div th:text="${book.title}" />
-                     <div th:id="|price${cart.cartId}|" th:value="${cart.book.price}">
-                        <div th:text="${#numbers.formatDecimal(cart.book.price, 0, 'COMMA', 0, 'POINT')} + '원'" />
-                     </div>
-                     <div th:id="|quantity${cart.cartId}|" th:value="${cart.bookQuantity}">
-                        [[${cart.bookQuantity}]]</div>
-                     <div th:id="|totalprice${cart.cartId}|">
-                        [[${cart.book.price}*${cart.bookQuantity}]]</div>
-                     <button class="UpBtn" type="button" th:value="${cart.cartId}">Up</button>
-                     <button class="DownBtn" type="button" th:value="${cart.cartId}">Down</button>
+	<div id="container">
+		<div id="left">
+			<form th:action="@{/order/buyselect}" method="post" onsubmit="return validForm()">
+				<div th:each="cart:${cartList}">
+					<input type="checkbox" th:name="selectItem" th:value="${cart.cartId}" />
+					<div id="book" th:each="book:${cart.book}">
 
-                     <a class="btn btn-danger m-3" th:href="@{|/cart/delete/${cart.cartId}|}">삭제하기</a>
-                  </div>
+						[[${book.bookId}]]
+						<a th:href="@{/book/detail(book=${book.bookId})}">
+							<img th:src="@{${book.imagePath}}" tilte="${book.image}">
+						</a>
+						<div>
+							<div th:text="${book.title}" />
+							<div th:id="|price${cart.cartId}|" th:value="${cart.book.price}">
+								<div th:text="${cart.book.price}" />
+							</div>
+							<div th:id="|quantity${cart.cartId}|" th:value="${cart.bookQuantity}">
+								[[${cart.bookQuantity}]]</div>
+							<div th:id="|totalprice${cart.cartId}|">
+								[[${cart.book.price}*${cart.bookQuantity}]]</div>
+							<button class="UpBtn" type="button" th:value="${cart.cartId}">Up</button>
+							<button class="DownBtn" type="button" th:value="${cart.cartId}">Down</button>
 
-               </div>
-            </div>
+							<a class="btn btn-danger m-3" th:href="@{|/cart/delete/${cart.cartId}|}">삭제하기</a>
+						</div>
+
+					</div>
+				</div>
 
 
-            <div class="text-center">
-            <div th:id="totalPriceForBuy"></div>
-           
-         </div>
-        
-         
-            <div>
-               <nav>
-                  <ul class="pagination justify-content-center">
-                     <li th:class="${currentpage != 1 ? 'page-item active':'page-item disabled'}">
-                        <a class="page-link" th:href="@{'/cart/page/' + ${1}}">First</a>
-                     </li>
-                     <li th:class="${currentpage > 1 ? 'page-item':'page-item disabled'}">
-                        <a class="page-link" th:href="@{'/cart/page/' + ${pre}}">Previous</a>
-                     </li>
-                     <li th:class="${currentpage != 1 ? 'page-item':'page-item active'}"
-                        th:each="i : ${#numbers.sequence(1,totalPages)}">
-                        <a class="page-link" th:href="@{'/cart/page/' + ${i}}">[[${i}]]</a>
-                     </li>
-                     <li th:class="${currentpage < totalPages ? 'page-item':'page-item disabled'}">
-                        <a class="page-link" th:href="@{'/cart/page/' + ${next}}">Next</a>
-                     </li>
-                     <li th:class="${currentpage != totalPages ? 'page-item active':'page-item disabled'}">
-                        <a class="page-link" th:href="@{'/cart/page/' + ${totalPages}}">Last</a>
-                     </li>
-                  </ul>
-               </nav>
-            </div>
-      </div>
+				<div class="text-center">
+					<div th:id="totalPriceForBuy"></div>
+					<input type="submit" value="선택항목 구매하기" class="btn btn-primary m-3">
+				</div>
+			</form>
 
-      <div id="right">
+			<div>
+				<nav>
+					<ul class="pagination justify-content-center">
+						<li th:class="${currentpage != 1 ? 'page-item active':'page-item disabled'}">
+							<a class="page-link" th:href="@{'/cart/page/' + ${1}}">First</a>
+						</li>
+						<li th:class="${currentpage > 1 ? 'page-item':'page-item disabled'}">
+							<a class="page-link" th:href="@{'/cart/page/' + ${pre}}">Previous</a>
+						</li>
+						<li th:class="${currentpage != 1 ? 'page-item':'page-item active'}"
+							th:each="i : ${#numbers.sequence(1,totalPages)}">
+							<a class="page-link" th:href="@{'/cart/page/' + ${i}}">[[${i}]]</a>
+						</li>
+						<li th:class="${currentpage < totalPages ? 'page-item':'page-item disabled'}">
+							<a class="page-link" th:href="@{'/cart/page/' + ${next}}">Next</a>
+						</li>
+						<li th:class="${currentpage != totalPages ? 'page-item active':'page-item disabled'}">
+							<a class="page-link" th:href="@{'/cart/page/' + ${totalPages}}">Last</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
 
-            <div class="text-center">
-               전체 가격
-               <div th:id="totalPriceForBuy" th:text="${totalPrice}" th:value="${totalPrice}"></div>
-				 <input type="submit" value="선택항목 구매하기" class="btn btn-primary m-3" onclick="javascript:OnSave();">
- 
-            </div>
-         </form>
-
-      </div>
-
-   </div>
+		<div id="right">
 
 
 
+			<form th:action="@{/order/buytotal}" method="post">
 
+				<div class="text-center">
+					전체 가격
+					<div th:id="totalPriceForBuy" th:text="${totalPrice}" th:value="${totalPrice}"></div>
 
+					<input type="submit" value="전체구매" class="btn btn-primary m-3">
+				</div>
+			</form>
+
+		</div>
+
+	</div>
 
 
 </body>

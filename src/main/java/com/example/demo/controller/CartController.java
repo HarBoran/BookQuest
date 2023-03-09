@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,22 +84,35 @@ public class CartController {
 		return "cart";
 	}
 
-	@PostMapping("/save")
-	public String savecart(Model model, @RequestParam("number") int number, Principal principal,
-			@Param("book") int book, @ModelAttribute("cart") Cart cart, RedirectAttributes r) {
-		if (number == 0) {
-			r.addFlashAttribute("rmsg", "책의 수량을 선택해주세요");
-		} else if (number != 0) {
-			Optional<Book> books = bookService.findById(book);
-			String username = principal.getName();
-			Optional<User> user = userService.findByID(username);
-			User userId = user.get();
-			cartService.save(cart, number, books.get(), userId);
-			return "redirect:/cart/";
-		}
+	   @PostMapping("/save")
+	   public String savecart(Model model, @RequestParam("number") int number, Principal principal,
+	         @Param("book") int book, @ModelAttribute("cart") Cart cart, RedirectAttributes r) {
+	      String userEmail = principal.getName();
+	      User users = userService.getUserByEmail(userEmail);
+	      List<Cart> cartBeforeSave = cartService.findCartByUser(users);
+	      List<Book> bookBeforeSave = new ArrayList<Book>();
+	      Book findBook = bookService.findById(book).get();
+	      for(int i=0; i<cartBeforeSave.size(); i++) {
+	         bookBeforeSave.add(cartBeforeSave.get(i).getBook());
+	      }
+	      if(bookBeforeSave.contains(findBook)) {
+	         r.addFlashAttribute("rmsg", "이미 장바구니에 담겨져 있습니다");
+	         return "redirect:/book/detail?book=" + book;
+	      }
+	            
+	      if (number == 0) {
+	         r.addFlashAttribute("rmsg", "책의 수량을 선택해주세요");
+	      } else if (number != 0) {
+	         Optional<Book> books = bookService.findById(book);
+	         String username = principal.getName();
+	         Optional<User> user = userService.findByID(username);
+	         User userId = user.get();
+	         cartService.save(cart, number, books.get(), userId);
+	         return "redirect:/cart/";
+	      }
 
-		return "redirect:/book/detail?book=" + book;
-	}
+	      return "redirect:/book/detail?book=" + book;
+	   }
 
 	@GetMapping("/delete/{cartId}")
 	public String deletebook(@PathVariable(name = "cartId") int cartId) {

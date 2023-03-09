@@ -6,7 +6,7 @@ function increment() {
 
 function decrement() {
     var value = parseInt(document.getElementById("number").value, 10);
-    if (value > 0) {
+    if (value > 1) {
         value--;
     }
     document.getElementById("number").value = value;
@@ -20,7 +20,7 @@ function incrementbook() {
 
 function decrementbook() {
     var value = parseInt(document.getElementById("bookquantity").value, 10);
-    if (value > 0) {
+    if (value > 1) {
         value--;
     }
     document.getElementById("bookquantity").value = value;

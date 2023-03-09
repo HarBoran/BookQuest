@@ -11,6 +11,7 @@
 
 <body>
 	<div th:replace="commonspace :: menu" />
+	
 	<div class="container">
 		<p>2. 북디테일 페이지에서 <br>
 			구매하기,장바구니 버튼<br>
@@ -84,7 +85,7 @@
 					<td><b>상</b>매입가</td>
 					<td rowspan='2'>
 
-						<a th:href="@{/book/selluserd(book=${book.bookId})}"><button>중고 판매하기</button></a>
+						<a th:href="@{/usedBook/selluserd(book=${book.bookId})}"><button>중고 판매하기</button></a>
 						</form>
 
 				</tr>
@@ -238,9 +239,13 @@
 
 			<hr>
 
-
-			</th:block>
 		</div>
+	</div>
+</div>
+		
+	<img th:src="@{/images/exampleBookDetail.png}" style="width:100%;" />
+		
+	<div th:replace="commonspace :: footer" />
 </body>
 
 </html>

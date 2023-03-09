@@ -49,5 +49,77 @@ public class Sales {
 	private String deliveryStatus;
 	
 	public Sales(){}
-   
+
+	@Override
+	public String toString() {
+		return "Sales [salesId=" + salesId + ", user=" + user + ", branches=" + branches + ", salesDate=" + salesDate
+				+ ", totalPrice=" + totalPrice + ", address=" + address + ", payment=" + payment + ", deliveryStatus="
+				+ deliveryStatus + "]";
+	}
+
+	public Integer getSalesId() {
+		return salesId;
+	}
+
+	public void setSalesId(Integer salesId) {
+		this.salesId = salesId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Branches getBranches() {
+		return branches;
+	}
+
+	public void setBranches(Branches branches) {
+		this.branches = branches;
+	}
+
+	public LocalDateTime getSalesDate() {
+		return salesDate;
+	}
+
+	public void setSalesDate(LocalDateTime salesDate) {
+		this.salesDate = salesDate;
+	}
+
+	public Integer getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(Integer totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
+	public String getDeliveryStatus() {
+		return deliveryStatus;
+	}
+
+	public void setDeliveryStatus(String deliveryStatus) {
+		this.deliveryStatus = deliveryStatus;
+	}
+	
+	
 }

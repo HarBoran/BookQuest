@@ -65,9 +65,6 @@ public class BookController {
 
 	@Autowired
 	private BooksBranchService booksbranchService;
-	
-	@Autowired
-	private BranchService branchService;
 
 	@GetMapping("")
 	public String category_book(Category category, Model model, @Param("keyword") String keyword) {
@@ -173,24 +170,6 @@ public class BookController {
 
 		model.addAttribute("msg", "평점순");
 		return "test";
-	}
-
-	@GetMapping("/selluserd")
-	public String selluserd(Book book, Model model) {
-		Optional<Book> books = bookService.findById(book.getBookId());
-		model.addAttribute("bookdetail", books.get());
-		List<Branches> branch = branchService.findAll();
-		model.addAttribute("branches", branch);
-		return "sellbook";
-	}
-
-	@PostMapping("/sellbranch")
-	public String sellbranch(@RequestParam("bookstatus") String bookstatus, @RequestParam("book") Book bookid,
-			@RequestParam("branches") Branches branch, @RequestParam("bookquantity") int bookquantity,
-			Principal principal, Model model) {
-		booksbranchService.save(bookstatus, branch, bookquantity, bookid);
-
-		return "redirect:/mypage";
 	}
 
 }

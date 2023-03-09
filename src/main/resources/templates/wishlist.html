@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+
+	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
+	<link rel="stylesheet" href="../css/book.css" th:href="@{/css/book.css}" />
+	<title>wishlist</title>
+	<!DOCTYPE html>
+	<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+	<head>
+
+		<head th:replace="commonspace :: page_head('Home - Book Quest')" />
+		<style>
+			#recommendedArea {
+				height: 50px;
+				text-align: center;
+				border: 1px solid cornflowerblue;
+			}
+
+			#mainArea {
+				display: flex;
+				flex-grow: 1;
+			}
+
+			#categoriesMenu {
+				width: 20%;
+				border: 1px solid cadetblue;
+				margin-bottom: 20px;
+			}
+
+			#categoriesMenu div {
+				padding-left: 20px;
+			}
+
+			#bookList {
+				width: 80%;
+				border: 1px solid powderblue;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				padding: 50px;
+			}
+
+			#bookList>div:first-child {
+				width: 75%;
+				order: -1;
+
+			}
+
+
+			#bundleBooks {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				margin: 0 7%;
+			}
+
+			#book {
+				width: calc(20% - 10px);
+				margin-bottom: 10px;
+				align-items: center;
+				justify-content: space-between;
+				flex: 0 0 200px;
+			}
+
+			#book>a>img {
+				max-width: 150px;
+				border-radius: 20px;
+			}
+
+			#book>a>div:nth-child(3) {
+				float: right;
+				text-align: right;
+				color: mediumpurple;
+			}
+		</style>
+	</head>
+</head>
+
+<body>
+	<div th:replace="commonspace :: menu" />
+
+	<div>
+		<h3>나의 최애 도서는 ?</h3>
+	</div>
+	<hr>
+	<div id="bundleBooks">
+		<div th:each="wishs:${wishList}">
+			<div th:each="book:${wishs.book}">
+				<div id="bundleBooks">
+					<div id="book" th:each="book:${wishs.book}">
+						<a th:href="@{/book/detail(book=${book.bookId})}">
+							<img th:src="@{${book.imagePath}}" tilte="${book.image}">
+							<div th:text="${book.title}" />
+							<div th:text="${book.description}" />
+					</div>
+				</div>
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div style="bottom:auto;">
+		<nav>
+			<ul class="pagination justify-content-center">
+				<li th:class="${currentpage != 1 ? 'page-item active':'page-item disabled'}">
+					<a class="page-link" th:href="@{'/wishlist/page/' + ${1}}">First</a>
+				</li>
+				<li th:class="${currentpage > 1 ? 'page-item':'page-item disabled'}">
+					<a class="page-link" th:href="@{'/wishlist/page/' + ${pre}}">Previous</a>
+				</li>
+				<li th:class="${currentpage != 1 ? 'page-item':'page-item active'}"
+					th:each="i : ${#numbers.sequence(1,totalPages)}">
+					<a class="page-link" th:href="@{'/wishlist/page/' + ${i}}">[[${i}]]</a>
+				</li>
+				<li th:class="${currentpage < totalPages ? 'page-item':'page-item disabled'}">
+					<a class="page-link" th:href="@{'/wishlist/page/' + ${next}}">Next</a>
+				</li>
+				<li th:class="${currentpage != totalPages ? 'page-item active':'page-item disabled'}">
+					<a class="page-link" th:href="@{'/wishlist/page/' + ${totalPages}}">Last</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+
+
+</body>
+
+</html>

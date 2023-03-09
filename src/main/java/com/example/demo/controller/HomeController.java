@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -26,10 +25,12 @@ import com.example.demo.FileUploadUtil;
 import com.example.demo.entity.Book;
 import com.example.demo.entity.Branches;
 import com.example.demo.entity.Category;
+import com.example.demo.entity.Sales;
 import com.example.demo.service.BookService;
 import com.example.demo.service.BranchService;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.OrderDetailService;
+import com.example.demo.service.SalesService;
 
 @Controller
 @RequestMapping(value = { "/" }, method = { RequestMethod.GET, RequestMethod.POST })
@@ -42,10 +43,13 @@ public class HomeController {
 	CategoryService categoryService;
 
 	@Autowired
-	BranchService bracnchService;
+	BranchService branchService;
 
 	@Autowired
 	OrderDetailService orderdetailService;
+	
+	@Autowired
+	SalesService salesService;
 
 	@GetMapping("")
 	public String viewHomePage(Authentication authentication, Model model, Category category) {
@@ -79,7 +83,7 @@ public class HomeController {
 	// <div th:replace="commonspace :: menu" />에서는 먹히지 않음
 	@GetMapping("/common")
 	public String commonspace(Model model) {
-		List<Branches> branchList = bracnchService.findAll();
+		List<Branches> branchList = branchService.findAll();
 		model.addAttribute("branchList", branchList);
 		return "commonspace";
 	}
@@ -205,9 +209,18 @@ public class HomeController {
 
 	@GetMapping("/informationBranch/{id}")
 	public String branchInformation(@PathVariable("id") Integer id, Model model) {
-		Branches branchInformation = bracnchService.finById(id);
+		Branches branchInformation = branchService.finById(id);
 		model.addAttribute("branchInformation", branchInformation);
 		return "informationBranch";
 	}
+
+	
+	@GetMapping("/checkDeliveryStatus")
+	public String checkDeliveryStatus(Model model) {
+		Iterable<Sales> listCheckDeliveryStatus = salesService.checkDeliveryStatus();
+		model.addAttribute("listCheckDeliveryStatus", listCheckDeliveryStatus);
+		return "checkDeliveryStatus";
+	}
+	
 
 }
