@@ -17,14 +17,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Book;
+import com.example.demo.entity.BooksBranch;
+import com.example.demo.entity.Branches;
 import com.example.demo.entity.Cart;
 import com.example.demo.entity.Category;
-import com.example.demo.entity.Order;
 import com.example.demo.entity.Review;
 import com.example.demo.entity.User;
 import com.example.demo.entity.Wishlist;
 import com.example.demo.service.BookService;
 import com.example.demo.service.BooksBranchService;
+import com.example.demo.service.BranchService;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.OrderDetailService;
 import com.example.demo.service.OrderService;
@@ -57,12 +59,15 @@ public class BookController {
 
 	@Autowired
 	private CategoryService categoryService;
-	
+
 	@Autowired
 	private WishlistService wishlistService;
 
 	@Autowired
 	private BooksBranchService booksbranchService;
+	
+	@Autowired
+	private BranchService branchService;
 
 	@GetMapping("")
 	public String category_book(Category category, Model model, @Param("keyword") String keyword) {
@@ -134,6 +139,18 @@ public class BookController {
 		}
 		model.addAttribute("review", new Review());
 		model.addAttribute("cart", new Cart());
+
+		if (!review.isEmpty()) {
+			model.addAttribute("avgstar", reviewService.avgstar(book));
+		}
+		model.addAttribute("review", new Review());
+		model.addAttribute("cart", new Cart());
+		List<BooksBranch> bookbranch = booksbranchService.findById(book);
+		if (!bookbranch.isEmpty()) {
+			model.addAttribute("bookbranch", bookbranch);
+		} else if (bookbranch.isEmpty()) {
+			model.addAttribute("branchmsg", "재고수량이 없습니다");
+		}
 		return "bookdetail";
 	}
 
@@ -149,8 +166,6 @@ public class BookController {
 		return "redirect:/book/detail?book=" + book;
 	}
 
-
-
 	@GetMapping("/descReview")
 	public String descReview(Book book, Model model) {
 		List<Category> listCategories = categoryService.findCategory();
@@ -158,6 +173,24 @@ public class BookController {
 
 		model.addAttribute("msg", "평점순");
 		return "test";
+	}
+
+	@GetMapping("/selluserd")
+	public String selluserd(Book book, Model model) {
+		Optional<Book> books = bookService.findById(book.getBookId());
+		model.addAttribute("bookdetail", books.get());
+		List<Branches> branch = branchService.findAll();
+		model.addAttribute("branches", branch);
+		return "sellbook";
+	}
+
+	@PostMapping("/sellbranch")
+	public String sellbranch(@RequestParam("bookstatus") String bookstatus, @RequestParam("book") Book bookid,
+			@RequestParam("branches") Branches branch, @RequestParam("bookquantity") int bookquantity,
+			Principal principal, Model model) {
+		booksbranchService.save(bookstatus, branch, bookquantity, bookid);
+
+		return "redirect:/mypage";
 	}
 
 }

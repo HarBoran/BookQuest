@@ -10,30 +10,37 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="books_branch")
+@Table(name = "books_branch")
 public class BooksBranch {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "books_branch_id")
 	private Integer booksBranchId;
-	
+
 	@ManyToOne
-	@JoinColumn(name ="branches_id")
+	@JoinColumn(name = "branches_id")
 	private Branches branches;
-   
+
 	@ManyToOne
-	@JoinColumn(name ="book_id")
+	@JoinColumn(name = "book_id")
 	private Book book;
-   
-	@Column(nullable = false) 
-	private String status;	 //condition;
-   
+
+	@Column(nullable = false)
+	private String status; // condition;
+
 	@Column(nullable = false)
 	private Integer quantity;
 
-	public BooksBranch(){}
-	
+	public BooksBranch() {}
+
+	public BooksBranch(Branches branches, Book book, String status, Integer quantity) {
+		this.branches = branches;
+		this.book = book;
+		this.status = status;
+		this.quantity = quantity;
+	}
+
 	@Override
 	public String toString() {
 		return "BooksBranch [booksBranchId=" + booksBranchId + ", branches=" + branches + ", book=" + book + ", status="
@@ -79,6 +86,5 @@ public class BooksBranch {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-
 
 }

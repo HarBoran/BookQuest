@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+
+	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
+	<link rel="stylesheet" th:href="@{/css/bookdetail.css}" />
+	<script type="text/javascript" th:src="@{/js/bookdetail.js}"></script>
+
+</head>
+<script>
+
+	$(document).ready(function () {
+
+		$(".submit").click(function () {
+			alert("판매완료 되었습니다.");
+		});
+	})
+
+</script>
+
+<body>
+	<div th:replace="commonspace :: menu" />
+	<div class="container">
+		<hr>
+
+		<div class="container">
+			<div id="bundleBooks">
+				<div id="book" th:each="book : ${bookdetail}">
+
+					<img style="max-width: 150px; border-radius: 20px;" th:src="@{${book.imagePath}}"
+						tilte="${book.image}">
+					<div th:text="${book.title}" />
+					<div th:text="${book.author}" />
+					<div th:text="${book.publisher}" />
+					<div th:text="${book.publicationDate}" />
+					<div th:text="${book.description}" />
+
+				</div>
+			</div>
+
+			<hr>
+			[[${book.bookId}]]
+			[[${branches.get(0).branchId}]]
+			<form th:action="@{/book/sellbranch}" method="POST">
+				책의 상태를 선택해 주세요:
+				<input type="checkbox" th:name="bookstatus" value="최상" />최상
+				<input type="checkbox" th:name="bookstatus" value="상" />상
+				<input type="hidden" name="book" th:value="${book.bookId}" />
+				<input type="hidden" name="branches" th:value="${branches.get(0).branchId}" />
+				<input type="hidden" th:name="bookquantity" value="1">
+				<button class="submit" type="submit">강남점으로 판매하기</button>
+			</form>
+			<form th:action="@{/book/sellbranch}" method="POST">
+				책의 상태를 선택해 주세요:
+				<input type="checkbox" th:name="bookstatus" value="최상" />최상
+				<input type="checkbox" th:name="bookstatus" value="상" />상
+				<input type="hidden" name="book" th:value="${book.bookId}" />
+				<input type="hidden" name="branches" th:value="${branches.get(1).branchId}" />
+				<input type="hidden" th:name="bookquantity" value="1">
+				<button class="submit" type="submit">시청점으로 판매하기</button>
+			</form>
+			<form th:action="@{/book/sellbranch}" method="POST">
+				책의 상태를 선택해 주세요:
+				<input type="checkbox" th:name="bookstatus" value="최상" />최상
+				<input type="checkbox" th:name="bookstatus" value="상" />상
+				<input type="hidden" name="book" th:value="${book.bookId}" />
+				<input type="hidden" name="branches" th:value="${branches.get(2).branchId}" />
+				<input type="hidden" th:name="bookquantity" value="1">
+				<button class="submit" type="submit">노량진점으로 판매하기</button>
+			</form>
+			<form th:action="@{/book/sellbranch}" method="POST">
+				책의 상태를 선택해 주세요:
+				<input type="checkbox" th:name="bookstatus" value="최상" />최상
+				<input type="checkbox" th:name="bookstatus" value="상" />상
+				<input type="hidden" name="book" th:value="${book.bookId}" />
+				<input type="hidden" name="branches" th:value="${branches.get(3).branchId}" />
+				<input type="hidden" th:name="bookquantity" value="1">
+				<button class="submit" type="submit">부산 W스퀘어점으로 판매하기</button>
+			</form>
+
+</body>
+
+</html>
