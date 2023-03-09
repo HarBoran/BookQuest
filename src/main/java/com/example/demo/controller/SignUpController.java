@@ -71,5 +71,5 @@ public class SignUpController {
 		ttt.addFlashAttribute("message", "The user has been saved successfully");
 		return "redirect:/";
 	}
-
+	
 }

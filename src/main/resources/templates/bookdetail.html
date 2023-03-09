@@ -54,9 +54,9 @@
 				<button type="submit">장바구니담기</button>
 			</form>
 
-			<form th:action="@{|/order/buy|}" method="POST">
+			<form th:action="@{|/order/buyselect|}" method="POST">
 				<input type="hidden" name="book" th:value="${book.bookId}" />
-				<input type="text" id="bookquantity" th:name="bookquantity" value="1">
+				<input type="text" id="bookquantity" name="bookquantity" value="1">
 				<input type="button" value="+" onclick="incrementbook()"></input>
 				<input type="button" value="-" onclick="decrementbook()"></input>
 				<button type="submit">구매하기</button>

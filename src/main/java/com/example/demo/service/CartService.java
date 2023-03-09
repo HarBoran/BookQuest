@@ -65,4 +65,12 @@ public class CartService {
 		Pageable pageable = PageRequest.of(pageNum - 1, CARTS_PER_PAGE);
 		return repo.findAll(pageable, user);
 	}
+
+	public Cart findCartByUserAndBook(User user, Book book) {
+		return repo.findCartByUserAndBookId(user, book);
+	}
+
+	public void deleteCartByCartId(int carts) {
+		repo.deleteCartByCartId(carts);
+	}
 }

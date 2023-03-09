@@ -10,6 +10,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.entity.Book;
 import com.example.demo.entity.Cart;
 import com.example.demo.entity.User;
 
@@ -41,5 +42,12 @@ public interface CartRepository extends PagingAndSortingRepository<Cart, Integer
 
 	@Query("SELECT c FROM Cart c WHERE c.user =:user")
 	public Page<Cart> findAll(Pageable pageable, User user);
+
+	@Query("SELECT c FROM Cart c WHERE c.user=:user and c.book=:book")
+	public Cart findCartByUserAndBookId(User user, Book book);
+
+	@Modifying
+	@Query("DELETE FROM Cart c WHERE c.cartId =:carts")
+	public void deleteCartByCartId(int carts);
 
 }
