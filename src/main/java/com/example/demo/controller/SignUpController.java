@@ -47,28 +47,10 @@ public class SignUpController {
 	}
 
 	@PostMapping("/save")
-	public String Save(@ModelAttribute("user") User user, Model themodel, RedirectAttributes ttt,
-			@RequestParam("image") MultipartFile multipartFile) throws IOException {
-		if (multipartFile.getOriginalFilename().isEmpty()) {
+	public String Save(@ModelAttribute("user") User user, RedirectAttributes redirectAttributes) {
+			user.setPhoto("");
 			userService.save(user);
-
-		} else if (!multipartFile.getOriginalFilename().isEmpty()) {
-
-			if (!multipartFile.isEmpty()) {
-				String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-
-				user.setPhoto(fileName);
-				User saveUser = userService.save(user);
-				String uploadDir = "user-photos/" + saveUser.getUserId(); // 유저의 번호를 가져와서 폴더를 만드는 과정
-
-				FileUploadUtil.cleanDir(uploadDir);
-
-				FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-
-			}
-
-		}
-		ttt.addFlashAttribute("message", "The user has been saved successfully");
+			redirectAttributes.addFlashAttribute("message", "The user has been saved successfully");
 		return "redirect:/";
 	}
 	

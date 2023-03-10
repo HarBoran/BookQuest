@@ -12,23 +12,33 @@
 	<div th:replace="commonspace :: menu" />
 
 	<div class="container">
+		
+	<form th:action="@{/order/buyselect}" method="POST">
+	
 	<table border="1">
 		<tr>
 			<th>책제목</th>
 			<th>판매자</th>
-			<th>배송상태</th>
 			<th>목적지</th>
-			<th></th>
+			<th>판매일</th>
+			<th>판매시간</th>
+			<th>배송상태</th>
+			<th>정산가격</th>
+			<th>정산계좌</th>
+			<th>정산계좌번호</th>
 		</tr>
+		
 		<tr th:each ="sale:${listCheckDeliveryStatus}">
 			<td><div th:text = "${sale.salesId}"/></td>
-			<td><div th:text = "${sale.user}"/></td>
-			<td><div th:text = "${sale.branches}"/></td>
-			<td><div th:text = "${sale.salesDate}"/></td>
-			<td><div th:text = "${sale.totalPrice}"/></td>
-			<td><div th:text = "${sale.address}"/></td>
-			<td><div th:text = "${sale.payment}"/></td>
+			<td><div th:text = "${sale.user.name}"/></td>
+			<td><div th:text = "${sale.branches.branchName}"/></td>
+			<td><div th:text = "${#temporals.format(sale.salesDate, 'yy-MM-dd')}"></div></td>
+			<td><div th:text = "${#temporals.format(sale.salesDate, 'HH:mm')}"></div></td>
 			<td><div th:text = "${sale.deliveryStatus}"/></td>
+			<td><div th:text = "${sale.totalPrice}"/></td>
+			<td><div th:text = "${sale.payment.bank}"/></td>
+			<td><div th:text = "${sale.payment.accountNumber}"/></td>
+			
 		</tr>
 	</table>
 

@@ -33,7 +33,7 @@ public class User {
 	@Column(length = 32, nullable = false)
 	private String phone;
 
-	@Column(length = 45, nullable = false)
+	@Column(length = 45)
 	private String photo;
 
 	@Column(length = 128, nullable = false)
