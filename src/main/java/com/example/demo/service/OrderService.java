@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,11 @@ public class OrderService {
 		order.setTotalPrice(price);
 		order.setDeliveryStatus("배송준비중");
 		repo.save(order);
+	}
+
+	public Optional<Order> findById(int orderId) {
+
+		return repo.findById(orderId);
 	}
 
 }

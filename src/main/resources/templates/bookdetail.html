@@ -205,12 +205,12 @@
 	</div>
 
 	<div id="book-info-content" class="tabcontent"
-		style="display:block; width: 1000px; margin: auto; margin-bottom:100px;">
+		style="display:block; width: 1000px; margin: auto; margin-bottom:200px;">
 		<h3 style="font-size: 24px; margin-bottom: 28px;">책 소개</h3>
 		<div th:text="${book.description}">(책 설명)</div>
 	</div>
 
-	<div id="review-content" class="tabcontent" style="display:none; margin: auto; width: 1000px;">
+	<div id="review-content" class="tabcontent" style="display:none; margin: auto; width: 1000px; margin-bottom:150px;">
 		<form th:action="@{/book/review}" th:object="${review}" method="POST">
 			<input type="hidden" th:value="${book.bookId}" name="book" />
 
@@ -290,7 +290,8 @@
 
 		</th:block>
 	</div>
-
+	
+	<div th:replace="commonspace :: footer"></div>
 </body>
 
 </html>

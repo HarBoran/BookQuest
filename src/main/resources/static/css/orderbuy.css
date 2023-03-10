@@ -1,20 +1,22 @@
 #container {
-   width: 100%;
-   display: flex;
-   justify-content: space-between;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
 }
+
 #left {
-   width: 40%;
-   border: 1px solid rgb(255, 255, 255);
+	width: 40%;
+	border: 1px solid rgb(255, 255, 255);
 }
 
 #right {
-   width: 60%;
-   border: 1px solid rgb(255, 255, 255);
+	width: 60%;
+	border: 1px solid rgb(255, 255, 255);
 }
 
 
-th,td {
+th,
+td {
 	border: 1px solid lightseagreen;
 }
 
@@ -34,4 +36,3 @@ th,td {
 	max-width: 700px;
 	margin: 0 auto;
 }
-

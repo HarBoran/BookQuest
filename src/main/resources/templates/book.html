@@ -51,7 +51,7 @@
 					</a>
 				</div>
 			</div>
-
+			
 			<div th:if="${listCategories == null}" style="width: 100%;
 			   border: 1px solid powderblue;
 			   display: flex;
@@ -79,6 +79,7 @@
 								<div th:if="${bookbranch!=null}" th:text="재고수량+${bookbranch.quantity}+권" />
 								<div th:text="${bookbranch.branches.branchName}" />
 							</th:block>
+						</a>
 							<form th:action="@{/cart/save}" th:object="${cart}" method="POST">
 								<input type="hidden" th:value="1" name="number" />
 								<input type="hidden" th:value="${book.bookId}" name="book" />

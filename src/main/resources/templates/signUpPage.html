@@ -154,7 +154,7 @@
 				</div>
 			</form>
 			
-			<div th:if = "${userId}">
+			<div th:if ="${userId}">
 				<a th:href="@{|/user/delete/${user.userId}|}">회원탈퇴하기</a>
 			</div>
 		</div>

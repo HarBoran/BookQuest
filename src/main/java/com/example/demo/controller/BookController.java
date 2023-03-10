@@ -69,27 +69,40 @@ public class BookController {
 	@GetMapping("")
 	public String category_book(Category category, Model model, @Param("keyword") String keyword) {
 		List<Category> listCategories = categoryService.findCategory();
-		model.addAttribute("listCategories", listCategories);
 		List<Book> books = new ArrayList<Book>();
+		
 		if (keyword == null) {
 			books.addAll(bookService.listbook(category));
 		} else if (keyword != null) {
 			books.addAll(bookService.findAll(keyword));
 		}
+		
 		model.addAttribute("books", books);
+		model.addAttribute("listCategories", listCategories);
 		model.addAttribute("msg", "도서 찾기");
+		return "book";
+	}
+
+	@GetMapping("/categories")
+	public String listAllBefore(Model model) {
+		List<Category> listCategories = categoryService.findCategory();
+		List<Book> books = bookService.findAll();
+		
+		model.addAttribute("listCategories", listCategories);
+		model.addAttribute("books", books);
+		model.addAttribute("msg", " 도서찾기");
 		return "book";
 	}
 
 	@GetMapping("/new")
 	public String new_book(Category category, Model model) {
 		List<Book> newbooks = new ArrayList<Book>();
-		newbooks.addAll(bookService.newbooks(category));
-		model.addAttribute("books", newbooks);
-		model.addAttribute("msg", "신간 도서");
+		newbooks.addAll(bookService.newbooks(category));		
 		List<Category> listCategories = categoryService.findCategory();
+		
+		model.addAttribute("books", newbooks);
 		model.addAttribute("listCategories", listCategories);
-
+		model.addAttribute("msg", "신간 도서");
 		return "book";
 	}
 
@@ -101,6 +114,27 @@ public class BookController {
 		model.addAttribute("msg", "베스트 셀러");
 		List<Category> listCategories = categoryService.findCategory();
 		model.addAttribute("listCategories", listCategories);
+		return "book";
+	}
+
+	@PostMapping("/review")
+	public String reviewsave(@RequestParam("book") int book, @ModelAttribute("review") Review review, Model model,
+			Principal principal) {
+		Optional<Book> books = bookService.findById(book);
+		Book bookId = books.get();
+		String username = principal.getName();
+		Optional<User> user = userService.findByID(username);
+		User userId = user.get();
+		reviewService.save(review, userId, bookId);
+		return "redirect:/book/detail?book=" + book;
+	}
+
+	@GetMapping("/descReview")
+	public String descReview(Book book, Model model) {
+		List<Category> listCategories = categoryService.findCategory();
+		
+		model.addAttribute("listCategories", listCategories);
+		model.addAttribute("msg", "평점순");
 		return "book";
 	}
 
@@ -149,27 +183,6 @@ public class BookController {
 			model.addAttribute("branchmsg", "재고수량이 없습니다");
 		}
 		return "bookdetail";
-	}
-
-	@PostMapping("/review")
-	public String reviewsave(@RequestParam("book") int book, @ModelAttribute("review") Review review, Model model,
-			Principal principal) {
-		Optional<Book> books = bookService.findById(book);
-		Book bookId = books.get();
-		String username = principal.getName();
-		Optional<User> user = userService.findByID(username);
-		User userId = user.get();
-		reviewService.save(review, userId, bookId);
-		return "redirect:/book/detail?book=" + book;
-	}
-
-	@GetMapping("/descReview")
-	public String descReview(Book book, Model model) {
-		List<Category> listCategories = categoryService.findCategory();
-		model.addAttribute("listCategories", listCategories);
-
-		model.addAttribute("msg", "평점순");
-		return "test";
 	}
 
 }

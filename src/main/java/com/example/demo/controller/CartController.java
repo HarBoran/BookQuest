@@ -35,54 +35,61 @@ public class CartController {
 	private UserService userService;
 	@Autowired
 	private CartService cartService;
+	
+   @GetMapping("/")
+   public String CartList(Model themodel, Principal principal) {
+      int totalPrice = 0;
+        String userEmail = principal.getName(); User user =
+        cartService.getUserByEmail(userEmail);
+       
+        List<Cart> cartList = cartService.findCartByUser(user);
+       
+        themodel.addAttribute("cartList", cartList);
+         List<Cart> cartLists = cartService.findCartByUser(user);
 
-	@GetMapping("/")
-	public String CartList(Model themodel, Principal principal) {
-		/*
-		 * String userEmail = principal.getName(); User user =
-		 * cartService.getUserByEmail(userEmail);
-		 * 
-		 * List<Cart> cartList = cartService.findCartByUser(user);
-		 * 
-		 * themodel.addAttribute("cartList", cartList);
-		 */
-		return listByPage(1, themodel, principal);
-	}
+         for (int i = 0; i < cartLists.size(); i++) {
+            int Price = cartLists.get(i).getBook().getPrice() * cartLists.get(i).getBookQuantity();
 
-	@GetMapping("/page/{pageNum}")
-	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model, Principal principal) {
-		int totalPrice = 0;
-		String userEmail = principal.getName();
-		User user = cartService.getUserByEmail(userEmail);
+            totalPrice += Price;
+         }
+         themodel.addAttribute("totalPrice", totalPrice);
+       return "cart";
+   }
 
-		Page<Cart> page = cartService.findCartByUserpaging(user, pageNum);
-		List<Cart> cartList = page.getContent();
-
-		long startCount = (pageNum - 1) * cartService.CARTS_PER_PAGE + 1;
-		long endCount = startCount + cartService.CARTS_PER_PAGE - 1;
-		if (endCount > page.getTotalElements()) {
-			endCount = page.getTotalElements();
-		}
-
-		List<Cart> cartLists = cartService.findCartByUser(user);
-
-		for (int i = 0; i < cartLists.size(); i++) {
-			int Price = cartLists.get(i).getBook().getPrice() * cartLists.get(i).getBookQuantity();
-
-			totalPrice += Price;
-		}
-		model.addAttribute("totalPrice", totalPrice);
-		model.addAttribute("currentpage", pageNum);
-		model.addAttribute("pre", page.getNumber());
-		model.addAttribute("next", (page.getNumber() + 2));
-		model.addAttribute("totalPages", page.getTotalPages());
-		model.addAttribute("startCount", startCount);
-		model.addAttribute("endCount", endCount);
-		model.addAttribute("totalItems", page.getTotalElements());
-		model.addAttribute("cartList", cartList);
-
-		return "cart";
-	}
+//	@GetMapping("/page/{pageNum}")
+//	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model, Principal principal) {
+//		int totalPrice = 0;
+//		String userEmail = principal.getName();
+//		User user = cartService.getUserByEmail(userEmail);
+//
+//		Page<Cart> page = cartService.findCartByUserpaging(user, pageNum);
+//		List<Cart> cartList = page.getContent();
+//
+//		long startCount = (pageNum - 1) * cartService.CARTS_PER_PAGE + 1;
+//		long endCount = startCount + cartService.CARTS_PER_PAGE - 1;
+//		if (endCount > page.getTotalElements()) {
+//			endCount = page.getTotalElements();
+//		}
+//
+//		List<Cart> cartLists = cartService.findCartByUser(user);
+//
+//		for (int i = 0; i < cartLists.size(); i++) {
+//			int Price = cartLists.get(i).getBook().getPrice() * cartLists.get(i).getBookQuantity();
+//
+//			totalPrice += Price;
+//		}
+//		model.addAttribute("totalPrice", totalPrice);
+//		model.addAttribute("currentpage", pageNum);
+//		model.addAttribute("pre", page.getNumber());
+//		model.addAttribute("next", (page.getNumber() + 2));
+//		model.addAttribute("totalPages", page.getTotalPages());
+//		model.addAttribute("startCount", startCount);
+//		model.addAttribute("endCount", endCount);
+//		model.addAttribute("totalItems", page.getTotalElements());
+//		model.addAttribute("cartList", cartList);
+//
+//		return "cart";
+//	}
 
 	   @PostMapping("/save")
 	   public String savecart(Model model, @RequestParam("number") int number, Principal principal,

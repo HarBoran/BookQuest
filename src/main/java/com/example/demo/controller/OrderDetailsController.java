@@ -65,8 +65,19 @@ public class OrderDetailsController {
 			orderDetails.addAll(orderDetailService.findOrderDetailsByOrder(orders.get(i)));
 
 		}
-
+		theModel.addAttribute("orders", orders);
 		theModel.addAttribute("orderDetails", orderDetails);
+
+		return "orderDetails";
+	}
+
+	@GetMapping("/details/{orderId}")
+	public String details(Model theModel, @PathVariable(name = "orderId") int orderId) {
+
+		Order order = orderService.findById(orderId).get();
+		List<OrderDetail> orderdetail = orderDetailService.findOrderDetailsByOrder(order);
+
+		theModel.addAttribute("orderdetail", orderdetail);
 
 		return "orderDetails";
 	}
@@ -77,54 +88,55 @@ public class OrderDetailsController {
 			@RequestParam(required = false, name = "bookquantity") Integer bookquantity, Model model,
 			Principal principal, RedirectAttributes redirectAttributes) {
 
-			if (carts != null && book == null) {
-				int totalPrice = 0;
-				List<Book> books = new ArrayList<>();
-				for (int i = 0; i < carts.size(); i++) {
+		if (carts != null && book == null) {
+			int totalPrice = 0;
+			List<Book> books = new ArrayList<>();
+			for (int i = 0; i < carts.size(); i++) {
 
-					books.add((carts.get(i).getBook()));
-				}
-				List<Integer> booksQuantity = new ArrayList<>();
-				for (int i = 0; i < carts.size(); i++) {
-					booksQuantity.add((carts.get(i).getBookQuantity()));
-				}
-				for (int i = 0; i < carts.size(); i++) {
-					int Price = carts.get(i).getBook().getPrice() * carts.get(i).getBookQuantity();
-
-					totalPrice += Price;
-				}
-
-				model.addAttribute("bookdetail", books);
-				String username = principal.getName();
-				Optional<User> user = userService.findByID(username);
-				List<Payment> paymentList = paymentService.findPaymentByUser(user.get());
-				model.addAttribute("bookquantity", booksQuantity);
-				model.addAttribute("paymentList", paymentList);
-				model.addAttribute("user", user.get());
-				model.addAttribute("totalPrice", totalPrice);
-				Order order = new Order();
-				order.setUser(user.get());
-				order.setAddress(user.get().getAddress());
-				model.addAttribute("orders", order);
-				return "orderbuy";
-
-			} else if (carts == null && book != null) {
-
-				model.addAttribute("bookdetail", book);
-				String username = principal.getName();
-				Optional<User> user = userService.findByID(username);
-				List<Payment> paymentList = paymentService.findPaymentByUser(user.get());
-				model.addAttribute("bookquantity", bookquantity);
-				model.addAttribute("paymentList", paymentList);
-				model.addAttribute("user", user.get());
-				model.addAttribute("totalPrice", book.getPrice());
-				Order order = new Order();
-				order.setUser(user.get());
-				order.setAddress(user.get().getAddress());
-				model.addAttribute("orders", order);
-				return "orderbuy";
+				books.add((carts.get(i).getBook()));
 			}
-		return "redirect:/book/detail?book="+ book.getBookId();
+			List<Integer> booksQuantity = new ArrayList<>();
+			for (int i = 0; i < carts.size(); i++) {
+				booksQuantity.add((carts.get(i).getBookQuantity()));
+			}
+			for (int i = 0; i < carts.size(); i++) {
+				int Price = carts.get(i).getBook().getPrice() * carts.get(i).getBookQuantity();
+
+				totalPrice += Price;
+			}
+
+			model.addAttribute("bookdetail", books);
+			String username = principal.getName();
+			Optional<User> user = userService.findByID(username);
+			List<Payment> paymentList = paymentService.findPaymentByUser(user.get());
+			model.addAttribute("bookquantity", booksQuantity);
+			model.addAttribute("paymentList", paymentList);
+			model.addAttribute("user", user.get());
+			model.addAttribute("totalPrice", totalPrice);
+			Order order = new Order();
+			order.setUser(user.get());
+			order.setAddress(user.get().getAddress());
+			model.addAttribute("orders", order);
+			return "orderbuy";
+
+		} else if (carts == null && book != null) {
+
+			model.addAttribute("bookdetail", book);
+			String username = principal.getName();
+			Optional<User> user = userService.findByID(username);
+			List<Payment> paymentList = paymentService.findPaymentByUser(user.get());
+			model.addAttribute("bookquantity", bookquantity);
+			model.addAttribute("paymentList", paymentList);
+			model.addAttribute("user", user.get());
+			model.addAttribute("totalPrice", book.getPrice());
+			Order order = new Order();
+			order.setUser(user.get());
+			order.setAddress(user.get().getAddress());
+			model.addAttribute("orders", order);
+			return "orderbuy";
+		}
+
+		return "redirect:/book/detail?book=" + book.getBookId();
 	}
 
 	@PostMapping("/orderbuy")
@@ -176,45 +188,28 @@ public class OrderDetailsController {
 		return "redirect:/";
 	}
 
-//   @GetMapping("/buy/cart/{cartId}")
-//   public String buyBook(@PathVariable(name = "cartId") int cartId, Model model, Principal principal) {
-//      String userEmail = principal.getName();
-//      User user = userService.getUserByEmail(userEmail);
+//	@PostMapping("/buytotal")
+//	public String orderBuyAll(Book book, @RequestParam("bookquantity") int bookquantity, Model model,
+//			Principal principal, RedirectAttributes redirectAttributes) {
+//		System.err.println(bookquantity);
+//		int totalPrice = 0;
+//		String userEmail = principal.getName();
+//		User user = userService.getUserByEmail(userEmail);
+//		List<Payment> paymentList = paymentService.findPaymentByUser(user);
+//		List<Cart> cartList = cartService.findCartByUser(user);
 //
-//      List<Payment> paymentList = paymentService.findPaymentByUser(user);
-//      List<Cart> cartListq = cartService.findCartByUser(user);
+//		for (int i = 0; i < cartList.size(); i++) {
+//			int Price = cartList.get(i).getBook().getPrice() * cartList.get(i).getBookQuantity();
 //
-//      Cart cartList = cartService.findById(cartId);
+//			totalPrice += Price;
+//		}
 //
-//      model.addAttribute("cartList", cartList);
-//      model.addAttribute("paymentList", paymentList);
-//      model.addAttribute("order", new Order());
-//
-//      return "buyInfoDetails";
-//   }
-
-	@PostMapping("/buytotal")
-	public String orderBuyAll(Book book, @RequestParam("bookquantity") int bookquantity, Model model,
-			Principal principal, RedirectAttributes redirectAttributes) {
-		System.err.println(bookquantity);
-		int totalPrice = 0;
-		String userEmail = principal.getName();
-		User user = userService.getUserByEmail(userEmail);
-		List<Payment> paymentList = paymentService.findPaymentByUser(user);
-		List<Cart> cartList = cartService.findCartByUser(user);
-
-		for (int i = 0; i < cartList.size(); i++) {
-			int Price = cartList.get(i).getBook().getPrice() * cartList.get(i).getBookQuantity();
-
-			totalPrice += Price;
-		}
-
-		model.addAttribute("paymentList", paymentList);
-		model.addAttribute("cartList", cartList);
-		model.addAttribute("order", new Order());
-		model.addAttribute("totalPrice", totalPrice);
-		return "buyInfoDetailsTotal";
-	}
+//		model.addAttribute("paymentList", paymentList);
+//		model.addAttribute("cartList", cartList);
+//		model.addAttribute("order", new Order());
+//		model.addAttribute("totalPrice", totalPrice);
+//		return "buyInfoDetailsTotal";
+//	}
 
 	@PostMapping("/save")
 	public String saveOrder(@ModelAttribute("order") Order order, @RequestParam("totalPrice") int totalPrice,

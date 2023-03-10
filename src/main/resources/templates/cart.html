@@ -29,8 +29,15 @@
 			cartId = this.value;
 			bookPrice = $("#price" + cartId).text();
 			totalPriceForBuy = $("#totalPriceForBuy").text();
-			bookPriceint = parseFloat(bookPrice);
-			totalPriceForBuyint = parseFloat(totalPriceForBuy);
+			bookPriceint = parseInt(bookPrice);
+			totalPriceForBuyint = parseInt(totalPriceForBuy);
+			console.log(typeof bookPrice);
+			console.log(typeof totalPriceForBuy);
+			console.log(bookPrice);
+			console.log(totalPriceForBuy);
+
+			console.log(typeof bookPriceint);
+			console.log(typeof totalPriceForBuyint);
 			console.log(bookPriceint + totalPriceForBuyint);
 			$.ajax({
 				type: 'POST',       // 요청 메서드
@@ -96,6 +103,8 @@
 		});
 
 	});
+
+
 	function validForm() {
 		var checkboxes = document.querySelectorAll('input[type=checkbox]');
 		var checked = false;
@@ -111,6 +120,29 @@
 		}
 		return true;
 	}
+	function toggleSelect() {
+		// 체크박스 요소를 모두 선택합니다.
+		const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+		let allChecked = true;
+		checkboxes.forEach((checkbox) => {
+			if (!checkbox.checked) {
+				allChecked = false;
+			}
+		});
+		if (allChecked) {
+			// 모든 체크박스가 선택된 상태이면 모두 선택 해제합니다.
+			checkboxes.forEach((checkbox) => {
+				checkbox.checked = false;
+			});
+			document.querySelector("#selectAll").textContent = '전체 선택';
+		} else {
+			// 모든 체크박스가 선택되지 않은 상태이면 모두 선택합니다.
+			checkboxes.forEach((checkbox) => {
+				checkbox.checked = true;
+			});
+			document.querySelector("#selectAll").textContent = '전체 해제';
+		}
+	}
 
 </script>
 
@@ -123,7 +155,7 @@
 		<div id="left">
 			<form th:action="@{/order/buyselect}" method="post" onsubmit="return validForm()">
 				<div th:each="cart:${cartList}">
-					<input type="checkbox" th:name="selectItem" th:value="${cart.cartId}" />
+					<input id="myCheckbox" type="checkbox" th:name="selectItem" th:value="${cart.cartId}" checked />
 					<div id="book" th:each="book:${cart.book}">
 
 						[[${book.bookId}]]
@@ -149,53 +181,33 @@
 				</div>
 
 
-				<div class="text-center">
-					<div th:id="totalPriceForBuy"></div>
-					<input type="submit" value="선택항목 구매하기" class="btn btn-primary m-3">
-				</div>
-			</form>
 
-			<div>
-				<nav>
-					<ul class="pagination justify-content-center">
-						<li th:class="${currentpage != 1 ? 'page-item active':'page-item disabled'}">
-							<a class="page-link" th:href="@{'/cart/page/' + ${1}}">First</a>
-						</li>
-						<li th:class="${currentpage > 1 ? 'page-item':'page-item disabled'}">
-							<a class="page-link" th:href="@{'/cart/page/' + ${pre}}">Previous</a>
-						</li>
-						<li th:class="${currentpage != 1 ? 'page-item':'page-item active'}"
-							th:each="i : ${#numbers.sequence(1,totalPages)}">
-							<a class="page-link" th:href="@{'/cart/page/' + ${i}}">[[${i}]]</a>
-						</li>
-						<li th:class="${currentpage < totalPages ? 'page-item':'page-item disabled'}">
-							<a class="page-link" th:href="@{'/cart/page/' + ${next}}">Next</a>
-						</li>
-						<li th:class="${currentpage != totalPages ? 'page-item active':'page-item disabled'}">
-							<a class="page-link" th:href="@{'/cart/page/' + ${totalPages}}">Last</a>
-						</li>
-					</ul>
-				</nav>
-			</div>
 		</div>
 
 		<div id="right">
 
+			<div class="text-center">
+				<h3>주문 금액 [[${totalPrice}]] </h3>
+				<div th:id="myDiv">0</div>
+				<div>배송 금액 : 0</div>
+				<hr>
+				총 결제 금액 : 0
+				<br>
+				<input type="submit" value="선택항목 구매하기" class="btn btn-primary m-3">
+			</div>
 
-
-			<form th:action="@{/order/buytotal}" method="post">
-
-				<div class="text-center">
-					전체 가격
-					<div th:id="totalPriceForBuy" th:text="${totalPrice}" th:value="${totalPrice}"></div>
-
-					<input type="submit" value="전체구매" class="btn btn-primary m-3">
-				</div>
 			</form>
-
+			<div class="text-center">
+				<button id="selectAll" onclick="toggleSelect()">전체 해제</button>
+			</div>
 		</div>
 
 	</div>
+
+
+
+
+
 
 
 </body>
