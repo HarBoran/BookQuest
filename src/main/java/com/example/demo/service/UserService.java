@@ -34,6 +34,10 @@ public class UserService {
 		user.setPassword(encodedPassword);
 	}
 
+	public User findByEmail(String name) {
+		return repo.findByEmail(name);
+	}
+
 	public User getUserByEmail(String userEmail) {
 
 		return repo.getUserByEmail(userEmail);

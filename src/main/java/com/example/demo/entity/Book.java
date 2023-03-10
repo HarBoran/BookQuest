@@ -42,6 +42,9 @@ public class Book {
 	@Column(length = 128, nullable = false)
 	private String image;
 
+	@Column(name = "avg_star")
+	private Integer avgStar;
+
 	@Column(nullable = false)
 	private String description;
 
@@ -67,7 +70,8 @@ public class Book {
 	public String toString() {
 		return "Book [bookId=" + bookId + ", title=" + title + ", author=" + author + ", publisher=" + publisher
 				+ ", publicationDate=" + publicationDate + ", price=" + price + ", discountRate=" + discountRate
-				+ ", image=" + image + ", description=" + description + ", category=" + category + "]";
+				+ ", image=" + image + ", avgStar=" + avgStar + ", description=" + description + ", category="
+				+ category + "]";
 	}
 
 	public Integer getBookId() {
@@ -132,6 +136,14 @@ public class Book {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public Integer getAvgStar() {
+		return avgStar;
+	}
+
+	public void setAvgStar(Integer avgStar) {
+		this.avgStar = avgStar;
 	}
 
 	public String getDescription() {

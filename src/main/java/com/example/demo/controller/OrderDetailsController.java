@@ -141,8 +141,8 @@ public class OrderDetailsController {
 
 	@PostMapping("/orderbuy")
 	public String orderbuyBook(Model model, Principal principal, @ModelAttribute("orders") Order order,
-			@RequestParam("totalPrice") int totalPrice,
 			// @RequestParam(name="cartId")ArrayList<Cart> carts
+			@RequestParam("totalPrice") int totalPrice,
 			@RequestParam(name = "bookId") ArrayList<Book> books,
 			@RequestParam(name = "bookquantity") ArrayList<Integer> bookquantity) {
 		if (bookquantity.size() == 1) {

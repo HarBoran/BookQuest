@@ -25,11 +25,14 @@ public class SalesDetail {
 	@JoinColumn(name="sales_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Sales sales;
-
+	
 	@ManyToOne
 	@JoinColumn(name="book_id")
 	private Book book;
 
+	@Column(name="book_status", nullable = false)
+	private String bookStatus;
+	
 	@Column(name="sales_quantity", nullable = false)
 	private Integer salesQuantity;
 	
@@ -40,8 +43,8 @@ public class SalesDetail {
 	
 	@Override
 	public String toString() {
-		return "SalesDetail [salesDetailId=" + salesDetailId + ", sales=" + sales + ", book=" + book
-				+ ", salesQuantity=" + salesQuantity + ", sellPrice=" + sellPrice + "]";
+		return "SalesDetail [salesDetailId=" + salesDetailId + ", sales=" + sales + ", book=" + book + ", bookStatus="
+				+ bookStatus + ", salesQuantity=" + salesQuantity + ", sellPrice=" + sellPrice + "]";
 	}
 
 	public Integer getSalesDetailId() {
@@ -83,8 +86,13 @@ public class SalesDetail {
 	public void setSellPrice(Integer sellPrice) {
 		this.sellPrice = sellPrice;
 	}
-	
-	
 
+	public String getBookStatus() {
+		return bookStatus;
+	}
 
+	public void setBookStatus(String bookStatus) {
+		this.bookStatus = bookStatus;
+	}
+	
 }

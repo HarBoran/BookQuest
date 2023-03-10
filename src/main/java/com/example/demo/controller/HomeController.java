@@ -23,13 +23,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.FileUploadUtil;
 import com.example.demo.entity.Book;
+import com.example.demo.entity.BooksBranch;
 import com.example.demo.entity.Branches;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Sales;
+import com.example.demo.entity.SalesDetail;
 import com.example.demo.service.BookService;
+import com.example.demo.service.BooksBranchService;
 import com.example.demo.service.BranchService;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.OrderDetailService;
+import com.example.demo.service.SalesDetailService;
 import com.example.demo.service.SalesService;
 
 @Controller
@@ -50,6 +54,12 @@ public class HomeController {
 	
 	@Autowired
 	SalesService salesService;
+	
+	@Autowired
+	SalesDetailService salesDetailService;
+	
+	@Autowired
+	BooksBranchService booksBranchService;
 
 	@GetMapping("")
 	public String viewHomePage(Authentication authentication, Model model, Category category) {
@@ -214,11 +224,42 @@ public class HomeController {
 		return "informationBranch";
 	}
 
-	
-	@GetMapping("/checkDeliveryStatus")
-	public String checkDeliveryStatus(Model model) {
-		Iterable<Sales> listCheckDeliveryStatus = salesService.checkDeliveryStatus();
-		model.addAttribute("listCheckDeliveryStatus", listCheckDeliveryStatus);
+
+	@RequestMapping(value = {"/checkDeliveryStatus"}, method = { RequestMethod.GET, RequestMethod.POST })
+	public String checkDeliveryStatus(@RequestParam(required = false, name = "selectItem") Sales[] sales, Model model) {
+		
+		if(sales != null) {
+			for(Sales sale : sales) {
+				System.err.println(sale.getDeliveryStatus());	
+				if(sale.getDeliveryStatus().equals("배송완료")) {
+					sale.setDeliveryStatus("정산완료");
+					salesService.save(sale);
+					
+					List<SalesDetail> salesDetailList = salesDetailService.findBySales(sale);
+					for (SalesDetail salesDetail : salesDetailList) {
+						BooksBranch booksBranch = new BooksBranch();
+						booksBranch.setBranches(sale.getBranches());
+						booksBranch.setBook(salesDetail.getBook());
+						booksBranch.setStatus(salesDetail.getBookStatus());
+						booksBranch.setQuantity(salesDetail.getSalesQuantity());
+						booksBranchService.save(booksBranch);	
+					}
+					
+				}
+			}
+		}
+		
+		List<Sales> salesList = salesService.findAll();
+		model.addAttribute("salesList", salesList);
+		for(Sales s : salesList) {
+			for(SalesDetail sd : s.getSalesDetails()) {
+				System.err.println(sd.getBook());
+			}
+		}
+		List<BooksBranch> booksBranchList = booksBranchService.findAll();
+		model.addAttribute("booksBranchList", booksBranchList);
+		
+
 		return "checkDeliveryStatus";
 	}
 	

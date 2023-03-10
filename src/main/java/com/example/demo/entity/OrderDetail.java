@@ -30,6 +30,9 @@ public class OrderDetail {
 	@JoinColumn(name="book_id")
 	private Book book;
 	
+	@Column(name="book_status")
+	private String bookStatus;
+	
 	@ManyToOne
 	@JoinColumn(name="books_branch_id")
 	private BooksBranch BooksBranch;
@@ -44,8 +47,9 @@ public class OrderDetail {
 
 	@Override
 	public String toString() {
-		return "OrderDetail [orderDetailId=" + orderDetailId + ", order=" + order + ", book=" + book + ", BooksBranch="
-				+ BooksBranch + ", orderQuantity=" + orderQuantity + ", price=" + price + "]";
+		return "OrderDetail [orderDetailId=" + orderDetailId + ", order=" + order + ", book=" + book + ", bookStatus="
+				+ bookStatus + ", BooksBranch=" + BooksBranch + ", orderQuantity=" + orderQuantity + ", price=" + price
+				+ "]";
 	}
 
 	public Integer getOrderDetailId() {
@@ -94,6 +98,14 @@ public class OrderDetail {
 
 	public void setPrice(Integer price) {
 		this.price = price;
+	}
+
+	public String getBookStatus() {
+		return bookStatus;
+	}
+
+	public void setBookStatus(String bookStatus) {
+		this.bookStatus = bookStatus;
 	}
 	
 	

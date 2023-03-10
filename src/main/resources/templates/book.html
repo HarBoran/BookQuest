@@ -63,7 +63,6 @@
 				<div>
 					<h2>[[${msg}]]</h2>
 				</div>
-				<div id="bundleBooks">
 					<div id="book" th:each="book : ${books}">
 						<a th:href="@{/book/detail(book=${book.bookId})}">
 							<img th:src="@{${book.imagePath}}" tilte="${book.image}">
@@ -86,7 +85,7 @@
 								<button type="submit">장바구니담기</button>
 							</form>
 							
-							<form th:action="@{|/order/buy|}" method="POST">
+							<form th:action="@{|/order/buyselect|}" method="POST">
 								<input type="hidden" name="book" th:value="${book.bookId}" />
 								<input type="hidden" name="bookquantity" th:value="1" />
 								<button type="submit">구매하기</button>

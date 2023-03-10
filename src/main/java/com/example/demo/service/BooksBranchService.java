@@ -18,6 +18,10 @@ public class BooksBranchService {
 
 	@Autowired
 	private BooksBranchRepository repo;
+	
+	public List<BooksBranch> findAll() {
+		return (List<BooksBranch>) repo.findAll();
+	}
 
 	public List<BooksBranch> findById(Book book) {
 		return repo.findByID(book);
@@ -25,6 +29,10 @@ public class BooksBranchService {
 
 	public List<BooksBranch> findByCategory(Category category) {
 		return repo.findByCategory(category);
+	}
+	
+	public void save(BooksBranch booksBranch) {
+		repo.save(booksBranch);
 	}
 
 	public void save(String bookstatus, Branches branch, int bookquantity, Book bookid) {
@@ -36,5 +44,8 @@ public class BooksBranchService {
 		repo.save(bookBranch);
 
 	}
+
+
+
 
 }

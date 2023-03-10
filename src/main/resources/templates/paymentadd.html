@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Bootstrap Example</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+	<div th:replace="commonspace :: menu" />
+
+
+	<div class="container">
+		<h2>Stacked form</h2>
+
+		<form th:action="@{/payment/save}" th:object="${payment}" method="POST">
+
+			<input type="hidden" th:field="*{paymentId}" />
+			
+			<div>
+				<label for="bank">은행을 입력해주세요:</label>
+				<input type="text" th:field="*{bank}" id="bank" placeholder="은행명" required>
+			</div>
+
+			<div>
+				<label for="accountNumber">계좌번호를 입력해주세요:</label>
+				<input type="text" th:field="*{accountNumber}" id="accountnumber" placeholder="계좌번호">
+			</div>
+
+
+		
+
+
+
+
+
+
+
+			<button type="submit" value="Save">Submit</button>
+		</form>
+	</div>
+
+
+
+
+
+
+	<div th:replace="commonspace :: footer" />
+</body>
+
+</html>

@@ -60,9 +60,7 @@ public class UsedBookController {
 	@Autowired
 	SalesDetailService salesDetailService; 
 	
-	
-
-	@GetMapping("/selluserd")
+	@PostMapping("/selluserd")
 	public String selluserd(Principal principal, Book book, Model model) {
 		String username = principal.getName();
 		User user = userService.findByID(username).get();
@@ -108,11 +106,11 @@ public class UsedBookController {
 		salesDetail.setSellPrice((Integer)book.getPrice()/2 * salesDetail.getSalesQuantity());
 		salesDetail.setBook(book);
 		salesDetail.setSales(sales);
+		salesDetail.setBookStatus(bookstatus);
 
 		salesDetailService.save(salesDetail);
 
 		return "redirect:/mypage";
 	}
-	
 	
 }

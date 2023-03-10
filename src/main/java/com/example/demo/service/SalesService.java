@@ -20,9 +20,8 @@ public class SalesService {
 		repo.save(sales);	
 	}
 
-	public Iterable<Sales> checkDeliveryStatus() {
-		return repo.findAll();
-		//return (List<SalesService>) repo.checkDeliveryStatus();
+	public List<Sales> findAll() {
+		return (List<Sales>) repo.findAll();
 	}
 
 

@@ -13,34 +13,63 @@
 
 	<div class="container">
 		
-	<form th:action="@{/order/buyselect}" method="POST">
-	
-	<table border="1">
-		<tr>
-			<th>책제목</th>
-			<th>판매자</th>
-			<th>목적지</th>
-			<th>판매일</th>
-			<th>판매시간</th>
-			<th>배송상태</th>
-			<th>정산가격</th>
-			<th>정산계좌</th>
-			<th>정산계좌번호</th>
-		</tr>
+	<form th:action="@{/checkDeliveryStatus}" method="POST">
+		<table>
+			<tr>
+				<th>SalesID</th>
+				<th>판매자</th>
+				<th>목적지</th>
+				<th>판매일</th>
+				<th>판매시간</th>
+				<th>배송상태</th>
+				<th>정산가격</th>
+				<th>정산계좌</th>
+				<th>정산계좌번호</th>
+			</tr>
+			<div th:each ="sale:${salesList}">
+			<tr style = "border-top:2px solid">
+				<td><div th:text = "${sale.salesId}"/></td>
+				<td><div th:text = "${sale.user.name}"/></td>
+				<td><div th:text = "${sale.branches.branchName}"/></td>
+				<td><div th:text = "${#temporals.format(sale.salesDate, 'yy-MM-dd')}"></div></td>
+				<td><div th:text = "${#temporals.format(sale.salesDate, 'HH:mm')}"></div></td>
+				<td><label>
+					<input type="checkbox" th:if= "${sale.deliveryStatus=='배송완료'}" th:name="selectItem" th:value="${sale.salesId}">
+					<span th:text = "${sale.deliveryStatus}"/>
+					</label>  
+				</td>
+				<td><div th:text = "${sale.totalPrice}"/></td>
+				<td><div th:text = "${sale.payment.bank}"/></td>
+				<td><div th:text = "${sale.payment.accountNumber}"/></td>
+			</tr>
+			<div th:each ="sd:${sale.salesDetails}">
+			<tr>
+				<th colspan = "3"></th>
+				<th>SalesDetailID</th>
+				<th>책제목</th>
+				<th>책상태</th>
+				<th>책수량</th>
+				<th>책가격</th>
+			</tr>
+			<tr>
+				<td colspan = "3"></td>
+				<td>[[${sd.salesDetailId}]]</td>
+				<td>[[${sd.book.title}]]</td>
+				<td>[[${sd.bookStatus}]]</td>
+				<td>[[${sd.salesQuantity}]]</td>
+				<td>[[${sd.sellPrice}]]</td>
+			</tr>
+			</div>
+		</table>
+
+		 <div th:each="booksBranch : ${booksBranchList}">
+			[[${booksBranch.branches.branchName}]] || [[${booksBranch.book.title}]]
+		</div>
 		
-		<tr th:each ="sale:${listCheckDeliveryStatus}">
-			<td><div th:text = "${sale.salesId}"/></td>
-			<td><div th:text = "${sale.user.name}"/></td>
-			<td><div th:text = "${sale.branches.branchName}"/></td>
-			<td><div th:text = "${#temporals.format(sale.salesDate, 'yy-MM-dd')}"></div></td>
-			<td><div th:text = "${#temporals.format(sale.salesDate, 'HH:mm')}"></div></td>
-			<td><div th:text = "${sale.deliveryStatus}"/></td>
-			<td><div th:text = "${sale.totalPrice}"/></td>
-			<td><div th:text = "${sale.payment.bank}"/></td>
-			<td><div th:text = "${sale.payment.accountNumber}"/></td>
-			
-		</tr>
-	</table>
+		<button type="submit">배송 상태 변경하기</button>
+	</form>
+	
+	
 
 	<div th:replace="commonspace :: footer" />
 </body>

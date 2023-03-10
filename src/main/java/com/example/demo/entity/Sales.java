@@ -1,14 +1,17 @@
 package com.example.demo.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.OnDelete;
@@ -22,6 +25,9 @@ public class Sales {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="sales_id")
 	private Integer salesId;
+	
+    @OneToMany(mappedBy = "sales", fetch = FetchType.EAGER)
+    private List<SalesDetail> salesDetails;
 
 	@ManyToOne
 	@JoinColumn(name="user_id")
@@ -120,6 +126,13 @@ public class Sales {
 	public void setDeliveryStatus(String deliveryStatus) {
 		this.deliveryStatus = deliveryStatus;
 	}
-	
+
+	public List<SalesDetail> getSalesDetails() {
+		return salesDetails;
+	}
+
+	public void setSalesDetails(List<SalesDetail> salesDetails) {
+		this.salesDetails = salesDetails;
+	}
 	
 }
