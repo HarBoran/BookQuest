@@ -30,8 +30,6 @@ public class BookQuestDetails implements UserDetails {
          return authories;
    }
    
-   
-
    @Override
    public String getPassword() {
        return user.getPassword();
