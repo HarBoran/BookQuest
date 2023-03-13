@@ -30,11 +30,11 @@ import com.example.demo.service.UserService;
 public class CartController {
 
 	@Autowired
-	private BookService bookService;
+	BookService bookService;
 	@Autowired
-	private UserService userService;
+	UserService userService;
 	@Autowired
-	private CartService cartService;
+	CartService cartService;
 
 	@GetMapping("/")
 	public String CartList(Model themodel, Principal principal) {

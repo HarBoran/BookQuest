@@ -35,22 +35,22 @@ import com.example.demo.service.UserService;
 public class OrderDetailsController {
 
 	@Autowired
-	private OrderDetailService orderDetailService;
+	OrderDetailService orderDetailService;
 
 	@Autowired
-	private UserService userService;
+	UserService userService;
 
 	@Autowired
-	private OrderService orderService;
+	OrderService orderService;
 
 	@Autowired
-	private CartService cartService;
+	CartService cartService;
 
 	@Autowired
-	private PaymentService paymentService;
+	PaymentService paymentService;
 
 	@Autowired
-	private BookService bookService;
+	BookService bookService;
 
 	@GetMapping("/")
 	public String OrderDetails(Model theModel, Principal principal) {

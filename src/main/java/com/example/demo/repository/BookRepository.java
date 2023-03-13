@@ -32,5 +32,13 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
 
 	@Query("SELECT COUNT(*) FROM Book") 
 	public Long countTotlaBooks();
+	
+	@Query("SELECT b FROM Book b JOIN BooksBranch bb ON b.bookId = bb.book WHERE bb.branches.branchId = :branchId")
+	public List<Book> findByBranch(@Param("branchId")Integer branchId);
+	
+	@Query("SELECT b FROM Book b ORDER BY b.price DESC")
+	public List<Book> sortprice();
 
+	@Query("SELECT b FROM Book b ORDER BY b.title ASC")
+	public List<Book> sortTitle();
 }

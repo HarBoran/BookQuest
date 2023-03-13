@@ -27,81 +27,77 @@ import com.example.demo.service.WishlistService;
 @Controller
 @RequestMapping(value = "/wishlist")
 public class WishListController {
-   
-   @Autowired
-  private  WishlistService wishlistService;
-   
-   @Autowired
-	private	UserService userService;
-   
+
 	@Autowired
-	private	BookService bookService;
-   
-   @GetMapping("/")
-   public String wishList(Model themodel, Principal principal) {
+	WishlistService wishlistService;
 
-      return listByPage(1, themodel, principal);
-   }
+	@Autowired
+	UserService userService;
 
-   @GetMapping("/page/{pageNum}")
-   public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model, Principal principal) {
+	@Autowired
+	BookService bookService;
 
-      String userEmail = principal.getName();
-      User user = wishlistService.getUserByEmail(userEmail);
+	@GetMapping("/")
+	public String wishList(Model themodel, Principal principal) {
 
-      Page<Wishlist> page = wishlistService.findWishListByUserpaging(user, pageNum);
-      List<Wishlist> wishList = page.getContent();
+		return listByPage(1, themodel, principal);
+	}
 
-      long startCount = (pageNum - 1) * wishlistService.WISHLIST_PER_PAGE + 1;
-      long endCount = startCount + wishlistService.WISHLIST_PER_PAGE - 1;
-      if (endCount > page.getTotalElements()) {
-         endCount = page.getTotalElements();
-      }
+	@GetMapping("/page/{pageNum}")
+	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model, Principal principal) {
 
-      model.addAttribute("currentpage", pageNum);
-      model.addAttribute("pre", page.getNumber());
-      model.addAttribute("next", (page.getNumber() + 2));
-      model.addAttribute("totalPages", page.getTotalPages());
-      model.addAttribute("startCount", startCount);
-      model.addAttribute("endCount", endCount);
-      model.addAttribute("totalItems", page.getTotalElements());
-      model.addAttribute("wishList", wishList);
+		String userEmail = principal.getName();
+		User user = wishlistService.getUserByEmail(userEmail);
 
-      return "wishlist";
-   }
-   
-   @PostMapping("/save")
-   public String savewishlist(Model model, @RequestParam("book") int bookId, Principal principal,
-          @ModelAttribute("wishlist") Wishlist wishlist,RedirectAttributes r) {
-   
-      String username = principal.getName();
-      Optional<User> user = userService.findByID(username);
-      User userId = user.get();
-   
-      
-      List<Wishlist> wishlistForUser = wishlistService.findByid(userId);
-      
-      List<Integer> booksnumber = new ArrayList<>();
-      
-      for(int i=0; i<wishlistForUser.size(); i++) {
-         booksnumber.add(wishlistForUser.get(i).getBook().getBookId());
-      }
-      
-      if(booksnumber.contains(bookId)) {
-         Book book = bookService.findById(bookId).get();
-         wishlistService.delete(book);
-         
-         
-         return "redirect:/book/detail?book=" + bookId;
-      }else if (!booksnumber.contains(bookId)){
-         Book book = bookService.findById(bookId).get();
-         wishlistService.save(wishlist,book, userId);
-      
-      }
-      
-      
+		Page<Wishlist> page = wishlistService.findWishListByUserpaging(user, pageNum);
+		List<Wishlist> wishList = page.getContent();
 
-      return "redirect:/book/detail?book=" + bookId;
-   }
+		long startCount = (pageNum - 1) * wishlistService.WISHLIST_PER_PAGE + 1;
+		long endCount = startCount + wishlistService.WISHLIST_PER_PAGE - 1;
+		if (endCount > page.getTotalElements()) {
+			endCount = page.getTotalElements();
+		}
+
+		model.addAttribute("currentpage", pageNum);
+		model.addAttribute("pre", page.getNumber());
+		model.addAttribute("next", (page.getNumber() + 2));
+		model.addAttribute("totalPages", page.getTotalPages());
+		model.addAttribute("startCount", startCount);
+		model.addAttribute("endCount", endCount);
+		model.addAttribute("totalItems", page.getTotalElements());
+		model.addAttribute("wishList", wishList);
+
+		return "wishlist";
+	}
+
+	@PostMapping("/save")
+	public String savewishlist(Model model, @RequestParam("book") int bookId, Principal principal,
+			@ModelAttribute("wishlist") Wishlist wishlist, RedirectAttributes r) {
+
+		String username = principal.getName();
+		Optional<User> user = userService.findByID(username);
+		User userId = user.get();
+
+		List<Wishlist> wishlistForUser = wishlistService.findByid(userId);
+
+		List<Integer> booksnumber = new ArrayList<>();
+
+		for (int i = 0; i < wishlistForUser.size(); i++) {
+			booksnumber.add(wishlistForUser.get(i).getBook().getBookId());
+		}
+
+		if (booksnumber.contains(bookId)) {
+			Book book = bookService.findById(bookId).get();
+			wishlistService.delete(book);
+
+			return "redirect:/book/detail?book=" + bookId;
+		} else if (!booksnumber.contains(bookId)) {
+			Book book = bookService.findById(bookId).get();
+			wishlistService.save(wishlist, book, userId);
+
+		}
+
+		return "redirect:/book/detail?book=" + bookId;
+	}
 
 }

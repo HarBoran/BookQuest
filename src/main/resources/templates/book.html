@@ -5,6 +5,8 @@
 
 	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
 	<link rel="stylesheet" th:href="@{/css/book.css}" />
+	<link rel="stylesheet" th:href="@{/css/home.css}" />
+
 
 	<script>
 		function openTab(evt, tabName) {
@@ -49,17 +51,28 @@
 				<div id="tab">
 					<div>
 						<div style="width: 120px; height: 100%; float: left; padding-left: 23px; font-weight: 500;">
-							<a th:href="@{/book/bestseller}">베스트셀러</a>
+							<a th:href="@{/book/sortPrice}">가격순</a>
 						</div>
 						<div style="width: 120px; height: 100%; float: left; padding-left: 23px; font-weight: 500;">
-							<a th:href="@{/book/new}">신간도서</a>
+							<a th:href="@{/book/sortTitle}">제목순</a>
 						</div>
-						<div style="width: 120px; height: 100%; float: left; padding-left: 10px; font-weight: 500;">
-							<a th:href="@{/book/descReview}">평점순</a>
+						<div style="width: 120px; height: 100%; float: left; padding-left: 23px; font-weight: 500;">
+							<form th:action="@{/book}" style="text-align:center;">
+								<div style="position: relative; display: inline-block;">
+									<input id="search" type="search" name="keyword" th:value="${keyword}"
+										placeholder="도서명 검색하기">
+									<button type="submit" id="search_button"></button>
+									<img th:src="@{/images/search_icon.png}"
+										style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); margin-right:12px;">
+								</div>
+							</form>
 						</div>
+
+
+
 					</div>
 				</div>
-				
+
 			</div>
 
 
@@ -78,9 +91,57 @@
 									<div th:text="${book.title}"
 										style="font-size: 24px; font-weight: 600; margin-bottom: 16px; height: 30px;">
 									</div>
-									<div
-										style="display: flex; align-items: center; margin-bottom: 16px; font-size: 12px; height: 16px;">
-										수진님 여기 별점 넣어주세요~</div>
+
+									<div style="display:flex; align-items:center; margin-bottom: 5px;">
+										<div th:if="${book.avgStar == 0}">
+											<span class="unstar">&#x2605;</span>
+											<span class="unstar">&#x2605;</span>
+											<span class="unstar">&#x2605;</span>
+											<span class="unstar">&#x2605;</span>
+											<span class="unstar">&#x2605;</span>
+										</div>
+										<div th:if="${book.avgStar >= 1 and book.avgStar <2}">
+											<span class="star">&#x2605;</span>
+											<span class="unstar">&#x2605;</span>
+											<span class="unstar">&#x2605;</span>
+											<span class="unstar">&#x2605;</span>
+											<span class="unstar">&#x2605;</span>
+										</div>
+										<div th:if="${book.avgStar >=2 and book.avgStar < 3}">
+											<span class="star">&#x2605;</span>
+											<span class="star">&#x2605;</span>
+											<span class="unstar">&#x2605;</span>
+											<span class="unstar">&#x2605;</span>
+											<span class="unstar">&#x2605;</span>
+										</div>
+										<div th:if="${book.avgStar >=3 and book.avgStar < 4}">
+											<span class="star">&#x2605;</span>
+											<span class="star">&#x2605;</span>
+											<span class="star">&#x2605;</span>
+											<span class="unstar">&#x2605;</span>
+											<span class="unstar">&#x2605;</span>
+										</div>
+										<div th:if="${book.avgStar >=4 and book.avgStar < 5}">
+											<span class="star">&#x2605;</span>
+											<span class="star">&#x2605;</span>
+											<span class="star">&#x2605;</span>
+											<span class="star">&#x2605;</span>
+											<span class="unstar">&#x2605;</span>
+										</div>
+										<div th:if="${book.avgStar ==5}">
+											<span class="star">&#x2605;</span>
+											<span class="star">&#x2605;</span>
+											<span class="star">&#x2605;</span>
+											<span class="star">&#x2605;</span>
+											<span class="star">&#x2605;</span>
+										</div>
+
+										<div th:text="${book.avgStar}"
+											style="width:111px; height:16px; margin-left: 7px; font-size:12px;">
+											([[${book.avgStar}]])
+
+										</div>
+									</div>
 									<div
 										style="width: 236px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
 										<div th:text="${book.author}" style="font-size: 14px;"></div>

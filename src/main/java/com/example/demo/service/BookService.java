@@ -73,4 +73,21 @@ public class BookService {
 		repo.deleteById(bookId);
 	}
 
+	public void saveavg(Book book, Float avgstar) {
+		book.setAvgStar(avgstar);
+		repo.save(book);
+	}
+
+	public List<Book> findByBranch(Integer BranchId) {
+		return repo.findByBranch(BranchId);
+	}
+	
+	public List<Book> sortprice() {
+		return repo.sortprice();
+	}
+
+	public List<Book> sortTitle() {
+		return repo.sortTitle();
+	}
+
 }

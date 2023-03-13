@@ -18,7 +18,7 @@
 
 	<div class="container">
 
-		<form th:action="@{/saveBookInformation}" th:object="${registering}" method="POST" enctype="multipart/form-data"
+		<form th:action="@{/admin/saveBookInformation}" th:object="${registering}" method="POST" enctype="multipart/form-data"
 			onsubmit="return checkNameUnique(this)">
 
 			<h2>
@@ -97,7 +97,7 @@
 					<div th:if="${bookId != null}">수정완료</div>
 				</button>
 				<a th:href="@{/}" id="cancelButton">Cancel</a>
-				<a th:if="${bookId != null}" th:href="@{/deleteBookInformation/{bookId}(bookId=${bookId})}"
+				<a th:if="${bookId != null}" th:href="@{/admin/deleteBookInformation/{bookId}(bookId=${bookId})}"
 					id="deleteButton">삭제하기</a>
 			</div>
 

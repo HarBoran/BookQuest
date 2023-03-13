@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
@@ -58,6 +59,11 @@ class BookQuestApplicationTests {
 		User user = userRepo.findByUserId(1);
 		String rawPassword = "1";
 		user.setPassword(passwordEncoder.encode(rawPassword));
+	}
+	
+	@Test
+	public void findByBranch() {	
+		System.err.println(bookRepo.findByBranch(1));
 	}
 	
 

@@ -12,8 +12,6 @@
 	<div th:replace="commonspace :: menu" />
 	<div class="container">
 
-
-
 		<input type="hidden" id="lat" th:value="${branchInformation.latitude}" />
 		<input type="hidden" id="lng" th:value="${branchInformation.longitude}" />
 
@@ -38,6 +36,8 @@
 		[[${branchInformation.branchAddress}]]<br>
 
 	</div>
+	
+	
 
 	<div th:replace="commonspace :: footer" />
 </body>

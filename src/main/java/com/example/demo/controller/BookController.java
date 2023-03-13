@@ -70,13 +70,13 @@ public class BookController {
 	public String category_book(Category category, Model model, @Param("keyword") String keyword) {
 		List<Category> listCategories = categoryService.findCategory();
 		List<Book> books = new ArrayList<Book>();
-		
+
 		if (keyword == null) {
 			books.addAll(bookService.listbook(category));
 		} else if (keyword != null) {
 			books.addAll(bookService.findAll(keyword));
 		}
-		
+
 		model.addAttribute("books", books);
 		model.addAttribute("listCategories", listCategories);
 		model.addAttribute("msg", "도서 찾기");
@@ -87,7 +87,7 @@ public class BookController {
 	public String listAllBefore(Model model) {
 		List<Category> listCategories = categoryService.findCategory();
 		List<Book> books = bookService.findAll();
-		
+
 		model.addAttribute("listCategories", listCategories);
 		model.addAttribute("books", books);
 		model.addAttribute("msg", " 도서찾기");
@@ -97,9 +97,9 @@ public class BookController {
 	@GetMapping("/new")
 	public String new_book(Category category, Model model) {
 		List<Book> newbooks = new ArrayList<Book>();
-		newbooks.addAll(bookService.newbooks(category));		
+		newbooks.addAll(bookService.newbooks(category));
 		List<Category> listCategories = categoryService.findCategory();
-		
+
 		model.addAttribute("books", newbooks);
 		model.addAttribute("listCategories", listCategories);
 		model.addAttribute("msg", "신간 도서");
@@ -132,7 +132,7 @@ public class BookController {
 	@GetMapping("/descReview")
 	public String descReview(Book book, Model model) {
 		List<Category> listCategories = categoryService.findCategory();
-		
+
 		model.addAttribute("listCategories", listCategories);
 		model.addAttribute("msg", "평점순");
 		return "book";
@@ -140,49 +140,87 @@ public class BookController {
 
 	@GetMapping("/detail")
 	public String bookdetail(Book book, Model model, Principal principal) {
-		int bookId = book.getBookId();
-		String username = principal.getName();
-		Optional<User> user = userService.findByID(username);
-		User userId = user.get();
 
-		List<Wishlist> wishlistForUser = wishlistService.findByid(userId);
-
-		List<Integer> booksnumber = new ArrayList<>();
-
-		for (int i = 0; i < wishlistForUser.size(); i++) {
-			booksnumber.add(wishlistForUser.get(i).getBook().getBookId());
-		}
-
-		if (booksnumber.contains(bookId)) {
-			model.addAttribute("check", "a");
-
-		} else if (!booksnumber.contains(bookId)) {
+		if (principal == null) {
 			model.addAttribute("check", "b");
-
-		}
-
-		Optional<Book> books = bookService.findById(book.getBookId());
-		model.addAttribute("bookdetail", books.get());
-		List<Review> review = reviewService.findByBookid(book);
-		model.addAttribute("reviewdetail", review);
-		if (!review.isEmpty()) {
-			model.addAttribute("avgstar", reviewService.avgstar(book));
-		}
-		model.addAttribute("review", new Review());
-		model.addAttribute("cart", new Cart());
-
-		if (!review.isEmpty()) {
-			model.addAttribute("avgstar", reviewService.avgstar(book));
-		}
-		model.addAttribute("review", new Review());
-		model.addAttribute("cart", new Cart());
-		List<BooksBranch> bookbranch = booksbranchService.findById(book);
-		if (!bookbranch.isEmpty()) {
+			model.addAttribute("bookdetail", book);
+			model.addAttribute("review", new Review());
+			List<Review> review = reviewService.findByBookid(book);
+			model.addAttribute("reviewdetail", review);
+			model.addAttribute("cart", new Cart());
+			List<BooksBranch> bookbranch = booksbranchService.findById(book);
 			model.addAttribute("bookbranch", bookbranch);
-		} else if (bookbranch.isEmpty()) {
-			model.addAttribute("branchmsg", "재고수량이 없습니다");
+			if (!review.isEmpty()) {
+				model.addAttribute("avgstar", reviewService.avgstar(book));
+			}
+
+		} else {
+			int bookId = book.getBookId();
+			String username = principal.getName();
+			Optional<User> user = userService.findByID(username);
+			User userId = user.get();
+
+			List<Wishlist> wishlistForUser = wishlistService.findByid(userId);
+
+			List<Integer> booksnumber = new ArrayList<>();
+
+			for (int i = 0; i < wishlistForUser.size(); i++) {
+				booksnumber.add(wishlistForUser.get(i).getBook().getBookId());
+			}
+
+			if (booksnumber.contains(bookId)) {
+				model.addAttribute("check", "a");
+
+			} else if (!booksnumber.contains(bookId)) {
+				model.addAttribute("check", "b");
+
+			}
+
+			Optional<Book> books = bookService.findById(book.getBookId());
+			model.addAttribute("bookdetail", books.get());
+			List<Review> review = reviewService.findByBookid(book);
+			model.addAttribute("reviewdetail", review);
+			if (!review.isEmpty()) {
+				model.addAttribute("avgstar", reviewService.avgstar(book));
+			}
+			model.addAttribute("review", new Review());
+			model.addAttribute("cart", new Cart());
+
+			if (!review.isEmpty()) {
+				bookService.saveavg(book, reviewService.avgstar(book));
+				model.addAttribute("avgstar", reviewService.avgstar(book));
+			}
+			model.addAttribute("review", new Review());
+			model.addAttribute("cart", new Cart());
+			List<BooksBranch> bookbranch = booksbranchService.findById(book);
+
+			if (!bookbranch.isEmpty()) {
+				model.addAttribute("bookbranch", bookbranch);
+			} else if (bookbranch.isEmpty()) {
+				model.addAttribute("branchmsg", "재고수량이 없습니다");
+			}
 		}
 		return "bookdetail";
+	}
+
+	@GetMapping("/sortPrice")
+	public String sortPrice(Model model) {
+		List<Category> listCategories = categoryService.findCategory();
+		model.addAttribute("listCategories", listCategories);
+		List<Book> sortprice = new ArrayList<Book>();
+		sortprice.addAll(bookService.sortprice());
+		model.addAttribute("books", sortprice);
+		return "book";
+	}
+
+	@GetMapping("/sortTitle")
+	public String sortTitle(Model model) {
+		List<Category> listCategories = categoryService.findCategory();
+		model.addAttribute("listCategories", listCategories);
+		List<Book> sortTitle = new ArrayList<Book>();
+		sortTitle.addAll(bookService.sortTitle());
+		model.addAttribute("books", sortTitle);
+		return "book";
 	}
 
 }

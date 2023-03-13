@@ -22,16 +22,16 @@ import com.example.demo.service.UserService;
 public class MyPageController {
 
 	@Autowired
-	private UserService userService;
+	UserService userService;
 
 	@Autowired
-	private OrderService orderService;
+	OrderService orderService;
 
 	@Autowired
-	private OrderDetailService orderDetailService;
+	OrderDetailService orderDetailService;
 
 	@Autowired
-	private PaymentService paymentService;
+	PaymentService paymentService;
 
 	@GetMapping("")
 	public String getUserMyPage(Model model, Principal principal) {

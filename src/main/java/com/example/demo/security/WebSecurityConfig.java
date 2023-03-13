@@ -35,15 +35,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    @Override
    protected void configure(HttpSecurity http) throws Exception {
 	   //http.authorizeRequests().anyRequest().permitAll();
-	   http.authorizeRequests().antMatchers("/").permitAll();
-	   http.authorizeRequests()
-//         .antMatchers("/users/**").hasAuthority("Admin")
-//      .antMatchers("/categories/**").hasAnyAuthority("Admin","Editor")
-            .anyRequest().authenticated()
-            .and()//.csrf().disable()
-            .formLogin()
+	   http.authorizeRequests().antMatchers("/**", "/book/**").permitAll()
+	  							.antMatchers("/admin/**").hasAuthority("admin")
+	  							.anyRequest().authenticated();
+	   http.formLogin()
             .loginPage("/login")
-//            .successForwardUrl("/") // mapping으로 보냄
             .usernameParameter("email")
             .permitAll()
       .and().logout().permitAll();

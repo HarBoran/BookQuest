@@ -43,7 +43,7 @@ public class Book {
 	private String image;
 
 	@Column(name = "avg_star")
-	private Integer avgStar;
+	private Float avgStar = (float) 0;
 
 	@Column(nullable = false)
 	private String description;
@@ -138,11 +138,11 @@ public class Book {
 		this.image = image;
 	}
 
-	public Integer getAvgStar() {
+	public Float getAvgStar() {
 		return avgStar;
 	}
 
-	public void setAvgStar(Integer avgStar) {
+	public void setAvgStar(Float avgStar) {
 		this.avgStar = avgStar;
 	}
 
@@ -161,5 +161,4 @@ public class Book {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-
 }
