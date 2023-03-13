@@ -7,7 +7,6 @@
 	<link rel="stylesheet" th:href="@{/css/book.css}" />
 	<link rel="stylesheet" th:href="@{/css/home.css}" />
 
-
 	<script>
 		function openTab(evt, tabName) {
 			var i, tabcontent, tablinks;
@@ -33,7 +32,9 @@
 		<div id="category">
 			<div th:if="${listCategories != null}" id="categoriesMenu">
 				<div th:each="cat : ${listCategories}">
-					<a th:href="@{/book(category=${cat.categoryId})}" style="font-size: 0.8rem;"> [[${cat.name}]] </a>
+					<a th:href="@{/book(category=${cat.categoryId})}" style="font-size: 0.8rem;">
+						<div th:text = "${cat.name}"/>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -59,8 +60,7 @@
 						<div style="width: 120px; height: 100%; float: left; padding-left: 23px; font-weight: 500;">
 							<form th:action="@{/book}" style="text-align:center;">
 								<div style="position: relative; display: inline-block;">
-									<input id="search" type="search" name="keyword" th:value="${keyword}"
-										placeholder="도서명 검색하기">
+									<input id="search" type="search" name="keyword" th:value="${keyword}" placeholder="도서명 검색하기">
 									<button type="submit" id="search_button"></button>
 									<img th:src="@{/images/search_icon.png}"
 										style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); margin-right:12px;">
@@ -153,18 +153,16 @@
 
 									<div style="height: 68px;">
 										<div style="display: flex; align-items: center;">
-											<div style="margin-right: 10px; font-size: 14px; color: #7D7D7D">새상품
-												판매가</div>
+											<div style="margin-right: 10px; font-size: 14px; color: #7D7D7D">최상품 판매가</div>
 											<div style="color: #5747E6; font-size: 20px; font-weight: 700;"
-												th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}">
+												th:text="${#numbers.formatDecimal(book.price*0.5, 0, 'COMMA', 0, 'POINT') + '원'}">
 											</div>
 										</div>
 
 										<div style="display: flex; align-items: center;">
-											<div style="margin-right: 10px; font-size: 14px; color: #7D7D7D">중고책
-												판매가</div>
+											<div style="margin-right: 10px; font-size: 14px; color: #7D7D7D">상품 판매가</div>
 											<div style="color: #5747E6; font-size: 20px; font-weight: 700;"
-												th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}">
+												th:text="${#numbers.formatDecimal(book.price*0.4, 0, 'COMMA', 0, 'POINT') + '원'}">
 											</div>
 											<th:block th:each="bookbranch : ${bookbranch}">
 												<div th:if="${bookbranch!=null}"

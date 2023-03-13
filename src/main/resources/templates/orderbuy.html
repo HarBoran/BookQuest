@@ -10,96 +10,106 @@
 </head>
 
 <body>
+	<div th:replace="commonspace :: menu"></div>
 
-	<div>
-		<div th:replace="commonspace :: menu" />
-		<div>
-			<h2>주문과정</h2>
-		</div>
-		<hr>
+	<div id="title_box1">
+		<span>주문/결제</span>
+	</div>
 
-		<div style="text-align: center ;">주문 상품 정보</div>
-		<div id="container">
+	<div id="title_box2">
+		<span>주문 상품 정보</span>
+	</div>
 
+	<div id="order_box1">
+		<div th:each="book, i: ${bookdetail}" id="order_box2">
+			<div id="book_info">
+				<div id="book_title">[[${book.title}]]</div>
 
-
-			<div id="left" style="text-align: right ;">
-				<th:block th:each="book:${bookdetail}">
-					<div th:if="${book.discountRate =='0'}">
-						[[${book.title}]]<span
-							th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
-					</div>
-					<div th:if="${book.discountRate !='0'}">
-						[[${book.title}]]<span
-							th:text="${#numbers.formatDecimal(book.price*(1-book.discountRate*0.01), 0, 'COMMA', 0, 'POINT') + '원'}" />
-					</div>
-				</th:block>
+				<div id="author_name">[[${book.author}]]</div>
 			</div>
 
-			<div id="right" style="text-align: center ;">
-				<div th:each="bookquantity:${bookquantity}">
-					[[${bookquantity}]]
+			<div id="order_count_and_price_box">
+				<div class="order-count">[[${bookquantity}]]권</div>
+
+				<div id="order_price" th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}">
 				</div>
 			</div>
 		</div>
+
+		<div id="order_total_price_box">
+			<div id="total_price_text_box">총 결제 금액</div>
+
+			<div id="total_price" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT') + '원'}">
+			</div>
+		</div>
 	</div>
-	<div style="text-align: center ;">총액 : [[${totalPrice}]]</div>
-	<br><br><br>
-	<div style="text-align: center ;">배송지 정보 입력</div>
 
-	<form th:action="@{/order/orderbuy}" th:object="${orders}" method="post">
-		<div th:each="book:${bookdetail}">
-			<input type="hidden" th:value="${book.bookId}" name="bookId" />
-		</div>
-		<div th:each="bookquantitys:${bookquantity}">
-			<input type="hidden" th:value="${bookquantitys}" name="bookquantity" />
-		</div>
-		<input type="hidden" th:field="*{orderId}" />
-		<input type="hidden" th:value="${totalPrice}" name="totalPrice" />
+	<div id="delivery_box">
+		<div id="delivery_textbox">배송지 정보 입력</div>
 
 
-		<table id="orderTable">
-			<tr>
-				<th><label>배송지선택</label></th>
-			</tr>
-			<tr>
-				<th><label for="user.name">주문인</label></th>
-				<td><input type="text" th:field="*{user.name}" /></td>
-				</td>
-			</tr>
-			<tr>
-				<th><label for="address">주소</label></th>
-				<td><input type="text" th:field="*{address}" /></td>
-			</tr>
-			<tr>
-				<th><label for="user.phone">휴대전화번호</label></th>
-				<td><input type="text" th:field="*{user.phone}" /></td>
-				</td>
-			</tr>
-		</table>
+		<form th:action="@{/order/orderbuy}" th:object="${orders}" method="post">
+			<div th:each="book:${bookdetail}">
+				<input type="hidden" th:value="${book.bookId}" name="bookId" />
+			</div>
+			<div th:each="bookquantitys:${bookquantity}">
+				<input type="hidden" th:value="${bookquantitys}" name="bookquantity" />
+			</div>
+			<input type="hidden" th:field="*{orderId}" /> <input type="hidden" th:value="${totalPrice}"
+				name="totalPrice" />
 
-		<div style="text-align: center ;"><label for="payment.paymentId">payMent: </label>
-			<th:block th:each="payment: ${paymentList}">
-				<input type="checkbox" th:field="*{payment}" th:text="|${payment.bank}  :   ${payment.accountNumber}|"
-					th:value="${payment.paymentId}" />
-				<br />
-			</th:block>
-		</div>
+			<div id="delivery_info">
+				<div id="info_firstline">
+					<div id="delivery_info1">
+						<div style="margin-top: 4px;">배송지 선택</div>
+						<div>
+							<input type="text" placeholder="집(드롭다운으로 선택...?)" id="select1" />
+						</div>
+					</div>
 
+					<div id="delivery_info2">
+						<div style="margin-top: 4px;">주문인</div>
+						<div>
+							<input type="text" th:field="*{user.name}" placeholder="이름" id="select2" />
+						</div>
+					</div>
+				</div>
 
-		<div class="text-center">
-			<input type="submit" value="Save" onclick="return validateForm()">
-			<input type="button" value="Cancel" id="buttonCancel" />
-		</div>
-		</div>
+				<div id="info_secondline">
+					<div id="delivery_info3">
+						<div style="margin-top: 4px;">주소</div>
+						<div>
+							<input type="text" th:field="*{address}" placeholder="주소" id="select3" />
+						</div>
+					</div>
 
-	</form>
+					<div id="delivery_info4">
+						<div style="margin-top: 4px;">핸드폰 번호</div>
+						<div>
+							<input type="text" th:field="*{user.phone}" placeholder="핸드폰 번호" id="select4" />
+						</div>
+					</div>
+				</div>
+			</div>
 
+			<div id="payment_select">
+				<div>실시간 계좌이체</div>
+				<div style="display: flex; align-items: center;">
+					<th:block th:each="payment: ${paymentList}">
+						<input type="checkbox" th:field="*{payment}" th:value="${payment.paymentId}"
+							th:text="${payment.bank}" id="checkbox" />
+					</th:block>
+				</div>
+			</div>
 
+			<div id="button_box">
+				<input type="button" value="취소" id="buttonCancel" />
+				<input type="submit" value="결제하기" id="buttonPayment" onclick="return validateForm()">
+			</div>
+		</form>
+	</div>
 
-	<img th:src="@{/images/examplerediRectbuy.jpg}" style="width:100%;" />
-
-	<div th:replace="commonspace :: footer" />
+	<div th:replace="commonspace :: footer"></div>
 </body>
 
 </html>

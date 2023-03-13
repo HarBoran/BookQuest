@@ -43,7 +43,7 @@ public class User {
 	private LocalDateTime signupDate;
 
 	@Column
-	private boolean enabled;
+	private boolean enabled = true;
 
 	@Column(length = 16, nullable = false)
 	private String role;

@@ -65,6 +65,22 @@ public class Book {
 	public Book(Integer bookId) {
 		this.bookId = bookId;
 	}
+	
+	
+
+	public Book(String author, String description, Integer discountRate,  String image, Integer price,
+			LocalDate publicationDate, String publisher, String title, Category category, Float avgStar) {
+		this.author = author;
+		this.description = description;
+		this.discountRate = discountRate;
+		this.image = image;
+		this.price = price;
+		this.publicationDate = publicationDate;
+		this.publisher = publisher;	
+		this.title = title;
+		this.category = category;
+		this.avgStar = avgStar;	
+	}
 
 	@Override
 	public String toString() {
