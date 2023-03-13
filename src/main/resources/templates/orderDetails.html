@@ -4,71 +4,84 @@
 <head>
 
 
-<head th:replace="commonspace :: page_head('Home - orderDetails')" />
+	<head th:replace="commonspace :: page_head('Home - orderDetails')" />
 
 </head>
-   <script>
-      function showList() {
-         var list = document.getElementById("list");
-         if (list.style.display === "none") {
-            list.style.display = "block";
-         } else {
-            list.style.display = "none";
-         }
-      }
-   </script>
+<script>
+	function showList() {
+		var list = document.getElementById("list");
+		if (list.style.display === "none") {
+			list.style.display = "block";
+		} else {
+			list.style.display = "none";
+		}
+	}
+</script>
 
 
 <body>
-   <div th:replace="commonspace :: menu" />
-   <div class="container" style="text-align: center ;">
+	<div th:replace="commonspace :: menu" />
+	<div class="container" style="text-align: center ;">
 
-      <div th:each="order:${orders}" class="text-center">
-         
-            <table>
-               <tr>
-                  <th>주소</th>
-                  <th>배송 상태</th>
-                  <th>주문날짜</th>
-                  <th>주문 총 가격</th>
-                  <th>결제 정보</th>
-                  <th></th>
-               </tr>
-               <tr>
-      
-                  <td th:text="${order.address}"></td>
-                  <td th:text="${order.deliveryStatus}"></td>
-                  <td th:text="${#temporals.format(order.orderDate, 'yy-MM-dd')}"></td>
-                  <td th:text="${order.totalPrice}"></td>
-                  <td th:text="|${order.payment.bank}   ${order.payment.accountNumber} |"></td>
-                  <td><a class="btn btn-danger m-3" th:href="@{|/order/details/${order.orderId}|}">상세보기</a>                     
-                  </td>
-               </tr>
-            </table>
-            <hr>
-      </div>
-   </div>
-   </div>
-<div class="container" style="text-align: center ;">   
-   <div th:each="orderdetails:${orderdetail}" class="text-center">
-               <table>
-               <tr>
-                  <th>책이름</th>
-                  <th>책가격</th>
-                  <th>수량</th>
-                  
-               </tr>
-               <tr>
-                  <td th:text="${orderdetails.book.title}"></td>
-                  <td th:text="${orderdetails.book.price}"></td>
-                  <td th:text="${orderdetails.orderQuantity}"></td>
-               </tr>
-            </table>
-            <hr>
-   </div>
-   
-</div>      
-   <div th:replace="commonspace :: footer" />
+		<div th:each="order:${orders}" class="text-center">
+
+			<table>
+				<tr>
+					<th>주소</th>
+					<th>배송 상태</th>
+					<th>주문날짜</th>
+					<th>주문 총 가격</th>
+					<th>결제 정보</th>
+					<th></th>
+				</tr>
+				<tr>
+
+					<td th:text="${order.address}"></td>
+					<td th:text="${order.deliveryStatus}"></td>
+					<td th:text="${#temporals.format(order.orderDate, 'yy-MM-dd')}"></td>
+					<td>
+						<div th:text="${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA', 0, 'POINT') + '원'}" />
+					</td>
+					<td th:text="|${order.payment.bank}   ${order.payment.accountNumber} |"></td>
+					<td><a class="btn btn-danger m-3" th:href="@{|/order/details/${order.orderId}|}">상세보기</a>
+					</td>
+				</tr>
+			</table>
+			<hr>
+		</div>
+	</div>
+	</div>
+	<div class="container" style="text-align: center ;">
+		<div th:each="orderdetails:${orderdetail}" class="text-center">
+			<table>
+				<tr>
+					<th>책이름</th>
+					<th>책가격</th>
+					<th>수량</th>
+
+				</tr>
+				<tr>
+					<td th:text="${orderdetails.book.title}"></td>
+					<td>
+						<div th:if="${orderdetails.book.discountRate =='0'}" th:value="${orderdetails.book.price}">
+							<div
+								th:text="${#numbers.formatDecimal(orderdetails.book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
+						</div>
+						<div th:if="${orderdetails.book.discountRate !='0'}"
+							th:value="${orderdetails.book.price*(1-orderdetails.book.discountRate*0.01)}">
+							<div
+								th:text="${#numbers.formatDecimal(orderdetails.book.price*(1-orderdetails.book.discountRate*0.01), 0, 'COMMA', 0, 'POINT') + '원'}" />
+						</div>
+					</td>
+
+					<td th:text="${orderdetails.orderQuantity}"></td>
+				</tr>
+			</table>
+			<hr>
+		</div>
+
+	</div>
+	<div th:replace="commonspace :: footer" />
 
 </body>
 

@@ -100,9 +100,16 @@ public class OrderDetailsController {
 				booksQuantity.add((carts.get(i).getBookQuantity()));
 			}
 			for (int i = 0; i < carts.size(); i++) {
-				int Price = carts.get(i).getBook().getPrice() * carts.get(i).getBookQuantity();
+				if (carts.get(i).getBook().getDiscountRate() == 0) {
+					int Price = carts.get(i).getBook().getPrice() * carts.get(i).getBookQuantity();
 
-				totalPrice += Price;
+					totalPrice += Price;
+				} else if (carts.get(i).getBook().getDiscountRate() != 0) {
+					int Price = (int) (carts.get(i).getBook().getPrice()
+							* (1 - carts.get(i).getBook().getDiscountRate() * 0.01)) * carts.get(i).getBookQuantity();
+					totalPrice += Price;
+				}
+
 			}
 
 			model.addAttribute("bookdetail", books);
@@ -142,8 +149,7 @@ public class OrderDetailsController {
 	@PostMapping("/orderbuy")
 	public String orderbuyBook(Model model, Principal principal, @ModelAttribute("orders") Order order,
 			// @RequestParam(name="cartId")ArrayList<Cart> carts
-			@RequestParam("totalPrice") int totalPrice,
-			@RequestParam(name = "bookId") ArrayList<Book> books,
+			@RequestParam("totalPrice") int totalPrice, @RequestParam(name = "bookId") ArrayList<Book> books,
 			@RequestParam(name = "bookquantity") ArrayList<Integer> bookquantity) {
 		if (bookquantity.size() == 1) {
 			String userEmail = principal.getName();

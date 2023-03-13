@@ -24,10 +24,18 @@
 
 
 			<div id="left" style="text-align: right ;">
-				<div th:each="book:${bookdetail}">
-					[[${book.title}]] [[${book.price}]]
-				</div>
+				<th:block th:each="book:${bookdetail}">
+					<div th:if="${book.discountRate =='0'}">
+						[[${book.title}]]<span
+							th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
+					</div>
+					<div th:if="${book.discountRate !='0'}">
+						[[${book.title}]]<span
+							th:text="${#numbers.formatDecimal(book.price*(1-book.discountRate*0.01), 0, 'COMMA', 0, 'POINT') + '원'}" />
+					</div>
+				</th:block>
 			</div>
+
 			<div id="right" style="text-align: center ;">
 				<div th:each="bookquantity:${bookquantity}">
 					[[${bookquantity}]]
@@ -72,13 +80,13 @@
 
 		<div style="text-align: center ;"><label for="payment.paymentId">payMent: </label>
 			<th:block th:each="payment: ${paymentList}">
-				<input type="radio" th:field="*{payment}" th:text="|${payment.bank}  :   ${payment.accountNumber}|"
-					th:value="${payment.paymentId}"/>
+				<input type="checkbox" th:field="*{payment}" th:text="|${payment.bank}  :   ${payment.accountNumber}|"
+					th:value="${payment.paymentId}" />
 				<br />
 			</th:block>
 		</div>
 
-		
+
 		<div class="text-center">
 			<input type="submit" value="Save" onclick="return validateForm()">
 			<input type="button" value="Cancel" id="buttonCancel" />

@@ -95,7 +95,13 @@
 						<div style="color: #5747E6; font-size: 24px; font-weight: 700;"
 							th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}"></div>
 					</div>
-
+					<div style="display: flex; align-items: center;">
+						<div style="margin-right: 10px; font-size: 16px; color: #7D7D7D">할인 판매가</div>
+						<div th:if="${book.discountRate !='0'}"
+							style="color: #5747E6; font-size: 24px; font-weight: 700;"
+							th:text="${#numbers.formatDecimal(book.price*(1-book.discountRate*0.01), 0, 'COMMA', 0, 'POINT') + '원'}">
+						</div>
+					</div>
 					<div th:if="${bookbranch == null}" th:text="${branchmsg}" />
 
 					<th:block th:each="bookbranch : ${bookbranch}">

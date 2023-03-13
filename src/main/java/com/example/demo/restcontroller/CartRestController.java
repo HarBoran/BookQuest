@@ -1,8 +1,10 @@
-package com.example.demo.controller;
+package com.example.demo.restcontroller;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,5 +48,32 @@ public class CartRestController {
 		cartService.DownQuantity(cartId, DowncartQuantity);
 
 		return DowncartQuantity;
+	}
+
+	@PostMapping("/price")
+	@ResponseBody
+	public int price(@RequestBody List<Integer> cartId) {
+		int totalPrice = 0;
+
+		List<Cart> cartList = new ArrayList<>();
+
+		for (int i = 0; i < cartId.size(); i++) {
+			cartList.add(cartService.findById(cartId.get(i)));
+		}
+		System.out.println(cartList);
+
+		for (int i = 0; i < cartList.size(); i++) {
+			if (cartList.get(i).getBook().getDiscountRate() == 0) {
+				int Price = cartList.get(i).getBook().getPrice() * cartList.get(i).getBookQuantity();
+
+				totalPrice += Price;
+			} else if (cartList.get(i).getBook().getDiscountRate() != 0) {
+				int Price = (int) (cartList.get(i).getBook().getPrice()
+						* (1 - cartList.get(i).getBook().getDiscountRate() * 0.01)) * cartList.get(i).getBookQuantity();
+				totalPrice += Price;
+			}
+
+		}
+		return totalPrice;
 	}
 }

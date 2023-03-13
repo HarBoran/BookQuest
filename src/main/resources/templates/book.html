@@ -6,100 +6,143 @@
 	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
 	<link rel="stylesheet" th:href="@{/css/book.css}" />
 
+	<script>
+		function openTab(evt, tabName) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(" active", "");
+			}
+			document.getElementById(tabName + "-content").style.display = "block";
+			evt.currentTarget.className += " active";
+		}
+	</script>
+
 </head>
 
 <body>
-	<div th:replace="commonspace :: menu" />
+	<div th:replace="commonspace :: menu"></div>
 
-	<div class="container">
-		<div id="recommendedArea">
-
-			<nav class="navbar navbar-expand-lg bg-light navbar-light">
-
-				<div class="collapse navbar-collapse justify-content-between" id="collapsibleNavbar">
-					<ul class="navbar-nav">
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<li class="nav-item">
-							<a class="nav-link" th:href="@{/book/new}">신상품순</a>
-						</li>
-
-						<li class="nav-item">
-							<a class="nav-link" th:href="@{/book/bestseller}">베스트셀러순</a>
-						</li>
-
-						<li class="nav-item">
-							<a class="nav-link" th:href="@{/book/descReview}">평점순</a>
-
-						</li>
-					</ul>
-				</div>
-
-			</nav>
-		</div>
-
-		<div id="mainArea">
+	<div style="display: flex">
+		<div id="category">
 			<div th:if="${listCategories != null}" id="categoriesMenu">
-				<label> Category: </label>
 				<div th:each="cat : ${listCategories}">
-					<a th:href="@{/book(category=${cat.categoryId})}" style="font-size: 0.8rem;">
-						[[${cat.name}]]
-					</a>
+					<a th:href="@{/book(category=${cat.categoryId})}" style="font-size: 0.8rem;"> [[${cat.name}]] </a>
 				</div>
 			</div>
-			
-			<div th:if="${listCategories == null}" style="width: 100%;
-			   border: 1px solid powderblue;
-			   display: flex;
-			   flex-direction: column;
-			   align-items: center;
-			   padding: 50px;" />
+		</div>
 
-			<div id="bookList">
-				<div>
-					<h2>[[${msg}]]</h2>
+		<div id="wrapper">
+			<div id="tabArea1">
+				<div id="tabArea2">
+					<div style="font-size: 36px; font-weight: 500;">[[${msg}]]</div>
+					<div style="font-size: 14px; display: flex; align-items: center; color: #7D7D7D;">
+						[[${message}]] <img th:src="@{/images/fire.png}"
+							style="width: 15px; height: 12px; margin-left: 2px;">
+					</div>
 				</div>
-					<div id="book" th:each="book : ${books}">
-						<a th:href="@{/book/detail(book=${book.bookId})}">
-							<img th:src="@{${book.imagePath}}" tilte="${book.image}">
-							<div th:text="${book.title}" />
-							<div th:text="${book.author}" />
-							<div th:text="${book.publisher}" />
-							<div th:text="${book.publicationDate}" />
-							<div th:text="${book.description}" />
-							<div th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
-							<div th:text="중고책판매가 + ${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}" />
-							[[${branchmsg}]]
-							<th:block th:each="bookbranch : ${bookbranch}">
-								<div th:if="${bookbranch!=null}" th:text="재고수량+${bookbranch.quantity}+권" />
-								<div th:text="${bookbranch.branches.branchName}" />
-							</th:block>
-						</a>
+
+				<div id="tab">
+					<div>
+						<div style="width: 120px; height: 100%; float: left; padding-left: 23px; font-weight: 500;">
+							<a th:href="@{/book/bestseller}">베스트셀러</a>
+						</div>
+						<div style="width: 120px; height: 100%; float: left; padding-left: 23px; font-weight: 500;">
+							<a th:href="@{/book/new}">신간도서</a>
+						</div>
+						<div style="width: 120px; height: 100%; float: left; padding-left: 10px; font-weight: 500;">
+							<a th:href="@{/book/descReview}">평점순</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div id="book_box">
+				<div th:each="book : ${books}">
+					<div id="booklist">
+						<div class="book">
+							<div id="image_box">
+								<a th:href="@{/book/detail(book=${book.bookId})}"> <img th:src="@{${book.imagePath}}"
+										title="${book.image}" />
+								</a>
+							</div>
+
+							<div id="book_info">
+								<div id="book_info2">
+									<div th:text="${book.title}"
+										style="font-size: 24px; font-weight: 600; margin-bottom: 16px; height: 30px;">
+									</div>
+									<div
+										style="display: flex; align-items: center; margin-bottom: 16px; font-size: 12px; height: 16px;">
+										수진님 여기 별점 넣어주세요~</div>
+									<div
+										style="width: 236px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+										<div th:text="${book.author}" style="font-size: 14px;"></div>
+										<div style="font-size: 14px;">|</div>
+										<div th:text="${book.publisher}" style="font-size: 14px;"></div>
+										<div style="font-size: 14px;">|</div>
+										<div th:text="${book.publicationDate}" style="font-size: 14px;"></div>
+									</div>
+
+									<div style="height: 68px;">
+										<div style="display: flex; align-items: center;">
+											<div style="margin-right: 10px; font-size: 14px; color: #7D7D7D">새상품
+												판매가</div>
+											<div style="color: #5747E6; font-size: 20px; font-weight: 700;"
+												th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}">
+											</div>
+										</div>
+
+										<div style="display: flex; align-items: center;">
+											<div style="margin-right: 10px; font-size: 14px; color: #7D7D7D">중고책
+												판매가</div>
+											<div style="color: #5747E6; font-size: 20px; font-weight: 700;"
+												th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}">
+											</div>
+											<th:block th:each="bookbranch : ${bookbranch}">
+												<div th:if="${bookbranch!=null}"
+													th:text="재고수량+${bookbranch.quantity}+권"></div>
+												<div th:text="${bookbranch.branches.branchName}"></div>
+											</th:block>
+										</div>
+									</div>
+								</div>
+								<div th:text="${book.description}" id="book_description"></div>
+							</div>
+						</div>
+						<div id="button_box">
 							<form th:action="@{/cart/save}" th:object="${cart}" method="POST">
-								<input type="hidden" th:value="1" name="number" />
-								<input type="hidden" th:value="${book.bookId}" name="book" />
-								<button type="submit">장바구니담기</button>
+								<input type="hidden" th:value="1" name="number" /> <input type="hidden"
+									th:value="${book.bookId}" name="book" />
+								<button type="submit" style="margin-bottom: 10px;" id="cart">장바구니</button>
 							</form>
-							
+
 							<form th:action="@{|/order/buyselect|}" method="POST">
-								<input type="hidden" name="book" th:value="${book.bookId}" />
-								<input type="hidden" name="bookquantity" th:value="1" />
-								<button type="submit">구매하기</button>
+								<input type="hidden" name="book" th:value="${book.bookId}" /> <input type="hidden"
+									name="bookquantity" th:value="1" />
+								<button type="submit" id="buy">구매하기</button>
 							</form>
-						</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
+	<!-- <div th:if="${listCategories == null}" style="width: 100%;
+            border: 1px solid powderblue;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px;"></div> -->
 
 
-	<div th:replace="commonspace :: footer" />
+	<div th:replace="commonspace :: footer"></div>
 </body>
 
 </html>
