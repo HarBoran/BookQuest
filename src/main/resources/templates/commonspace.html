@@ -66,11 +66,6 @@
 						</button>
 					</li>
 
-					<li class="nav-item">
-						<button type="button" class="btn btn-outline-success btn-sm">
-							<a class="nav-link" th:href="@{/order/}">orderDetails</a>
-						</button>
-					</li>
 
 					<li class="nav-item">
 						<a class="nav-link" th:href="@{/mypage}">마이페이지</a>
@@ -81,12 +76,19 @@
 							<a class="nav-link" th:href="@{/cart/}">cart</a>
 						</button>
 					</li>
-
+					
 					<li class="nav-item">
+						<button type="button" class="btn btn-outline-primary btn-sm">
+							<a class="nav-link" th:href="@{/wishlist/}">wishlist</a>
+						</button>
+					</li>
+				
+
+<!--					<li class="nav-item">
 						<div th:if="${#authentication.isAuthenticated()}">
 							<div th:text="'안녕하세요, ' + ${#authentication.name} + '님'" />
 						</div>
-					</li>
+					</li>-->
 
 					<li class="nav-item">
 						<form th:action="@{/logout}" method="post" th:hidden="false" name="logoutForm">
@@ -105,18 +107,7 @@
 							<a class="dropdown-item" th:href="@{/checkDeliveryStatus}">배송상태 수정하기</a>
 						</div>
 					</li>
-					
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-							고객센터<br>(닫혀있음)
-						</a>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="#">Link 1</a>
-							<a class="dropdown-item" href="#">Link 2</a>
-							<a class="dropdown-item" href="#">Link 3</a>
-						</div>
-					</li>
-					
+			
 			</div>
 			</ul>
 		</nav>

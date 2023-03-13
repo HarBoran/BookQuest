@@ -135,17 +135,17 @@
 						<input type="text" th:field="*{name}" class="form-control" id="name" placeholder="이름" required>
 					</p>
 					<p>
-						<input type="number" th:field="*{phone}" class="form-control" id="phone" placeholder="핸드폰 번호"
+						<input type="text" th:field="*{phone}" class="form-control" id="phone" placeholder="핸드폰 번호(-를 포함하여 입력해주세요.)"
 							required>
 					</p>
 					<p>
-						<input type="text" id="sample6_postcode" placeholder="우편번호" class="form-control" required>
+						<input type="text" id="sample6_postcode" placeholder="우편번호" class="form-control" required readonly>
 						<input type="button" id="address_button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
 						<input type="text" th:field="*{address}" id="sample6_address" class="form-control"
-							placeholder="상세주소">
+							placeholder="상세주소" readonly>
 						<input type="text" id="sample6_detailAddress" placeholder="상세주소 입력" class="form-control"
 							required>
-						<input type="text" id="sample6_extraAddress" placeholder="참고항목" class="form-control">
+						<input type="text" id="sample6_extraAddress" placeholder="참고항목" class="form-control" readonly>
 					</p>
 				</div>
 

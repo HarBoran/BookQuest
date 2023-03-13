@@ -244,12 +244,15 @@
 
 	<div id="container">
 		<div id="left">
+			<h2>장바구니</h2>
+			
+			<div class="text-center">
+				<button id="selectAll" onclick="toggleSelect()">전체 해제</button>
+			</div>
 			<form th:action="@{/order/buyselect}" method="post" onsubmit="return validForm()">
 				<div th:each="cart:${cartList}">
 					<input class="myCheckbox" type="checkbox" th:name="selectItem" th:value="${cart.cartId}" checked />
 					<div id="book" th:each="book:${cart.book}">
-
-						[[${book.bookId}]]
 						<a th:href="@{/book/detail(book=${book.bookId})}">
 							<img th:src="@{${book.imagePath}}" tilte="${book.image}">
 						</a>
@@ -307,9 +310,7 @@
 			</div>
 
 			</form>
-			<div class="text-center">
-				<button id="selectAll" onclick="toggleSelect()">전체 해제</button>
-			</div>
+			
 		</div>
 
 	</div>
