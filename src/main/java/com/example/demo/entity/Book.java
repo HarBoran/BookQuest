@@ -66,20 +66,18 @@ public class Book {
 		this.bookId = bookId;
 	}
 	
-	
-
-	public Book(String author, String description, Integer discountRate,  String image, Integer price,
-			LocalDate publicationDate, String publisher, String title, Category category, Float avgStar) {
+	public Book(String author, String description, int discountRate,  String image, int price,
+			String publicationDate, String publisher, String title, int category, int avgStar) {
 		this.author = author;
 		this.description = description;
 		this.discountRate = discountRate;
 		this.image = image;
 		this.price = price;
-		this.publicationDate = publicationDate;
+		this.publicationDate = LocalDate.parse(publicationDate);
 		this.publisher = publisher;	
 		this.title = title;
-		this.category = category;
-		this.avgStar = avgStar;	
+		this.category = new Category(category);
+		this.avgStar = (float) avgStar;
 	}
 
 	@Override
