@@ -19,13 +19,12 @@ public class PaymentService {
 	@Autowired
 	private PaymentRepository repo;
 
-	public List<Payment> findPaymentByUser(User userId) {
-		return repo.findPaymentByUser(userId);
+	public List<Payment> findPaymentByUser(User user) {
+		return repo.findPaymentByUser(user);
 	}
 
 	public void save(Payment payment) {
 		repo.save(payment);
-
 	}
 
 	public Payment get(int paymentId) throws Exception {
@@ -34,11 +33,16 @@ public class PaymentService {
 
 	public void delete(int paymentId) {
 		repo.deleteById(paymentId);
-
 	}
 
 	public List<Payment> findPaymentList() {
 		return (List<Payment>) repo.findAll();
+	}
+
+	public void savepayment(Payment payment, User user) {
+		payment.setUser(user);
+		repo.save(payment);
+
 	}
 
 }

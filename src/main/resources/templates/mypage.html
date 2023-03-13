@@ -21,9 +21,6 @@
 
 		<a th:href="@{/payment/paymentadd}">계좌번호 등록하기</a>
 
-
-
-
 		<h1>등록된 나의계좌</h1>
 
 		<table border="1px">
@@ -31,7 +28,6 @@
 				<tr>
 					<th>은행명</th>
 					<th>계좌번호</th>
-					<th>계좌번호 수정하기</th>
 					<th>계좌번호 삭제하기</th>
 				</tr>
 			</thead>
@@ -39,7 +35,6 @@
 				<tr th:each="payment : ${paymentList}">
 					<td th:text="${payment.bank}"></td>
 					<td th:text="${payment.accountNumber}"></td>
-					<td><a th:href="@{|/payment/update/${payment.paymentId}|}">계좌번호 수정하기</a></td>
 					<td><a th:href="@{|/payment/delete/${payment.paymentId}|}">계좌번호 삭제하기</a></td>
 
 				</tr>

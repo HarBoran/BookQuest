@@ -29,7 +29,7 @@ public class MyPageController {
 
 	@Autowired
 	private OrderDetailService orderDetailService;
-	
+
 	@Autowired
 	private PaymentService paymentService;
 
@@ -38,12 +38,12 @@ public class MyPageController {
 		String email = principal.getName();
 		User user = userService.getUserByEmail(email);
 		List<OrderDetail> orderDetails = orderDetailService.findOrderDetailsByUser(user);
-		List<Payment> paymentList = paymentService.findPaymentList();
+		List<Payment> paymentList = paymentService.findPaymentByUser(user);
 
 		model.addAttribute("user", user);
 		model.addAttribute("orderDetails", orderDetails);
 		model.addAttribute("paymentList", paymentList);
 		return "mypage";
-
 	}
+
 }

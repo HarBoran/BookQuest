@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
+import javax.sound.midi.SysexMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,27 +48,39 @@ public class PaymentController {
 	}
 
 	@PostMapping("/save")
-	public String Save(@ModelAttribute("payment") Payment payment, Model themodel, Principal principal) {
+	public String Save(Payment payment, Model themodel, Principal principal) {
 		User user = userService.findByEmail(principal.getName());
-		payment.setUser(user);
-		paymentService.save(payment);
-		return "home";
+		paymentService.savepayment(payment, user);
+		List<Payment> paymentList = paymentService.findPaymentByUser(user);
+		themodel.addAttribute("user", user);
+		themodel.addAttribute("paymentList", paymentList);
+
+		return "redirect:/mypage/";
 
 	}
-
-	@GetMapping("/update/{paymentId}")
-	public String edit(@PathVariable(name = "paymentId") int paymentId, Model model, RedirectAttributes rttr)
-			throws Exception {
-		Payment payment = paymentService.get(paymentId);
-		model.addAttribute("payment", payment);
-		return "paymentadd";
-
-	}
+	
+//	지불수단에는 업데이트 기능이 없어야함
+//	@GetMapping("/update/{paymentId}")
+//	public String edit(@PathVariable(name = "paymentId") int paymentId, Model model, RedirectAttributes rttr)
+//			throws Exception {
+//
+//		Payment payment = paymentService.get(paymentId);
+//		model.addAttribute("payment", payment);
+//		return "paymentadd";
+//
+//	}
 
 	@GetMapping("/delete/{paymentId}")
-	public String deleteById(@PathVariable(name = "paymentId") int paymentId) {
+	public String deleteById(@PathVariable(name = "paymentId") int paymentId, Model themodel, Principal principal) {
+		System.out.println("userId=====" + paymentId);
+
+		User user = userService.findByEmail(principal.getName());
+		List<Payment> paymentList = paymentService.findPaymentList();
+		themodel.addAttribute("user", user);
+		themodel.addAttribute("paymentList", paymentList);
 		paymentService.delete(paymentId);
-		return "home";
+
+		return "redirect:/mypage/";
 	}
 
 }
