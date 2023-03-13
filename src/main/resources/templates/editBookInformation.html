@@ -8,8 +8,8 @@
 
 	<script type="text/javascript">
 		function clearFilter() {
-			location.href = "[[@{/editBookInformation}]]";
-			//window.location = "[[@{/editBookInformation}]]";	
+			location.href = "[[@{/admin/editBookInformation}]]";
+			//window.location = "[[@{/admin/editBookInformation}]]";	
 		}	
 	</script>
 
@@ -42,7 +42,7 @@
 		</p>
 		<div id="recommendedArea">
 
-			<form th:action="@{'/editBookInformation/page/1'}" class="form-inline m-3">
+			<form th:action="@{'/admin/editBookInformation/page/1'}" class="form-inline m-3">
 				<input type="hidden" name="sortField" th:value="${sortField}" class="form-control" />
 				<input type="hidden" name="sortDir" th:value="${sortDir}" class="form-control" />
 				검색조건:&nbsp;
@@ -55,29 +55,29 @@
 
 			<div id="searchFilter">
 				<a th:if="${sortField != 'bookId'}"
-					th:href="@{'/editBookInformation/page/' + ${currentPage}(sortField=bookId, sortDir=${sortDir})}">
+					th:href="@{'/admin/editBookInformation/page/' + ${currentPage}(sortField=bookId, sortDir=${sortDir})}">
 					책ID</a>
 				<a th:if="${sortField == 'bookId'}" style="color:#5747E6"
-					th:href="@{'/editBookInformation/page/' + ${currentPage}(sortField=bookId, sortDir=${reverseSortDir})}">
+					th:href="@{'/admin/editBookInformation/page/' + ${currentPage}(sortField=bookId, sortDir=${reverseSortDir})}">
 					책ID</a>
 				<span th:if="${sortField == 'bookId'}"
 					th:utext="${sortDir == 'asc' ? '<sup>1~부터</sup>' : '<sub>까지~1</sub>'}"></span>
 				&nbsp;&nbsp;
 				<a th:if="${sortField != 'title'}"
-					th:href="@{'/editBookInformation/page/' + ${currentPage}(sortField=title, sortDir=${sortDir})}">
+					th:href="@{'/admin/editBookInformation/page/' + ${currentPage}(sortField=title, sortDir=${sortDir})}">
 					제목</a>
 				<a th:if="${sortField == 'title'}" style="color:#5747E6"
-					th:href="@{'/editBookInformation/page/' + ${currentPage}(sortField=title, sortDir=${reverseSortDir})}">
+					th:href="@{'/admin/editBookInformation/page/' + ${currentPage}(sortField=title, sortDir=${reverseSortDir})}">
 					제목</a>
 				<span th:if="${sortField == 'title'}"
 					th:utext="${sortDir == 'asc' ? '<sup>A - ㅎ</sup>' : '<sub>ㅎ - A</sub>'}"></span>
 				&nbsp;&nbsp;
 				<a th:if="${sortField != 'author'}"
-					th:href="@{'/editBookInformation/page/' + ${currentPage}(sortField=author, sortDir=${sortDir})}">
+					th:href="@{'/admin/editBookInformation/page/' + ${currentPage}(sortField=author, sortDir=${sortDir})}">
 					작가
 				</a>
 				<a th:if="${sortField == 'author'}" style="color:#5747E6"
-					th:href="@{'/editBookInformation/page/' + ${currentPage}(sortField=author, sortDir=${reverseSortDir})}">
+					th:href="@{'/admin/editBookInformation/page/' + ${currentPage}(sortField=author, sortDir=${reverseSortDir})}">
 					작가
 				</a>
 				<span th:if="${sortField == 'author'}"
@@ -110,25 +110,25 @@
 						<ul class="pagination justify-content-center pagination-xs">
 							<li th:class="${currentPage != 1 ? 'page-item active' : 'page-item disabled'}">
 								<a class="page-link"
-									th:href="@{/editBookInformation/page/1(sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">&laquo;First</a>
+									th:href="@{/admin/editBookInformation/page/1(sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">&laquo;First</a>
 							</li>
 							<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
 								<a class="page-link"
-									th:href="@{'/editBookInformation/page/' + ${currentPage-1}(sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">Previous</a>
+									th:href="@{'/admin/editBookInformation/page/' + ${currentPage-1}(sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">Previous</a>
 							</li>
 							<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
 								th:each="i : ${#numbers.sequence(startPartPage,endPartPage)}">
 								<!--<a class="page-link" th:href="@{/users/{i}(i=${i})}" th:text = "${i}"></a>-->
 								<a class="page-link"
-									th:href="@{'/editBookInformation/page/'+${i}(sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">[[${i}]]</a>
+									th:href="@{'/admin/editBookInformation/page/'+${i}(sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">[[${i}]]</a>
 							</li>
 							<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
 								<a class="page-link"
-									th:href="@{'/editBookInformation/page/' + ${currentPage+1}(sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">Next</a>
+									th:href="@{'/admin/editBookInformation/page/' + ${currentPage+1}(sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">Next</a>
 							</li>
 							<li th:class="${currentPage != totalPages ? 'page-item active' : 'page-item disabled'}">
 								<a class="page-link"
-									th:href="@{'/editBookInformation/page/' + ${totalPages}(sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">Last&raquo;</a>
+									th:href="@{'/admin/editBookInformation/page/' + ${totalPages}(sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">Last&raquo;</a>
 							</li>
 						</ul>
 					</nav>

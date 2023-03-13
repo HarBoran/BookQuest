@@ -27,8 +27,8 @@ public class BookService {
 		return repo.findByCategoryId(category);
 	}
 
-	public List<Book> newbooks(Category category) {
-		return repo.finByNewBook(category);
+	public List<Book> newbooks() {
+		return repo.finByNewBook();
 	}
 
 	public List<Book> findAll() {
@@ -41,6 +41,29 @@ public class BookService {
 		Pageable pageable = PageRequest.of(pageNum-1, USERS_PER_PAGE, sort);
 		if(keyword != null) {
 			return repo.findAll(keyword, pageable);
+		}
+		return repo.findAll(pageable);
+	}
+	
+	public Page<Book> listByPage(String theme, int pageNum, String sortField, String sortDir, String keyword) {
+		Sort sort =Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		Pageable pageable = PageRequest.of(pageNum-1, USERS_PER_PAGE, sort);
+		if(keyword != null) {
+			if(theme.equals("categories")) {
+				return repo.findAll(keyword, pageable);
+			}else if(theme.equals("bestseller")){
+				return repo.bestseller(keyword, pageable);
+			}else if(theme.equals("new")){
+				return repo.findByNewBook(keyword, pageable);
+			}
+		}
+		if(theme.equals("categories")) {
+			return repo.findAll(pageable);
+		}else if(theme.equals("bestseller")){
+			return repo.bestseller(pageable);
+		}else if(theme.equals("new")){
+			return repo.findByNewBook(pageable);
 		}
 		return repo.findAll(pageable);
 	}
@@ -89,5 +112,6 @@ public class BookService {
 	public List<Book> sortTitle() {
 		return repo.sortTitle();
 	}
+
 
 }

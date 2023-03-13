@@ -6,6 +6,7 @@
 	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
 	<link rel="stylesheet" th:href="@{/css/book.css}" />
 	<link rel="stylesheet" th:href="@{/css/home.css}" />
+	
 
 	<script>
 		function openTab(evt, tabName) {
@@ -22,6 +23,19 @@
 			evt.currentTarget.className += " active";
 		}
 	</script>
+	
+		<style>
+		.page-item.active .page-link {
+			background-color: #5747E6;
+			border-color: #5747E6;
+		}
+
+		.page-link {
+			color: #5747E6;
+			float: none;
+			margin: 1px 7px;
+		}
+	</style>
 
 </head>
 
@@ -43,6 +57,7 @@
 			<div id="tabArea1">
 				<div id="tabArea2">
 					<div style="font-size: 36px; font-weight: 500;">[[${msg}]]</div>
+		
 					<div style="font-size: 14px; display: flex; align-items: center; color: #7D7D7D;">
 						[[${message}]] <img th:src="@{/images/fire.png}"
 							style="width: 15px; height: 12px; margin-left: 2px;">
@@ -57,25 +72,28 @@
 						<div style="width: 120px; height: 100%; float: left; padding-left: 23px; font-weight: 500;">
 							<a th:href="@{/book/sortTitle}">제목순</a>
 						</div>
-						<div style="width: 120px; height: 100%; float: left; padding-left: 23px; font-weight: 500;">
-							<form th:action="@{/book}" style="text-align:center;">
-								<div style="position: relative; display: inline-block;">
-									<input id="search" type="search" name="keyword" th:value="${keyword}" placeholder="도서명 검색하기">
-									<button type="submit" id="search_button"></button>
-									<img th:src="@{/images/search_icon.png}"
-										style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); margin-right:12px;">
-								</div>
-							</form>
+						<div style="width: 120px; height: 100%; float: left; padding-left: 23px; font-weight: 500;">	
 						</div>
+					</div>
+								
+					<div>
+						<form th:action="@{'/book/' + ${theme} + '/page/1'}">
+							<input type="hidden" name="sortField" th:value="${sortField}" class="form-control" />
+							<input type="hidden" name="sortDir" th:value="${sortDir}" class="form-control" />
+						
+							<div style="position: relative; display: inline-block;">
+							<input id="search" type="search" name="keyword" th:value="${keyword}" placeholder="도서명 검색하기" class="form-control" required />
+							</div>
 
-
-
+							<button type="submit" id="search_button">
+								<img th:src="@{/images/search_icon.png}"
+									style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); margin-right:12px;">
+							</button>
+						</form>
 					</div>
 				</div>
-
 			</div>
-
-
+        
 			<div id="book_box">
 				<div th:each="book : ${books}">
 					<div id="booklist">
@@ -150,20 +168,20 @@
 										<div style="font-size: 14px;">|</div>
 										<div th:text="${book.publicationDate}" style="font-size: 14px;"></div>
 									</div>
+						
 
 									<div style="height: 68px;">
 										<div style="display: flex; align-items: center;">
-											<div style="margin-right: 10px; font-size: 14px; color: #7D7D7D">최상품 판매가</div>
-											<div style="color: #5747E6; font-size: 20px; font-weight: 700;"
-												th:text="${#numbers.formatDecimal(book.price*0.5, 0, 'COMMA', 0, 'POINT') + '원'}">
+											<div style="margin-right: 10px; font-size: 14px; color: #7D7D7D">새상품 판매가</div>
+											<div 
+												th:id="${book.discountRate == null or book.discountRate == 0} ? 'originalPrice' : 'preDiscountPrice'"
+												th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}">
 											</div>
 										</div>
 
-										<div style="display: flex; align-items: center;">
-											<div style="margin-right: 10px; font-size: 14px; color: #7D7D7D">상품 판매가</div>
-											<div style="color: #5747E6; font-size: 20px; font-weight: 700;"
-												th:text="${#numbers.formatDecimal(book.price*0.4, 0, 'COMMA', 0, 'POINT') + '원'}">
-											</div>
+										<div style="display: flex; align-items: center;" th:unless="${book.discountRate == null  or book.discountRate == 0}">
+											<div style="margin-right: 10px; font-size: 14px; color: #7D7D7D">할인 판매가</div>
+											<div id="discountPrice" th:text="'→ ' + ${#numbers.formatDecimal(book.price*(100-book.discountRate)/100, 0, 'COMMA', 0, 'POINT')} + '원' +' ('+ ${book.discountRate} + '% 할인)'"/>
 											<th:block th:each="bookbranch : ${bookbranch}">
 												<div th:if="${bookbranch!=null}"
 													th:text="재고수량+${bookbranch.quantity}+권"></div>
@@ -190,6 +208,35 @@
 						</div>
 					</div>
 				</div>
+			</div>
+			
+			<div th:if="${totalPages > 1}" style ="margin: auto; margin-top: 20px; margin-bottom: 50px;">
+				<nav>
+					<ul class="pagination justify-content-center pagination-xs">
+						<li th:class="${currentPage != 1 ? 'page-item active' : 'page-item disabled'}">
+							<a class="page-link"
+								th:href="@{'/book/' + ${theme} + '/page/1'(sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">&laquo;First</a>
+						</li>
+						<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+							<a class="page-link"
+								th:href="@{'/book/' + ${theme} + '/page/' + ${currentPage-1}(sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">Previous</a>
+						</li>
+						<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
+							th:each="i : ${#numbers.sequence(startPartPage,endPartPage)}">
+							<!--<a class="page-link" th:href="@{/users/{i}(i=${i})}" th:text = "${i}"></a>-->
+							<a class="page-link"
+								th:href="@{'/book/' + ${theme} + '/page/'+${i}(sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">[[${i}]]</a>
+						</li>
+						<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+							<a class="page-link"
+								th:href="@{'/book/' + ${theme} + '/page/' + ${currentPage+1}(sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">Next</a>
+						</li>
+						<li th:class="${currentPage != totalPages ? 'page-item active' : 'page-item disabled'}">
+							<a class="page-link"
+								th:href="@{'/book/' + ${theme} + '/page/' + ${totalPages}(sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">Last&raquo;</a>
+						</li>
+					</ul>
+				</nav>
 			</div>
 		</div>
 	</div>

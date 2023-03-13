@@ -68,21 +68,19 @@ public class HomeController {
 
 		List<Book> randomBooks = bookService.findRandomBooks();
 		Long totalBooks = bookService.countTotlaBooks();
-		model.addAttribute("randomBooks",
-				totalBooks < showBookMain ? randomBooks : randomBooks.subList(0, showBookMain));
+		model.addAttribute("randomBooks", totalBooks < showBookMain ? randomBooks : randomBooks.subList(0, showBookMain));
 
-		List<Object> bestseller = orderdetailService.bestseller();
+		List<Book> bestseller = orderdetailService.bestseller();
 		Long totalBestseller = orderdetailService.countTotalBooks();
-		model.addAttribute("bestseller",
-				totalBestseller < showBookMain ? bestseller : bestseller.subList(0, showBookMain));
+		model.addAttribute("bestseller", totalBestseller < showBookMain ? bestseller : bestseller.subList(0, showBookMain));
 
-		List<Book> newbooks = bookService.newbooks(category);
+		List<Book> newbooks = bookService.newbooks();
 		model.addAttribute("newbooks", totalBooks < showBookMain ? newbooks : newbooks.subList(0, showBookMain));
 
-		String[][] recommendationList = {{ "A.I가 추천해주는 내 취향 도서(책리스트 잘못됨)", "/categories", "randomBooks" },
+		String[][] recommendationList = {{ "A.I가 추천해주는 내 취향 도서(책리스트 잘못됨)", "/book/categories", "randomBooks" },
 											{ "신간도서", "/book/new", "newbooks" }, 
 											{ "베스트 샐러(order순)", "/book/bestseller", "bestseller" },
-											{ "이주의 특가 상품(책리스트 잘못됨)", "/categories", "randomBooks" }};
+											{ "이주의 특가 상품(책리스트 잘못됨)", "/book/categories", "randomBooks" }};
 		if (authentication == null) {
 			recommendationList = Arrays.copyOfRange(recommendationList, 1, recommendationList.length);
 		}

@@ -4,13 +4,16 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Book;
 import com.example.demo.entity.BooksBranch;
-import com.example.demo.entity.Branches;
 import com.example.demo.entity.Cart;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Review;
@@ -26,7 +28,6 @@ import com.example.demo.entity.User;
 import com.example.demo.entity.Wishlist;
 import com.example.demo.service.BookService;
 import com.example.demo.service.BooksBranchService;
-import com.example.demo.service.BranchService;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.OrderDetailService;
 import com.example.demo.service.OrderService;
@@ -82,40 +83,114 @@ public class BookController {
 		model.addAttribute("msg", "도서 찾기");
 		return "book";
 	}
+	
+	@GetMapping("/{theme}")
+	public String listAllBook(@PathVariable(name = "theme") String theme, Model model) {
+		return findBookList(theme, 1, "bookId", "asc", null, model);
+	}
+	
+	@GetMapping("/{theme}/page/{pageNum}")
+	public String findBookList(@PathVariable(name = "theme") String theme, @PathVariable(name = "pageNum") int pageNum, 
+			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword, Model model) {
+		
+		Page<Book> page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
+		
+		if(theme.equals("categories")) {
+			page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
+			List<Book> books = page.getContent();
+			model.addAttribute("books", books);
+			model.addAttribute("msg", " 도서찾기");
+			
+		}else if(theme.equals("bestseller")){
+			//Page<Book> page = orderDetailService.listByPage(pageNum, sortField, sortDir, keyword);
+			page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
+			List<Book> bestseller = page.getContent();
+			model.addAttribute("books", bestseller);
+			model.addAttribute("msg", "베스트 셀러");
+		
+		}else if(theme.equals("new")){
+			page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
+			List<Book> newbooks = page.getContent();
+			model.addAttribute("books", newbooks);
+			model.addAttribute("msg", "신간 도서");		
+		}
+		
 
-	@GetMapping("/categories")
-	public String listAllBefore(Model model) {
+		long startCount = (pageNum - 1) * bookService.USERS_PER_PAGE + 1;
+		long endCount = startCount + bookService.USERS_PER_PAGE - 1;
+		if (endCount > page.getTotalElements()) {
+			endCount = page.getTotalElements();
+		}
+		model.addAttribute("totalItems", page.getTotalElements());
+
+		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("startCount", startCount);
+		model.addAttribute("endCount", endCount);
+		
+
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", reverseSortDir);
+		model.addAttribute("keyword", keyword);
+
+		final long PartPage = 5; // 보여줄 컨텐츠의 객수
+		long totalPage = page.getTotalPages();
+
+		long endPartPage = (long) Math.ceil((double) pageNum / PartPage) * PartPage;
+		long startPartPage = endPartPage - PartPage + 1;
+		if (endPartPage > totalPage) {
+			endPartPage = totalPage;
+		}
+
+		model.addAttribute("startPartPage", startPartPage);
+		model.addAttribute("endPartPage", endPartPage);
+		model.addAttribute("totalPages", page.getTotalPages());
+
+		List<Category> categoryList = categoryService.findCategory();
+		model.addAttribute("categoryList", categoryList);
+		
 		List<Category> listCategories = categoryService.findCategory();
-		List<Book> books = bookService.findAll();
-
 		model.addAttribute("listCategories", listCategories);
-		model.addAttribute("books", books);
-		model.addAttribute("msg", " 도서찾기");
+		model.addAttribute("theme", theme);
+
 		return "book";
 	}
 
-	@GetMapping("/new")
-	public String new_book(Category category, Model model) {
-		List<Book> newbooks = new ArrayList<Book>();
-		newbooks.addAll(bookService.newbooks(category));
-		List<Category> listCategories = categoryService.findCategory();
-
-		model.addAttribute("books", newbooks);
-		model.addAttribute("listCategories", listCategories);
-		model.addAttribute("msg", "신간 도서");
-		return "book";
-	}
-
-	@GetMapping("/bestseller")
-	public String bestseller(Model model) {
-		List<Object> bestseller = new ArrayList<Object>();
-		bestseller.addAll(orderDetailService.bestseller());
-		model.addAttribute("books", bestseller);
-		model.addAttribute("msg", "베스트 셀러");
-		List<Category> listCategories = categoryService.findCategory();
-		model.addAttribute("listCategories", listCategories);
-		return "book";
-	}
+//	@GetMapping("/categories")
+//	public String listAllBook(Model model) {
+//		List<Category> listCategories = categoryService.findCategory();
+//		List<Book> books = bookService.findAll();
+//
+//		model.addAttribute("listCategories", listCategories);
+//		model.addAttribute("books", books);
+//		model.addAttribute("msg", " 도서찾기");
+//		return "book";
+//	}
+//
+//	@GetMapping("/new")
+//	public String new_book(Category category, Model model) {
+//		List<Book> newbooks = new ArrayList<Book>();
+//		newbooks.addAll(bookService.newbooks(category));
+//		List<Category> listCategories = categoryService.findCategory();
+//
+//		model.addAttribute("books", newbooks);
+//		model.addAttribute("listCategories", listCategories);
+//		model.addAttribute("msg", "신간 도서");
+//		return "book";
+//	}
+//
+//	@GetMapping("/bestseller")
+//	public String bestseller(Model model) {
+//		List<Object> bestseller = new ArrayList<Object>();
+//		bestseller.addAll(orderDetailService.bestseller());
+//		List<Category> listCategories = categoryService.findCategory();	
+//		
+//		model.addAttribute("books", bestseller);
+//		model.addAttribute("msg", "베스트 셀러");
+//		model.addAttribute("listCategories", listCategories);
+//		return "book";
+//	}
 
 	@PostMapping("/review")
 	public String reviewsave(@RequestParam("book") int book, @ModelAttribute("review") Review review, Model model,

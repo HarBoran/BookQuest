@@ -44,16 +44,23 @@
     <div id="search_box1">
         <div id="search_box2">
          <h1 id="search_text">찾고 싶은 도서명을 검색하세요 <img th:src="@{/images/search_icon2.png}" style="width:30px; height:30px; margin-left:5px;"></h1>
-           
-           <form th:action="@{/book}" style="text-align:center;">
-           <div style="position: relative; display: inline-block;">
-             <input id="search" type="search" name="keyword" th:value="${keyword}" placeholder="도서명 검색하기">
-             <button type="submit" id="search_button"></button>
-             <img th:src="@{/images/search_icon.png}" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); margin-right:12px;">
-           </div>
-         </form>
+   
+	         <form th:action="@{/book/categories/page/1}" style="text-align:center;">
+					<input type="hidden" name="sortField" th:value="bookId" class="form-control" />
+					<input type="hidden" name="sortDir" th:value="${sortDir}" class="form-control" />
+					<div style="position: relative; display: inline-block;">
+					<input id="search" type="search" name="keyword" th:value="${keyword}" placeholder="도서명 검색하기" class="form-control" required />
+					<button type="submit" id="search_button">
+						<img th:src="@{/images/search_icon.png}" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); margin-right:12px;">
+					</button>
+					</div>
+				</form>
         </div>
     </div>
+    
+    
+    
+    
 
    <div id="recommendationList" th:each="recommendation : ${recommendationList}">
       <div id="bundleMent">

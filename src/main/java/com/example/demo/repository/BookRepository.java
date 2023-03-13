@@ -20,25 +20,38 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
 
 	@Query("SELECT b FROM Book b WHERE CONCAT(b.title,' ',b.author, ' ', b.publisher) LIKE %?1%")
 	public List<Book> findAll(String keyword);
-	
-	@Query("SELECT b FROM Book b WHERE CONCAT(b.title, ' ', b.author, ' ', b.publisher) LIKE %?1%")
+
+	@Query("SELECT b FROM Book b WHERE CONCAT(b.title,' ',b.author, ' ', b.publisher) LIKE %?1%")
 	public Page<Book> findAll(String keyword, Pageable pageable);
 
 	@Query("SELECT b FROM Book b ORDER BY b.publicationDate ASC")
-	public List<Book> finByNewBook(Category category);
+	public List<Book> finByNewBook();
 
-	@Query("SELECT b FROM Book b ORDER BY RAND()") //LIMIT 5는 안됨
+	@Query("SELECT b FROM Book b ORDER BY b.publicationDate ASC")
+	public Page<Book> findByNewBook(Pageable pageable);
+
+	@Query("SELECT b FROM Book b WHERE CONCAT(b.title, ' ', b.author, ' ', b.publisher) LIKE %?1% ORDER BY b.publicationDate ASC")
+	public Page<Book> findByNewBook(String keyword, Pageable pageable);
+
+	@Query("SELECT b FROM Book b ORDER BY RAND()") // LIMIT 5는 안됨
 	public List<Book> findRandomBooks();
 
-	@Query("SELECT COUNT(*) FROM Book") 
+	@Query("SELECT COUNT(*) FROM Book")
 	public Long countTotlaBooks();
-	
+
 	@Query("SELECT b FROM Book b JOIN BooksBranch bb ON b.bookId = bb.book WHERE bb.branches.branchId = :branchId")
-	public List<Book> findByBranch(@Param("branchId")Integer branchId);
-	
+	public List<Book> findByBranch(@Param("branchId") Integer branchId);
+
 	@Query("SELECT b FROM Book b ORDER BY b.price DESC")
 	public List<Book> sortprice();
 
 	@Query("SELECT b FROM Book b ORDER BY b.title ASC")
 	public List<Book> sortTitle();
+	
+	@Query("SELECT b FROM Book b JOIN OrderDetail o ON b.bookId = o.book.bookId GROUP BY b.bookId ORDER BY COUNT(o.book.bookId ) DESC")
+	public Page<Book> bestseller(Pageable pageable);
+
+	@Query("SELECT b FROM Book b JOIN OrderDetail o ON b.bookId = o.book.bookId WHERE CONCAT(b.title, ' ', b.author, ' ', b.publisher) LIKE %?1% GROUP BY b.bookId ORDER BY COUNT(o.book.bookId ) DESC")
+	public Page<Book> bestseller(String keyword, Pageable pageable);
+
 }
