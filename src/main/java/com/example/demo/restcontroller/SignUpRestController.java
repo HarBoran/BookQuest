@@ -16,6 +16,7 @@ public class SignUpRestController {
    
    @PostMapping("/sign/check_email")
    public String checkDuplicateEmail(@Param("id") Integer id, @Param("email") String email) {
+	   System.err.println("@PostMapping(/sign/check_email)");
       return userService.isEmailUnique(id, email) ? "OK" : "Duplicated";
    }
 }

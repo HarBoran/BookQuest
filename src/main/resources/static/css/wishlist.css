@@ -1,3 +1,46 @@
+#title{
+	width: 1200px;
+	height: 200px;
+	margin: auto;
+	font-size: 30px;
+	font-weight: 600;
+	}
+	
+#titlePoint{
+	color : #5747E6;;
+}
+
+
+
+/*
+<title>
+width: 1200px; height: 200px; margin: auto;
+
+<책 리스트 한줄>
+width: 1200px; height: 360px; marign: auto; display: flex; justify-content: space-between; 
+
+<책 한권(제목 포함)>
+width: 180px; height: 300px;
+
+<책 이미지>
+border-radius: 6px ~ 12px 선택
+
+<완료 버튼>
+width: 70px; height: 36px; background-color: #5747E6; color: white; border-radius: 알아서; display: flex; justify-content: flex-end;
+
+민수형 화이팅
+
++)
+나의 최애 도서는? << 폰트 사이즈 36px, 폰트 웨이트 700; 하시면 되구요 
+
+타이틀에 보더 바텀 2px solid #DADADA; 주시면 돼요
+
++) 빨리 끝나면, 
+
+마우스 갖다댔을 때(focus & hover) 보라색 반투명 배경에 하트 아이콘 나오는 이미지로 바뀌게 << 저도 잘 몰라요 찾아봐야 함
+
+*/
+
 #recommendedArea {
 	height: 50px;
 	text-align: center;

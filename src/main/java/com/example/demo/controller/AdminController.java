@@ -72,6 +72,8 @@ public class AdminController {
 
 		List<Category> categoryList = categoryService.findCategory();
 		model.addAttribute("categoryList", categoryList);
+		
+		System.err.println("?????????");
 
 		return "newBookRegisteringAndRevising";
 	}
@@ -188,7 +190,6 @@ public class AdminController {
 
 		if (sales != null) {
 			for (Sales sale : sales) {
-				System.err.println(sale.getDeliveryStatus());
 				if (sale.getDeliveryStatus().equals("배송완료")) {
 					sale.setDeliveryStatus("정산완료");
 					salesService.save(sale);

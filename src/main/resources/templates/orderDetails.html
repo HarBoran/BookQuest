@@ -5,36 +5,9 @@
 	
 	<head th:replace="commonspace :: page_head('Home - orderDetails')" />
 	<link rel="stylesheet" th:href="@{/css/orderdetails.css}" />
+	<script type="text/javascript" th:src="@{/js/orderdetails.js}"></script>
 
 </head>
-<script>
-	function showList() {
-		var list = document.getElementById("list");
-		if (list.style.display === "none") {
-			list.style.display = "block";
-		} else {
-			list.style.display = "none";
-		}
-	}
-</script>
-<style>
-	table {
-		font-family: arial, sans-serif;
-		border-collapse: collapse;
-		width: 100%;
-	}
-
-	td,
-	th {
-		border: 1px solid rgb(255, 255, 255);
-		text-align: left;
-		padding: 8px;
-	}
-
-	tr:nth-child(even) {
-		background-color: rgb(255, 255, 255);
-	}
-</style>
 
 <body>
 	<div th:replace="commonspace :: menu" />
@@ -43,7 +16,6 @@
 			<br><br>
 			<h1>주문 내역</h1>
 			<br><br>
-
 
 			<table>
 				<tr>

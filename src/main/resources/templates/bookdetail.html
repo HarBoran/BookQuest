@@ -12,7 +12,6 @@
 <body>
 	<div th:replace="commonspace :: menu" />
 
-	2뎁스 카테고리 / 책제목 / 별점 / 저자 / 출판사 / 발간일 / 새책가격 / 중고가격
 	<div id="book_box1">
 		<div id="book_box2">
 			<div id="book_image_box" th:each="book : ${bookdetail}">
@@ -152,6 +151,8 @@
 							</form>
 						</div>
 					</div>
+					
+					<button>중고 구매하기</button>
 
 					<form th:action="@{/usedBook/selluserd}" method="POST">
 						<input type="hidden" name="book" th:value="${book.bookId}" />

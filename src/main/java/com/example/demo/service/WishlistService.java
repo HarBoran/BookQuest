@@ -23,7 +23,7 @@ public class WishlistService {
 	private WishlistRepository repo;
 
 	@Autowired
-	public static final int WISHLIST_PER_PAGE = 4;
+	public static final int WISHLIST_PER_PAGE = 40;
 
 	public User getUserByEmail(String userEmail) {
 		return repo.getUserByEmail(userEmail);

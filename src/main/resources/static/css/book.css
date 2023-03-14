@@ -181,3 +181,14 @@
 	color: #f0f0f0;
 	font-size: 120%;
 }
+
+.page-item.active .page-link {
+	background-color: #5747E6;
+	border-color: #5747E6;
+}
+
+.page-link {
+	color: #5747E6;
+	float: none;
+	margin: 1px 7px;
+}

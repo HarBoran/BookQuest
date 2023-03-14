@@ -5,52 +5,39 @@
 
 	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
 	<link rel="stylesheet" th:href="@{/css/newBookRegisteringAndRevising.css}" />
-	<script type="text/javascript" th:src="@{/js/newBookRegisteringAndRevising.js}"/>
-
-	<script type="text/javascript">
-
-	</script>
+	<script type="text/javascript" th:src="@{/js/newBookRegisteringAndRevising.js}"></script>
 
 </head>
 
 <body>
-	<div th:replace="commonspace :: menu" />
+	<div th:replace="commonspace :: menu"></div>
 
-	<div class="container">
+	<form th:action="@{/admin/saveBookInformation}" th:object="${registering}" method="POST"
+		enctype="multipart/form-data" onsubmit="return checkNameUnique(this)">
+		<div th:text="${bookId == null} ? '신간 도서 등록하기' : '책 정보 수정하기'" class="page_title"></div>
+		<input type="hidden" th:field="*{bookId}" />
 
-		<form th:action="@{/admin/saveBookInformation}" th:object="${registering}" method="POST" enctype="multipart/form-data"
-			onsubmit="return checkNameUnique(this)">
-
-			<h2>
-				<div th:text="${bookId == null} ? '신간도서 등록하기' : '책정보 수정하기'" />
-			</h2>
-
-			<hr>
-
-			<input type="hidden" th:field="*{bookId}" />
-
-			<div>
-				<label for="image">책표지 업로드</label>
-				<div>
-					<input type="hidden" th:field="*{image}" />
-					<img id="thumbnail" alt="Book Cover preview" th:src="@{${registering.imagePath}}" />
+		<div class="container">
+			<div class="insert_image_box">
+				<div class="image_box_title">책표지 업로드</div>
+				<div class="thumbnail_and_file">
+					<div class="thumbnail_box">
+						<input type="hidden" th:field="*{image}" /> <img id="thumbnail" alt="Book Cover preview"
+							th:src="@{${registering.imagePath}}" />
+					</div>
 					<input type="file" id="bookCover" name="uploadBookCover" accept="image/png,image/jpeg"
 						th:required="${registering.image == null}" />
 				</div>
 			</div>
 
-			<div>책정보</div>
+			<div>책 정보</div>
 
 			<table>
 				<tr>
 					<th><label for="title">책 제목</label></th>
-					<td>
-						<input type="text" th:field="*{title}" placeholder="책 제목" required>
-					</td>
+					<td><input type="text" th:field="*{title}" placeholder="책 제목" required></td>
 					<th><label for="author">저자</label></th>
-					<td>
-						<input type="text" th:field="*{author}" placeholder="저자" required>
-					</td>
+					<td><input type="text" th:field="*{author}" placeholder="저자" required></td>
 				</tr>
 				<tr>
 					<th><label>카테고리</label></th>
@@ -60,29 +47,20 @@
 								<option th:value="${category.categoryId}" th:disabled="${category.parent == null}">
 									[[${category.name}]]</option>
 							</th:block>
-						</select>
-					</td>
+						</select></td>
 					<th><label for="publisher">출판사</label></th>
-					<td>
-						<input type="text" th:field="*{publisher}" placeholder="출판사" required>
-					</td>
+					<td><input type="text" th:field="*{publisher}" placeholder="출판사" required></td>
 				</tr>
 				<tr>
 					<th><label for="price">판매가</label></th>
-					<td>
-						<input type="number" th:field="*{price}" placeholder="판매가" required>
-					</td>
+					<td><input type="number" th:field="*{price}" placeholder="판매가" required></td>
 					<th><label for="publicationDate">출판날짜</label></th>
-					<td>
-						<input type="text" th:field="*{publicationDate}" placeholder="출판날짜" required>
-					</td>
+					<td><input type="text" th:field="*{publicationDate}" placeholder="출판날짜" required></td>
 				</tr>
 				<tr th:if="${bookId != null}">
 					<th><label for="discountRate">할인률</label></th>
-					<td>
-						<input type="number" th:field="*{discountRate}" placeholder="할인률 %"
-							th:disabled="${bookId ==null}" />
-					</td>
+					<td><input type="number" th:field="*{discountRate}" placeholder="할인률 %"
+							th:disabled="${bookId ==null}" /></td>
 				</tr>
 				<tr>
 					<th><label for="description">책 소개</label></th>
@@ -96,15 +74,14 @@
 					<div th:if="${bookId == null}">등록완료</div>
 					<div th:if="${bookId != null}">수정완료</div>
 				</button>
-				<a th:href="@{/}" id="cancelButton">Cancel</a>
-				<a th:if="${bookId != null}" th:href="@{/admin/deleteBookInformation/{bookId}(bookId=${bookId})}"
-					id="deleteButton">삭제하기</a>
+				<a th:href="@{/}" id="cancelButton">Cancel</a> <a th:if="${bookId != null}"
+					th:href="@{/admin/deleteBookInformation/{bookId}(bookId=${bookId})}" id="deleteButton">삭제하기</a>
 			</div>
+		</div>
+	</form>
 
-		</form>
-	</div>
 
-	<div th:replace="commonspace :: footer" />
+	<div th:replace="commonspace :: footer"></div>
 </body>
 
 </html>

@@ -7,35 +7,6 @@
 	<link rel="stylesheet" th:href="@{/css/book.css}" />
 	<link rel="stylesheet" th:href="@{/css/home.css}" />
 
-	<script>
-		function openTab(evt, tabName) {
-			var i, tabcontent, tablinks;
-			tabcontent = document.getElementsByClassName("tabcontent");
-			for (i = 0; i < tabcontent.length; i++) {
-				tabcontent[i].style.display = "none";
-			}
-			tablinks = document.getElementsByClassName("tablinks");
-			for (i = 0; i < tablinks.length; i++) {
-				tablinks[i].className = tablinks[i].className.replace(" active", "");
-			}
-			document.getElementById(tabName + "-content").style.display = "block";
-			evt.currentTarget.className += " active";
-		}
-	</script>
-
-	<style>
-		.page-item.active .page-link {
-			background-color: #5747E6;
-			border-color: #5747E6;
-		}
-
-		.page-link {
-			color: #5747E6;
-			float: none;
-			margin: 1px 7px;
-		}
-	</style>
-
 </head>
 
 <body>

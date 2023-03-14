@@ -2,40 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
-
-	<link rel="stylesheet" th:href="@{/css/orderdetails.css}" />
-
+	
 	<head th:replace="commonspace :: page_head('Home - orderDetails')" />
+	<link rel="stylesheet" th:href="@{/css/orderdetails.css}" />
+	<link rel="stylesheet" th:href="@{/css/checkDeliveryStatus.css}" />
+	<script type="text/javascript" th:src="@{/js/checkDeliveryStatus.js}"></script>
 
 </head>
-<script>
-	function showList() {
-		var list = document.getElementById("list");
-		if (list.style.display === "none") {
-			list.style.display = "block";
-		} else {
-			list.style.display = "none";
-		}
-	}
-</script>
-<style>
-	table {
-		font-family: arial, sans-serif;
-		border-collapse: collapse;
-		width: 100%;
-	}
 
-	td,
-	th {
-		border: 1px solid rgb(255, 255, 255);
-		text-align: left;
-		padding: 8px;
-	}
-
-	tr:nth-child(even) {
-		background-color: rgb(255, 255, 255);
-	}
-</style>
 
 <body>
 	<div th:replace="commonspace :: menu" />

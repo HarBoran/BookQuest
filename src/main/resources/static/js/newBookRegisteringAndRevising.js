@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
 	$("#bookCover").change(function() {
 		fileSize = this.files[0].size;
