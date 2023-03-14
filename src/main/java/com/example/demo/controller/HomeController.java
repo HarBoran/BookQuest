@@ -52,13 +52,13 @@ public class HomeController {
 
 	@Autowired
 	OrderDetailService orderdetailService;
-	
+
 	@Autowired
 	SalesService salesService;
-	
+
 	@Autowired
 	SalesDetailService salesDetailService;
-	
+
 	@Autowired
 	BooksBranchService booksBranchService;
 
@@ -67,20 +67,22 @@ public class HomeController {
 		final int showBookMain = 5;
 
 		List<Book> randomBooks = bookService.findRandomBooks();
-		Long totalBooks = bookService.countTotlaBooks();
-		model.addAttribute("randomBooks", totalBooks < showBookMain ? randomBooks : randomBooks.subList(0, showBookMain));
+		Long totalBooks = bookService.countTotalBooks();
+		model.addAttribute("randomBooks",
+				totalBooks < showBookMain ? randomBooks : randomBooks.subList(0, showBookMain));
 
-		List<Book> bestseller = orderdetailService.bestseller();
-		Long totalBestseller = orderdetailService.countTotalBooks();
-		model.addAttribute("bestseller", totalBestseller < showBookMain ? bestseller : bestseller.subList(0, showBookMain));
+		// List<Book> bestseller = bookService.bestseller();
+		// Long totalBestseller = bookService.countBestBooks();
+		/// model.addAttribute("bestseller", totalBestseller < showBookMain ? bestseller
+		// : bestseller.subList(0, showBookMain));
 
 		List<Book> newbooks = bookService.newbooks();
 		model.addAttribute("newbooks", totalBooks < showBookMain ? newbooks : newbooks.subList(0, showBookMain));
 
-		String[][] recommendationList = {{ "A.I가 추천해주는 내 취향 도서(책리스트 잘못됨)", "/book/categories", "randomBooks" },
-											{ "신간도서", "/book/new", "newbooks" }, 
-											{ "베스트 샐러(order순)", "/book/bestseller", "bestseller" },
-											{ "이주의 특가 상품(책리스트 잘못됨)", "/book/categories", "randomBooks" }};
+		String[][] recommendationList = { { "A.I가 추천해주는 내 취향 도서(책리스트 잘못됨)", "/book/categories", "randomBooks" },
+				{ "신간도서", "/book/new", "newbooks" },
+//											{ "베스트 샐러(order순)", "/book/bestseller", "bestseller" },
+				{ "이주의 특가 상품(책리스트 잘못됨)", "/book/categories", "randomBooks" } };
 		if (authentication == null) {
 			recommendationList = Arrays.copyOfRange(recommendationList, 1, recommendationList.length);
 		}
@@ -90,24 +92,35 @@ public class HomeController {
 	}
 
 	// <div th:replace="commonspace :: menu" />에서는 먹히지 않음
-	//	@GetMapping("/common")
-	//	public String commonspace(Model model) {
-	//		List<Branches> branchList = branchService.findAll();
-	//		model.addAttribute("branchList", branchList);
-	//		return "commonspace";
-	//	}
+	// @GetMapping("/common")
+	// public String commonspace(Model model) {
+	// List<Branches> branchList = branchService.findAll();
+	// model.addAttribute("branchList", branchList);
+	// return "commonspace";
+	// }
 
 	@GetMapping("/informationBranch/{id}")
 	public String branchInformation(@PathVariable("id") Integer id, Model model) {
 		Branches branchInformation = branchService.finById(id);
 		List<Book> branchBooks = bookService.findByBranch(id);
 		List<Category> listCategories = categoryService.findCategory();
-		
+
 		model.addAttribute("branchInformation", branchInformation);
 		model.addAttribute("books", branchBooks);
 		model.addAttribute("listCategories", listCategories);
 		return "informationBranch";
 	}
 
+	@GetMapping("/salesDetails/{salesId}")
+	public String details(Model theModel, @PathVariable(name = "salesId") int salesId) {
+		Sales sales = salesService.findById(salesId).get();
+
+		List<SalesDetail> salesDetail = salesDetailService.findOrderDetailsByOrder(sales);
+
+		theModel.addAttribute("salesDetail", salesDetail);
+		theModel.addAttribute("dividedPage", "dividedPage");
+
+		return "checkDeliveryStatus";
+	}
 
 }

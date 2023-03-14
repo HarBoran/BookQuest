@@ -151,8 +151,8 @@
 						<th>제목</th>
 						<th>작가</th>
 						<th>출판사</th>
-						<th>출판일</th>
 						<th>가격</th>
+						<th>할인률</th>
 						<th>디테일페이지</th>
 						<th>수정하기</th>
 					</tr>
@@ -164,8 +164,8 @@
 						<td>[[${book.title}]]</td>
 						<td>[[${book.author}]]</td>
 						<td>[[${book.publisher}]]</td>
-						<td>[[${book.publicationDate}]]</td>
 						<td>[[${book.price}]]</td>
+						<td>[[${book.discountRate}]]</td>
 						<td><a th:href="@{/book/detail(book=${book.bookId})}">자세히보기</a></td>
 						<td><a th:href="@{/admin/editBookInformation/{bookId}(bookId=${book.bookId})}">수정하기</a></td>
 					</tr>

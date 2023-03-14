@@ -21,29 +21,38 @@
 	</div>
 
 	<div id="order_box1">
-		<div th:each="book, i: ${bookdetail}" id="order_box2">
-			<div id="book_info">
-				<div id="book_title">[[${book.title}]]</div>
 
+		<div id="left">
+			<div th:each="book, i: ${bookdetail}">
+
+
+				<div id="book_title" style="margin: auto; ">[[${book.title}]]</div>
 				<div id="author_name">[[${book.author}]]</div>
-			</div>
 
-			<div id="order_count_and_price_box">
-				<div class="order-count">[[${bookquantity}]]권</div>
-
-				<div id="order_price" th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}">
-				</div>
+				<div th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}"></div>
+				<hr>
 			</div>
 		</div>
-
-		<div id="order_total_price_box">
-			<div id="total_price_text_box">총 결제 금액</div>
-
-			<div id="total_price" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT') + '원'}">
+		<div id="right">
+			<div th:each="bookquantity:${bookquantity}">
+				<div style="height:57.5px ; text-align: right;">[[${bookquantity}]]권</div>
+				<hr>
 			</div>
 		</div>
 	</div>
 
+
+
+
+
+	<div id="order_total_price_box">
+		<div id="total_price_text_box">총 결제 금액</div>
+
+		<div id="total_price" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT') + '원'}">
+		</div>
+	</div>
+	</div>
+	<br><br>
 	<div id="delivery_box">
 		<div id="delivery_textbox">배송지 정보 입력</div>
 

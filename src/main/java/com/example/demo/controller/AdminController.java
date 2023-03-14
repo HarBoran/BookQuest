@@ -96,7 +96,7 @@ public class AdminController {
 		}
 		redirectAttributes.addFlashAttribute("message",
 				"<" + registering.getTitle() + "> has been saved successfully.");
-		return "redirect:/editBookInformation";
+		return "redirect:/admin/editBookInformation";
 
 	}
 
@@ -180,7 +180,7 @@ public class AdminController {
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
 		}
-		return "redirect:/editBookInformation";
+		return "redirect:/admin/editBookInformation";
 	}
 
 	@RequestMapping(value = { "/checkDeliveryStatus" }, method = { RequestMethod.GET, RequestMethod.POST })

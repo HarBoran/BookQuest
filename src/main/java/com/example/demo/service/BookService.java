@@ -35,6 +35,18 @@ public class BookService {
 		return (List<Book>) repo.findAll();
 	}
 	
+	public List<Book> bestseller() {
+		return repo.bestseller();
+	}
+	
+	public Long countTotalBooks() {
+		return repo.countTotalBooks();
+	}
+	
+	public Long countBestBooks() {
+		return repo.countBestBooks();
+	}
+
 	public Page<Book> listByPage(int pageNum, String sortField, String sortDir, String keyword) {
 		Sort sort =Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
@@ -84,11 +96,6 @@ public class BookService {
 		return repo.findById(bookId);
 	}
 
-	public Long countTotlaBooks() {
-		return repo.countTotlaBooks();
-	}
-
-
 	public void deleteById(Integer bookId) throws Exception {
 		if (repo.findById(bookId) == null ) {
 			throw new Exception("Could not find any user with ID "+bookId);
@@ -112,6 +119,7 @@ public class BookService {
 	public List<Book> sortTitle() {
 		return repo.sortTitle();
 	}
+
 
 
 }

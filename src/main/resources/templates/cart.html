@@ -246,7 +246,9 @@
 	</div>
 
 	<div id="checkbox">
-		<button onclick="toggleSelect()" id="selectAll">전체 해제</button>
+		<div>
+			<button onclick="toggleSelect()" id="selectAll">전체 해제</button>
+		</div>
 	</div>
 
 	<form th:action="@{/order/buyselect}" method="post" onsubmit="return validForm()">

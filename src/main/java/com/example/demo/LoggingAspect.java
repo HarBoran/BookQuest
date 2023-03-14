@@ -39,8 +39,8 @@ public class LoggingAspect {
 	@AfterReturning(pointcut = "forServicePackage()", returning = "theResult")
 	public void afterReturning(JoinPoint theJoinPoint, Object theResult) {
 		String theMethod = theJoinPoint.getSignature().toShortString();
-		logger.info("=> " + theMethod + theResult);
-		logger.trace("trace log={}" + theMethod + theResult);
-		logger.debug("debug log={}"+ theMethod + theResult);
+//		logger.info("=> " + theMethod + theResult);
+//		logger.trace("trace log={}" + theMethod + theResult);
+//		logger.debug("debug log={}"+ theMethod + theResult);
 	}
 }

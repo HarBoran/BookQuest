@@ -152,26 +152,9 @@
    float: left;
 }
 
-#oneBookInfo>a>div:nth-child(3)>div:nth-child(2) {
-   float: right;
-   text-align: right;
-   color: mediumpurple;
-}
-
-#oneBookInfo>a>div:nth-child(3)>#preDiscountPrice {
-   text-decoration: line-through;
-   color: #777;
-}
-
-#oneBookInfo>a>div:nth-child(3)> :last-child {
-   float: right;
-   text-align: right;
-   color: #c00;
-   font-weight: bold;
-}
-
-
 #originalPrice{
+	float: right;
+  	text-align: right;
 	color: #5747E6;
 	font-size: 20px;
 	font-weight: 700;

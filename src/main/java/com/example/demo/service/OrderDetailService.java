@@ -24,48 +24,21 @@ public class OrderDetailService {
 	@Autowired
 	private OrderDetailRepository repo;
 	
-	@Autowired
-	private BookService bookService;
-
 	public List<OrderDetail> findOrderDetailsByOrder(Order order) {
 		return repo.findOrderDetailsByOrder(order);
 	}
 
-	public List<Book> bestseller() {
-		return repo.bestseller();
-	}
-
 	public void saveOrderDetails(Order order, Book book1, int bookPrice, int orderQuantity) {
-
 		OrderDetail orderdetail = new OrderDetail();
 		orderdetail.setBook(book1);
 		orderdetail.setOrder(order);
 		orderdetail.setPrice(bookPrice);
 		orderdetail.setOrderQuantity(orderQuantity);
-
 		repo.save(orderdetail);
 	}
 
 	public List<OrderDetail> findOrderDetailsByUser(User user) {
 		return repo.findOrderDetailsByUser(user);
 	}
-
-	public Long countTotalBooks() {
-		return repo.countTotalBooks();
-
-	}
-
-	public Page<Book> listByPage(int pageNum, String sortField, String sortDir, String keyword) {
-		Sort sort =Sort.by(sortField);
-		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
-		Pageable pageable = PageRequest.of(pageNum-1, bookService.USERS_PER_PAGE, sort);
-		if(keyword != null) {
-			return repo.bestseller(keyword, pageable);
-		}
-		return repo.bestseller(pageable);
-	}
-
-
-	
 
 }

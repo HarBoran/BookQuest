@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Configuration
 @EnableWebSecurity
@@ -35,9 +38,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    @Override
    protected void configure(HttpSecurity http) throws Exception {
 	   //http.authorizeRequests().anyRequest().permitAll();
-	   http.authorizeRequests().antMatchers("/**", "/book/**").permitAll()
-	  							.antMatchers("/admin/**").hasAuthority("admin")
-	  							.anyRequest().authenticated();
+	   http.authorizeRequests().antMatchers("/","/informationBranch/{id}", "/book", "/book/{theme}", "/book/{theme}/page/{pageNum}").permitAll()
+	   		.antMatchers("/admin/**").hasAuthority("admin")
+	   		.anyRequest().authenticated();	  
 	   http.formLogin()
             .loginPage("/login")
             .usernameParameter("email")

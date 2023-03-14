@@ -88,7 +88,7 @@ class BookQuestApplicationTests {
 //		List<Object> list = odRepo.bestseller();
 //		System.err.println(list);
 		
-		System.err.println(odRepo.bestseller());
+//		System.err.println(odRepo.bestseller());
 		System.err.println("+__________+");
 		
 	}

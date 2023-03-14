@@ -102,7 +102,6 @@ public class BookController {
 			model.addAttribute("msg", " 도서찾기");
 			
 		}else if(theme.equals("bestseller")){
-			//Page<Book> page = orderDetailService.listByPage(pageNum, sortField, sortDir, keyword);
 			page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
 			List<Book> bestseller = page.getContent();
 			model.addAttribute("books", bestseller);

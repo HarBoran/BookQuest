@@ -78,6 +78,7 @@ public class OrderDetailsController {
 		List<OrderDetail> orderdetail = orderDetailService.findOrderDetailsByOrder(order);
 
 		theModel.addAttribute("orderdetail", orderdetail);
+		theModel.addAttribute("dividedPage","dividedPage");
 
 		return "orderDetails";
 	}

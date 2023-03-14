@@ -25,5 +25,8 @@ public class SalesDetailService {
 		return repo.findBySales(sales);
 	}
 
+	public List<SalesDetail> findOrderDetailsByOrder(Sales sales) {
+		return repo.findBySales(sales);
+	}
 
 }
