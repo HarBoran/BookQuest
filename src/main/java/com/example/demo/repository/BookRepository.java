@@ -25,7 +25,7 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
 	public Page<Book> findAll(String keyword, Pageable pageable);
 
 	
-	@Query("SELECT COUNT(*) FROM Book b JOIN OrderDetail o ON b.bookId = o.book.bookId GROUP BY b.bookId")
+	@Query("SELECT COUNT(*) FROM Book b JOIN OrderDetail o ON b.bookId = o.book.bookId")
 	public Long countBestBooks();
 	
 	@Query("SELECT b FROM Book b JOIN OrderDetail o ON b.bookId = o.book.bookId GROUP BY b.bookId ORDER BY COUNT(o.book.bookId ) DESC")

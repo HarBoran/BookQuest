@@ -78,7 +78,7 @@ public class OrderDetailsController {
 		List<OrderDetail> orderdetail = orderDetailService.findOrderDetailsByOrder(order);
 
 		theModel.addAttribute("orderdetail", orderdetail);
-		theModel.addAttribute("dividedPage","dividedPage");
+		theModel.addAttribute("dividedPage", "dividedPage");
 
 		return "orderDetails";
 	}
@@ -159,6 +159,10 @@ public class OrderDetailsController {
 			order.setUser(user);
 			orderService.save(order);
 			orderDetailService.saveOrderDetails(order, books.get(0), books.get(0).getPrice(), bookquantity.get(0));
+			List<Cart> cart = new ArrayList<>();
+
+			cart.add(cartService.findCartByUserAndBook(user, books.get(0)));
+			cartService.deleteCartByCartId(cart.get(0).getCartId());
 
 			return "redirect:/";
 		} else if (bookquantity.size() > 1) {
@@ -183,7 +187,6 @@ public class OrderDetailsController {
 				orderDetailService.saveOrderDetails(order, book, price, orderQuantity);
 			}
 			for (int j = 0; j < cart.size(); j++) {
-				System.out.println(cart.get(j).getCartId());
 				cartService.deleteCartByCartId(cart.get(j).getCartId());
 
 			}

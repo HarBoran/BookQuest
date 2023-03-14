@@ -133,7 +133,7 @@ public class CartController {
 	public String deletebook(@PathVariable(name = "cartId") int cartId) {
 
 		cartService.deletecartId(cartId);
-		return "home";
+		return "redirect:/cart/";
 	}
 
 	@GetMapping("/up/{cartId}/{cartQuantity}")

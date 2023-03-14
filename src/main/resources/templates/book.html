@@ -210,7 +210,7 @@
 				</div>
 			</div>
 			
-			<div th:if="${totalPages > 1}" style ="margin: auto; margin-top: 20px; margin-bottom: 50px;">
+			<div th:if="${totalPages > 1}" style ="margin: auto; margin-top: 20px;">
 				<nav>
 					<ul class="pagination justify-content-center pagination-xs">
 						<li th:class="${currentPage != 1 ? 'page-item active' : 'page-item disabled'}">
@@ -237,6 +237,14 @@
 						</li>
 					</ul>
 				</nav>
+			</div>
+			
+			<div th:if="${totalItems > 0}" style ="margin: auto; margin-top: 20px; margin-bottom: 50px;">
+				<span>Showing Books # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+			</div>
+
+			<div th:unless="${totalItems > 0}" style ="margin: auto; margin-top: 20px; margin-bottom: 50px;">
+				<span>No Books found</span>
 			</div>
 		</div>
 	</div>
