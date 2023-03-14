@@ -257,7 +257,7 @@
 				<div th:each="cart:${cartList}">
 					<div id="book_info" th:each="book:${cart.book}">
 						<div style="margin-right: 18px; margin-top: 27px;">
-							<input type="checkbox" th:name="selectItem" th:value="${cart.cartId}" checked />
+							<input type="checkbox" class="myCheckbox" th:name="selectItem" th:value="${cart.cartId}" checked />
 						</div>
 
 						<div>

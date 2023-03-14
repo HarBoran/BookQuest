@@ -1,0 +1,62 @@
+#recommendedArea {
+	height: 50px;
+	text-align: center;
+	border: 1px solid cornflowerblue;
+}
+
+#mainArea {
+	display: flex;
+	flex-grow: 1;
+}
+
+#categoriesMenu {
+	width: 20%;
+	border: 1px solid cadetblue;
+	margin-bottom: 20px;
+}
+
+#categoriesMenu div {
+	padding-left: 20px;
+}
+
+#bookList {
+	width: 80%;
+	border: 1px solid powderblue;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 50px;
+}
+
+#bookList>div:first-child {
+	width: 75%;
+	order: -1;
+
+}
+
+
+#bundleBooks {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin: 0 7%;
+}
+
+#book {
+	width: calc(20% - 10px);
+	margin-bottom: 10px;
+	align-items: center;
+	justify-content: space-between;
+	flex: 0 0 200px;
+}
+
+#book>a>img {
+	max-width: 150px;
+	border-radius: 20px;
+}
+
+#book>a>div:nth-child(3) {
+	float: right;
+	text-align: right;
+	color: mediumpurple;
+}
