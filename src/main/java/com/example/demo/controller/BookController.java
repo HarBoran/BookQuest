@@ -86,35 +86,63 @@ public class BookController {
 	
 	@GetMapping("/{theme}")
 	public String listAllBook(@PathVariable(name = "theme") String theme, Model model) {
-		return findBookList(theme, 1, "bookId", "asc", null, model);
+		return findBookList(theme, 1, "bookId", "asc", null, null, model);
 	}
 	
 	@GetMapping("/{theme}/page/{pageNum}")
 	public String findBookList(@PathVariable(name = "theme") String theme, @PathVariable(name = "pageNum") int pageNum, 
-			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword, Model model) {
+			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword, 
+			Category category, Model model) {
+	
+		Page<Book> page = null;
 		
-		Page<Book> page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
+		System.err.println(category);
 		
-		if(theme.equals("categories")) {
-			page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
-			List<Book> books = page.getContent();
-			model.addAttribute("books", books);
-			model.addAttribute("pagetitle", " 도서찾기");
-			model.addAttribute("introduce", "내 취향에 맞는 도서를 찾아보세요.");
+		if (category == null || category.getCategoryId() == null) {
+			if(theme.equals("categories")) {
+				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
+				List<Book> books = page.getContent();
+				model.addAttribute("books", books);
+				model.addAttribute("pagetitle", " 도서찾기");
+				model.addAttribute("introduce", "내 취향에 맞는 도서를 찾아보세요.");
+				
+			}else if(theme.equals("bestseller")){
+				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
+				List<Book> bestseller = page.getContent();
+				model.addAttribute("books", bestseller);
+				model.addAttribute("pagetitle", "베스트 셀러");
+				model.addAttribute("introduce", "지금 가장 핫한 도서를 만나보세요!");
 			
-		}else if(theme.equals("bestseller")){
-			page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
-			List<Book> bestseller = page.getContent();
-			model.addAttribute("books", bestseller);
-			model.addAttribute("pagetitle", "베스트 셀러");
-			model.addAttribute("introduce", "지금 가장 핫한 도서를 만나보세요!");
-		
-		}else if(theme.equals("new")){
-			page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
-			List<Book> newbooks = page.getContent();
-			model.addAttribute("books", newbooks);
-			model.addAttribute("pagetitle", "신간 도서");		
-			model.addAttribute("introduce", "갓 나온 따끈따끈한 도서를 만나보세요!");
+			}else if(theme.equals("new")){
+				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
+				List<Book> newbooks = page.getContent();
+				model.addAttribute("books", newbooks);
+				model.addAttribute("pagetitle", "신간 도서");		
+				model.addAttribute("introduce", "갓 나온 따끈따끈한 도서를 만나보세요!");
+			}
+			
+		}else if(category != null) {
+			if(theme.equals("categories")) {
+				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword, category);
+				List<Book> books = page.getContent();
+				model.addAttribute("books", books);
+				model.addAttribute("pagetitle", " 도서 찾기");
+				model.addAttribute("introduce", "내 취향에 맞는 도서를 찾아보세요!");
+				
+			}else if(theme.equals("bestseller")){
+				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword, category);
+				List<Book> bestseller = page.getContent();
+				model.addAttribute("books", bestseller);
+				model.addAttribute("pagetitle", "베스트 셀러");
+				model.addAttribute("introduce", "지금 가장 핫한 도서를 만나보세요!");
+			
+			}else if(theme.equals("new")){
+				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword, category);
+				List<Book> newbooks = page.getContent();
+				model.addAttribute("books", newbooks);
+				model.addAttribute("pagetitle", "신간 도서");		
+				model.addAttribute("introduce", "갓 입고된 따끈따끈한 도서를 만나보세요!");
+			}
 		}
 		
 		long startCount = (pageNum - 1) * bookService.USERS_PER_PAGE + 1;
@@ -129,11 +157,11 @@ public class BookController {
 		model.addAttribute("startCount", startCount);
 		model.addAttribute("endCount", endCount);
 		
-
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("keyword", keyword);
+		model.addAttribute("category", category);
 
 		final long PartPage = 5; // 보여줄 컨텐츠의 객수
 		long totalPage = page.getTotalPages();

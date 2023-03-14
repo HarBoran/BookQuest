@@ -77,11 +77,11 @@ public class HomeController {
 		List<Book> newbooks = bookService.newbooks();
 		model.addAttribute("newbooks", totalBooks < showBookMain ? newbooks : newbooks.subList(0, showBookMain));
 
-		String[][] recommendationList = { { "A.I가 추천해주는 내 취향 도서(책리스트 잘못됨)", "/book/categories", "randomBooks" },
-											{ "베스트 샐러(order순)", "/book/bestseller", "bestseller" },
-											{ "신간도서", "/book/new", "newbooks" },
-											{ "이주의 특가 상품(책리스트 잘못됨)", "/book/categories", "randomBooks" } };
-		if (authentication == null) {
+		 String[][] recommendationList = { { "AI가 추천해주는 내 취향 도서(책리스트 잘못됨)", "/book/categories", "randomBooks" },
+				 							{ "베스트 셀러(order순)", "/book/bestseller", "bestseller" },
+				 							{ "갓 입고된 따끈 따끈 도서", "/book/new", "newbooks" },
+				 							{ "이 주의 특가 상품(책리스트 잘못됨)", "/book/categories", "randomBooks" } };
+		 if (authentication == null) {
 			recommendationList = Arrays.copyOfRange(recommendationList, 1, recommendationList.length);
 		}
 

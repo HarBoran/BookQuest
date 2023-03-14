@@ -1,5 +1,5 @@
 #tabArea1 {
-	width: 922px;
+	width: 860px;
 	height: 189px;
 	border: none;
 	margin-left: 33px;
@@ -13,50 +13,73 @@
 	margin-bottom: 40px;
 }
 
-#tab {
+#searchFilter {
 	width: 100%;
-	height: 42px;
+	height: 52px;
 	margin: auto;
 	border-bottom: 1px solid #D1D1D1;
 	margin-bottom: 48px;
 	display: flex;
 }
 
-#tab a {
+#searchFilter a {
+	width: 120px;
+	height: 100%;
+	padding-left: 30px;
+	display: flex;
+	align-items: center;
 	margin-right: 15px;
-	text-align: center;
+	float: left;
+	font-weight: 500;
 }
 
 #wrapper {
-   display: flex;
-    align-items: center;
-     max-width: 1200px; /* wrapper 요소의 width를 고정 */
-     flex-wrap: wrap;
-     flex-direction: column;
+	display: flex;
+	align-items: center;
+	max-width: 1200px;
+	/* wrapper 요소의 width를 고정 */
+	flex-wrap: wrap;
+	flex-direction: column;
 }
 
 #book_search_box {
-   width: 856px;
-   display: flex;
-   justify-content: space-between;
-   margin-top: 15px; 
-   margin-left: 30px;
+	width: 856px;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 40px;
+	margin-left: 30px;
 }
 
 #book_search {
-   width: 752px;
+	width: 740px;
+	height: 38px;
+	background-color: #F6F6F6;
+	border-radius: 6px;
+	padding-left: 12px;
+	border: 2px solid #DADADA;
+	font-size: 14px;
+	margin-right: 10px;
 }
 
 #book_search_button {
-   
+	width: 102px;
+	height: 38px;
+	border-radius: 6px;
+	background-color: #5747E6;
+	color: white;
+	border: none;
 }
 
 #category {
-   min-width: 220px;
-   height: 1670px;
-   margin-top: 38px;
-   border-radius: 8px;
-   border: 1px solid #7D7D7D;
+	min-width: 230px;
+	height: 1350px;
+	margin-top: 38px;
+	margin-right: 35px;
+	padding-top: 10px;
+	border-radius: 8px;
+	border: 1px solid #7D7D7D;
+	padding-top: 10px;
+	margin-bottom: 70px;
 }
 
 #categoriesMenu {
@@ -70,21 +93,21 @@
 }
 
 #book_box {
-   margin-top: 12px;
-   margin-left: 28px;
-   margin-bottom: 20px;
-   width: 856px;
-   height: auto;
-   display: block;
-   border-collapse: collapse;
+	margin-top: 5px;
+	margin-left: 28px;
+	margin-bottom: 20px;
+	width: 856px;
+	height: auto;
+	display: block;
+	border-collapse: collapse;
 }
 
 #booklist {
-   width: 100%;
-   height: 308px;
-   display: flex;
-   align-items: center;
-   border-bottom: 1px solid #DADADA;
+	width: 100%;
+	height: 308px;
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid #DADADA;
 }
 
 .book {
@@ -127,7 +150,6 @@
 	float: left;
 	width: 99px;
 	height: 88px;
-	margin-top: 10px;
 }
 
 #cart {

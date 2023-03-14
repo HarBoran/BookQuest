@@ -1,10 +1,12 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -76,6 +78,29 @@ public class BookService {
 			return repo.bestseller(pageable);
 		}else if(theme.equals("new")){
 			return repo.findByNewBook(pageable);
+		}
+		return repo.findAll(pageable);
+	}
+	
+	public Page<Book> listByPage(String theme, int pageNum, String sortField, String sortDir, String keyword, Category category) {
+		Sort sort =Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		Pageable pageable = PageRequest.of(pageNum-1, USERS_PER_PAGE, sort);
+		if(keyword != null) {
+			if(theme.equals("categories")) {
+				return repo.findAll(keyword, category, pageable);
+			}else if(theme.equals("bestseller")){
+				return repo.bestseller(keyword, category, pageable);
+			}else if(theme.equals("new")){
+				return repo.findByNewBook(keyword, category, pageable);
+			}
+		}
+		if(theme.equals("categories")) {
+			return repo.findAll(category, pageable);
+		}else if(theme.equals("bestseller")){
+			return repo.bestseller(category, pageable);
+		}else if(theme.equals("new")){
+			return repo.findByNewBook(category, pageable);
 		}
 		return repo.findAll(pageable);
 	}

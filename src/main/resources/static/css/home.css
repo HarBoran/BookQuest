@@ -1,171 +1,167 @@
 .carousel-inner img {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 }
 
 #search_box1 {
-   width: 100%;
-   height: 282px;
+	width: 100%;
+	height: 282px;
 }
 
 #search_box2 {
-   width: 1200px;
-   height: 100%;
-   margin: auto;
-   padding-top: 60px;
+	width: 1200px;
+	height: 100%;
+	margin: auto;
+	padding-top: 60px;
 }
 
 #search_text {
-   margin-bottom: 36px;
-   font-size: 30px; 
-   text-align: center;
+	margin-bottom: 36px;
+	font-size: 30px;
+	text-align: center;
 }
 
 #search {
-  width: 588px;
-  height: 48px;
-  border-radius: 100px;
-  margin-bottom: 50px;
-  border-style: solid;
-  border-width: 2px;
-  border-color: #5747E6;
-  margin: auto;
-  padding-left: 32px;
-  background-color: #F8F8FF;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+	width: 588px;
+	height: 48px;
+	border-radius: 100px;
+	margin-bottom: 50px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #5747E6;
+	margin: auto;
+	padding-left: 32px;
+	background-color: #F8F8FF;
+	box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 #search::placeholder {
-   color: #5747E6;
+	color: #5747E6;
 }
 
 #search_button {
-/*   width: 55px;
-   height: 48px;
-   border-radius: 10px;
-   background-color: #5747E6;
-   border: none;
-   color: white;*/
-   display: none;
+	width: 0;
+	height: 0;
+	border: none;
+	background: none;
+	overflow: hidden;
 }
 
-#recommendationList {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   padding: 50px;
+.recommendation {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 50px;
+	height: 618px;
 }
 
-
-#recommendationList:nth-child(3) {
-   background-color: #dddddd;
+#recommendation_0 {
+	background-color: #F8F8FF;
 }
 
-#recommendationList:nth-child(4) {
-   background-color: #fefefe;
+#recommendation_2 {
+	background-color: #F6F6F6;
 }
 
-#recommendationList:nth-child(5) {
-   background-color: #cccccc;
+.bundleMent {
+	width: 1200px;
+	height: 38px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 38px;
 }
 
-#recommendationList:nth-child(6) {
-   background-color: #efefef;
+.recommendation-title {
+	font-size: 30px;
+	font-weight: 600;
+	margin-right: 5px;
 }
 
-#bundleMent {
-   width: 75%;
-   padding: 30px;
+.recommendation-more {
+	font-size: 14px;
 }
 
-@media screen and (min-width: 1400px) {
-   #bundleMent {
-      width: 1050px;
-      padding: 30px;
-   }
+.recommendation-books {
+	width: 1200px;
+	height: 380px;
+	margin-top: 40px;
+	display: flex;
+	justify-content: space-between;
 }
 
-#bundleMent> :first-child {
-   font-size: 2.5rem;
-   float: left;
-   margin-left: 2%;
-   width: 86%;
+.oneBookInfo {
+	width: 224px;
+	height: 100%;
 }
 
-#bundleMent> :last-child>* {
-   float: right;
-   width: 10%;
-   margin-right: 2%;
-   color: darkgray;
+.book_image {
+	width: 100%;
+	height: 292px;
+	border-radius: 12px;
 }
 
-#bundleBooks {
-   display: flex;
-   flex-wrap: wrap;
-   justify-content: space-between;
-   margin: 0 7%;
+.book_title {
+	width: 100%;
+	height: 35px;
+	padding-top: 7px;
+	padding-left: 3px;
+	font-size: 18px;
+	font-weight: 600;
 }
 
-#oneBookInfo {
-   width: calc(20% - 10px);
-   margin-bottom: 10px;
-   align-items: center;
-   justify-content: space-between;
-   flex: 0 0 200px;
-   /*flex-grow: 0: 아이템의 확장성을 비활성화합니다. 아이템이 공간을 더 필요로 하는 경우에도 크기가 변하지 않습니다.
-            flex-shrink: 0: 아이템의 축소 가능성을 비활성화합니다. 아이템이 공간이 부족한 경우에도 크기가 줄어들지 않습니다.
-            flex-basis: 200px: 아이템의 기본 크기를 200px로 설정합니다.*/
+.book_bundle {
+	margin-top: 8px;
+	width: 100%;
+	height: 45px;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
 }
 
-#oneBookInfo>a {
-   display: block;
-   position: relative;
-   overflow: hidden;
+.book_author {
+	font-size: 14px;
+	color: #7F7FB9;
+	margin-bottom: 2px;
 }
 
-#oneBookInfo img {
-   width: 200px;
-   height: 300px;
-   object-fit: cover;
-   overflow: hidden;
-   border-radius: 20px;
-   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
-   transition: transform 0.3s ease-in-out;
-
+.book_info {
+	border-radius: 13px;
 }
 
-#oneBookInfo a:hover img,
-#oneBookInfo a:focus img {
-   transform: scale(1.1) translateY(-5px);
-   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+.book_info:hover {
+	transform: scale(1.1) translateY(-5px);
+	box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
 }
 
-#oneBookInfo>a>div:nth-child(2) {
-   font-size: 20px;
-   height: 75px;
-   overflow: hidden;
-   white-space: wrap;
-   text-overflow: ellipsis;
+.discount_box {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
 }
 
-#oneBookInfo>a>div:nth-child(3)> :first-child {
-   float: left;
+.preDiscountPrice {
+	align-self: flex-start;
 }
 
-#originalPrice{
+.discountPrice {
+	align-self: flex-end;
+}
+
+#originalPrice {
 	float: right;
-  	text-align: right;
+	text-align: right;
 	color: #5747E6;
-	font-size: 20px;
-	font-weight: 700;
+	font-size: 17px;
+	font-weight: bold;
 }
 
-#preDiscountPrice{
+#preDiscountPrice {
 	text-decoration: line-through;
-   color: #777;
+	color: #777;
 }
 
-#discountPrice{
+#discountPrice {
 	float: right;
 	text-align: right;
 	color: #c00;
