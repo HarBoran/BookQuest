@@ -6,7 +6,6 @@
 	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
 	<link rel="stylesheet" th:href="@{/css/book.css}" />
 	<link rel="stylesheet" th:href="@{/css/home.css}" />
-	
 
 	<script>
 		function openTab(evt, tabName) {
@@ -42,7 +41,7 @@
 <body>
 	<div th:replace="commonspace :: menu"></div>
 
-	<div style="display: flex">
+	<div style="display: flex; justify-content: center; margin: 0 auto;">
 		<div id="category">
 			<div th:if="${listCategories != null}" id="categoriesMenu">
 				<div th:each="cat : ${listCategories}">
@@ -56,9 +55,9 @@
 		<div id="wrapper">
 			<div id="tabArea1">
 				<div id="tabArea2">
-					<div style="font-size: 36px; font-weight: 500; margin-bottom: 3px;">[[${pagetitle}]]</div>
+					<div style="font-size: 36px; font-weight: 500; margin-bottom: 3px; margin-left: 30px;">[[${pagetitle}]]</div>
 		
-					<div style="font-size: 14px; display: flex; align-items: center; color: #7D7D7D;">
+					<div style="font-size: 14px; display: flex; align-items: center; margin-left: 33px; color: #7D7D7D;">
 						[[${introduce}]] <img th:src="@{/images/fire.png}"
 							style="width: 15px; height: 12px; margin-left: 2px;">
 					</div>
@@ -66,32 +65,30 @@
 
 				<div id="tab">
 					<div>
-						<div style="width: 120px; height: 100%; float: left; padding-left: 23px; font-weight: 500;">
+						<div style="width: 120px; height: 100%; float: left; padding-left: 35px; font-weight: 500;">
 							<a th:href="@{/book/sortPrice}">가격순</a>
 						</div>
-						<div style="width: 120px; height: 100%; float: left; padding-left: 23px; font-weight: 500;">
+						<div style="width: 120px; height: 100%; float: left; padding-left: 30px; font-weight: 500;">
 							<a th:href="@{/book/sortTitle}">제목순</a>
 						</div>
-						<div style="width: 120px; height: 100%; float: left; padding-left: 23px; font-weight: 500;">	
-						</div>
-					</div>
-								
-					<div>
-						<form th:action="@{'/book/' + ${theme} + '/page/1'}">
-							<input type="hidden" name="sortField" th:value="${sortField}" class="form-control" />
-							<input type="hidden" name="sortDir" th:value="${sortDir}" class="form-control" />
-						
-							<div style="position: relative; display: inline-block;">
-							<input id="search" type="search" name="keyword" th:value="${keyword}" placeholder="도서명 검색하기" class="form-control" required />
-							</div>
-
-							<button type="submit" id="search_button">
-								<img th:src="@{/images/search_icon.png}"
-									style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); margin-right:12px;">
-							</button>
-						</form>
 					</div>
 				</div>
+			</div>
+			
+			<div id="book_search_box">
+				<form th:action="@{'/book/' + ${theme} + '/page/1'}">
+					<input type="hidden" name="sortField" th:value="${sortField}" class="form-control" />
+					<input type="hidden" name="sortDir" th:value="${sortDir}" class="form-control" />
+				
+					<div style="position: relative; display: inline-block;">
+					<input id="book_search" type="search" name="keyword" th:value="${keyword}" placeholder="도서명 검색하기" class="form-control" required />
+					</div>
+
+					<button type="submit" id="book_search_button">
+						<!--<img th:src="@{/images/search_icon.png}"
+							style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); margin-right:12px;">-->
+					</button>
+				</form>
 			</div>
         
 			<div id="book_box">
@@ -161,12 +158,12 @@
 										</div>
 									</div>
 									<div
-										style="width: 236px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
-										<div th:text="${book.author}" style="font-size: 14px;"></div>
+										style="margin-bottom: 16px; display: flex; justify-content: flex-start; align-items: center;">
+										<div th:text="${book.author}" style="font-size: 14px; margin-right: 10px;"></div>
 										<div style="font-size: 14px;">|</div>
-										<div th:text="${book.publisher}" style="font-size: 14px;"></div>
+										<div th:text="${book.publisher}" style="font-size: 14px; margin: 0 10px;"></div>
 										<div style="font-size: 14px;">|</div>
-										<div th:text="${book.publicationDate}" style="font-size: 14px;"></div>
+										<div th:text="${book.publicationDate}" style="font-size: 14px; margin-left: 10px;"></div>
 									</div>
 						
 
