@@ -73,7 +73,8 @@
 							<div style="width:111px; height:16px; margin-left: 7px; font-size:12px;">(0.0)</div>
 						</div>
 						<div th:unless="${not #ctx.containsVariable('avgstar')}">
-							<div style="width:111px; height:16px; margin-left: 7px; font-size:12px;">([[${avgstar}]])
+							<div style="width:111px; height:16px; margin-left: 7px; font-size:12px;">
+								<span th:text="'('+ ${#numbers.formatDecimal(avgstar, 1, 2)} + ')'"></span>
 							</div>
 						</div>
 					</div>
@@ -229,7 +230,7 @@
 			</div>
 
 			<div>
-				<textarea th:field="*{comment}" placeholder="리뷰내용을 입력해주세요." />
+				<textarea th:field="*{comment}" placeholder="리뷰내용을 입력해주세요.(255자 내외)" maxlength="255"/>
 			</div>
 
 
@@ -263,7 +264,11 @@
 		<th:block th:each="reivews:${reviewdetail}">
 			<div id="reivewsBox">
 				<div id="reivewsBoxTop" style="color: gray;">
-					<div th:text="${reivews.commentDate}" />
+					<div style="display: flex;">
+						<div th:text="${reivews.user.name}"/>
+						<div style="margin: 0 15px;">&vert;</div>
+						<div th:text="${#temporals.format(reivews.commentDate, 'yyyy-MM-dd HH:mm:ss')}"></div>
+					</div>
 					
 					<table>
 						<td th:if="${reivews.starRating==1}">
@@ -303,7 +308,7 @@
 						</td>
 					</table>
 				</div>
-				<div th:text="${reivews.comment}"style = "padding: 5px;" />
+				<div th:text="${reivews.comment}"style = "padding: 5px; word-wrap: break-word;" />
 			</div>
 
 

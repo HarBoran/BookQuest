@@ -6,15 +6,24 @@ $(document).ready(function() {
 
 var formSubmitting = false;
 
+
+/*$(document).ready(function() {
+	$('button#duplicateCheckButton').click(function(event) {
+		event.preventDefault();
+		checkEmailUniqueButton($('#userId').val(), $('#email').val());
+	});
+});*/
+
 function checkEmailUniqueButton(userId, userEmail) {
 	if (formSubmitting) return; // 폼 제출 중이라면 함수 실행 중지
 	formSubmitting = true; // 폼 제출 상태로 변경
 	
-	url = "[[@{/sign/check_email}]]";
+	url = "@{/sign/check_email}";
 	csrfValue = $("input[name='_csrf']").val();
 	params = {id: userId, email: userEmail, _csrf: csrfValue};
-
+	
 	$.post(url, params, function(response) {
+		alert(response);
 		if (response == "OK") {
 			showModalDialog("Possible", userEmail + "this email is available");
 		} else if (response == "Duplicated") {
@@ -34,13 +43,6 @@ function showModalDialog(title, message) {
 	$("#modalBody").text(message);
 	$("#modalDialog").modal();
 }
-
-$(document).ready(function() {
-	$('button#duplicateCheckButton').click(function(event) {
-		event.preventDefault();
-		checkEmailUniqueButton($('#userId').val(), $('#email').val());
-	});
-});
 
 
 function sample6_execDaumPostcode() {

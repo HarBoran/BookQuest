@@ -22,23 +22,18 @@
 
 #order_box1 {
 	width: 800px;
-	align-items: center;
 	display: flex;
 	margin: auto;
 	justify-content: space-between;
 }
 
 #left {
-	width: 60%;
-	align-items: center;
+	width: 90%;
 }
 
 #right {
-	width: 40%;
-
+	width: 10%;
 }
-
-#right>div {}
 
 #book_info {
 	width: 300px;
@@ -51,7 +46,6 @@
 	font-weight: 600;
 	font-size: 15px;
 	margin-bottom: 8px;
-
 }
 
 #author_name {
@@ -166,8 +160,7 @@
 
 #payment_select {
 	display: flex;
-	width: 210px;
-	justify-content: space-between;
+	justify-content: flex-start;
 	margin-right: auto;
 	margin-top: 10px;
 }

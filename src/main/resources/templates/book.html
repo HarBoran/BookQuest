@@ -146,10 +146,8 @@
 											<span class="star">&#x2605;</span>
 										</div>
 
-										<div th:text="${book.avgStar}"
+										<div th:text="${#numbers.formatDecimal(book.avgStar, 1, 2)}"
 											style="width:111px; height:16px; margin-left: 7px; font-size:12px;">
-											([[${book.avgStar}]])
-
 										</div>
 									</div>
 									<div

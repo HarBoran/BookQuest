@@ -96,8 +96,6 @@ public class BookController {
 	
 		Page<Book> page = null;
 		
-		System.err.println(category);
-		
 		if (category == null || category.getCategoryId() == null) {
 			if(theme.equals("categories")) {
 				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);

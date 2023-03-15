@@ -6,11 +6,6 @@
 	<head th:replace="commonspace :: page_head('buyInfoDetails')" />
 	<link rel="stylesheet" th:href="@{/css/orderbuy.css}" />
 	<script type="text/javascript" th:src="@{/js/orderbuy.js}"></script>
-
-	<script>
-
-	</script>
-
 </head>
 
 <body>
@@ -28,33 +23,31 @@
 
 		<div id="left">
 			<div th:each="book, i: ${bookdetail}">
+				<div style="padding-top: 10px;">
+					<div id="book_title" style="margin: auto; margin-bottom: 3px;">제목:&nbsp;&nbsp;[[${book.title}]]
+					</div>
+					<div id="author_name" style="margin-bottom: 8px;">작가:&nbsp;&nbsp; [[${book.author}]]</div>
+				</div>
 
-
-				<div id="book_title" style="margin: auto; ">[[${book.title}]]</div>
-				<div id="author_name">[[${book.author}]]</div>
-
-				<div th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}"></div>
-				<hr>
+				<div th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + '원'}"
+					style="color: #5747E6; border-bottom: 1px solid #DADADA; padding-bottom: 10px; font-weight:600;">
+				</div>
 			</div>
 		</div>
 		<div id="right">
 			<div th:each="bookquantity:${bookquantity}">
-				<div style="height:57.5px ; text-align: right;">[[${bookquantity}]]권</div>
-				<hr>
+				<div
+					style="height:88.8px ; text-align: right; border-bottom: 1px solid #DADADA; font-size:14px; color:#7D7D7D">
+					[[${bookquantity}]]권</div>
 			</div>
 		</div>
 	</div>
-
-
-
-
 
 	<div id="order_total_price_box">
 		<div id="total_price_text_box">총 결제 금액</div>
 
 		<div id="total_price" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT') + '원'}">
 		</div>
-	</div>
 	</div>
 	<br><br>
 	<div id="delivery_box">
@@ -76,7 +69,7 @@
 					<div id="delivery_info1">
 						<div style="margin-top: 4px;">배송지 선택</div>
 						<div>
-							<input type="text" placeholder="집(드롭다운으로 선택...?)" id="select1" />
+							<input type="text" placeholder="집" id="select1" />
 						</div>
 					</div>
 
@@ -106,17 +99,17 @@
 			</div>
 
 			<div id="payment_select">
-				<div>실시간 계좌이체</div>
+				<div style="margin-right: 5px;">실시간 계좌이체</div>
 				<div style="display: flex; align-items: center;">
 					<th:block th:each="payment: ${paymentList}">
 						<input type="checkbox" th:field="*{payment}" th:value="${payment.paymentId}"
-							th:text="${payment.bank}" id="checkbox" />
+							th:text="${payment.bank}" id="checkbox" style="margin-left: 15px;"/>
 					</th:block>
 				</div>
 			</div>
 
 			<div id="button_box">
-				<input type="button" value="취소" id="buttonCancel" onclick="history.back()"/>
+				<input type="button" value="취소" id="buttonCancel" onclick="history.back()" />
 				<input type="submit" value="결제하기" id="buttonPayment" onclick="return validateForm()">
 			</div>
 		</form>

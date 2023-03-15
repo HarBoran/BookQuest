@@ -2,14 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<title>Bootstrap Example</title>
 
-	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
-	<link rel="stylesheet" th:href="@{/css/signUpPage.css}" />
-	<script type="text/javascript" th:src="@{/js/signUpPage.js}"></script>
+	<head th:replace="commonspace :: page_head('SignUpPage')" />
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script type="text/javascript" th:src="@{/js/signUpPage.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/signUpPage.css}" />
 	<meta name="_csrf" th:content="${_csrf.token}" />
-	
+
 </head>
 
 <body>
@@ -36,9 +35,9 @@
 
 				<div id="signup_box3-1">
 					<div th:if="${edit == null}" class="noEdit">
-						<input type="text" id="email" name="email" placeholder="아이디" class="form-control" th:field="*{email}"
-							required /></p>
-						<button id="duplicateCheckButton"
+						<input type="text" id="email" name="email" placeholder="아이디" class="form-control"
+							th:field="*{email}" required /></p>
+						<button id="duplicateCheckButton" type="button"
 							onclick="event.stopPropagation(); checkEmailUniqueButton($('#userId').val(), $('#email').val());">아이디중복체크</button>
 					</div>
 
@@ -75,14 +74,13 @@
 							required>
 					</p>
 					<p>
-						<input type="text" id="sample6_postcode" placeholder="우편번호" class="form-control" required>
+						<input type="text" id="sample6_postcode" placeholder="우편번호" class="form-control" required readonly>
 						<input type="button" id="address_button" onclick="sample6_execDaumPostcode()"
 							value="우편번호 찾기"><br>
 						<input type="text" th:field="*{address}" id="sample6_address" class="form-control"
-							placeholder="상세주소">
-						<input type="text" id="sample6_detailAddress" placeholder="상세주소 입력" class="form-control"
-							required>
-						<input type="text" id="sample6_extraAddress" placeholder="참고항목" class="form-control">
+							placeholder="상세주소" readonly>
+						<input type="text" id="sample6_detailAddress" placeholder="상세주소 입력" class="form-control" required>
+						<input type="text" id="sample6_extraAddress" placeholder="참고항목" class="form-control" readonly>
 					</p>
 				</div>
 
