@@ -151,18 +151,12 @@
 							</form>
 						</div>
 					</div>
-					
-					<button>중고 구매하기</button>
 
 					<form th:action="@{/usedBook/selluserd}" method="POST">
 						<input type="hidden" name="book" th:value="${book.bookId}" />
-						<button>중고 판매하기</button>
+						<button style="background: none; border: none; outline: none; margin:10px 0">중고 판매하기</button>
 					</form>
 
-					<form th:action="@{/book/review}" th:object="${review}" method="POST"
-						style="max-width: 600px; margin: 0 auto;">
-						<input type="hidden" th:value="${book.bookId}" name="book" />
-					</form>
 
 					<!-- <table>
                <tr>
@@ -229,90 +223,94 @@
 	<div id="review-content" class="tabcontent" style="display:none; margin: auto; width: 1000px; margin-bottom:150px;">
 		<form th:action="@{/book/review}" th:object="${review}" method="POST">
 			<input type="hidden" th:value="${book.bookId}" name="book" />
-			
-			<div>
+
+			<div style="font-size: 28px; margin-bottom: 20px;">
 				<label for="comment">리뷰 쓰기</label>
 			</div>
-			
+
 			<div>
-				<textarea th:field="*{comment}" class="form-control" />
+				<textarea th:field="*{comment}" placeholder="리뷰내용을 입력해주세요." />
 			</div>
-			
-			
-			<div style = "display: flex; justify-content: space-between;">
+
+
+			<div id="writeStarRating">
 				<div id="star">
 					<fieldset>
-						<span class="text-bold">별점을 선택해주세요</span>
-						<input type="radio" th:field="*{starRating}" value=5 id="rate1" required><label for="rate1">★</label>
-						<input type="radio" th:field="*{starRating}" value=4 id="rate2" required><label for="rate2">★</label>
-						<input type="radio" th:field="*{starRating}" value=3 id="rate3" required><label for="rate3">★</label>
-						<input type="radio" th:field="*{starRating}" value=2 id="rate4" required><label for="rate4">★</label>
-						<input type="radio" th:field="*{starRating}" value=1 id="rate5" required><label for="rate5">★</label>
+						<span style="align-items: center;">별점을 선택해주세요</span>
+						<input type="radio" th:field="*{starRating}" value=5 id="rate1" required>
+						<label for="rate1">★</label>
+						<input type="radio" th:field="*{starRating}" value=4 id="rate2" required>
+						<label for="rate2">★</label>
+						<input type="radio" th:field="*{starRating}" value=3 id="rate3" required>
+						<label for="rate3">★</label>
+						<input type="radio" th:field="*{starRating}" value=2 id="rate4" required>
+						<label for="rate4">★</label>
+						<input type="radio" th:field="*{starRating}" value=1 id="rate5" required>
+						<label 	for="rate5">★</label>
 					</fieldset>
 				</div>
-				
+
 				<div>
 					<button id="buttonDone">작성</button>
 					<button id="buttonCancel">
 						<a th:href="@{/book/detail(book=${book.bookId})}">Cancel</a>
 					</button>
 				</div>
-	
 			</div>
 		</form>
-	</div>
-		<hr>
 
 
 		<th:block th:each="reivews:${reviewdetail}">
-			<table border="1">
-				<tr>
-					<th>별점</th>
-					<th>comment</th>
-				</tr>
-				<tr>
-					<td th:if="${reivews.starRating==1}">
-						<span class="star">&#x2605;</span>
-						<span class="unstar">&#x2605;</span>
-						<span class="unstar">&#x2605;</span>
-						<span class="unstar">&#x2605;</span>
-						<span class="unstar">&#x2605;</span>
-					</td>
-					<td th:if="${reivews.starRating==2}">
-						<span class="star">&#x2605;</span>
-						<span class="star">&#x2605;</span>
-						<span class="unstar">&#x2605;</span>
-						<span class="unstar">&#x2605;</span>
-						<span class="unstar">&#x2605;</span>
-					</td>
-					<td th:if="${reivews.starRating==3}">
-						<span class="star">&#x2605;</span>
-						<span class="star">&#x2605;</span>
-						<span class="star">&#x2605;</span>
-						<span class="unstar">&#x2605;</span>
-						<span class="unstar">&#x2605;</span>
-					</td>
-					<td th:if="${reivews.starRating==4}">
-						<span class="star">&#x2605;</span>
-						<span class="star">&#x2605;</span>
-						<span class="star">&#x2605;</span>
-						<span class="star">&#x2605;</span>
-						<span class="unstar">&#x2605;</span>
-					</td>
-					<td th:if="${reivews.starRating==5}">
-						<span class="star">&#x2605;</span>
-						<span class="star">&#x2605;</span>
-						<span class="star">&#x2605;</span>
-						<span class="star">&#x2605;</span>
-						<span class="star">&#x2605;</span>
-					</td>
-					<td th:text="${reivews.comment}"></td>
-				</tr>
-			</table>
+			<div id="reivewsBox">
+				<div id="reivewsBoxTop" style="color: gray;">
+					<div th:text="${reivews.commentDate}" />
+					
+					<table>
+						<td th:if="${reivews.starRating==1}">
+							<span class="star">&#x2605;</span>
+							<span class="unstar">&#x2605;</span>
+							<span class="unstar">&#x2605;</span>
+							<span class="unstar">&#x2605;</span>
+							<span class="unstar">&#x2605;</span>
+						</td>
+						<td th:if="${reivews.starRating==2}">
+							<span class="star">&#x2605;</span>
+							<span class="star">&#x2605;</span>
+							<span class="unstar">&#x2605;</span>
+							<span class="unstar">&#x2605;</span>
+							<span class="unstar">&#x2605;</span>
+						</td>
+						<td th:if="${reivews.starRating==3}">
+							<span class="star">&#x2605;</span>
+							<span class="star">&#x2605;</span>
+							<span class="star">&#x2605;</span>
+							<span class="unstar">&#x2605;</span>
+							<span class="unstar">&#x2605;</span>
+						</td>
+						<td th:if="${reivews.starRating==4}">
+							<span class="star">&#x2605;</span>
+							<span class="star">&#x2605;</span>
+							<span class="star">&#x2605;</span>
+							<span class="star">&#x2605;</span>
+							<span class="unstar">&#x2605;</span>
+						</td>
+						<td th:if="${reivews.starRating==5}">
+							<span class="star">&#x2605;</span>
+							<span class="star">&#x2605;</span>
+							<span class="star">&#x2605;</span>
+							<span class="star">&#x2605;</span>
+							<span class="star">&#x2605;</span>
+						</td>
+					</table>
+				</div>
+				<div th:text="${reivews.comment}"style = "padding: 5px;" />
+			</div>
+
 
 			<hr>
 
 		</th:block>
+	</div>
 	</div>
 
 	<div th:replace="commonspace :: footer"></div>

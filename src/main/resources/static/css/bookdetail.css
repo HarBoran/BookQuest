@@ -223,6 +223,36 @@
    flex: 0 0 200px;
 }
 
+#comment{
+   width: 100%;
+   height: 100px;
+   margin-bottom: 10px;
+   background-color: #EEEEEE;
+   border: none;
+   outline: none;
+   border-radius: 10px;
+   padding: 10px 15px;
+   
+}
+
+#writeStarRating{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 15px;
+	margin-bottom: 15px;
+	border-bottom: 1px solid #D1D1D1;
+}
+
+#reivewsBox{
+	height: 85px;
+}
+
+#reivewsBoxTop{
+	display: flex;
+	justify-content: space-between;
+}
+
 #buttonDone{
 	width: 100px;
 	height: 36px;

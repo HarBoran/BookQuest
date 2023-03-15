@@ -41,12 +41,20 @@ public class BookService {
 		return repo.bestseller();
 	}
 	
+	public List<Book> findDiscountBooks() {
+		return repo.findDiscountBooks();
+	}
+	
 	public Long countTotalBooks() {
 		return repo.countTotalBooks();
 	}
 	
 	public Long countBestBooks() {
 		return repo.countBestBooks();
+	}
+	
+	public Long countTotaldiscountBook() {
+		return repo.countTotaldiscountBook();
 	}
 
 	public Page<Book> listByPage(int pageNum, String sortField, String sortDir, String keyword) {
@@ -144,6 +152,8 @@ public class BookService {
 	public List<Book> sortTitle() {
 		return repo.sortTitle();
 	}
+
+
 
 
 

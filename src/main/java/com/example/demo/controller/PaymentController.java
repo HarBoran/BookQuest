@@ -40,8 +40,20 @@ public class PaymentController {
 	@Autowired
 	PaymentService paymentService;
 
+	@GetMapping("/")
+	public String page(Model theModel, Payment payment, Principal principal) {
+		Payment payments = new Payment();
+
+		User user = userService.findByEmail(principal.getName());
+		List<Payment> paymentList = paymentService.findPaymentByUser(user);
+		theModel.addAttribute("payment", payments);
+		theModel.addAttribute("user", user);
+		theModel.addAttribute("paymentList", paymentList);
+		return "payment";
+	}
+
 	@GetMapping("/paymentadd")
-	public String signUpPage(Model theModel, Payment payment) {
+	public String paymentadd(Model theModel, Payment payment) {
 		Payment payments = new Payment();
 		theModel.addAttribute("payment", payments);
 		return "paymentadd";
@@ -58,7 +70,7 @@ public class PaymentController {
 		return "redirect:/mypage/";
 
 	}
-	
+
 //	지불수단에는 업데이트 기능이 없어야함
 //	@GetMapping("/update/{paymentId}")
 //	public String edit(@PathVariable(name = "paymentId") int paymentId, Model model, RedirectAttributes rttr)

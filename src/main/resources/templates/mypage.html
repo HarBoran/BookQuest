@@ -8,75 +8,72 @@
 </head>
 
 <body>
-	<div th:replace="commonspace :: menu" />
+	<div th:replace="commonspace :: menu"></div>
 
-	<div class="container">
-		<p>7. 개인 정보 수정 페이지, 탈퇴 구현하기<br>
-			페이먼트 등록 및 수정 기능 구현하기<br></p>
-
-		<h1 th:if="${user != null}"><span th:text="${user.name}"></span>님 , 안녕하세요!</h1>
-		<!--<p th:if="${user != null}">Your email address is <span th:text="${user.email}"></span>.</p>-->
-		<div id="background">
-			<div>
-				마이레벨<br><br>
-				4Lv
-			</div>
-			<div>
-				배송 중 <br><br>
-				0건
-			</div>
-			<div>
-				배송 완료<br><br>
-				3건
-			</div>
-			<div>
-				회원정보 변경<br><br>
-				<button type="button" class="btn btn-outline-success btn-sm">
-					<a th:href="@{|/user/update/${user.userId}|}">변경하기</a>
-				</button>
-			</div>
-			<div>
-				주문내역<br><br>
-				<button type="button" class="btn btn-outline-success btn-sm">
-					<a th:href="@{/order/}">확인하기</a>
-				</button>
-			</div>
+	<div class="icon_and_title">
+		<div class="icon_box">
+			<img th:src="@{/images/level=5Lv.png}" alt="Level_Icon" width="60" height="65">
 		</div>
-
-
-
-
-
-		<br><br><br>
-		<div>
-			<h1>등록된 나의계좌</h1>
-
-
-
-			<table border="1px">
-				<thead>
-					<tr>
-						<th>은행명</th>
-						<th>계좌번호</th>
-						<th>계좌번호 수정하기</th>
-						<th>계좌번호 삭제하기</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="payment : ${paymentList}">
-						<td th:text="${payment.bank}"></td>
-						<td th:text="${payment.accountNumber}"></td>
-						<td><a th:href="@{|/payment/update/${payment.paymentId}|}">계좌번호 수정하기</a></td>
-						<td><a th:href="@{|/payment/delete/${payment.paymentId}|}">계좌번호 삭제하기</a></td>
-
-					</tr>
-				</tbody>
-			</table>
-			<a th:href="@{/payment/paymentadd}">계좌번호 등록하기</a>
+		<div class="level_and_name">
+			<div class="level">
+				<span style="font-size: 12px; margin-right:2px;">5Lv.</span>
+				<span style="color: #5747E6; font-size: 12px; font-weight:500;">열정적인 도서광</span>
+				<img th:src="@{/images/crown.png}" alt="crown" width="13" height="13">
+			</div>
+			<div class="name">
+				<span th:if="${user != null}" th:text="${user.name}"></span>님, 안녕하세요!
+			</div>
 		</div>
 	</div>
 
+	<div class="user_info_box">
+		<div class="my_level">
+			<span style="color: #7D7D7D; font-size: 14px; margin-bottom: 14px;">마이 레벨</span>
+			<span style="font-size: 18px; font-weight: 600;">Lv.5</span>
+		</div>
+		<div class="shipping">
+			<span style="color: #7D7D7D; font-size: 14px; margin-bottom: 14px;">배송중</span>
+			<span style="font-size: 18px; font-weight: 600;">0건</span>
+		</div>
+		<div class="delevered">
+			<span style="color: #7D7D7D; font-size: 14px; margin-bottom: 14px;">배송 완료</span>
+			<span style="font-size: 18px; font-weight: 600;">6건</span>
+		</div>
+		<div class="user_info">
+			<span style="color: #7D7D7D; font-size: 14px;">회원정보</span>
+			<button type="button" class="revise_button">
+				<a th:href="@{|/user/update/${user.userId}|}">변경하기</a>
+			</button>
+		</div>
+		<div class="payment_method">
+			<span style="color: #7D7D7D; font-size: 14px;">결제수단</span>
+			<button type="button" class="payment_button">
+				<a th:href="@{/payment/}">관리하기</a>
+			</button>
+		</div>
+		<div class="order_history">
+			<span style="color: #7D7D7D; font-size: 14px;">주문내역</span>
+			<button type="button" class="order_history_button">
+				<a th:href="@{/order/}">확인하기</a>
+			</button>
+		</div>
 
+	</div>
+
+	<div>
+		<div style="font-size: 22px; font-weight:600; width:1000px; height: 30px; margin: auto; margin-top: 45px;">독서 통계
+			그래프</div>
+	</div>
+
+	<div style="width: 1020px; height: 370px; margin: auto; margin-top: 15px;">
+		<img th:src="@{/images/mypage1.png}" alt="temporal_image" width="1020" height="370">
+	</div>
+
+	<div style="width: 1025px; height: 350px; margin: auto; margin-top: 50px; margin-bottom: 70px;">
+		<img th:src="@{/images/mypage2.png}" alt="temporal_image" width="1025" height="350">
+	</div>
+
+	<div th:replace="commonspace :: footer"></div>
 
 </body>
 

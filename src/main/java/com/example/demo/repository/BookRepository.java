@@ -35,7 +35,7 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
 	
 	
 	
-	@Query("SELECT COUNT(*) FROM Book b JOIN OrderDetail o ON b.bookId = o.book.bookId")
+	@Query("SELECT COUNT(DISTINCT b.bookId) FROM Book b JOIN OrderDetail o ON b.bookId = o.book.bookId")
 	public Long countBestBooks();
 	
 	@Query("SELECT b FROM Book b JOIN OrderDetail o ON b.bookId = o.book.bookId GROUP BY b.bookId ORDER BY COUNT(o.book.bookId) DESC")
@@ -57,24 +57,27 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
 	
 	
 	
-	@Query("SELECT b FROM Book b ORDER BY b.publicationDate ASC")
+	@Query("SELECT b FROM Book b ORDER BY b.publicationDate DESC")
 	public List<Book> finByNewBook();
 
-	@Query("SELECT b FROM Book b ORDER BY b.publicationDate ASC")
+	@Query("SELECT b FROM Book b ORDER BY b.publicationDate DESC")
 	public Page<Book> findByNewBook(Pageable pageable);
 
-	@Query("SELECT b FROM Book b WHERE CONCAT(b.title, ' ', b.author, ' ', b.publisher) LIKE %?1% ORDER BY b.publicationDate ASC")
+	@Query("SELECT b FROM Book b WHERE CONCAT(b.title, ' ', b.author, ' ', b.publisher) LIKE %?1% ORDER BY b.publicationDate DESC")
 	public Page<Book> findByNewBook(String keyword, Pageable pageable);
 	
-	@Query("SELECT b FROM Book b WHERE b.category =:category ORDER BY b.publicationDate ASC")
+	@Query("SELECT b FROM Book b WHERE b.category =:category ORDER BY b.publicationDate DESC")
 	public Page<Book> findByNewBook(@Param("category")Category category, Pageable pageable);
 	
-	@Query("SELECT b FROM Book b WHERE CONCAT(b.title, ' ', b.author, ' ', b.publisher) LIKE %:keyword% AND b.category =:category ORDER BY b.publicationDate ASC")
+	@Query("SELECT b FROM Book b WHERE CONCAT(b.title, ' ', b.author, ' ', b.publisher) LIKE %:keyword% AND b.category =:category ORDER BY b.publicationDate DESC")
 	public Page<Book> findByNewBook(@Param("keyword") String keyword, @Param("category")Category category, Pageable pageable);
 
+	@Query("SELECT COUNT(b) FROM Book b WHERE b.discountRate <> 0")
+	public Long countTotaldiscountBook();
 	
+	@Query("SELECT b FROM Book b WHERE b.discountRate <> 0")
+	public List<Book> findDiscountBooks();
 	
-
 	
 	@Query("SELECT b FROM Book b ORDER BY RAND()") // LIMIT 5는 안됨
 	public List<Book> findRandomBooks();
@@ -90,6 +93,10 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
 
 	@Query("SELECT b FROM Book b ORDER BY b.title ASC")
 	public List<Book> sortTitle();
+
+
+
+	
 	
 
 
