@@ -149,7 +149,6 @@ public class OrderDetailsController {
 
 	@PostMapping("/orderbuy")
 	public String orderbuyBook(Model model, Principal principal, @ModelAttribute("orders") Order order,
-			// @RequestParam(name="cartId")ArrayList<Cart> carts
 			@RequestParam("totalPrice") int totalPrice, @RequestParam(name = "bookId") ArrayList<Book> books,
 			@RequestParam(name = "bookquantity") ArrayList<Integer> bookquantity) {
 		if (bookquantity.size() == 1) {
@@ -159,12 +158,14 @@ public class OrderDetailsController {
 			order.setUser(user);
 			orderService.save(order);
 			orderDetailService.saveOrderDetails(order, books.get(0), books.get(0).getPrice(), bookquantity.get(0));
-			List<Cart> cart = new ArrayList<>();
+			if (cartService.findCartByUserAndBook(user, books.get(0)) != null) {
+				List<Cart> cart = new ArrayList<>();
+				cart.add(cartService.findCartByUserAndBook(user, books.get(0)));
+				cartService.deleteCartByCartId(cart.get(0).getCartId());
+			} else {
 
-			cart.add(cartService.findCartByUserAndBook(user, books.get(0)));
-			cartService.deleteCartByCartId(cart.get(0).getCartId());
-
-			return "redirect:/";
+				return "redirect:/";
+			}
 		} else if (bookquantity.size() > 1) {
 
 			String userEmail = principal.getName();

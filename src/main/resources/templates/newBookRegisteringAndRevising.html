@@ -5,7 +5,11 @@
 
 	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
 	<link rel="stylesheet" th:href="@{/css/newBookRegisteringAndRevising.css}" />
-	<script type="text/javascript" th:src="@{/js/newBookRegisteringAndRevising.js}"></script>
+	<script type="text/javascript" th:src="@{/js/newBookRegisteringAndRevising.js}" />
+
+	<script type="text/javascript">
+
+	</script>
 
 </head>
 
@@ -30,56 +34,98 @@
 				</div>
 			</div>
 
-			<div>책 정보</div>
+			<div class="book_info_title">책 정보</div>
 
-			<table>
-				<tr>
-					<th><label for="title">책 제목</label></th>
-					<td><input type="text" th:field="*{title}" placeholder="책 제목" required></td>
-					<th><label for="author">저자</label></th>
-					<td><input type="text" th:field="*{author}" placeholder="저자" required></td>
-				</tr>
-				<tr>
-					<th><label>카테고리</label></th>
-					<td><select th:field="*{category}" required>
-							<option value="" hidden>카테고리</option>
-							<th:block th:each="category : ${categoryList}">
-								<option th:value="${category.categoryId}" th:disabled="${category.parent == null}">
-									[[${category.name}]]</option>
-							</th:block>
-						</select></td>
-					<th><label for="publisher">출판사</label></th>
-					<td><input type="text" th:field="*{publisher}" placeholder="출판사" required></td>
-				</tr>
-				<tr>
-					<th><label for="price">판매가</label></th>
-					<td><input type="number" th:field="*{price}" placeholder="판매가" required></td>
-					<th><label for="publicationDate">출판날짜</label></th>
-					<td><input type="text" th:field="*{publicationDate}" placeholder="출판날짜" required></td>
-				</tr>
-				<tr th:if="${bookId != null}">
-					<th><label for="discountRate">할인률</label></th>
-					<td><input type="number" th:field="*{discountRate}" placeholder="할인률 %"
-							th:disabled="${bookId ==null}" /></td>
-				</tr>
-				<tr>
-					<th><label for="description">책 소개</label></th>
-					<td colspan='3'><textarea id="description" th:field="*{description}" placeholder="책소개" rows="5"
-							required /></td>
-				</tr>
-			</table>
+			<div class="book_info_box">
+				<div class="title_and_author">
+					<div class="title">
+						<div class="title_text">
+							책 제목:
+						</div>
+						<div class="title_inputbox">
+							<input type="text" th:field="*{title}" placeholder="책 제목" class="form-control" required>
+						</div>
+					</div>
+					<div class="author">
+						<div class="author_text">
+							저자:
+						</div>
+						<div class="author_inputbox">
+							<input type="text" th:field="*{author}" placeholder="저자" class="form-control" required>
+						</div>
+					</div>
+				</div>
 
-			<div id="buttonArea">
-				<button type="submit">
-					<div th:if="${bookId == null}">등록완료</div>
-					<div th:if="${bookId != null}">수정완료</div>
-				</button>
-				<a th:href="@{/}" id="cancelButton">Cancel</a> <a th:if="${bookId != null}"
-					th:href="@{/admin/deleteBookInformation/{bookId}(bookId=${bookId})}" id="deleteButton">삭제하기</a>
+				<div class="category_and_publisher">
+					<div class="category">
+						<div class="category_text">
+							카테고리:
+						</div>
+						<div>
+							<select th:field="*{category}" required class="category_inputbox">
+								<option value="" hidden>카테고리 선택</option>
+								<th:block th:each="category : ${categoryList}">
+									<option th:value="${category.categoryId}" th:disabled="${category.parent == null}">
+										[[${category.name}]]</option>
+								</th:block>
+							</select>
+						</div>
+					</div>
+					<div class="publisher">
+						<div class="publisher_text">
+							출판사:
+						</div>
+						<div class="publisher_inputbox">
+							<input type="text" th:field="*{publisher}" class="form-control" placeholder="출판사" required>
+						</div>
+					</div>
+				</div>
+
+				<div class="price_and_publicationDate">
+					<div class="price">
+						<div class="price_text">
+							판매가:
+						</div>
+						<div class="price_inputbox">
+							<input type="text" th:field="*{price}" class="form-control" placeholder="판매가" required>
+						</div>
+					</div>
+					<div class="publicationDate">
+						<div class="publicationDate_text">
+							발간일:
+						</div>
+						<div class="pubilcationDate_inputbox">
+							<input type="text" th:field="*{publicationDate}" class="form-control" placeholder="발간일"
+								required>
+						</div>
+					</div>
+				</div>
+
+				<div class="description_box">
+					<div class="description_text">
+						책 소개:
+					</div>
+					<div>
+						<textarea id="description" th:field="*{description}" class="form-control" placeholder="책소개"
+							rows="5" required />
+					</div>
+				</div>
+
+				<div class="button_box">
+					<div class="cancel_button">
+						<a th:href="@{/admin/editBookInformation}">취소</a>
+						<a th:if="${bookId != null}"
+							th:href="@{/admin/deleteBookInformation/{bookId}(bookId=${bookId})}" id="deleteButton">삭제
+						</a>
+					</div>
+					<button type="submit" style="border:none; background-color:transparent;">
+						<div th:if="${bookId != null}" class="revise_button">수정</div>
+						<div th:if="${bookId == null}" class="register_button">등록</div>
+					</button>
+				</div>
 			</div>
 		</div>
 	</form>
-
 
 	<div th:replace="commonspace :: footer"></div>
 </body>
