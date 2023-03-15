@@ -229,30 +229,38 @@
 	<div id="review-content" class="tabcontent" style="display:none; margin: auto; width: 1000px; margin-bottom:150px;">
 		<form th:action="@{/book/review}" th:object="${review}" method="POST">
 			<input type="hidden" th:value="${book.bookId}" name="book" />
-
-
-
-			<div id="star">
-				<fieldset>
-					<span class="text-bold">별점을 선택해주세요</span>
-					<input type="radio" th:field="*{starRating}" value=5 id="rate1"><label for="rate1">★</label>
-					<input type="radio" th:field="*{starRating}" value=4 id="rate2"><label for="rate2">★</label>
-					<input type="radio" th:field="*{starRating}" value=3 id="rate3"><label for="rate3">★</label>
-					<input type="radio" th:field="*{starRating}" value=2 id="rate4"><label for="rate4">★</label>
-					<input type="radio" th:field="*{starRating}" value=1 id="rate5"><label for="rate5">★</label>
-				</fieldset>
+			
+			<div>
+				<label for="comment">리뷰 쓰기</label>
 			</div>
-			<div class="form-group row">
-				<label class="col-4 col-form-label">comment: </label>
-				<div class="col-8">
-					<input type="text" th:field="*{comment}" class="form-control" />
+			
+			<div>
+				<textarea th:field="*{comment}" class="form-control" />
+			</div>
+			
+			
+			<div style = "display: flex; justify-content: space-between;">
+				<div id="star">
+					<fieldset>
+						<span class="text-bold">별점을 선택해주세요</span>
+						<input type="radio" th:field="*{starRating}" value=5 id="rate1" required><label for="rate1">★</label>
+						<input type="radio" th:field="*{starRating}" value=4 id="rate2" required><label for="rate2">★</label>
+						<input type="radio" th:field="*{starRating}" value=3 id="rate3" required><label for="rate3">★</label>
+						<input type="radio" th:field="*{starRating}" value=2 id="rate4" required><label for="rate4">★</label>
+						<input type="radio" th:field="*{starRating}" value=1 id="rate5" required><label for="rate5">★</label>
+					</fieldset>
 				</div>
+				
+				<div>
+					<button id="buttonDone">작성</button>
+					<button id="buttonCancel">
+						<a th:href="@{/book/detail(book=${book.bookId})}">Cancel</a>
+					</button>
+				</div>
+	
 			</div>
-
-
-			<button type="submit" class="btn btn-primary">Save</button>
 		</form>
-		<input type="button" id="buttonCancel" value="Cancel" class="btn btn-outline-secondary mb-4 col-3 m-3">
+	</div>
 		<hr>
 
 

@@ -222,3 +222,25 @@
    justify-content: space-between;
    flex: 0 0 200px;
 }
+
+#buttonDone{
+	width: 100px;
+	height: 36px;
+	border-radius: 6px;
+	background-color: #5747E6;
+	color: white;
+	border: none;
+	font-size: 16px; 
+   	margin-right: 10px; 
+}
+
+#buttonCancel{
+	width: 100px;
+	height: 36px;
+	border-radius: 6px;
+	border: 2px solid #5747E6; 
+ 	background-color: white;
+	font-size: 16px; 
+   	margin-right: 10px; 
+ 
+}
