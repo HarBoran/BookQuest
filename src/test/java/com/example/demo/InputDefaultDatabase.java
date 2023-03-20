@@ -3,7 +3,9 @@ package com.example.demo;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
+import org.dom4j.Branch;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -13,12 +15,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
 import com.example.demo.entity.Book;
+import com.example.demo.entity.BooksBranch;
 import com.example.demo.entity.Branches;
 import com.example.demo.entity.Cart;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Payment;
 import com.example.demo.entity.User;
 import com.example.demo.repository.BookRepository;
+import com.example.demo.repository.BooksBranchRepository;
 import com.example.demo.repository.BranchRepository;
 import com.example.demo.repository.CartRepository;
 import com.example.demo.repository.CategoryRepository;
@@ -37,7 +41,9 @@ public class InputDefaultDatabase {
 	@Autowired
 	CategoryRepository caRepo;
 	@Autowired
-	BranchRepository brRepo;
+	BranchRepository branchRepo;
+	@Autowired
+	BooksBranchRepository bookBranchRepo;
 	@Autowired
 	UserRepository userRepo;
 	@Autowired
@@ -121,10 +127,10 @@ public class InputDefaultDatabase {
 		caRepo.save(new Category("챕터북", category100));
 		caRepo.save(new Category("코스북", category100));
 
-		brRepo.save(new Branches("BookQuest 강남점", "서울 강남구 강남대로 388", 37.4974321151032, 127.02838169552845));
-		brRepo.save(new Branches("BookQuest 시청점", "서울 중구 세종대로 지하 101", 37.564663964738195, 126.978106746564));
-		brRepo.save(new Branches("BookQuest 노량진점", "서울 동작구 노량진로 138", 37.51317948453074, 126.94122547645269));
-		brRepo.save(new Branches("BookQuest 부산 W스퀘어점", "부산 남구 분포로 145 더블유스퀘어동", 35.13356779884351, 129.11356988948617));
+		branchRepo.save(new Branches("BookQuest 강남점", "서울 강남구 강남대로 388", 37.4974321151032, 127.02838169552845));
+		branchRepo.save(new Branches("BookQuest 시청점", "서울 중구 세종대로 지하 101", 37.564663964738195, 126.978106746564));
+		branchRepo.save(new Branches("BookQuest 노량진점", "서울 동작구 노량진로 138", 37.51317948453074, 126.94122547645269));
+		branchRepo.save(new Branches("BookQuest 부산 W스퀘어점", "부산 남구 분포로 145 더블유스퀘어동", 35.13356779884351, 129.11356988948617));
 
 	}
 
@@ -172,8 +178,6 @@ public class InputDefaultDatabase {
       payment.setUser(user);
       payRepo.save(payment);
    }
-	
-	
 	
 		
 	@Test
@@ -245,5 +249,23 @@ public class InputDefaultDatabase {
 //			cartRepo.save(cart);
 //		}
 //	}
+	
+	@Test
+	public void addStockBook() {
+		//책 재고 추가하기
+		List<Book> book = (List<Book>) bookRepo.findAll();
+		List<Branches> branch = (List<Branches>) branchRepo.findAll();
+		
+		for (int i= 0; i < branch.size(); i ++) {
+			for(int j = 0; j < book.size(); j++) {
+				BooksBranch booksBranch = new BooksBranch();
+				booksBranch.setBranches(branch.get(i));
+				booksBranch.setBook(book.get(j));
+				booksBranch.setQuantity(10);
+				//booksBranch.setStatus("new"); // 정상작동 확인후 condition컬럼은 지울것;
+				bookBranchRepo.save(booksBranch);
+			}
+		}
+	}
 
 }

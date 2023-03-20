@@ -26,7 +26,7 @@ public class BooksBranch {
 	@JoinColumn(name = "book_id")
 	private Book book;
 
-	@Column(nullable = false)
+	@Column
 	private String status; // condition;
 
 	@Column(nullable = false)

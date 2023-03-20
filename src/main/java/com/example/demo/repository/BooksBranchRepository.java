@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.Book;
 import com.example.demo.entity.BooksBranch;
+import com.example.demo.entity.Branches;
 import com.example.demo.entity.Category;
 
 @Repository
@@ -19,5 +20,8 @@ public interface BooksBranchRepository extends PagingAndSortingRepository<BooksB
 
 	@Query("SELECT bb FROM BooksBranch bb JOIN bb.book b WHERE b.category =:category")
 	List<BooksBranch> findByCategory(@Param("category") Category category);
+
+	@Query("SELECT br FROM BooksBranch br WHERE br.branches=:branches and br.book=:book")
+	BooksBranch findByBookBranchInBook(@Param("branches")Branches branches, @Param("book")Book book);
 
 }

@@ -27,15 +27,11 @@ import com.example.demo.entity.Book;
 import com.example.demo.entity.BooksBranch;
 import com.example.demo.entity.Branches;
 import com.example.demo.entity.Category;
-import com.example.demo.entity.Sales;
-import com.example.demo.entity.SalesDetail;
 import com.example.demo.service.BookService;
 import com.example.demo.service.BooksBranchService;
 import com.example.demo.service.BranchService;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.OrderDetailService;
-import com.example.demo.service.SalesDetailService;
-import com.example.demo.service.SalesService;
 
 @Controller
 @RequestMapping("/")
@@ -52,12 +48,6 @@ public class HomeController {
 
 	@Autowired
 	OrderDetailService orderdetailService;
-
-	@Autowired
-	SalesService salesService;
-
-	@Autowired
-	SalesDetailService salesDetailService;
 
 	@Autowired
 	BooksBranchService booksBranchService;
@@ -112,18 +102,6 @@ public class HomeController {
 		model.addAttribute("books", branchBooks);
 		model.addAttribute("listCategories", listCategories);
 		return "informationBranch";
-	}
-
-	@GetMapping("/salesDetails/{salesId}")
-	public String details(Model theModel, @PathVariable(name = "salesId") int salesId) {
-		Sales sales = salesService.findById(salesId).get();
-
-		List<SalesDetail> salesDetail = salesDetailService.findOrderDetailsByOrder(sales);
-
-		theModel.addAttribute("salesDetail", salesDetail);
-		theModel.addAttribute("dividedPage", "dividedPage");
-
-		return "checkDeliveryStatus";
 	}
 
 }

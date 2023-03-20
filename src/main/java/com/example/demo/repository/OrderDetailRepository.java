@@ -17,10 +17,11 @@ import com.example.demo.entity.User;
 @Repository
 public interface OrderDetailRepository extends PagingAndSortingRepository<OrderDetail, Integer> {
 
-	@Query("SELECT o FROM OrderDetail o WHERE o.order =:order")
+	@Query("SELECT od FROM OrderDetail od WHERE od.order =:order")
 	public List<OrderDetail> findOrderDetailsByOrder(@Param("order") Order order);
 	
 	@Query("SELECT od FROM OrderDetail od JOIN FETCH od.book WHERE od.order.user = :user")
 	public List<OrderDetail> findOrderDetailsByUser(@Param("user") User user);
+
 
 }

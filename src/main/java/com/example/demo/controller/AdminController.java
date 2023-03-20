@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,21 +23,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.FileUploadUtil;
 import com.example.demo.entity.Book;
 import com.example.demo.entity.BooksBranch;
+import com.example.demo.entity.Branches;
 import com.example.demo.entity.Category;
-import com.example.demo.entity.Sales;
-import com.example.demo.entity.SalesDetail;
+import com.example.demo.entity.Order;
+import com.example.demo.entity.OrderDetail;
 import com.example.demo.service.BookService;
 import com.example.demo.service.BooksBranchService;
 import com.example.demo.service.BranchService;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.OrderDetailService;
 import com.example.demo.service.OrderService;
-import com.example.demo.service.PaymentService;
-import com.example.demo.service.ReviewService;
-import com.example.demo.service.SalesDetailService;
-import com.example.demo.service.SalesService;
-import com.example.demo.service.UserService;
-import com.example.demo.service.WishlistService;
 
 @Controller
 @RequestMapping("/admin")
@@ -50,15 +46,12 @@ public class AdminController {
 
 	@Autowired
 	BranchService branchService;
+	
+	@Autowired
+	OrderService orderService;
 
 	@Autowired
-	OrderDetailService orderdetailService;
-
-	@Autowired
-	SalesService salesService;
-
-	@Autowired
-	SalesDetailService salesDetailService;
+	OrderDetailService orderDetailService;
 
 	@Autowired
 	BooksBranchService booksBranchService;
@@ -72,8 +65,6 @@ public class AdminController {
 
 		List<Category> categoryList = categoryService.findCategory();
 		model.addAttribute("categoryList", categoryList);
-		
-		System.err.println("?????????");
 
 		return "newBookRegisteringAndRevising";
 	}
@@ -110,7 +101,6 @@ public class AdminController {
 	@GetMapping("/editBookInformation/page/{pageNum}")
 	public String editBookInformation(@PathVariable(name = "pageNum") int pageNum, @Param("sortField") String sortField,
 			@Param("sortDir") String sortDir, @Param("keyword") String keyword, Model model) {
-		// List<Book> listBooks = bookService.findAll();
 
 		Page<Book> page = bookService.listByPage(pageNum, sortField, sortDir, keyword);
 		List<Book> listBooks = page.getContent();
@@ -186,38 +176,47 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = { "/checkDeliveryStatus" }, method = { RequestMethod.GET, RequestMethod.POST })
-	public String checkDeliveryStatus(@RequestParam(required = false, name = "selectItem") Sales[] sales, Model model) {
-
-		if (sales != null) {
-			for (Sales sale : sales) {
-				if (sale.getDeliveryStatus().equals("배송완료")) {
-					sale.setDeliveryStatus("정산완료");
-					salesService.save(sale);
-
-					List<SalesDetail> salesDetailList = salesDetailService.findBySales(sale);
-					for (SalesDetail salesDetail : salesDetailList) {
-						BooksBranch booksBranch = new BooksBranch();
-						booksBranch.setBranches(sale.getBranches());
-						booksBranch.setBook(salesDetail.getBook());
-						booksBranch.setStatus(salesDetail.getBookStatus());
-						booksBranch.setQuantity(salesDetail.getSalesQuantity());
-						booksBranchService.save(booksBranch);
-					}
-
+	public String checkDeliveryStatus(@RequestParam(required = false, name = "bookToChangeShippingStatus") Order[] orders,
+			@RequestParam(defaultValue = "전체", name ="deliveryStatus") String deliveryStatus, Model model) {
+		
+		
+		
+		if(orders != null) {
+			for (Order order : orders) {
+				//체크박스로 넘겨 받은 데이터중 배송준비중인 order만 골라서
+				if (order.getDeliveryStatus().equals("배송준비중")) {
+					//order 밑에 있는 orderDetail상태를 수정하기 위해서
+					List<OrderDetail> orderDetailList = orderDetailService.findOrderDetailsByOrder(order);
+					//4개의 지점중 하나를 골라서
+					Random rand = new Random();
+					Branches branches = new Branches(rand.nextInt(4) + 1);
+						for (OrderDetail orderDetail : orderDetailList) {
+							//한 지점에서 한책의 정보를 가지고 오고
+							BooksBranch bookstoreInventory = booksBranchService.findByBookBranchInBook(branches, orderDetail.getBook());
+							//지점에 있는 재고에서 주문한 수량만큼 감소시킨다.
+							bookstoreInventory.setQuantity(bookstoreInventory.getQuantity()-orderDetail.getOrderQuantity());
+							booksBranchService.save(bookstoreInventory);	
+						}
+					//한권한권 제고를 줄이고, 성공했다면 배송완료로 변경
+					order.setDeliveryStatus("배송완료");
+					orderService.changeDeliveryStatus(order);	
 				}
 			}
 		}
-
-		List<Sales> salesList = salesService.findAll();
-		model.addAttribute("salesList", salesList);
-		for (Sales s : salesList) {
-			for (SalesDetail sd : s.getSalesDetails()) {
-				System.err.println(sd.getBook());
-			}
+		
+		
+		
+		List<Order> orderList = orderService.findByStatus(deliveryStatus);
+		if(deliveryStatus.equals("전체")) {
+			orderList = orderService.findAll();
 		}
+		model.addAttribute("orderList", orderList);
+	
 		List<BooksBranch> booksBranchList = booksBranchService.findAll();
 		model.addAttribute("booksBranchList", booksBranchList);
-
+		
+		
+	
 		return "checkDeliveryStatus";
 	}
 }

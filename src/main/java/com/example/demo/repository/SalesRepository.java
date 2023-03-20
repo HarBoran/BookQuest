@@ -1,3 +1,5 @@
+/*
+
 package com.example.demo.repository;
 
 import org.springframework.data.jpa.repository.Query;
@@ -15,3 +17,5 @@ public interface SalesRepository extends PagingAndSortingRepository<Sales, Integ
 
 
 }
+
+*/

@@ -45,6 +45,10 @@ public class BooksBranchService {
 
 	}
 
+	public BooksBranch findByBookBranchInBook(Branches branches, Book book) {
+		return repo.findByBookBranchInBook(branches, book);
+	}
+
 
 
 

@@ -99,7 +99,7 @@
 			</div>
 
 			<div id="payment_select">
-				<div style="margin-right: 5px;">실시간 계좌이체</div>
+				<div style="margin-right: 5px;">결제 수단 선택하기</div>
 				<div style="display: flex; align-items: center;">
 					<th:block th:each="payment: ${paymentList}">
 						<input type="checkbox" th:field="*{payment}" th:value="${payment.paymentId}"

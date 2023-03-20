@@ -222,6 +222,10 @@ public class BookController {
 	@PostMapping("/review")
 	public String reviewsave(@RequestParam("book") int book, @ModelAttribute("review") Review review, Model model,
 			Principal principal) {
+		if(principal == null) {
+			return "redirect:/login";
+		}
+
 		Optional<Book> books = bookService.findById(book);
 		Book bookId = books.get();
 		String username = principal.getName();
@@ -242,7 +246,7 @@ public class BookController {
 
 	@GetMapping("/detail")
 	public String bookdetail(Book book, Model model, Principal principal) {
-
+		
 		if (principal == null) {
 			model.addAttribute("check", "b");
 			model.addAttribute("bookdetail", book);
@@ -251,7 +255,16 @@ public class BookController {
 			model.addAttribute("reviewdetail", review);
 			model.addAttribute("cart", new Cart());
 			List<BooksBranch> bookbranch = booksbranchService.findById(book);
-			model.addAttribute("bookbranch", bookbranch);
+			if (!bookbranch.isEmpty()) {
+				int allQuantity = 0;
+				for(int i =0; i < bookbranch.size(); i++) {
+					allQuantity += bookbranch.get(i).getQuantity();
+				}
+				model.addAttribute("allQuantity", allQuantity);
+			} else if (bookbranch.isEmpty()) {
+				model.addAttribute("outOfStock", "재고수량이 없습니다");
+			}
+
 			if (!review.isEmpty()) {
 				model.addAttribute("avgstar", reviewService.avgstar(book));
 			}
@@ -272,10 +285,8 @@ public class BookController {
 
 			if (booksnumber.contains(bookId)) {
 				model.addAttribute("check", "a");
-
 			} else if (!booksnumber.contains(bookId)) {
 				model.addAttribute("check", "b");
-
 			}
 
 			Optional<Book> books = bookService.findById(book.getBookId());
@@ -297,9 +308,14 @@ public class BookController {
 			List<BooksBranch> bookbranch = booksbranchService.findById(book);
 
 			if (!bookbranch.isEmpty()) {
-				model.addAttribute("bookbranch", bookbranch);
+				int allQuantity = 0;
+				for(int i =0; i < bookbranch.size(); i++) {
+					allQuantity += bookbranch.get(i).getQuantity();
+				}
+				model.addAttribute("allQuantity", allQuantity);
+				//model.addAttribute("bookbranch", bookbranch);
 			} else if (bookbranch.isEmpty()) {
-				model.addAttribute("branchmsg", "재고수량이 없습니다");
+				model.addAttribute("outOfStock", "재고수량이 없습니다");
 			}
 		}
 		return "bookdetail";

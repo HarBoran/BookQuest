@@ -1,3 +1,4 @@
+/*
 package com.example.demo.controller;
 
 import java.security.Principal;
@@ -74,19 +75,11 @@ public class UsedBookController {
 		model.addAttribute("book", book);
 		model.addAttribute("branchList", branchList);
 
-	
 		return "sellbook";
 	}
 
 	@PostMapping("/sellbranch")
 	public String sellbranch(Principal principal, User user, Book book, Payment payment,@RequestParam("branch") Branches branch, String bookstatus,Model model) {
-//		String bookstatus = "최상";
-//		int bookquantity = 1;
-//		System.out.println(payment);
-//		System.out.println(branch);
-//		System.out.println(user);
-//		System.out.println(book);
-//		booksbranchService.save(bookstatus, branch, bookquantity, book);
 
 		if(bookstatus == null) {bookstatus = "확인예정";};
 		
@@ -114,3 +107,5 @@ public class UsedBookController {
 	}
 	
 }
+
+*/

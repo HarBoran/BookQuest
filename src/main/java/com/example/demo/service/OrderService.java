@@ -37,10 +37,23 @@ public class OrderService {
 		order.setDeliveryStatus("배송준비중");
 		repo.save(order);
 	}
+	
+	public void changeDeliveryStatus(Order order) {
+		repo.save(order);
+	}
+
 
 	public Optional<Order> findById(int orderId) {
-
 		return repo.findById(orderId);
 	}
+
+	public List<Order> findByStatus(String deliveryStatus) {
+		return repo.findByStatus(deliveryStatus);
+	}
+
+	public List<Order> findAll() {
+		return (List<Order>) repo.findAll();
+	}
+
 
 }

@@ -31,6 +31,10 @@ public class Branches {
 	public Branches() {
 	}
 
+	public Branches(Integer branchId) {
+		this.branchId = branchId;
+	}
+
 	public Branches(String branchName, String branchAddress, Double latitude, Double longitude) {
 		this.branchName = branchName;
 		this.branchAddress = branchAddress;

@@ -27,6 +27,10 @@ public class OrderDetailService {
 	public List<OrderDetail> findOrderDetailsByOrder(Order order) {
 		return repo.findOrderDetailsByOrder(order);
 	}
+	
+	public List<OrderDetail> findOrderDetailsByUser(User user) {
+		return repo.findOrderDetailsByUser(user);
+	}
 
 	public void saveOrderDetails(Order order, Book book1, int bookPrice, int orderQuantity) {
 		OrderDetail orderdetail = new OrderDetail();
@@ -37,8 +41,7 @@ public class OrderDetailService {
 		repo.save(orderdetail);
 	}
 
-	public List<OrderDetail> findOrderDetailsByUser(User user) {
-		return repo.findOrderDetailsByUser(user);
-	}
+
+
 
 }
