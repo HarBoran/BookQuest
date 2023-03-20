@@ -234,6 +234,18 @@ public class BookController {
 		reviewService.save(review, userId, bookId);
 		return "redirect:/book/detail?book=" + book;
 	}
+	
+	@PostMapping("/review/delete")
+	public String reviewDelete(@RequestParam("book") int book, @ModelAttribute("review") Review review,
+			Model model, Principal principal) {
+
+		if(principal == null) {
+			return "redirect:/login";
+		}
+
+		reviewService.delete(review);
+		return "redirect:/book/detail?book=" + book;
+	}
 
 	@GetMapping("/descReview")
 	public String descReview(Book book, Model model) {

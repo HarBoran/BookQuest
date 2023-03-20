@@ -3,13 +3,101 @@ table {
 	width: 100%;
 }
 
-td, th {
+td,
+th {
 	border: 1px solid rgb(255, 255, 255);
-	text-align: left;
+	text-align: center;
 	padding: 8px;
+}
+
+#user {
+	width: 100px;
+}
+
+#orderDate {
+	width: 120px;
+}
+
+#orderTime {
+	width: 100px;
+}
+
+#deliveryStatus {
+	width: 150px;
+}
+
+#totalPrice {
+	width: 150px;
+}
+
+#viewDetails {
+	width: 150px;
+}
+
+
+
+#bookInfo {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 20px;
 }
 
 #image_box {
 	width: 50px;
 	height: 100%;
+}
+
+#titleBox {
+	width: 250px;
+	height: 100%;
+	align-items: center;
+	margin: 0px 30px;
+}
+
+#price {
+	width: 138px;
+	height: 100%;
+	align-items: center;
+	margin: 0px 30px;
+}
+
+#quantity {
+	width: 85px;
+	height: 100%;
+	align-items: center;
+	margin: 0px 30px;
+}
+
+#orderDetailTotalPrice {
+	width: 120px;
+	height: 100%;
+	align-items: center;
+	margin: 0px 30px;
+}
+
+#changeDeliveryStatus {
+	width: 120px;
+	height: 35px;
+	background-color: #5747E6;
+	color: white;
+	border: none;
+	border-radius: 6px;
+	float: right;
+	align-items: center;
+	justify-content: center;
+	margin-right: 100px;
+	margin-bottom: 30px;
+}
+
+#detailButton {
+	width: 100px;
+	height: 30px;
+	background-color: white;
+	color: #5747E6;
+	border: 1px solid #5747E6;
+	border-radius: 6px;
+	float: center;
+	align-items: center;
+	justify-content: center;
 }

@@ -18,5 +18,11 @@ function validateForm() {
 	}
 
 	// 유효성 검사가 통과되었으므로, 폼을 제출합니다.
-	return true;
+	if (confirm("구매 하시겠습니까?")) {
+		return true;
+	} else {
+		return false;
+	}
+
+
 }

@@ -101,7 +101,8 @@ public class CartController {
 
 	@PostMapping("/save")
 	public String savecart(Model model, @RequestParam("number") int number, Principal principal,
-			@Param("book") int book, @ModelAttribute("cart") Cart cart, RedirectAttributes r) {
+			@Param("book") int book, @ModelAttribute("cart") Cart cart, RedirectAttributes r,
+			@RequestParam(required = false, name = "theme") String theme) {
 		String userEmail = principal.getName();
 		User users = userService.getUserByEmail(userEmail);
 		List<Cart> cartBeforeSave = cartService.findCartByUser(users);
@@ -118,12 +119,21 @@ public class CartController {
 		if (number == 0) {
 			r.addFlashAttribute("rmsg", "책의 수량을 선택해주세요");
 		} else if (number != 0) {
-			Optional<Book> books = bookService.findById(book);
-			String username = principal.getName();
-			Optional<User> user = userService.findByID(username);
-			User userId = user.get();
-			cartService.save(cart, number, books.get(), userId);
-			return "redirect:/cart/";
+			if (theme != null) {
+				Optional<Book> books = bookService.findById(book);
+				String username = principal.getName();
+				Optional<User> user = userService.findByID(username);
+				User userId = user.get();
+				cartService.save(cart, number, books.get(), userId);
+				return "redirect:/book/" + theme;
+			} else {
+				Optional<Book> books = bookService.findById(book);
+				String username = principal.getName();
+				Optional<User> user = userService.findByID(username);
+				User userId = user.get();
+				cartService.save(cart, number, books.get(), userId);
+				return "redirect:/book/detail?book=" + book;
+			}
 		}
 
 		return "redirect:/book/detail?book=" + book;

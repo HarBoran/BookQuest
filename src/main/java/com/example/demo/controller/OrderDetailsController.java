@@ -164,7 +164,7 @@ public class OrderDetailsController {
 				cartService.deleteCartByCartId(cart.get(0).getCartId());
 			} else {
 
-				return "redirect:/";
+				return "redirect:/order/";
 			}
 		} else if (bookquantity.size() > 1) {
 
@@ -192,11 +192,11 @@ public class OrderDetailsController {
 
 			}
 
-			return "redirect:/";
+			return "redirect:/order/";
 
 		}
 
-		return "redirect:/";
+		return "redirect:/order/";
 	}
 
 //	@PostMapping("/buytotal")

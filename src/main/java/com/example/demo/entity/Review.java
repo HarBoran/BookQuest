@@ -43,6 +43,10 @@ public class Review {
 
 	public Review() {
 	}
+	
+	public Review(Integer reviewsid) {
+		this.reviewsid = reviewsid;
+	}
 
 	@Override
 	public String toString() {

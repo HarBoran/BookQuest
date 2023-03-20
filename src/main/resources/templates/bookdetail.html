@@ -6,8 +6,48 @@
 	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
 	<link rel="stylesheet" th:href="@{/css/bookdetail.css}" />
 	<script type="text/javascript" th:src="@{/js/bookdetail.js}"></script>
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 
 </head>
+
+<script>
+
+	$(document).ready(function () {
+		$("#wish").click(function () {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			bookId = this.value;
+			$.ajax({
+				type: 'POST',
+				url: '/BookQuest/wish',
+				headers: {"content-type": "application/json"},
+				dataType: 'json',
+				data: JSON.stringify(bookId),
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success: function (response) {
+					console.log(response);
+					check = JSON.parse(response);
+					if (check == 0) {
+						$("#wishimage").attr("src", "[[@{/images/heart-outline2.png}]]")
+					} else if (check == 1) {
+						$("#wishimage").attr("src", "[[@{/images/heart-outline1.png}]]");
+					}
+
+
+				},
+				error: function () {alert("error")} // 에러가 발생했을 때, 호출될 함수
+			});
+
+
+		});
+	});
+</script>
+
+
+
 
 <body>
 	<div th:replace="commonspace :: menu" />
@@ -115,7 +155,7 @@
 					[[${rmsg}]]
 
 					<div id="button_box">
-						<form th:action="@{/cart/save}" th:object="${cart}" method="POST">
+						<form th:action="@{/cart/save}" th:object="${cart}" method="POST" onclick="return putonitem();">
 							<input type="hidden" id="number" th:name="number" value="1">
 							<!--   <input type="button" value="+" onclick="increment()"></input	>
             				<input type="button" value="-" onclick="decrement()"></input> -->
@@ -131,32 +171,29 @@
 							<button type="submit" id="buy">바로구매</button>
 						</form>
 
-						<div th:if="${check=='a'}">
-							<form th:action="@{/wishlist/save}" th:object="${wishlist}" method="POST">
-								<input type="hidden" th:value="${book.bookId}" name="book" />
-								<button type="submit" style="background: none; border: none;">
-									<div
-										style="width:36px; height:36px; background: white; border: 2px solid #5747E6; border-radius: 6px; display: flex; justify-content: center; align-items: center;">
-										<img th:src="@{/images/heart-outline2.png}" width="18px" height="14px">
-									</div>
-								</button>
-							</form>
+						<div th:if="${check=='a'}" id="delete">
+							<button id="wish" type="button" th:value="${book.bookId}"
+								style="background: none; border: none;">
+								<div
+									style="width:36px; height:36px; background: white; border: 2px solid #5747E6; border-radius: 6px; display: flex; justify-content: center; align-items: center;">
+									<img id="wishimage" th:src="@{/images/heart-outline2.png}" width="18px"
+										height="14px">
+								</div>
+							</button>
 						</div>
-
-						<div th:if="${check=='b'}">
-							<form th:action="@{/wishlist/save}" th:object="${wishlist}" method="POST">
-								<input type="hidden" th:value="${book.bookId}" name="book" />
-								<button type="submit" style="background: none; border: none;">
-									<div
-										style="width:36px; height:36px; background: white; border: 2px solid #5747E6; border-radius: 6px; display: flex; justify-content: center; align-items: center;">
-										<img th:src="@{/images/heart-outline1.png}" width="18px" height="14px">
-									</div>
-								</button>
-							</form>
+						<div th:if="${check=='b'}" id="save">
+							<button id="wish" type="button" th:value="${book.bookId}"
+								style="background: none; border: none;">
+								<div
+									style="width:36px; height:36px; background: white; border: 2px solid #5747E6; border-radius: 6px; display: flex; justify-content: center; align-items: center;">
+									<img id="wishimage" th:src="@{/images/heart-outline1.png}" width="18px"
+										height="14px">
+								</div>
+							</button>
 						</div>
 					</div>
 
-<!--					<form th:action="@{/usedBook/selluserd}" method="POST">
+					<!--					<form th:action="@{/usedBook/selluserd}" method="POST">
 						<input type="hidden" name="book" th:value="${book.bookId}" />
 						<button style="background: none; border: none; outline: none; margin:10px 0">중고 판매하기</button>
 					</form>
@@ -189,7 +226,7 @@
 			</div>
 
 			<div>
-				<textarea th:field="*{comment}" placeholder="리뷰내용을 입력해주세요.(255자 내외)" maxlength="255"/>
+				<textarea th:field="*{comment}" placeholder="리뷰내용을 입력해주세요.(255자 내외)" maxlength="255" />
 			</div>
 
 
@@ -206,7 +243,8 @@
 						<input type="radio" th:field="*{starRating}" value=2 id="rate4" required>
 						<label for="rate4">★</label>
 						<input type="radio" th:field="*{starRating}" value=1 id="rate5" required>
-						<label 	for="rate5">★</label>
+						<label for="rate5">★</label>
+						<span th:if="${#fields.hasErrors('starRating')}" class="text-danger">별점을 선택해주세요</span>
 					</fieldset>
 				</div>
 
@@ -224,11 +262,11 @@
 			<div id="reivewsBox">
 				<div id="reivewsBoxTop" style="color: gray;">
 					<div style="display: flex;">
-						<div th:text="${reivews.user.name}"/>
+						<div th:text="${reivews.user.name}" />
 						<div style="margin: 0 15px;">&vert;</div>
 						<div th:text="${#temporals.format(reivews.commentDate, 'yyyy-MM-dd HH:mm:ss')}"></div>
 					</div>
-					
+
 					<table>
 						<td th:if="${reivews.starRating==1}">
 							<span class="star">&#x2605;</span>
@@ -267,9 +305,17 @@
 						</td>
 					</table>
 				</div>
-				<div th:text="${reivews.comment}"style = "padding: 5px; word-wrap: break-word;" />
+				
+				<div id="reivewsBoxBottom">
+					<div id = "reivewsBoxComment" th:text="${reivews.comment}" />
+					
+					<form id="deleteForm" th:action="@{/book/review/delete}" method="POST">
+						<input type="hidden" th:value="${book.bookId}" name="book"/>
+						<input type="hidden" th:value="${reivews.reviewsid}" name="review"/>
+						<img th:src="@{/images/x.png}" onclick="submitDeleteForm()"/>
+					</form>
+				</div>		
 			</div>
-
 
 			<hr>
 

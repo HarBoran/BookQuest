@@ -100,4 +100,11 @@ public class WishListController {
 		return "redirect:/book/detail?book=" + bookId;
 	}
 
+	@GetMapping("/delete/{bookId}")
+	public String deletebook(@PathVariable(name = "bookId") int bookId) {
+		Book book = bookService.findById(bookId).get();
+		wishlistService.delete(book);
+		return "redirect:/wishlist/";
+	}
+
 }

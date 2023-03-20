@@ -36,4 +36,8 @@ public class ReviewService {
 		return avgstar;
 	}
 
+	public void delete(Review review) {
+		repo.delete(review);
+	}
+
 }

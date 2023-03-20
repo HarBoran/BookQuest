@@ -23,11 +23,13 @@ import com.example.demo.entity.Book;
 import com.example.demo.entity.Branches;
 import com.example.demo.entity.Cart;
 import com.example.demo.entity.Category;
+import com.example.demo.entity.Review;
 import com.example.demo.entity.User;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.BranchRepository;
 import com.example.demo.repository.CartRepository;
 import com.example.demo.repository.OrderDetailRepository;
+import com.example.demo.repository.ReviewRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.OrderDetailService;
 
@@ -52,6 +54,9 @@ class BookQuestApplicationTests {
 	
 	@Autowired
 	private OrderDetailRepository odRepo;
+	
+	@Autowired
+	private ReviewRepository reviewRepo;
 	
 	@Test
 	public void testEncodePassword() {
@@ -91,6 +96,13 @@ class BookQuestApplicationTests {
 //		System.err.println(odRepo.bestseller());
 		System.err.println("+__________+");
 		
+	}
+	
+	@Test
+	public void deleteReview() {
+		int id = 22;
+		Review reviews = new Review(id);
+		reviewRepo.delete(reviews);
 	}
 
 

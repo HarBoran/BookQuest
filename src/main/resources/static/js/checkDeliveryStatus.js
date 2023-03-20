@@ -1,8 +1,8 @@
-function showList() {
-	var list = document.getElementById("list");
-	if (list.style.display === "none") {
-		list.style.display = "block";
+function showOrderDetailTable(num) {
+	var div = document.getElementById("orderDetailTable"+num);
+	if (div.style.display === "none") {
+		div.style.display = "block";
 	} else {
-		list.style.display = "none";
+		div.style.display = "none";
 	}
 }
