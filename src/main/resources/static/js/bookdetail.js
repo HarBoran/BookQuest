@@ -40,24 +40,44 @@ function openTab(evt, tabName) {
 	evt.currentTarget.className += " active";
 }
 
+	$(document).ready(function () {
+			//리뷰작성할떄 별점 없으면 alert창
+		$('.buttonDoneStar').click(function(event) {
+		  if (!$('input[name="starRating"]').is(':checked')) {
+		    // prevent form submission
+		    event.preventDefault();
+		    alert('별점을 선택해주세요.');
+		  }
+		});
+});
+
 
 function putonitem() {
-	// 확인 메시지 띄우기
-	if (confirm("장바구니에 담으시겠습니까 ?")) {
-		return true;
-	} else {
-		return false;
-	}
+   // 확인 메시지 띄우기
+   if (confirm("장바구니에 담으시겠습니까 ?")) {
+      return true;
+   } else {
+      return false;
+   }
+}
+		
+
+function editComment(num) {
+	// 수정된 코멘트 가져오기
+	const newComment = document.querySelector(`#reivewsBoxCommentEdit`+num+ ` #reivewsBoxCommentInput`).value;
+	// form 요소에 수정된 코멘트 값 설정하기
+	const form = document.querySelector(`#reivewsBoxCommentEdit` + num + ` form`);
+	const input = form.querySelector(`input[name="updateReivew"]`);
+	input.value = newComment;
+
+	// form 요소 서버로 전송하기
+	form.submit();
 }
 
-//리뷰작성할떄 별점 없으면 alert창
-$('#buttonDone').click(function(event) {
-  if (!$('input[name="starRating"]').is(':checked')) {
-    // prevent form submission
-    event.preventDefault();
-    alert('별점을 선택해주세요.');
-  }
-});
+
+
+
+
 
 //클릭했을때 리뷰 수정창 보이게하기
 $(document).ready(function() {

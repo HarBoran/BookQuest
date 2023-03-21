@@ -306,3 +306,26 @@
 	margin-right: 10px;
 
 }
+
+#originalPrice {
+	float: right;
+	text-align: right;
+	color: #5747E6;
+	font-size: 24px; 
+	font-weight: 700;
+	
+}
+
+#preDiscountPrice {
+	text-decoration: line-through;
+	color: #777;
+}
+
+#discountPrice {
+	font-size: 24px; 
+	font-weight: 700;
+	float: right;
+	text-align: right;
+	color: #c00;
+	font-weight: bold;
+}
