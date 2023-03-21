@@ -112,7 +112,6 @@
 
 #delivery_textbox {
 	font-size: 20px;
-	width: 143px;
 	height: 25px;
 	font-weight: 700;
 	float: left;
@@ -199,4 +198,58 @@
 	color: white;
 	width: 99px;
 	height: 36px;
+}
+
+#addaddress {
+	FONT-WEIGHT: 400;
+	width: 40px;
+	height: 38px;
+	background-color: #5747E6;
+	border-radius: 6px;
+	color: white;
+	border: none;
+	font-size: 14px;
+}
+
+#addAddress {
+	FONT-WEIGHT: 400;
+	width: 80px;
+	height: 38px;
+	background-color: #5747E6;
+	border-radius: 6px;
+	color: white;
+	border: none;
+	font-size: 14px;
+}
+
+#sample6_postcode {
+	width: 69%;
+	display: inline-block;
+	vertical-align: middle;
+	margin-bottom: 5px;
+}
+
+#sample6_postcode+input {
+	width: 27%;
+	margin-left: 3%;
+	display: inline-block;
+	vertical-align: middle;
+	margin-bottom: 5px;
+}
+
+#sample6_address {
+	margin-bottom: 5px;
+}
+
+#sample6_detailAddress {
+	width: 50%;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#sample6_extraAddress {
+	width: 48%;
+	margin-left: 1%;
+	display: inline-block;
+	vertical-align: middle;
 }

@@ -6,10 +6,60 @@
 	<head th:replace="commonspace :: page_head('SignUpPage')" />
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript" th:src="@{/js/signUpPage.js}"></script>
+	<script type="text/javascript" th:src="@{/js/kakaoAdress.js}"></script>
 	<link rel="stylesheet" th:href="@{/css/signUpPage.css}" />
 	<meta name="_csrf" th:content="${_csrf.token}" />
 
 </head>
+
+
+<script>
+	function checkEmailUniqueButton(userId, userEmail) {
+		if (formSubmitting) return; // 폼 제출 중이라면 함수 실행 중지
+		formSubmitting = true; // 폼 제출 상태로 변경
+		
+		url = "[[@{/sign/check_email}]]";
+		csrfValue = $("input[name='_csrf']").val();
+		params = {id: userId, email: userEmail, _csrf: csrfValue};
+		
+		$.post(url, params, function(response) {
+			if (response == "OK") {
+				showModalDialog("Possible", userEmail + "는(은) 사용가능합니다.");
+			} else if (response == "Duplicated") {
+				showModalDialog("Warning", userEmail + "는(은) 이미 사용중인 아이디 입니다.");
+			} else {
+				showModalDialog("Error", "Unknown response from server");
+			}
+		}).fail(function() {
+			showModalDialog("Error", "Could not connect to the server");
+		}).always(function() {
+			formSubmitting = false; // 폼 제출 상태를 다시 false로 변경
+		});
+	}
+	
+	function showModalDialog(title, message) {
+		$("#modalTitle").text(title);
+		$("#modalBody").text(message);
+		$("#modalDialog").modal();
+	}
+	
+		
+	// form submit event handler
+	$('.signUpForm').submit(function(event) {
+	  // check if duplicate check button is clicked
+	  if (!$("#duplicateCheckButton").data('clicked')) {
+	    // prevent form submission
+	    event.preventDefault();
+	    alert('아이디 중복 체크를 먼저 해주세요.');
+	  }
+	});
+	
+	// duplicate check button click event handler
+	$('#duplicateCheckButton').click(function() {
+	  // set a data attribute to indicate that button is clicked
+	  $(this).data('clicked', true);
+	});	
+</script>
 
 <body>
 	<div th:replace="commonspace :: menu"></div>
@@ -30,20 +80,21 @@
 		</div>
 
 		<div id="signup_box3">
-			<form th:action="@{/sign/save}" th:object="${user}" method="POST">
+			<form th:action="@{/sign/save}" th:object="${user}" method="POST" th:class="${edit == null} ? 'signUpForm' : ''">
+			
 				<input type="hidden" th:field="*{userId}" />
 
 				<div id="signup_box3-1">
 					<div th:if="${edit == null}" class="noEdit">
-						<input type="text" id="email" name="email" placeholder="아이디" class="form-control"
-							th:field="*{email}" required /></p>
+						<input type="email" id="email" name="email" placeholder="이메일" class="form-control"
+							th:field="*{email}" required/></p>
 						<button id="duplicateCheckButton" type="button"
 							onclick="event.stopPropagation(); checkEmailUniqueButton($('#userId').val(), $('#email').val());">아이디중복체크</button>
 					</div>
 
 					<div th:if="${edit != null}">
 						<p><input type="text" id="email_edit" name="email" placeholder="아이디" class="form-control"
-								th:field="*{email}" required /></p>
+								th:field="*{email}" readonly/></p>
 					</div>
 
 					<div th:if="${check!=null}">
@@ -77,9 +128,9 @@
 						<input type="text" id="sample6_postcode" placeholder="우편번호" class="form-control" required readonly>
 						<input type="button" id="address_button" onclick="sample6_execDaumPostcode()"
 							value="우편번호 찾기"><br>
-						<input type="text" th:field="*{address}" id="sample6_address" class="form-control"
+						<input type="text" th:field="*{address1}" id="sample6_address" class="form-control"
 							placeholder="상세주소" readonly>
-						<input type="text" id="sample6_detailAddress" placeholder="상세주소 입력" class="form-control" required>
+						<input type="text" id="sample6_detailAddress" placeholder="상세주소 입력" class="form-control" th:required = "${edit == null}" >
 						<input type="text" id="sample6_extraAddress" placeholder="참고항목" class="form-control" readonly>
 					</p>
 				</div>

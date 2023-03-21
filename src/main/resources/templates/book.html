@@ -97,7 +97,11 @@
 					</button>
 				</form>
 			</div>
-
+			
+			<div th:if="${cartMessage != null}" class="alert alert-success text-center">
+				[[${cartMessage}]]
+			</div>
+			
 			<div id="book_box">
 				<div th:each="book : ${books}">
 					<div id="booklist">

@@ -141,7 +141,7 @@ public class InputDefaultDatabase {
 		user.setEmail("1");
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		user.setPassword(passwordEncoder.encode("1"));
-		user.setAddress("주소");
+		user.setAddress1("주소");
 		user.setName("이름");
 		user.setPhone("010전화번호");
 		user.setPhoto("프로필사진");
@@ -163,7 +163,7 @@ public class InputDefaultDatabase {
       user.setEmail("royce924@naver.com");      
       BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
       user.setPassword(passwordEncoder.encode("12345678"));
-      user.setAddress("고덕동");
+      user.setAddress1("고덕동");
       user.setName("오선용");
       user.setPhone("0109959240");
       user.setPhoto("프로필사진");

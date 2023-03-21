@@ -151,8 +151,11 @@
 						<div th:if="${bookbranch!=null}" th:text="재고수량+${bookbranch.quantity}+권"></div>
 						<div th:text="${bookbranch.branches.branchName}"></div>
 					</th:block>-->
-					<br>
-					[[${rmsg}]]
+					<br>			
+					
+					<div th:if="${cartMessage != null}" class="alert alert-success text-center">
+						[[${cartMessage}]]
+					</div>
 
 					<div id="button_box">
 						<form th:action="@{/cart/save}" th:object="${cart}" method="POST" onclick="return putonitem();">
@@ -202,6 +205,16 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	<script>
+		$(document).ready(function() {
+			if("[[${reviewCrud}]]" == "reviewCrud"){
+				openTab(event, 'review');
+			}	
+		});
+		
+	</script>
 
 	<div class="tab"
 		style="width:1000px; height:52px; margin:auto; border-bottom:1px solid #D1D1D1; margin-bottom: 48px;">
@@ -226,14 +239,13 @@
 			</div>
 
 			<div>
-				<textarea th:field="*{comment}" placeholder="리뷰내용을 입력해주세요.(255자 내외)" maxlength="255" />
+				<textarea th:field="*{comment}" placeholder="리뷰내용을 입력해주세요.(10자 이상)" minlength="10" maxlength="255" />
 			</div>
 
 
 			<div id="writeStarRating">
 				<div id="star">
 					<fieldset>
-						<span style="align-items: center;">별점을 선택해주세요</span>
 						<input type="radio" th:field="*{starRating}" value=5 id="rate1" required>
 						<label for="rate1">★</label>
 						<input type="radio" th:field="*{starRating}" value=4 id="rate2" required>
@@ -244,7 +256,6 @@
 						<label for="rate4">★</label>
 						<input type="radio" th:field="*{starRating}" value=1 id="rate5" required>
 						<label for="rate5">★</label>
-						<span th:if="${#fields.hasErrors('starRating')}" class="text-danger">별점을 선택해주세요</span>
 					</fieldset>
 				</div>
 
@@ -256,9 +267,13 @@
 				</div>
 			</div>
 		</form>
+		
+		<script>
+
+		</script>
 
 
-		<th:block th:each="reivews:${reviewdetail}">
+		<th:block th:each="reivews,num:${reviewdetail}">
 			<div id="reivewsBox">
 				<div id="reivewsBoxTop" style="color: gray;">
 					<div style="display: flex;">
@@ -306,20 +321,49 @@
 					</table>
 				</div>
 				
-				<div id="reivewsBoxBottom">
-					<div id = "reivewsBoxComment" th:text="${reivews.comment}" />
+				<script>
+					function editComment(num) {
+						// 수정된 코멘트 가져오기
+						const newComment = document.querySelector(`#reivewsBoxCommentEdit`+num+ ` #reivewsBoxCommentInput`).value;
+						// form 요소에 수정된 코멘트 값 설정하기
+						const form = document.querySelector(`#reivewsBoxCommentEdit` + num + ` form`);
+						const input = form.querySelector(`input[name="updateReivew"]`);
+						input.value = newComment;
 					
-					<form id="deleteForm" th:action="@{/book/review/delete}" method="POST">
-						<input type="hidden" th:value="${book.bookId}" name="book"/>
-						<input type="hidden" th:value="${reivews.reviewsid}" name="review"/>
-						<img th:src="@{/images/x.png}" onclick="submitDeleteForm()"/>
-					</form>
+						// form 요소 서버로 전송하기
+						form.submit();
+					}
+				</script>
+
+				<div id="reivewsBoxBottom">
+					<div th:id="|reivewsBoxComment${num.index}|" th:text="${reivews.comment}"
+						th:class="${#authentication.name == reivews.user.email} ? 'showEditForm' : ''">
+					</div>
+					<div th:id="|reivewsBoxCommentEdit${num.index}|" style="display:none;">
+						<textarea id="reivewsBoxCommentInput" th:text="${reivews.comment}"></textarea>
+						<div style="display: flex; justify-content: right;">
+							<form th:action="@{|/book/review/edit/${reivews.reviewsid}|}" method="POST">
+								<input type="hidden" th:value="${book.bookId}" name="book"/>
+								<input type="hidden" th:value="${reivews.comment}" name="updateReivew"/>
+								<button id="buttonDone" th:onclick="|editComment(${num.index})|">수정</button>
+							</form>
+					    	<button id="buttonCancel" th:onclick="|cancelEdit(${num.index})|">취소</button>
+					     </div>
+					</div>
+					<th:block th:if="${#authentication.name == reivews.user.email}">
+						<form id="deleteForm" th:action="@{/book/review/delete}" method="POST">
+							<input type="hidden" th:value="${book.bookId}" name="book"/>
+							<input type="hidden" th:value="${reivews.reviewsid}" name="review"/>
+							<img th:src="@{/images/x.png}" onclick="submitDeleteForm()"/>
+						</form>
+					</th:block>
 				</div>		
 			</div>
-
+			
 			<hr>
 
 		</th:block>
+
 	</div>
 	</div>
 

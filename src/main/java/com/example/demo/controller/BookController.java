@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Book;
 import com.example.demo.entity.BooksBranch;
@@ -221,7 +221,7 @@ public class BookController {
 
 	@PostMapping("/review")
 	public String reviewsave(@RequestParam("book") int book, @ModelAttribute("review") Review review, Model model,
-			Principal principal) {
+			Principal principal, RedirectAttributes redirectAttributes) {
 		if(principal == null) {
 			return "redirect:/login";
 		}
@@ -232,18 +232,35 @@ public class BookController {
 		Optional<User> user = userService.findByID(username);
 		User userId = user.get();
 		reviewService.save(review, userId, bookId);
+		
+		redirectAttributes.addFlashAttribute("reviewCrud", "reviewCrud");
 		return "redirect:/book/detail?book=" + book;
 	}
 	
+	
+	@PostMapping("/review/edit/{reviewId}")
+	public String reviewEdit(@PathVariable(name = "reviewId")Review review,
+			@RequestParam("updateReivew") String updateReivew,
+			@RequestParam("book") int book,
+			RedirectAttributes redirectAttributes) {
+
+		reviewService.editReview(review, updateReivew);
+		redirectAttributes.addFlashAttribute("reviewCrud", "reviewCrud");
+		return "redirect:/book/detail?book=" + book;
+	}
+	
+
 	@PostMapping("/review/delete")
 	public String reviewDelete(@RequestParam("book") int book, @ModelAttribute("review") Review review,
-			Model model, Principal principal) {
+			Model model, Principal principal, RedirectAttributes redirectAttributes) {
 
 		if(principal == null) {
 			return "redirect:/login";
 		}
 
 		reviewService.delete(review);
+		
+		redirectAttributes.addFlashAttribute("reviewCrud", "reviewCrud");
 		return "redirect:/book/detail?book=" + book;
 	}
 
@@ -333,24 +350,24 @@ public class BookController {
 		return "bookdetail";
 	}
 
-	@GetMapping("/sortPrice")
-	public String sortPrice(Model model) {
-		List<Category> listCategories = categoryService.findCategory();
-		model.addAttribute("listCategories", listCategories);
-		List<Book> sortprice = new ArrayList<Book>();
-		sortprice.addAll(bookService.sortprice());
-		model.addAttribute("books", sortprice);
-		return "book";
-	}
-
-	@GetMapping("/sortTitle")
-	public String sortTitle(Model model) {
-		List<Category> listCategories = categoryService.findCategory();
-		model.addAttribute("listCategories", listCategories);
-		List<Book> sortTitle = new ArrayList<Book>();
-		sortTitle.addAll(bookService.sortTitle());
-		model.addAttribute("books", sortTitle);
-		return "book";
-	}
+//	@GetMapping("/sortPrice")
+//	public String sortPrice(Model model) {
+//		List<Category> listCategories = categoryService.findCategory();
+//		model.addAttribute("listCategories", listCategories);
+//		List<Book> sortprice = new ArrayList<Book>();
+//		sortprice.addAll(bookService.sortprice());
+//		model.addAttribute("books", sortprice);
+//		return "book";
+//	}
+//
+//	@GetMapping("/sortTitle")
+//	public String sortTitle(Model model) {
+//		List<Category> listCategories = categoryService.findCategory();
+//		model.addAttribute("listCategories", listCategories);
+//		List<Book> sortTitle = new ArrayList<Book>();
+//		sortTitle.addAll(bookService.sortTitle());
+//		model.addAttribute("books", sortTitle);
+//		return "book";
+//	}
 
 }

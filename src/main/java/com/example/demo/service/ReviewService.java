@@ -40,4 +40,16 @@ public class ReviewService {
 		repo.delete(review);
 	}
 
+	public void editReview(Review review, String updateReivew) {
+		
+//      if(review.getComment().substring(review.getComment().length()-5).equals("(수정됨)")) {
+//		if(review.getComment().endsWith("(수정됨)")) {
+//			review.setComment(updateReivew);
+//		}else {
+//			review.setComment(updateReivew + "(수정됨)");
+//		}
+		review.setComment(updateReivew);	
+		repo.save(review);
+	}
+
 }

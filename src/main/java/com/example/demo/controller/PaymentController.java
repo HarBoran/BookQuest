@@ -67,7 +67,7 @@ public class PaymentController {
 		themodel.addAttribute("user", user);
 		themodel.addAttribute("paymentList", paymentList);
 
-		return "redirect:/mypage/";
+		return "redirect:/payment/";
 
 	}
 
@@ -84,7 +84,6 @@ public class PaymentController {
 
 	@GetMapping("/delete/{paymentId}")
 	public String deleteById(@PathVariable(name = "paymentId") int paymentId, Model themodel, Principal principal) {
-		System.out.println("userId=====" + paymentId);
 
 		User user = userService.findByEmail(principal.getName());
 		List<Payment> paymentList = paymentService.findPaymentList();
@@ -92,7 +91,7 @@ public class PaymentController {
 		themodel.addAttribute("paymentList", paymentList);
 		paymentService.delete(paymentId);
 
-		return "redirect:/mypage/";
+		return "redirect:/payment/";
 	}
 
 }

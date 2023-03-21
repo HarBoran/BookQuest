@@ -112,12 +112,16 @@ public class CartController {
 			bookBeforeSave.add(cartBeforeSave.get(i).getBook());
 		}
 		if (bookBeforeSave.contains(findBook)) {
-			r.addFlashAttribute("rmsg", "이미 장바구니에 담겨져 있습니다");
+			if (theme != null) {
+				r.addFlashAttribute("cartMessage", "이미 장바구니에 담겨져 있습니다");
+				return "redirect:/book/" + theme;
+			}
+			r.addFlashAttribute("cartMessage", "이미 장바구니에 담겨져 있습니다");
 			return "redirect:/book/detail?book=" + book;
 		}
 
 		if (number == 0) {
-			r.addFlashAttribute("rmsg", "책의 수량을 선택해주세요");
+			r.addFlashAttribute("cartMessage", "책의 수량을 선택해주세요");
 		} else if (number != 0) {
 			if (theme != null) {
 				Optional<Book> books = bookService.findById(book);

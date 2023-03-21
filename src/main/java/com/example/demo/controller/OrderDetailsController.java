@@ -123,8 +123,9 @@ public class OrderDetailsController {
 			model.addAttribute("totalPrice", totalPrice);
 			Order order = new Order();
 			order.setUser(user.get());
-			order.setAddress(user.get().getAddress());
+			order.setAddress(user.get().getAddress1());
 			model.addAttribute("orders", order);
+			model.addAttribute("payment", new Payment());
 			return "orderbuy";
 
 		} else if (carts == null && book != null) {
@@ -139,8 +140,9 @@ public class OrderDetailsController {
 			model.addAttribute("totalPrice", book.getPrice());
 			Order order = new Order();
 			order.setUser(user.get());
-			order.setAddress(user.get().getAddress());
+			order.setAddress(user.get().getAddress1());
 			model.addAttribute("orders", order);
+			model.addAttribute("payment", new Payment());
 			return "orderbuy";
 		}
 

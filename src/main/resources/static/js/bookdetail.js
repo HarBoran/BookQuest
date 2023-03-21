@@ -50,6 +50,30 @@ function putonitem() {
 	}
 }
 
+//리뷰작성할떄 별점 없으면 alert창
+$('#buttonDone').click(function(event) {
+  if (!$('input[name="starRating"]').is(':checked')) {
+    // prevent form submission
+    event.preventDefault();
+    alert('별점을 선택해주세요.');
+  }
+});
+
+//클릭했을때 리뷰 수정창 보이게하기
+$(document).ready(function() {
+	$('.showEditForm').click(function() {
+		var num = $(this).attr('id').replace('reivewsBoxComment', '');
+		document.getElementById("reivewsBoxComment" + num).style.display = "none";
+		document.getElementById("reivewsBoxCommentEdit" + num).style.display = "block";
+	});
+});
+
+function cancelEdit(num) {
+	document.getElementById("reivewsBoxComment" + num).style.display = "block";
+	document.getElementById("reivewsBoxCommentEdit" + num).style.display = "none";
+}
+
+
 //리뷰 삭제 하기
 function submitDeleteForm() {
 	if (confirm("정말 리뷰를 삭제 하시 겠습니까?")) {

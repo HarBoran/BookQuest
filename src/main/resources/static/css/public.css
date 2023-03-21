@@ -34,6 +34,31 @@ a:active {
 	text-decoration: none;
 }
 
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    outline: none;
+    border: 2px solid #9999;
+    border-radius: 5px;
+    vertical-align: middle;
+}
+
+input[type="checkbox"]:checked:before {
+  content: "\2713";
+  position: absolute;
+  font-size: 30px;
+  color: #5747E6;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 0px;
+
+}
+
 #footer {
 	background-color: black;
 	padding-top: 52px;

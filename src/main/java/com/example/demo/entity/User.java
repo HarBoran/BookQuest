@@ -1,14 +1,12 @@
 package com.example.demo.entity;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -37,7 +35,13 @@ public class User {
 	private String photo;
 
 	@Column(length = 128, nullable = false)
-	private String address;
+	private String address1;
+
+	@Column(length = 128, nullable = true)
+	private String address2;
+
+	@Column(length = 128, nullable = true)
+	private String address3;
 
 	@Column(name = "signup_date", length = 255, nullable = false)
 	private LocalDateTime signupDate;
@@ -55,11 +59,35 @@ public class User {
 		this.userId = userId;
 	}
 
+	public String getAddress1() {
+		return address1;
+	}
+
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+
+	public String getAddress3() {
+		return address3;
+	}
+
+	public void setAddress3(String address3) {
+		this.address3 = address3;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", email=" + email + ", password=" + password + ", name=" + name + ", phone="
-				+ phone + ", photo=" + photo + ", address=" + address + ", signupDate=" + signupDate + ", enabled="
-				+ enabled + ", role=" + role + "]";
+				+ phone + ", photo=" + photo + ", address1=" + address1 + ", address2=" + address2 + ", address3="
+				+ address3 + ", signupDate=" + signupDate + ", enabled=" + enabled + ", role=" + role + "]";
 	}
 
 	public Integer getUserId() {
@@ -108,14 +136,6 @@ public class User {
 
 	public void setPhoto(String photo) {
 		this.photo = photo;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	public LocalDateTime getSignupDate() {

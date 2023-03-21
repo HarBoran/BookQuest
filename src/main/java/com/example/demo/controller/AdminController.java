@@ -87,8 +87,7 @@ public class AdminController {
 		} else {
 			bookService.save(registering);
 		}
-		redirectAttributes.addFlashAttribute("message",
-				"<" + registering.getTitle() + "> has been saved successfully.");
+		redirectAttributes.addFlashAttribute("message","<" + registering.getTitle() + "> has been saved successfully.");
 		return "redirect:/admin/editBookInformation";
 
 	}

@@ -49,6 +49,7 @@ public class SignUpController {
 	@PostMapping("/save")
 	public String Save(@ModelAttribute("user") User user, RedirectAttributes redirectAttributes) {
 			user.setPhoto("");
+			System.err.println("User = " + user);
 			userService.save(user);
 			redirectAttributes.addFlashAttribute("message", "The user has been saved successfully");
 		return "redirect:/";
