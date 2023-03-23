@@ -8,9 +8,11 @@
 </head>
 
 <script>
-	document.getElementById("modal_opne_btn").onclick = function () {
-		$('#modalDialog').modal();
-	}             
+	$(document).ready(function () {
+		document.getElementById("modal_opne_btn").onclick = function () {
+			$('#modalDialog').modal();
+		}
+	});            
 </script>
 
 <body>
@@ -41,7 +43,7 @@
 				</tbody>
 			</table>
 		</div>
-		
+
 		<div id="root">
 			<button type="button" id="modal_opne_btn">결제수단 추가하기</button>
 		</div>
