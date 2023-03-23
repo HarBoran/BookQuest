@@ -79,6 +79,26 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
 	public List<Book> findDiscountBooks();
 	
 	
+	
+	
+   @Query("SELECT b FROM Book b WHERE b.discountRate>1")
+   public Page<Book> findBySaleBook(Pageable pageable);
+   
+   @Query("SELECT b FROM Book b WHERE b.discountRate>1 AND CONCAT(b.title, ' ', b.author, ' ', b.publisher) LIKE %?1%")
+   public Page<Book> findBySaleBook(String keyword, Pageable pageable);
+   
+   @Query("SELECT b FROM Book b WHERE b.discountRate>1 AND CONCAT(b.title, ' ', b.author, ' ', b.publisher) LIKE %:keyword% AND b.category =:category")
+   public Page<Book> findBySaleBook(@Param("keyword") String keyword, @Param("category")Category category, Pageable pageable);
+   
+   @Query("SELECT b FROM Book b WHERE b.discountRate>1 AND b.category =:category")
+   public Page<Book> findBySaleBook(@Param("category")Category category, Pageable pageable);
+	
+	
+	
+	
+	
+	
+	
 	@Query("SELECT b FROM Book b ORDER BY RAND()") // LIMIT 5는 안됨
 	public List<Book> findRandomBooks();
 

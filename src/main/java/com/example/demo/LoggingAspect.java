@@ -25,7 +25,7 @@ public class LoggingAspect {
 	@Before("forContrtrollerPackage()")
 	public void beforeContrtroller(JoinPoint theJoinPoint) {
 		String theMethod = theJoinPoint.getSignature().toShortString();
-		logger.info("===> " + theMethod);
+		logger.info("==> " + theMethod);
         logger.trace("trace log={}"+ theMethod);
         logger.debug("debug log={}"+ theMethod);
 	}
@@ -33,7 +33,7 @@ public class LoggingAspect {
 	@Before("forServicePackage()")
 	public void beforeService(JoinPoint theJoinPoint) {
 		String theMethod = theJoinPoint.getSignature().toShortString();
-		logger.info("=========> " + theMethod);
+		logger.info("===========> " + theMethod);
 	}
 
 	@AfterReturning(pointcut = "forServicePackage()", returning = "theResult")

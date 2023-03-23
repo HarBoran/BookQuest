@@ -29,7 +29,7 @@ public class OrderbuyRestController {
 		} else {
 			userId.setAddress3(useraddress);
 		}
-		userService.save(userId);
+		userService.saveAddress(userId);
 
 		return useraddress;
 	}

@@ -47,6 +47,10 @@ public class UserService {
 		return repo.findById(userid);
 	}
 
+	public void saveAddress(User userId) {
+		repo.save(userId);
+	}
+
 	public User saveencode(User user) {
 
 		Boolean isUpdatingUser = (user.getUserId() != null);

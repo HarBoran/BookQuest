@@ -83,66 +83,78 @@ public class BookController {
 		model.addAttribute("msg", "도서 찾기");
 		return "book";
 	}
-	
+
 	@GetMapping("/{theme}")
 	public String listAllBook(@PathVariable(name = "theme") String theme, Model model) {
 		return findBookList(theme, 1, "bookId", "asc", null, null, model);
 	}
-	
+
 	@GetMapping("/{theme}/page/{pageNum}")
-	public String findBookList(@PathVariable(name = "theme") String theme, @PathVariable(name = "pageNum") int pageNum, 
-			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword, 
+	public String findBookList(@PathVariable(name = "theme") String theme, @PathVariable(name = "pageNum") int pageNum,
+			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword,
 			Category category, Model model) {
-	
+
 		Page<Book> page = null;
-		
+
 		if (category == null || category.getCategoryId() == null) {
-			if(theme.equals("categories")) {
+			if (theme.equals("categories")) {
 				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
 				List<Book> books = page.getContent();
 				model.addAttribute("books", books);
 				model.addAttribute("pagetitle", " 도서찾기");
 				model.addAttribute("introduce", "내 취향에 맞는 도서를 찾아보세요.");
-				
-			}else if(theme.equals("bestseller")){
+
+			} else if (theme.equals("bestseller")) {
 				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
 				List<Book> bestseller = page.getContent();
 				model.addAttribute("books", bestseller);
 				model.addAttribute("pagetitle", "베스트 셀러");
 				model.addAttribute("introduce", "지금 가장 핫한 도서를 만나보세요!");
-			
-			}else if(theme.equals("new")){
+
+			} else if (theme.equals("new")) {
 				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
 				List<Book> newbooks = page.getContent();
 				model.addAttribute("books", newbooks);
-				model.addAttribute("pagetitle", "신간 도서");		
+				model.addAttribute("pagetitle", "신간 도서");
 				model.addAttribute("introduce", "갓 나온 따끈따끈한 도서를 만나보세요!");
+			} else if (theme.equals("sale")) {
+				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
+				List<Book> saleBook = page.getContent();
+				model.addAttribute("books", saleBook);
+				model.addAttribute("pagetitle", "할인 도서");
+				model.addAttribute("introduce", "저렴한 가격의 도서를 만나보세요!");
 			}
-			
-		}else if(category != null) {
-			if(theme.equals("categories")) {
+
+		} else if (category != null) {
+			if (theme.equals("categories")) {
 				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword, category);
 				List<Book> books = page.getContent();
 				model.addAttribute("books", books);
 				model.addAttribute("pagetitle", " 도서 찾기");
 				model.addAttribute("introduce", "내 취향에 맞는 도서를 찾아보세요!");
-				
-			}else if(theme.equals("bestseller")){
+
+			} else if (theme.equals("bestseller")) {
 				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword, category);
 				List<Book> bestseller = page.getContent();
 				model.addAttribute("books", bestseller);
 				model.addAttribute("pagetitle", "베스트 셀러");
 				model.addAttribute("introduce", "지금 가장 핫한 도서를 만나보세요!");
-			
-			}else if(theme.equals("new")){
+
+			} else if (theme.equals("new")) {
 				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword, category);
 				List<Book> newbooks = page.getContent();
 				model.addAttribute("books", newbooks);
-				model.addAttribute("pagetitle", "신간 도서");		
+				model.addAttribute("pagetitle", "신간 도서");
 				model.addAttribute("introduce", "갓 입고된 따끈따끈한 도서를 만나보세요!");
+			} else if (theme.equals("sale")) {
+				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword, category);
+				List<Book> saleBook = page.getContent();
+				model.addAttribute("books", saleBook);
+				model.addAttribute("pagetitle", "할인 도서");
+				model.addAttribute("introduce", "저렴한 가격의 도서를 만나보세요!");
 			}
 		}
-		
+
 		long startCount = (pageNum - 1) * bookService.USERS_PER_PAGE + 1;
 		long endCount = startCount + bookService.USERS_PER_PAGE - 1;
 		if (endCount > page.getTotalElements()) {
@@ -154,7 +166,7 @@ public class BookController {
 		model.addAttribute("currentPage", pageNum);
 		model.addAttribute("startCount", startCount);
 		model.addAttribute("endCount", endCount);
-		
+
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("reverseSortDir", reverseSortDir);
@@ -176,7 +188,7 @@ public class BookController {
 
 		List<Category> categoryList = categoryService.findCategory();
 		model.addAttribute("categoryList", categoryList);
-		
+
 		List<Category> listCategories = categoryService.findCategory();
 		model.addAttribute("listCategories", listCategories);
 		model.addAttribute("theme", theme);
@@ -222,7 +234,7 @@ public class BookController {
 	@PostMapping("/review")
 	public String reviewsave(@RequestParam("book") int book, @ModelAttribute("review") Review review, Model model,
 			Principal principal, RedirectAttributes redirectAttributes) {
-		if(principal == null) {
+		if (principal == null) {
 			return "redirect:/login";
 		}
 
@@ -232,34 +244,31 @@ public class BookController {
 		Optional<User> user = userService.findByID(username);
 		User userId = user.get();
 		reviewService.save(review, userId, bookId);
-		
+
 		redirectAttributes.addFlashAttribute("reviewCrud", "reviewCrud");
 		return "redirect:/book/detail?book=" + book;
 	}
-	
-	
+
 	@PostMapping("/review/edit/{reviewId}")
-	public String reviewEdit(@PathVariable(name = "reviewId")Review review,
-			@RequestParam("updateReivew") String updateReivew,
-			@RequestParam("book") int book,
+	public String reviewEdit(@PathVariable(name = "reviewId") Review review,
+			@RequestParam("updateReivew") String updateReivew, @RequestParam("book") int book,
 			RedirectAttributes redirectAttributes) {
 
 		reviewService.editReview(review, updateReivew);
 		redirectAttributes.addFlashAttribute("reviewCrud", "reviewCrud");
 		return "redirect:/book/detail?book=" + book;
 	}
-	
 
 	@PostMapping("/review/delete")
-	public String reviewDelete(@RequestParam("book") int book, @ModelAttribute("review") Review review,
-			Model model, Principal principal, RedirectAttributes redirectAttributes) {
+	public String reviewDelete(@RequestParam("book") int book, @ModelAttribute("review") Review review, Model model,
+			Principal principal, RedirectAttributes redirectAttributes) {
 
-		if(principal == null) {
+		if (principal == null) {
 			return "redirect:/login";
 		}
 
 		reviewService.delete(review);
-		
+
 		redirectAttributes.addFlashAttribute("reviewCrud", "reviewCrud");
 		return "redirect:/book/detail?book=" + book;
 	}
@@ -275,7 +284,7 @@ public class BookController {
 
 	@GetMapping("/detail")
 	public String bookdetail(Book book, Model model, Principal principal) {
-		
+
 		if (principal == null) {
 			model.addAttribute("check", "b");
 			model.addAttribute("bookdetail", book);
@@ -286,7 +295,7 @@ public class BookController {
 			List<BooksBranch> bookbranch = booksbranchService.findById(book);
 			if (!bookbranch.isEmpty()) {
 				int allQuantity = 0;
-				for(int i =0; i < bookbranch.size(); i++) {
+				for (int i = 0; i < bookbranch.size(); i++) {
 					allQuantity += bookbranch.get(i).getQuantity();
 				}
 				model.addAttribute("allQuantity", allQuantity);
@@ -338,11 +347,11 @@ public class BookController {
 
 			if (!bookbranch.isEmpty()) {
 				int allQuantity = 0;
-				for(int i =0; i < bookbranch.size(); i++) {
+				for (int i = 0; i < bookbranch.size(); i++) {
 					allQuantity += bookbranch.get(i).getQuantity();
 				}
 				model.addAttribute("allQuantity", allQuantity);
-				//model.addAttribute("bookbranch", bookbranch);
+				// model.addAttribute("bookbranch", bookbranch);
 			} else if (bookbranch.isEmpty()) {
 				model.addAttribute("outOfStock", "재고수량이 없습니다");
 			}
