@@ -213,6 +213,9 @@ public class AdminController {
 	
 		List<BooksBranch> booksBranchList = booksBranchService.findAll();
 		model.addAttribute("booksBranchList", booksBranchList);
+		//model.addAttribute("deliveryStatus", deliveryStatus);
+		
+		
 		
 		
 	
