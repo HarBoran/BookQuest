@@ -8,6 +8,9 @@
 	<link rel="stylesheet" th:href="@{/css/orderbuy.css}" />
 	<script type="text/javascript" th:src="@{/js/orderbuy.js}"></script>
 	<script type="text/javascript" th:src="@{/js/kakaoAdress.js}"></script>
+	
+	<!--kakaoPay.jsp 생성-->
+	<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
 
 <script>
@@ -48,7 +51,6 @@
 		params = {useraddress: useraddress, _csrf: csrfValue, number: number};
 
 		$.post(url, params, function (response) {
-			$("#address2").text(response);
 
 			$("#close").click();
 			$('#select3').html($('#select3').html() + '<option id="address' + ($('option').length + 1) + '" value="' + response + '">' + response + '</option>');
@@ -172,7 +174,7 @@
 					<button type="button" id="modal_opne_btn" class="addPaymentButton">+ 결제수단 추가</button>
 				</div>
 			</div>
-			
+		
 			<div id="payment_select">
 				<th:block th:each="payment: ${paymentList}">
 					<input type="checkbox" th:field="*{payment}" th:value="${payment.paymentId}"
@@ -185,6 +187,9 @@
 
 			
 			<div id="button_box">
+<!--				<form method="post" action="/kakaoPay">
+					<button>카카오페이로 결제하기</button>
+				</form>-->
 				<input type="button" value="취소" id="buttonCancel" onclick="history.back()" />
 				<input type="submit" value="결제하기" id="buttonPayment" onclick="return validateForm()">
 			</div>

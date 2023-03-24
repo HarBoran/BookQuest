@@ -198,11 +198,11 @@ $(document).ready(function() {
 			arr.push(checkVal);
 		});
 		console.log(arr);
+		document.querySelector("#selectAll").textContent = '전체 선택';
 
 		$.ajax({
 			type: 'POST',       // 요청 메서드
 			url: '/BookQuest/price',  // 요청 URI
-
 			headers: { "content-type": "application/json" }, // 요청 헤더
 			dataType: 'json', // 전송받을 데이터의 타입
 			data: JSON.stringify(arr),
