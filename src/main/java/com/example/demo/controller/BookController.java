@@ -97,7 +97,7 @@ public class BookController {
 		Page<Book> page = null;
 
 		if (category == null || category.getCategoryId() == null) {
-			if (theme.equals("categories")) {
+			if (theme.equals("fullBook")) {
 				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword);
 				List<Book> books = page.getContent();
 				model.addAttribute("books", books);
@@ -126,7 +126,7 @@ public class BookController {
 			}
 
 		} else if (category != null) {
-			if (theme.equals("categories")) {
+			if (theme.equals("fullBook")) {
 				page = bookService.listByPage(theme, pageNum, sortField, sortDir, keyword, category);
 				List<Book> books = page.getContent();
 				model.addAttribute("books", books);

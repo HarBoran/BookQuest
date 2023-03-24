@@ -2,14 +2,12 @@ package com.example.demo.repository;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.entity.Book;
 import com.example.demo.entity.Order;
 import com.example.demo.entity.OrderDetail;
 import com.example.demo.entity.User;
@@ -17,11 +15,21 @@ import com.example.demo.entity.User;
 @Repository
 public interface OrderDetailRepository extends PagingAndSortingRepository<OrderDetail, Integer> {
 
-	@Query("SELECT od FROM OrderDetail od WHERE od.order =:order")
+	@Query("SELECT o FROM OrderDetail o WHERE o.order =:order")
 	public List<OrderDetail> findOrderDetailsByOrder(@Param("order") Order order);
-	
+
 	@Query("SELECT od FROM OrderDetail od JOIN FETCH od.book WHERE od.order.user = :user")
 	public List<OrderDetail> findOrderDetailsByUser(@Param("user") User user);
 
+	// 유저가 구매한 책의 권수와 카테고리를 가져옴.
+	@Query("SELECT c, SUM(od.orderQuantity) " + "FROM Category c " + "JOIN Book b ON c = b.category "
+			+ "LEFT JOIN OrderDetail od ON b = od.book " + "JOIN od.order o " + "WHERE o.user = :user " + "GROUP BY c "
+			+ "ORDER BY SUM(od.orderQuantity) DESC")
+	public List<Object[]> findCategoriesAndBookCountsByUser(@Param("user") User user, Pageable pageable);
+
+	// 유저가 구매한 책의 카테고리를 가져옴.
+	@Query("SELECT DISTINCT c.name " + "FROM Category c " + "JOIN Book b ON c = b.category "
+			+ "JOIN OrderDetail od ON b = od.book " + "JOIN od.order o " + "WHERE o.user = :user " + "GROUP BY c")
+	public List<String> findCategoriesAndBookCountsByUser(@Param("user") User user);
 
 }

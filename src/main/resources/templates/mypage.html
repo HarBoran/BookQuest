@@ -2,9 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
-	<link rel="stylesheet" th:href="@{/css/mypage.css}" />
 
 	<head th:replace="commonspace :: page_head('Home - Book Quest')" />
+	<link rel="stylesheet" th:href="@{/css/mypage.css}" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script type="text/javascript" th:src="@{/js/mypage.js}"></script>
+
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
 
 <body>
@@ -57,12 +63,27 @@
 				<a th:href="@{/order/}">확인하기</a>
 			</button>
 		</div>
-
 	</div>
 
 	<div>
 		<div style="font-size: 22px; font-weight:600; width:1000px; height: 30px; margin: auto; margin-top: 45px;">독서 통계
-			그래프</div>
+			그래프
+			<button id="category_select_button">버튼</button>
+		</div>
+		<div id="category_select_div" style="display: none; margin-top: 10px;">
+			<label th:each="category : ${listCategories}">
+				<input type="checkbox" name="category_select" th:value="${category}" th:text="${category}" />
+			</label>
+			<button id="apply_button">적용</button>
+			<button id="cancel_button">취소</button>
+		</div>
+	</div>
+
+	<div
+		style="width: 1000px; height: 430px; margin: auto; border:1px solid black; display: flex; align-items: center; margin-top: 20px;">
+		<div style="width: 350px; height: 350px; border: 1px solid red; margin-left: 80px;">
+			<canvas id="radar-chart"></canvas>
+		</div>
 	</div>
 
 	<div style="width: 1020px; height: 370px; margin: auto; margin-top: 15px;">

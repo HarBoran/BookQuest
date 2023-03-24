@@ -111,7 +111,7 @@
 	<div id="delivery_box">
 
 		<div id="delivery_textbox">배송지 정보 입력
-			<button th:if="${user.address3==null}" style="float:right" id="addAddress">주소 추가</button>
+			<button th:if="${user.address3==null}" style="float:right" id="addAddress">+ 주소 추가</button>
 		</div>
 
 
@@ -165,21 +165,24 @@
 					</div>
 				</div>
 			</div>
-			
-		      <div id="payment_select">
-				<div style="margin-right: 5px;">결제 수단 선택하기</div>
-				<div style="display: flex; align-items: center;">
-					<th:block th:each="payment: ${paymentList}">
-						<input type="checkbox" th:field="*{payment}" th:value="${payment.paymentId}"
-							th:text="${payment.bank}" id="checkbox" style="margin-left: 15px;" />
-					</th:block>
+						
+			<div id="payment_top">
+				<div id="delivery_textbox">결제수단 선택</div>
+				<div id="root">
+					<button type="button" id="modal_opne_btn" class="addPaymentButton">+ 결제수단 추가</button>
 				</div>
 			</div>
-
-
-			<div id="root">
-				<button type="button" id="modal_opne_btn">결제수단 추가하기</button>
+			
+			<div id="payment_select">
+				<th:block th:each="payment: ${paymentList}">
+					<input type="checkbox" th:field="*{payment}" th:value="${payment.paymentId}"
+						th:text="${payment.bank}" id="checkbox" style="margin-left: 15px;" />
+				</th:block>
 			</div>
+			
+			<hr>
+
+
 			
 			<div id="button_box">
 				<input type="button" value="취소" id="buttonCancel" onclick="history.back()" />
@@ -211,10 +214,11 @@
 							<input type="text" id="sample6_extraAddress" placeholder="참고항목" class="form-control"
 								readonly>
 						</p>
-						<button id="addaddress" type="button"
-							onclick="event.stopPropagation(); addadressForuser($('#sample6_address').val());">저장</button>
-						<button type="button" class="btn btn-danger" id="close" data-dismiss="modal">취소</button>
-
+						<div class="modal-footer">
+							<button type="button" class="cancel_button" id="close" data-dismiss="modal">취소</button>
+							<button type="button" id="addaddress" class ="save_button"
+								onclick="event.stopPropagation(); addadressForuser($('#sample6_address').val());">저장</button>
+						</div>
 
 					</span>
 				</div>
@@ -251,8 +255,8 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" value="Save">Submit</button>
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button type="button" class="cancel_button" data-dismiss="modal">취소</button>
+						<button type="submit" class ="save_button" value="Save">저장</button>
 					</div>
 				</div>
 			</div>

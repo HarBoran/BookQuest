@@ -46,15 +46,6 @@
 				</div>
 
 				<div id="searchFilter">
-					<a th:if="${sortField != 'price'}"
-						th:href="@{'/book/' + ${theme} + '/page/' + ${currentPage}(sortField=price, sortDir=${sortDir},keyword=${keyword}, category=${category == null ? '' : category.categoryId})}">
-						가격순</a>
-					<a th:if="${sortField == 'price'}" style="color:#5747E6"
-						th:href="@{'/book/' + ${theme} + '/page/' + ${currentPage}(sortField=price, sortDir=${reverseSortDir},keyword=${keyword}, category=${category == null ? '' : category.categoryId})}">
-						가격순</a>
-					<span th:if="${sortField == 'price'}"
-						th:utext="${sortDir == 'asc' ? '<sup>낮은가격부터</sup>' : '<sub>높은가격까지</sub>'}"></span>
-					&nbsp;&nbsp;
 					<a th:if="${sortField != 'title'}"
 						th:href="@{'/book/' + ${theme} + '/page/' + ${currentPage}(sortField=title, sortDir=${sortDir},keyword=${keyword}, category=${category == null ? '' : category.categoryId})}">
 						제목</a>
@@ -75,6 +66,16 @@
 					<span th:if="${sortField == 'author'}"
 						th:utext="${sortDir == 'asc' ? '<sup>A - ㅎ</sup>' : '<sub>ㅎ - A</sub>'}">
 					</span>
+					&nbsp;&nbsp;
+					<a th:if="${sortField != 'price'}"
+						th:href="@{'/book/' + ${theme} + '/page/' + ${currentPage}(sortField=price, sortDir=${sortDir},keyword=${keyword}, category=${category == null ? '' : category.categoryId})}">
+						가격순</a>
+					<a th:if="${sortField == 'price'}" style="color:#5747E6"
+						th:href="@{'/book/' + ${theme} + '/page/' + ${currentPage}(sortField=price, sortDir=${reverseSortDir},keyword=${keyword}, category=${category == null ? '' : category.categoryId})}">
+						가격순</a>
+					<span th:if="${sortField == 'price'}"
+						th:utext="${sortDir == 'asc' ? '<sup>낮은순</sup>' : '<sub>높은순</sub>'}">
+					</span>
 				</div>
 			</div>
 
@@ -89,7 +90,6 @@
 						<input id="book_search" type="search" name="keyword" th:value="${keyword}"
 							placeholder="도서명 검색하기" required />
 					</div>
-
 					<button type="submit" id="book_search_button">
 						검색
 						<!--<img th:src="@{/images/search_icon.png}"

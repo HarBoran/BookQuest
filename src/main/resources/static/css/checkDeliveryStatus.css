@@ -5,9 +5,28 @@ table {
 
 td,
 th {
-	border: 1px solid rgb(255, 255, 255);
-	text-align: center;
 	padding: 8px;
+}
+
+.title_table {
+	height: 60px;
+	border-collapse: collapse;
+}
+
+.title_table th {
+	border-bottom: 2px solid #8D8D8D;
+	border-collapse: collapse;
+}
+
+.user_table {
+	height: 70px;
+	border-collapse: collapse;
+}
+
+.user_table td {
+	border-top: 1px solid #DADADA;
+	border-bottom: 1px solid #DADADA;
+	border-collapse: collapse;
 }
 
 #user {
@@ -34,8 +53,6 @@ th {
 	width: 150px;
 }
 
-
-
 #bookInfo {
 	display: flex;
 	justify-content: flex-start;
@@ -46,13 +63,15 @@ th {
 #image_box {
 	width: 50px;
 	height: 100%;
+	border-radius: 6px;
+	margin-right: 40px;
 }
 
 #titleBox {
 	width: 250px;
 	height: 100%;
 	align-items: center;
-	margin: 0px 30px;
+	margin: 0px;
 }
 
 #price {
@@ -86,7 +105,7 @@ th {
 	float: right;
 	align-items: center;
 	justify-content: center;
-	margin-right: 100px;
+	margin-left: 15px;
 	margin-bottom: 30px;
 }
 
@@ -103,11 +122,16 @@ th {
 }
 
 select {
-  width: 175px; /* 원하는 너비설정 */
-  padding: .8em .5em; /* 여백으로 높이 설정 */
-  border: 1px solid #999; 
-  border-radius: 0px; /* iOS 둥근모서리 제거 */
-  -webkit-appearance: none; /* 네이티브 외형 감추기 */
-  -moz-appearance: none;
-  appearance: none;
+	width: 175px;
+	/* 원하는 너비설정 */
+	padding: .8em .5em;
+	/* 여백으로 높이 설정 */
+	background-color: white;
+	color: black;
+	border: 1px solid #7D7D7D;
+	border-radius: 6px;
+	-webkit-appearance: none;
+	/* 네이티브 외형 감추기 */
+	-moz-appearance: none;
+	appearance: none;
 }

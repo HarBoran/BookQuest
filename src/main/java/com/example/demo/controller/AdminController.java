@@ -94,16 +94,24 @@ public class AdminController {
 
 	@GetMapping("/editBookInformation")
 	public String adminBookListFirst(Model model) {
-		return editBookInformation(1, "bookId", "asc", null, model);
+		return editBookInformation(1, "bookId", "asc", null, null, model);
 	}
 
 	@GetMapping("/editBookInformation/page/{pageNum}")
 	public String editBookInformation(@PathVariable(name = "pageNum") int pageNum, @Param("sortField") String sortField,
-			@Param("sortDir") String sortDir, @Param("keyword") String keyword, Model model) {
-
-		Page<Book> page = bookService.listByPage(pageNum, sortField, sortDir, keyword);
-		List<Book> listBooks = page.getContent();
-		model.addAttribute("books", listBooks);
+			@Param("sortDir") String sortDir, @Param("keyword") String keyword, Category category, Model model) {
+		
+		Page<Book> page = null;
+		
+		if (category == null || category.getCategoryId() == null) {
+			page = bookService.listByPage(pageNum, sortField, sortDir, keyword);
+			List<Book> listBooks = page.getContent();
+			model.addAttribute("books", listBooks);
+		} else if (category != null) {
+			page = bookService.listByPage("fullBook",pageNum, sortField, sortDir, keyword, category);
+			List<Book> listBooks = page.getContent();
+			model.addAttribute("books", listBooks);
+		}
 
 		long startCount = (pageNum - 1) * bookService.USERS_PER_PAGE + 1;
 		long endCount = startCount + bookService.USERS_PER_PAGE - 1;
@@ -119,6 +127,7 @@ public class AdminController {
 
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("category", category);
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("keyword", keyword);
 

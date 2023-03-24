@@ -16,79 +16,65 @@
 </script>
 
 <body>
-	<div th:replace="commonspace :: menu" />
+	<div th:replace="commonspace :: menu"></div>
 
+	<div class="page_title">결제수단 등록</div>
 
-	<div class="container" style="margin-bottom: 100px;">
+	<div class="content">
+		<table>
+			<tr>
+				<th>카드명</th>
+				<th>카드번호</th>
+				<th>카드삭제</th>
+			</tr>
 
-		<h1 th:if="${user != null}"><span th:text="${user.name}"></span>님 , 안녕하세요!</h1>
-		<!--<p th:if="${user != null}">Your email address is <span th:text="${user.email}"></span>.</p>-->
+			<tr th:each="payment : ${paymentList}">
+				<td th:text="${payment.bank}"></td>
+				<td th:text="${payment.accountNumber}"></td>
+				<td><button class="delete_button"><a th:href="@{|/payment/delete/${payment.paymentId}|}">삭제</a></button>
+				</td>
+			</tr>
+		</table>
+
 		<div>
-
-
-			<table border="1px">
-				<thead>
-					<tr>
-						<th>카드명</th>
-						<th>카드번호</th>
-						<th>카드 삭제하기</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="payment : ${paymentList}">
-						<td th:text="${payment.bank}"></td>
-						<td th:text="${payment.accountNumber}"></td>
-						<td><a th:href="@{|/payment/delete/${payment.paymentId}|}">카드 삭제하기</a></td>
-					</tr>
-				</tbody>
-			</table>
+			<button type="button" id="modal_opne_btn">결제수단 추가</button>
 		</div>
+	</div>
 
-		<div id="root">
-			<button type="button" id="modal_opne_btn">결제수단 추가하기</button>
-		</div>
+	<div class="modal fade text-center" id="modalDialog">
+		<form id="asdasdasd" th:action="@{/payment/save}" th:object="${payment}" method="POST">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="modal-title" id="modalTitle">결제수단 추가</div>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
 
-
-		<div class="modal fade text-center" id="modalDialog">
-			<form id="asdasdasd" th:action="@{/payment/save}" th:object="${payment}" method="POST">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title" id="modalTitle"></h4>
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<div class="modal-body">
+						<input type="hidden" th:field="*{paymentId}" />
+						<div class="card_name">
+							카드명: <input type="text" th:field="*{bank}" id="bank" class="form-control" placeholder="카드명"
+								required>
 						</div>
-
-						<div class="modal-body">
-
-							<input type="hidden" th:field="*{paymentId}" />
-
-							<div>
-								카드를 입력해주세요
-								<input type="text" th:field="*{bank}" id="bank" placeholder="카드명" required>
-							</div>
-
-							<div>
-								카드번호를 입력해주세요
-								<input type="text" th:field="*{accountNumber}" id="accountnumber" placeholder="카드번호"
-									minlength="16" maxlength="16" required>
-							</div>
-
-
-						</div>
-						<div class="modal-footer">
-							<button type="submit" value="Save">Submit</button>
-							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<div class="card_num">
+							카드번호: <input type="text" th:field="*{accountNumber}" class="form-control" id="accountnumber"
+								placeholder="카드번호" minlength="16" maxlength="16" required>
 						</div>
 					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="cancel_button" data-dismiss="modal">취소</button>
+						<button type="submit" class="save_button" value="Save">등록</button>
+					</div>
 				</div>
-			</form>
-		</div>
+			</div>
+		</form>
+	</div>
 
 
 
 
-		<div th:replace="commonspace :: footer"></div>
-
+	<div th:replace="commonspace :: footer"></div>
 </body>
 
 </html>

@@ -124,6 +124,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	margin-bottom: 30px;
 }
 
 #info_firstline,
@@ -160,8 +161,8 @@
 #payment_select {
 	display: flex;
 	justify-content: flex-start;
+	align-items: center;
 	margin-right: auto;
-	margin-top: 10px;
 }
 
 #checkbox {
@@ -200,7 +201,7 @@
 	height: 36px;
 }
 
-#addaddress {
+#address_button {
 	FONT-WEIGHT: 400;
 	width: 40px;
 	height: 38px;
@@ -213,13 +214,30 @@
 
 #addAddress {
 	FONT-WEIGHT: 400;
-	width: 80px;
+	width: 100px;
 	height: 38px;
-	background-color: #5747E6;
+	background-color: #FFFFFF;
 	border-radius: 6px;
-	color: white;
+	color: #5747E6;
 	border: none;
-	font-size: 14px;
+	font-size: 15px;
+}
+
+#payment_top{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.addPaymentButton{
+	FONT-WEIGHT: 400;
+	width: 110px;
+	height: 38px;
+	background-color:#FFFFFF;
+	border-radius: 6px;
+	color: #5747E6;
+	border: none;
+	font-size: 15px;
 }
 
 #sample6_postcode {
@@ -253,3 +271,26 @@
 	display: inline-block;
 	vertical-align: middle;
 }
+
+.save_button {
+	width: 55px;
+	height: 30px;
+	background-color: #5747E6;
+	color: white;
+	border: none;
+	border-radius: 6px;
+}
+
+.cancel_button {
+	width: 55px;
+	height: 30px;
+	background-color: white;
+	color: #5747E6;
+	border: 2px solid #5747E6;
+	border-radius: 6px;
+}
+
+input[readonly] {
+  background-color: #fff;
+}
+
