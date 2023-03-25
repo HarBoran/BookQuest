@@ -25,6 +25,7 @@ public class UserService {
 	public User save(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setRole("Normal");
+		user.setEnabled(true);
 		user.setSignupDate(LocalDateTime.now());
 		return repo.save(user);
 	}
@@ -39,7 +40,6 @@ public class UserService {
 	}
 
 	public User getUserByEmail(String userEmail) {
-
 		return repo.getUserByEmail(userEmail);
 	}
 

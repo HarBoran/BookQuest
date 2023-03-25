@@ -85,10 +85,13 @@
 							required /></p>
 				</div>
 
+
+					
+						
 				<div id="login_box3-2">
-					<a id="kakao-login-btn" href="javascript:kakaoLogin()">
-						<img th:src="@{/images/kakao_login.png}" alt="카카오계정 로그인" width="100%"
-							style="margin-bottom: 10px;" />
+					<a href="https://kauth.kakao.com/oauth/authorize?client_id=9746c6479208e369f43bef1b3570952b&redirect_uri=http://localhost:4444/BookQuest/sign/kakao&response_type=code">
+					<!-- <a id="kakao-login-btn" href="javascript:kakaoLogin()"> -->
+						<img th:src="@{/images/kakao_login.png}" alt="카카오계정 로그인" width="100%" style="margin-bottom: 10px;" />
 					</a>
 		
 					<a href="javascript:kakaoLogout()">
