@@ -1,6 +1,6 @@
 #login_box1 {
 	width: 552px;
-	height: 478px;
+	height: 528px;
 	margin: auto;
 	margin-top: 100px;
 	margin-bottom: 100px;
@@ -16,7 +16,7 @@ div#message p.text-warning {
 }
 
 #login_box2 {
-	width: 253px;
+	width: 273px;
 	height: 71px;
 	text-align: center;
 	background-color: #ffffff;
@@ -33,7 +33,7 @@ div#message p.text-warning {
 
 #login_box3-1 {
 	height: 108px;
-	margin-bottom: 32px;
+	margin-bottom: 12px;
 }
 
 #login_box3-2 {

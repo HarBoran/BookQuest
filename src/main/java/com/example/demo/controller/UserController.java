@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,16 +27,21 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@PostMapping("/save/{userId}")
-	public String update(Model theModel, Principal principal, @RequestParam("userId") Integer userId) {
-		theModel.addAttribute("user", userId);
-		return "signUpPage";
-	}
-
 	@GetMapping("/delete/{userId}")
-	public String deleteById(@PathVariable(name = "userId") int userId) {
-		userService.delete(userId);
-		return "home";
+	public String deleteById(@PathVariable(name = "userId") int userId, RedirectAttributes redirectAttributes) {
+		
+	    //인증 정보 초기화
+	    SecurityContextHolder.clearContext();
+
+	   //카카오 유저면 연결끊기도 같이 진행함
+	   if(userService.findById(userId).get().getRole().equals("Kakao")) {
+	   
+	   	}
+	   
+	    userService.delete(userId);
+	    redirectAttributes.addFlashAttribute("message", "회원탈퇴에 성공 하였습니다.");
+	    
+		return "redirect:/";
 	}
 
 	@GetMapping("/update/{userId}")
@@ -52,6 +58,12 @@ public class UserController {
 
 		return "signUpPage";
 
+	}
+	
+	@PostMapping("/save/{userId}")
+	public String update(Model model, Principal principal, @RequestParam("userId") Integer userId) {
+		model.addAttribute("user", userId);
+		return "signUpPage";
 	}
 
 }

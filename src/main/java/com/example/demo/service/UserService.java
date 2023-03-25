@@ -5,6 +5,8 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +17,7 @@ import com.example.demo.repository.UserRepository;
 @Service
 @Transactional
 public class UserService {
-
+	
 	@Autowired
 	private UserRepository repo;
 
@@ -25,6 +27,14 @@ public class UserService {
 	public User save(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setRole("Normal");
+		user.setEnabled(true);
+		user.setSignupDate(LocalDateTime.now());
+		return repo.save(user);
+	}
+
+	public User saveKakao(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setRole("Kakao");
 		user.setEnabled(true);
 		user.setSignupDate(LocalDateTime.now());
 		return repo.save(user);

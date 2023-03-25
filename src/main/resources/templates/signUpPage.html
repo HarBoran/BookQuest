@@ -59,6 +59,7 @@
 	  // set a data attribute to indicate that button is clicked
 	  $(this).data('clicked', true);
 	});	
+	
 </script>
 
 <body>
@@ -85,6 +86,7 @@
 				<input type="hidden" th:field="*{userId}" />
 
 				<div id="signup_box3-1">
+					
 					<div th:if="${edit == null}" class="noEdit">
 						<input type="email" id="email" name="email" placeholder="이메일" class="form-control"
 							th:field="*{email}" required/></p>
@@ -97,24 +99,25 @@
 								th:field="*{email}" readonly/></p>
 					</div>
 
-					<div th:if="${check!=null}">
-						<input type="password" id="password" name="password" placeholder="비밀번호" class="form-control"
-							th:field="*{password}" minlength="6" maxlength="20" />
-					</div>
-
-					<div th:if="${check==null}">
-						<input type="password" id="password" name="password" placeholder="비밀번호" class="form-control"
-							th:field="*{password}" minlength="6" maxlength="20" required />
-					</div>
-					<div th:if="${check!=null}">
-						<input type="password" id="password_check" name="password2" placeholder="비밀번호 확인"
-							class="form-control" minlength="6" maxlength="20" onkeyup="checkPassword()" />
-						<span id="passwordError" style="color:red"></span>
-					</div>
-					<div th:if="${check==null}">
-						<input type="password" id="password_check" name="password2" placeholder="비밀번호 확인"
-							class="form-control" minlength="6" maxlength="20" onkeyup="checkPassword()" required />
-						<span id="passwordError" style="color:red "></span>
+					<!-- 카카오로 로그인 했을 때는 비밀번호 수정을 할수 없음-->
+					<div th:if="${#strings.equals(user.role, 'kakao')}">
+						<div th:if="${check==null}">
+							<input type="password" id="password" name="password" placeholder="비밀번호" class="form-control"
+								th:field="*{password}" minlength="6" maxlength="20" required />
+		
+							<input type="password" id="password_check" name="password2" placeholder="비밀번호 확인"
+								class="form-control" minlength="6" maxlength="20" onkeyup="checkPassword()" required />
+							<span id="passwordError" style="color:red "></span>
+						</div>
+						
+						<div th:if="${check!=null}">
+							<input type="password" id="password" name="password" placeholder="비밀번호" class="form-control"
+								th:field="*{password}" minlength="6" maxlength="20" />
+		
+							<input type="password" id="password_check" name="password2" placeholder="비밀번호 확인"
+								class="form-control" minlength="6" maxlength="20" onkeyup="checkPassword()" />
+							<span id="passwordError" style="color:red"></span>
+						</div>
 					</div>
 
 					<p>
