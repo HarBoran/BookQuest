@@ -116,6 +116,16 @@ public class HomeController {
 	@GetMapping("/customerServiceCenter")
 	public String customerServiceCenter(Model themodel,@RequestParam(required = false)String question, HttpSession session) {
 		
+		List<String[]> previousQuestionsAndAnswers = (List<String[]>) session.getAttribute("previousQuestionsAndAnswers");
+
+		//처음 접속 때 성능 향상	
+	    if (question == null || question.isEmpty()) {
+	        session.setAttribute("previousQuestionsAndAnswers", previousQuestionsAndAnswers);
+	        themodel.addAttribute("previousQuestionsAndAnswers", previousQuestionsAndAnswers);
+			return "customerServiceCenter";
+	    }
+
+		
 		RestTemplate restTemplate = new RestTemplate();
 			//"curie", "babbage", "ada", "davinci"
 		String model = "davinci";
@@ -155,9 +165,7 @@ public class HomeController {
 			e.printStackTrace();
 		}
 
-		//답변은 받아 왔음으로 이전 hhttp문서로 보내기 작업을 해야함
-		List<String[]> previousQuestionsAndAnswers = (List<String[]>) session.getAttribute("previousQuestionsAndAnswers");
-	   
+		//답변은 받아 왔음으로 http문서로 보내기 작업을 해야함	   
 		if (previousQuestionsAndAnswers == null) {
 		    previousQuestionsAndAnswers = new ArrayList<>();
 		}
@@ -173,7 +181,7 @@ public class HomeController {
 		return "customerServiceCenter";
 	}
 	
-	@PostMapping("/clearSession")
+	@GetMapping("/clearSession")
 	public String clearSession(HttpServletRequest request) {
 	    HttpSession session = request.getSession();
 	    session.removeAttribute("previousQuestionsAndAnswers");

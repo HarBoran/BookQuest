@@ -39,11 +39,11 @@
 		<div style="display: flex;">
 			<label for="question" style="font-size: 24px;";>Question : </label>
 			
-			<form  id="questionForm" th:action="@{'/customerServiceCenter/'}">
+			<form id="questionForm" th:action="@{'/customerServiceCenter'}">
 				<textarea id="question" name="question"placeholder="Enter를 누르면 대화를 하실 수 있습니다."></textarea>		
 			</form>
 			
-			<form th:action="@{'/clearSession'}" method="POST">
+			<form th:action="@{'/clearSession'}">
 			    <button type="submit">초기화</button>
 			</form>
 		</div>
