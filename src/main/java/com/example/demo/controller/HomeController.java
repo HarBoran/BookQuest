@@ -1,37 +1,41 @@
 package com.example.demo.controller;
 
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.client.RestTemplate;
 
-import com.example.demo.FileUploadUtil;
 import com.example.demo.entity.Book;
-import com.example.demo.entity.BooksBranch;
 import com.example.demo.entity.Branches;
 import com.example.demo.entity.Category;
+import com.example.demo.model.ChatGPT;
 import com.example.demo.service.BookService;
 import com.example.demo.service.BooksBranchService;
 import com.example.demo.service.BranchService;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.OrderDetailService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @RequestMapping("/")
@@ -103,5 +107,71 @@ public class HomeController {
 		model.addAttribute("listCategories", listCategories);
 		return "informationBranch";
 	}
+
+	@GetMapping("/customerServiceCenter")
+	public String customerServiceCenter(Model themodel,@RequestParam(required = false)String question, HttpSession session) {
+		RestTemplate restTemplate = new RestTemplate();
+			//"curie", "babbage", "ada", "davinci"
+		String model = "davinci";
+		String apiKey = "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";
+		String url = "https://api.openai.com/v1/completions";
+		
+		//HttpHeaders 오브젝트 생성
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.set("Authorization", "Bearer " + apiKey);
+		//httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		httpHeaders.set("Content-Type", "application/json");
+		
+		//HttpBody 오브젝트 생성
+		Map<String, Object> params = new HashMap<>();
+		params.put("prompt", question);
+		params.put("model", model);
+			//생성할 답변의 창의성 및 다양성을 조절하는 매개 변수입니다. 
+		params.put("temperature", 0.6);
+		params.put("max_tokens", 500);
+		
+		//HttpHeaders와 HttpBody를 오브젝트로 담기
+		HttpEntity<Map<String, Object>> request = new HttpEntity<>(params, httpHeaders);
+		
+		//Http 요청하기 - Post방식으로 -그리고 response 변수의 응답 받음.
+		ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);
+	
+		//response.getBody();에서 받아온 값이 json임으로 자바오브젝트로 변경함
+		ObjectMapper objectMapper = new ObjectMapper();
+		ChatGPT chatGPT = null;
+		
+		try {
+			chatGPT = objectMapper.readValue(response.getBody(), ChatGPT.class);
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
+		//답변은 받아 왔음으로 이전 hhttp문서로 보내기 작업을 해야함
+		List<String[]> previousQuestionsAndAnswers = (List<String[]>) session.getAttribute("previousQuestionsAndAnswers");
+	   
+		if (previousQuestionsAndAnswers == null) {
+		    previousQuestionsAndAnswers = new ArrayList<>();
+		}
+	    
+	    if (question != null && !question.isEmpty()) {
+	        String answer = chatGPT.getChoices().get(0).getText();
+	        String[] newQnA = new String[]{question, answer};
+	        previousQuestionsAndAnswers.add(newQnA);
+	        session.setAttribute("previousQuestionsAndAnswers", previousQuestionsAndAnswers);
+	    }
+	    themodel.addAttribute("previousQuestionsAndAnswers", previousQuestionsAndAnswers);
+	
+		return "customerServiceCenter";
+	}
+	
+	@PostMapping("/clearSession")
+	public String clearSession(HttpServletRequest request) {
+	    HttpSession session = request.getSession();
+	    session.removeAttribute("previousQuestionsAndAnswers");
+	    return "redirect:/customerServiceCenter";
+	}
+	
 
 }
