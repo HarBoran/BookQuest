@@ -129,7 +129,7 @@ public class HomeController {
 		RestTemplate restTemplate = new RestTemplate();
 			//"curie", "babbage", "ada", "davinci"
 		String model = "davinci";
-		ApiKey apikey = apiKeyRepository.findByName("ChatGpt");
+		ApiKey apikey = apiKeyRepository.findByName("OpenAI");
 		String url = "https://api.openai.com/v1/completions";
 
 		//HttpHeaders 오브젝트 생성

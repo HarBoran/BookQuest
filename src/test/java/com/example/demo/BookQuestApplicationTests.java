@@ -108,7 +108,7 @@ class BookQuestApplicationTests {
 	
 	@Test
 	public void findByApiKey() {	
-	ApiKey apikey = apiRepo.findByName("ChatGpt");
+	ApiKey apikey = apiRepo.findByName("OpenAI");
 		System.out.println("apikey = " + apikey);
 	}
 

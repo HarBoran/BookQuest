@@ -282,8 +282,8 @@ public class InputDefaultDatabase {
 	
 	@Test
 	public void addApiKey() {
-		String ChatGptApiKeyValue = "your_api_key_value";
-		apiRepo.save(new ApiKey("ChatGpt",ChatGptApiKeyValue));
+		String OpenAIApiKeyValue = "your_api_key_value";
+		apiRepo.save(new ApiKey("OpenAI",OpenAIApiKeyValue));
 	}
 
 
