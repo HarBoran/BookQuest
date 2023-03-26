@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -19,12 +20,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
+import com.example.demo.entity.ApiKey;
 import com.example.demo.entity.Book;
 import com.example.demo.entity.Branches;
 import com.example.demo.entity.Cart;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Review;
 import com.example.demo.entity.User;
+import com.example.demo.repository.ApiKeyRepository;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.BranchRepository;
 import com.example.demo.repository.CartRepository;
@@ -58,12 +61,14 @@ class BookQuestApplicationTests {
 	@Autowired
 	private ReviewRepository reviewRepo;
 	
+	@Autowired
+	private ApiKeyRepository apiRepo;
+	
 	@Test
 	public void testEncodePassword() {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String rawPassword = "test1234";
 		String encodedPassword = passwordEncoder.encode(rawPassword);
-		System.out.println(encodedPassword);
 		assertThat(passwordEncoder.matches(rawPassword, encodedPassword)).isTrue();
 	}
 
@@ -75,10 +80,7 @@ class BookQuestApplicationTests {
 		user.setPassword(passwordEncoder.encode(rawPassword));
 	}
 	
-	@Test
-	public void findByBranch() {	
-		System.err.println(bookRepo.findByBranch(1));
-	}
+
 	
 	@Test
 	public void TestPage(){
@@ -94,7 +96,6 @@ class BookQuestApplicationTests {
 //		System.err.println(list);
 		
 //		System.err.println(odRepo.bestseller());
-		System.err.println("+__________+");
 		
 	}
 	
@@ -104,7 +105,12 @@ class BookQuestApplicationTests {
 		Review reviews = new Review(id);
 		reviewRepo.delete(reviews);
 	}
-
+	
+	@Test
+	public void findByApiKey() {	
+	ApiKey apikey = apiRepo.findByName("ChatGpt");
+		System.out.println("apikey = " + apikey);
+	}
 
 
 }

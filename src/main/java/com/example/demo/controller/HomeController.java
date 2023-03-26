@@ -24,10 +24,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.demo.entity.ApiKey;
 import com.example.demo.entity.Book;
 import com.example.demo.entity.Branches;
 import com.example.demo.entity.Category;
 import com.example.demo.model.ChatGPT;
+import com.example.demo.repository.ApiKeyRepository;
 import com.example.demo.service.BookService;
 import com.example.demo.service.BooksBranchService;
 import com.example.demo.service.BranchService;
@@ -40,7 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 @RequestMapping("/")
 public class HomeController {
-
+	
 	@Autowired
 	BookService bookService;
 
@@ -55,6 +57,9 @@ public class HomeController {
 
 	@Autowired
 	BooksBranchService booksBranchService;
+	
+	@Autowired
+	ApiKeyRepository apiKeyRepository;
 
 	@GetMapping("")
 	public String viewHomePage(Authentication authentication, Model model, Category category) {
@@ -110,17 +115,19 @@ public class HomeController {
 
 	@GetMapping("/customerServiceCenter")
 	public String customerServiceCenter(Model themodel,@RequestParam(required = false)String question, HttpSession session) {
+		
 		RestTemplate restTemplate = new RestTemplate();
 			//"curie", "babbage", "ada", "davinci"
 		String model = "davinci";
-		String apiKey = "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";
+		ApiKey apikey = apiKeyRepository.findByName("ChatGpt");
 		String url = "https://api.openai.com/v1/completions";
-		
+
 		//HttpHeaders 오브젝트 생성
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.set("Authorization", "Bearer " + apiKey);
-		//httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		httpHeaders.set("Authorization", "Bearer " + apikey.getApiKeyValue());
 		httpHeaders.set("Content-Type", "application/json");
+		//httpHeaders.setBearerAuth(OPEN_AI_KEY);
+		//httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		//HttpBody 오브젝트 생성
 		Map<String, Object> params = new HashMap<>();
@@ -128,7 +135,7 @@ public class HomeController {
 		params.put("model", model);
 			//생성할 답변의 창의성 및 다양성을 조절하는 매개 변수입니다. 
 		params.put("temperature", 0.6);
-		params.put("max_tokens", 500);
+		params.put("max_tokens", 1500);
 		
 		//HttpHeaders와 HttpBody를 오브젝트로 담기
 		HttpEntity<Map<String, Object>> request = new HttpEntity<>(params, httpHeaders);

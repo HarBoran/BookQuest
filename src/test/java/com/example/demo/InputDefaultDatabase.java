@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
+import com.example.demo.entity.ApiKey;
 import com.example.demo.entity.Book;
 import com.example.demo.entity.BooksBranch;
 import com.example.demo.entity.Branches;
@@ -21,6 +22,7 @@ import com.example.demo.entity.Cart;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Payment;
 import com.example.demo.entity.User;
+import com.example.demo.repository.ApiKeyRepository;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.BooksBranchRepository;
 import com.example.demo.repository.BranchRepository;
@@ -50,6 +52,8 @@ public class InputDefaultDatabase {
 	PaymentRepository payRepo;
 	@Autowired
 	CartRepository cartRepo;
+	@Autowired
+	ApiKeyRepository apiRepo;
 
 	@Test
 	void CreateDefaultDatabase() {
@@ -275,5 +279,12 @@ public class InputDefaultDatabase {
 			}
 		}
 	}
+	
+	@Test
+	public void addApiKey() {
+		String ChatGptApiKeyValue = "your_api_key_value";
+		apiRepo.save(new ApiKey("ChatGpt",ChatGptApiKeyValue));
+	}
+
 
 }

@@ -28,10 +28,10 @@
 				</th:block>
 			</div>
 
-			<th:block th:each="qa : ${previousQuestionsAndAnswers}">
+			<th:block th:each="qa, iteration : ${previousQuestionsAndAnswers}">
 				<div th:text="'Q : ' + ${qa[0]}" />
 				<div th:text="'A : ' + ${qa[1]}" style="background-color: #EEEEEE;"/>
-				<br>
+				<th:if test="${!#lists.isLast(iteration.index, previousQuestionsAndAnswers)}"><br></th:if>
 			</th:block>
 		</div>
 
@@ -39,7 +39,7 @@
 		<div style="display: flex;">
 			<label for="question" style="font-size: 24px;";>Question : </label>
 			
-			<form  id="questionForm" th:action="@{'/customerServiceCenter/'}">	
+			<form  id="questionForm" th:action="@{'/customerServiceCenter/'}">
 				<textarea id="question" name="question"placeholder="Enter를 누르면 대화를 하실 수 있습니다."></textarea>		
 			</form>
 			
