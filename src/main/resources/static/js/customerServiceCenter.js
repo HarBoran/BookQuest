@@ -1,6 +1,6 @@
 $(document).ready(function() {
-	 $('#question').focus();
-	
+	$('#question').focus();
+
 	$('#question').on('keydown', function(e) {
 		if (e.key === 'Enter' && !e.shiftKey) {
 			e.preventDefault();

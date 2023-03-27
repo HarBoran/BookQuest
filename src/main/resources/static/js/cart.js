@@ -1,29 +1,80 @@
 $(document).ready(function() {
-	var checkbox = document.querySelectorAll('input[type=checkbox]');
+	const checkboxes = document.querySelectorAll('input[type=checkbox]');
 	const upbutton = document.getElementsByClassName("UpBtn");
-
-
-	for (var i = 0; i < checkbox.length; i++) {
-		checkbox[i].addEventListener('change', () => {
-			for (var j = 0; j < upbutton.length; j++) {
-				upbutton[j].disabled = !checkbox[j].checked;
-			}
-		});
-
-	}
-
-	var checkbox = document.querySelectorAll('input[type=checkbox]');
 	const downbutton = document.getElementsByClassName("DownBtn");
-	for (var i = 0; i < checkbox.length; i++) {
-		checkbox[i].addEventListener('change', () => {
-			for (var j = 0; j < downbutton.length; j++) {
-				downbutton[j].disabled = !checkbox[j].checked;
-			}
-		});
 
+	// 체크박스 변경 이벤트 처리 함수
+	function handleCheckboxChange() {
+		for (let j = 0; j < upbutton.length; j++) {
+			upbutton[j].disabled = !checkboxes[j].checked;
+		}
+		for (let j = 0; j < downbutton.length; j++) {
+			downbutton[j].disabled = !checkboxes[j].checked;
+		}
 	}
 
+	// 모든 이벤트에 대해 이벤트 처리 함수를 호출합니다.
+	$(document).on('change click keydown', handleCheckboxChange);
+	$(document).on('click', '#selectAll', toggleSelect);
+
+	function toggleSelect() {
+		let allChecked = true;
+		checkboxes.forEach((checkbox) => {
+			if (!checkbox.checked) {
+				allChecked = false;
+			}
+		});
+		if (allChecked) {
+			// 모든 체크박스가 선택된 상태이면 모두 선택 해제합니다.
+			checkboxes.forEach((checkbox) => {
+				checkbox.checked = false;
+			});
+			document.querySelector("#selectAll").textContent = '전체 선택';
+			$("#totalPriceForlast").text(0 + "원");
+			$("#totalPriceAndDelivery").text(0 + "원");
+			checking = $("#selectAll").text();
+			console.log("checking==" + checking);
+			if (checking == "전체 선택") {
+				console.log("제발");
+			}
+		} else {
+			// 모든 체크박스가 선택되지 않은 상태이면 모두 선택합니다.
+			let priceArr = [];
+			checkboxes.forEach((checkbox) => {
+				totalpricecomplete = 0;
+				checkbox.checked = true;
+				var totalprice = $("#totalprice" + checkbox.value).text();
+				strtotalPrice = totalprice.replace(",", "").replace("원", "");
+				totalpriceint = parseInt(strtotalPrice);
+				priceArr.push(totalpriceint);
+			});
+
+			let totalPriceComplete = 0;
+			for (let i = 0; i < priceArr.length; i++) {
+				totalPriceComplete += priceArr[i];
+			}
+
+			document.querySelector("#selectAll").textContent = '전체 해제';
+			$("#totalPriceForlast").text(totalPriceComplete.toLocaleString() + "원");
+			$("#totalPriceAndDelivery").text(totalPriceComplete.toLocaleString() + "원");
+		}
+		// 체크박스 변경 이벤트를 처리합니다.
+		handleCheckboxChange();
+	}
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
 function agreeCheck(frm) {
 	if (frm.checkButton.disabled == true)
 		frm.checkButton.disabled = false
@@ -36,7 +87,7 @@ $(document).ready(function() {
 
 	$(".UpBtn").click(function() {
 
-		var token = $("meta[name='_csrf']").attr("content");	
+		var token = $("meta[name='_csrf']").attr("content");
 		//var token = $("input[name='_csrf']").val();
 		var header = $("meta[name='_csrf_header']").attr("content");
 		cartId = this.value;
@@ -146,60 +197,18 @@ function validForm() {
 	}
 	return true;
 }
-function toggleSelect() {
-	// 체크박스 요소를 모두 선택합니다.
-	const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-	let allChecked = true;
-	checkboxes.forEach((checkbox) => {
-		if (!checkbox.checked) {
-			allChecked = false;
-		}
-	});
-	if (allChecked) {
-		// 모든 체크박스가 선택된 상태이면 모두 선택 해제합니다.
-		checkboxes.forEach((checkbox) => {
-			checkbox.checked = false;
-		});
-		document.querySelector("#selectAll").textContent = '전체 선택';
-		$("#totalPriceForlast").text(0 + "원");
-		$("#totalPriceAndDelivery").text(0 + "원");
 
-	} else {
-		// 모든 체크박스가 선택되지 않은 상태이면 모두 선택합니다.
-		let priceArr = [];
-		checkboxes.forEach((checkbox) => {
-			totalpricecomplete = 0;
-			checkbox.checked = true;
-			var totalprice = $("#totalprice" + checkbox.value).text();
-
-			strtotalPrice = totalprice.replace(",", "").replace("원", "");
-			totalpriceint = parseInt(strtotalPrice);
-			priceArr.push(totalpriceint);
-		});
-
-		let totalPriceComplete = 0;
-		for (let i = 0; i < priceArr.length; i++) {
-			totalPriceComplete += priceArr[i];
-		}
-
-		document.querySelector("#selectAll").textContent = '전체 해제';
-		$("#totalPriceForlast").text(totalPriceComplete.toLocaleString() + "원");
-		$("#totalPriceAndDelivery").text(totalPriceComplete.toLocaleString() + "원");
-	}
-}
 $(document).ready(function() {
-
 	$(".myCheckbox").click(function() {
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
-		let arr = [];
+		let arr = [];//배열을 하나 만들어주고
 		$("input:checkbox[name=selectItem]:checked").each(function() {
 			var checkVal = $(this).val();
 			arr.push(checkVal);
 		});
-		console.log(arr);
+		// 그 안에다가 체크박스중에 check가 되어 있는 체크박스들의 value= cartId를 가져와서 하나씩 넣어줍니다.
 		document.querySelector("#selectAll").textContent = '전체 선택';
-
 		$.ajax({
 			type: 'POST',       // 요청 메서드
 			url: '/BookQuest/price',  // 요청 URI
@@ -212,6 +221,7 @@ $(document).ready(function() {
 			success: function(result) {
 
 				totalPrice = JSON.parse(result);
+
 				$("#totalPriceForlast").text(totalPrice.toLocaleString() + "원");
 				$("#totalPriceAndDelivery").text(totalPrice.toLocaleString() + "원");
 

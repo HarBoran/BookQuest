@@ -18,55 +18,58 @@
 </head>
 
 <script>
+   
+   $(document).ready(function () {
+      //페이먼트 모달
+      document.getElementById("modal_opne_btn").onclick = function () {
+         $('#modalDialog').modal();
+      }; 
+      
+      //주소 모달창
+      $('#addAddress').click(function () {
+         $('#modalDialogAdress').modal();
+      });
+   });
 
-	$(document).ready(function () {
-		//페이먼트 모달
-		document.getElementById("modal_opne_btn").onclick = function () {
-			$('#modalDialog').modal();
-		}; 
-		
-		//주소 모달창
-		$('#addAddress').click(function () {
-			$('#modalDialogAdress').modal();
-		});
-	});
+   function addadressForuser(useraddress) {
+      //주소를 입력하는 modal창이 떴을 때
+      if (!$("#sample6_address").val()) {
+         alert("우편번호 찾기를 진행해 주세요")
+         return;
+         //만약 우편번호의 value가 없으면 alert창을 띄어줍니다.
+      }
+      if (!$("#sample6_detailAddress").val()) {
+         alert("상세 주소를 작성해 주세요")
+         return;
+         //똑같이 상세주소의 value가 없으면 alert창을 띄어줍니다.
+      }
+      url = "[[@{/add/address}]]"; //url 매핑 할 주소
+      number = ($('option').length + 1);//select 함수의 옵션의 갯수에다가 +1을 해준 값을 더해 줍니다.
+      // 이유는 옵션에 있는 다음 옵션에 가공한 정보를 넣어줘야하기 때문
+      csrfValue = $("input[name='_csrf']").val();
 
-	function addadressForuser(useraddress) {
+      params = {useraddress: useraddress, _csrf: csrfValue, number: number};
 
-		console.log($("#sample6_address").val())
-		if (!$("#sample6_address").val()) {
-			alert("우편번호 찾기를 진행해 주세요")
-			return;
-		}
-		if (!$("#sample6_detailAddress").val()) {
-			alert("상세 주소를 작성해 주세요")
-			return;
-		}
-
-		url = "[[@{/add/address}]]";
-		number = ($('option').length + 1);
-		console.log($('option').length);
-		console.log(number);
-		csrfValue = $("input[name='_csrf']").val();
-		console.log(csrfValue);
-		params = {useraddress: useraddress, _csrf: csrfValue, number: number};
-
-		$.post(url, params, function (response) {
-
-			$("#close").click();
-			$('#select3').html($('#select3').html() + '<option id="address' + ($('option').length + 1) + '" value="' + response + '">' + response + '</option>');
-
-			if ($('option').length >= 3) {
-				$("#addAddress").remove();
-			}
-
-			$("#sample6_postcode").val("");
-
-			$("#sample6_extraAddress").val("");
-		}).fail(function () {
-			alert("fefef");
-		})
-	}
+      $.post(url, params, function (response) {
+         $("#close").click();
+         //요청을 보내고 나면 모달창을 닫아줍니다
+         $('#select3').html($('#select3').html() + 
+         '<option id="address' + ($('option').length + 1) + 
+         '" value="' + response + '">' + response + '</option>');
+         //가지고 온 데이터를 html형식으로 추가되어 있는 다음 옵션의 값에 넣어줍니다.
+         if ($('option').length >= 3) {
+            $("#addAddress").remove();
+         }
+         //3개의 주소만 받기 때문에 옵션의 갯수가 3이 넘어가면 추가하는 버튼을 지워줍니다.
+         $("#sample6_postcode").val("");
+         $("#sample6_extraAddress").val("");
+         $("#sample6_detailAddress").val("");
+         $("#sample6_address").val("");
+         //다시 주소를 추가하는 모달 창을 띄웠을 때 값을 빈값으로 초기화 해주기 위해 빈 값을 넣어줍니다.
+      }).fail(function () {
+         alert("error");
+      })
+   }
 </script>
 
 <body>

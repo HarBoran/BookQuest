@@ -128,7 +128,7 @@ public class HomeController {
 		
 		RestTemplate restTemplate = new RestTemplate();
 			//"curie", "babbage", "ada", "davinci"
-		String model = "davinci";
+		String model = "text-davinci-003";
 		ApiKey apikey = apiKeyRepository.findByName("OpenAI");
 		String url = "https://api.openai.com/v1/completions";
 
@@ -181,7 +181,7 @@ public class HomeController {
 		return "customerServiceCenter";
 	}
 	
-	@GetMapping("/clearSession")
+	@PostMapping("/clearSession")
 	public String clearSession(HttpServletRequest request) {
 	    HttpSession session = request.getSession();
 	    session.removeAttribute("previousQuestionsAndAnswers");
