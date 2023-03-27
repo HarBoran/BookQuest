@@ -1,6 +1,8 @@
 package com.example.demo.restcontroller;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,15 +26,35 @@ public class MyPageRestController {
 
 	// @ResponseBody는 위에 @RestController가 아니라 기본 @Controller 일 때 붙여줌.
 	@PostMapping("/bookCountsByCategory")
-	public Map<String, Integer> getBookCountsByCategory(Principal principal) {
+	public List<Object> getBookCountsByCategory(Principal principal) {
 		String email = principal.getName();
 		User user = userService.getUserByEmail(email);
 		Map<String, Integer> bookCountsByCategory = myPageService.getBookCountsByCategory(user);
-		return bookCountsByCategory;
+
+		List<Object> bookCountsByCategories = new ArrayList<>();
+		bookCountsByCategories.add(bookCountsByCategory.keySet());
+		bookCountsByCategories.add(bookCountsByCategory);
+		return bookCountsByCategories;
 	}
 
 	@PostMapping("/selectedCategory")
-	public Map<String, Integer> getCategoryByUser(Principal principal, @RequestBody List<String> data) {
-		return null;
+	public List<Object> getCategoryByUser(Principal principal, @RequestBody List<String> categories) {
+		String email = principal.getName();
+		User user = userService.getUserByEmail(email);
+		Map<String, Integer> bookCountsByCategory = myPageService.getBookCountsByCategory(user);
+
+		Map<String, Integer> selectedBookCountsByCategory = new HashMap<>();
+		for (String category : categories) {
+			if (bookCountsByCategory.containsKey(category)) {
+				selectedBookCountsByCategory.put(category, bookCountsByCategory.get(category));
+			} else {
+				selectedBookCountsByCategory.put(category, 0);
+			}
+		}
+		List<Object> selectedBookCountsByCategories = new ArrayList<>();
+		selectedBookCountsByCategories.add(selectedBookCountsByCategory.keySet());
+		selectedBookCountsByCategories.add(selectedBookCountsByCategory);
+		return selectedBookCountsByCategories;
 	}
+
 }

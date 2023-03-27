@@ -78,8 +78,112 @@
 	margin-top: 14px;
 }
 
+#category_select_div {
+	width: 1000px;
+	display: none;
+	margin: auto;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 15px;
+	margin-bottom: 8px;
+}
+
+#category_select_button {
+	width: 35px;
+	/* 버튼 너비와 이미지 너비 동일하게 설정 */
+	height: 35px;
+	/* 버튼 높이와 이미지 높이 동일하게 설정 */
+	border: 1px solid #DADADA;
+	border-radius: 8px;
+	background: none;
+	padding: 0;
+	/* 내부 패딩 제거 */
+	margin: auto;
+}
 
 
+.graph_box {
+	display: flex;
+	width: 1000px;
+	height: 30px;
+	margin: auto;
+	align-items: center;
+	margin-top: 50px;
+	margin-bottom: 18px;
+}
+
+.graph_text {
+	font-size: 22px;
+	font-weight: 600;
+	margin-right: 10px;
+	padding-bottom: 2px;
+}
+
+#category_select_button img {
+	display: block;
+	width: 20px;
+	height: 20px;
+	margin: auto;
+}
+
+.cancel_button {
+	width: 50px;
+	height: 30px;
+	background-color: white;
+	color: #5747E6;
+	border: 1px solid #5747E6;
+	border-radius: 6px;
+	align-items: center;
+	justify-content: center;
+}
+
+.apply_button {
+	width: 50px;
+	height: 30px;
+	background-color: #5747E6;
+	color: white;
+	border: none;
+	border-radius: 6px;
+	align-items: center;
+	justify-content: center;
+	margin-left: 3px;
+}
+
+.chart_box {
+	width: 1000px;
+	height: 370px;
+	margin: auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.radar-chart_box1 {
+	width: 485px;
+	height: 360px;
+	border: 2px solid #E7E7E7;
+	border-radius: 8px;
+}
+
+.radar-chart_box2 {
+	width: 350px;
+	height: 350px;
+	margin: auto;
+}
+
+.bar-chart_box1 {
+	width: 485px;
+	height: 360px;
+	border: 1px solid #DADADA;
+	border-radius: 8px;
+}
+
+.bar-chart_box2 {
+	width: 350px;
+	height: 350px;
+	margin: auto;
+}
 
 
 table {

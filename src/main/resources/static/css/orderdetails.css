@@ -59,7 +59,7 @@
 }
 
 .image_and_title {
-	width: 300px;
+	width: 320px;
 	height: 136px;
 	display: flex;
 	float: left;
@@ -77,7 +77,7 @@
 }
 
 .book_title_box {
-	width: 177px;
+	width: 197px;
 	height: 65px;
 	display: flex;
 	align-items: center;
@@ -112,10 +112,9 @@
 
 .totalPrice_and_exchangeButton {
 	width: 120px;
-	height: 73px;
+	height: 17px;
 	display: flex;
 	flex-direction: column;
-	padding-top: 11px;
 }
 
 .totalPrice {
@@ -123,7 +122,6 @@
 	height: 20px;
 	display: flex;
 	align-items: center;
-	margin-bottom: 8px;
 }
 
 .exchangeButton {

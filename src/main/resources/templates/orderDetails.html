@@ -92,10 +92,10 @@
 
 					<div class="totalPrice_and_exchangeButton">
 						<div class="totalPrice">
-							<div style="font-size: 12px; margin-right: 8px; color: #7D7D7D; margin-right: 8px;">
+							<!--<div style="font-size: 12px; margin-right: 8px; color: #7D7D7D; margin-right: 8px;">
 								<span th:text="${orderdetails.orderQuantity}"></span>권
-							</div>
-							<div style="font-size: 16px; font-weight: 600;">
+							</div>-->
+							<div style="font-size: 18px; font-weight: 600;">
 								<div th:if="${orderdetails.book.discountRate =='0'}">
 									[[${#numbers.formatDecimal(orderdetails.book.price*orderdetails.orderQuantity, 0,
 									'COMMA', 0,
@@ -108,9 +108,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="exchangeButton">
+<!--						<div class="exchangeButton">
 							교환신청
-						</div>
+						</div>-->
 					</div>
 				</div>
 			</div>

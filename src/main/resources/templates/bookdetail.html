@@ -252,10 +252,10 @@
 				</div>
 
 				<div>
-					<button id="buttonDone" class="buttonDoneStar">작성</button>
 					<button id="buttonCancel">
-						<a th:href="@{/book/detail(book=${book.bookId})}">Cancel</a>
+						<a th:href="@{/book/detail(book=${book.bookId})}">취소</a>
 					</button>
+					<button id="buttonDone" class="buttonDoneStar">작성</button>
 				</div>
 			</div>
 		</form>
@@ -316,12 +316,12 @@
 					<div th:id="|reivewsBoxCommentEdit${num.index}|" style="display:none;">
 						<textarea id="reivewsBoxCommentInput" th:text="${reivews.comment}"></textarea>
 						<div style="display: flex; justify-content: right;">
+					    	<button id="buttonCancel" th:onclick="|cancelEdit(${num.index})|">취소</button>
 							<form th:action="@{|/book/review/edit/${reivews.reviewsid}|}" method="POST">
 								<input type="hidden" th:value="${book.bookId}" name="book"/>
 								<input type="hidden" th:value="${reivews.comment}" name="updateReivew"/>
 								<button id="buttonDone" th:onclick="|editComment(${num.index})|">수정</button>
 							</form>
-					    	<button id="buttonCancel" th:onclick="|cancelEdit(${num.index})|">취소</button>
 					     </div>
 					</div>
 					<th:block th:if="${#authentication.name == reivews.user.email}">

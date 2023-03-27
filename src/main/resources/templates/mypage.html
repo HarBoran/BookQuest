@@ -66,23 +66,38 @@
 	</div>
 
 	<div>
-		<div style="font-size: 22px; font-weight:600; width:1000px; height: 30px; margin: auto; margin-top: 45px;">독서 통계
-			그래프
-			<button id="category_select_button">버튼</button>
+		<div class="graph_box">
+			<div class="graph_text">독서 통계 그래프</div>
+			<div>
+				<button id="category_select_button">
+					<img th:src="@{/images/gear.png}" />
+				</button>
+			</div>
 		</div>
-		<div id="category_select_div" style="display: none; margin-top: 10px;">
-			<label th:each="category : ${listCategories}">
-				<input type="checkbox" name="category_select" th:value="${category}" th:text="${category}" />
-			</label>
-			<button id="apply_button">적용</button>
-			<button id="cancel_button">취소</button>
+		<div id="category_select_div">
+			<div>
+				<label th:each="category : ${listCategories}">
+					<input type="checkbox" name="category_select" th:value="${category}" th:text="${category}"
+						style="margin-right: 3px; margin-left: 10px;" />
+				</label>
+			</div>
+			<div class="button_box">
+				<button class="cancel_button">취소</button>
+				<button class="apply_button">적용</button>
+			</div>
 		</div>
 	</div>
 
-	<div
-		style="width: 1000px; height: 430px; margin: auto; border:1px solid black; display: flex; align-items: center; margin-top: 20px;">
-		<div style="width: 350px; height: 350px; border: 1px solid red; margin-left: 80px;">
-			<canvas id="radar-chart"></canvas>
+	<div class="chart_box">
+		<div class="radar-chart_box1">
+			<div class="radar-chart_box2">
+				<canvas id="radar-chart"></canvas>
+			</div>
+		</div>
+		<div class="bar-chart_box1">
+			<div class="bar-chart_box2">
+				<canvas id="bar-chart"></canvas>
+			</div>
 		</div>
 	</div>
 

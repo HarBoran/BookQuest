@@ -30,7 +30,7 @@
 
 			<th:block th:each="qa, iteration : ${previousQuestionsAndAnswers}">
 				<div th:text="'Q : ' + ${qa[0]}" id="questions"/>
-				<div th:text="'A : ' + ${qa[1]}" id="answers"/>
+				<div th:text="'A : ' + ${qa[1]}" id="answers" th:classappend="${iteration.last} ? 'lastAnswer'"/>
 			</th:block>
 			
 			<!--#qnaBox의 height 속성이 auto로 설정되어 있을 경우, 
