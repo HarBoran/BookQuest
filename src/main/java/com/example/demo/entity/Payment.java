@@ -32,12 +32,16 @@ public class Payment {
 	@Column(name = "account_number", length = 32, nullable = false)
 	private String accountNumber;
 	
+	@Column(name = "externalPayment")
+	private String externalPayment;
+	
+	
 	public Payment(){}
 
 	@Override
 	public String toString() {
 		return "Payment [paymentId=" + paymentId + ", user=" + user + ", bank=" + bank + ", accountNumber="
-				+ accountNumber + "]";
+				+ accountNumber + ", externalPayment=" + externalPayment + "]";
 	}
 
 	public Integer getPaymentId() {
@@ -72,5 +76,12 @@ public class Payment {
 		this.accountNumber = accountNumber;
 	}
 
+	public String getExternalPayment() {
+		return externalPayment;
+	}
+
+	public void setExternalPayment(String externalPayment) {
+		this.externalPayment = externalPayment;
+	}
 
 }

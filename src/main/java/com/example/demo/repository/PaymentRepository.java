@@ -12,7 +12,7 @@ import com.example.demo.entity.User;
 @Repository
 public interface PaymentRepository extends PagingAndSortingRepository<Payment, Integer> {
 
-	@Query("SELECT p FROM Payment p WHERE p.user =:user")
+	@Query("SELECT p FROM Payment p WHERE p.user =:user and externalPayment='mycard'")
 	public List<Payment> findPaymentByUser(@Param("user") User user);
 
 }

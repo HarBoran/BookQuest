@@ -155,8 +155,9 @@ public class InputDefaultDatabase {
 		userRepo.save(user);
 
 		Payment payment = new Payment();
-		payment.setBank("국민은행");
+		payment.setBank("신한카드");
 		payment.setAccountNumber("1234-0456-7189-1005");
+		payment.setExternalPayment("mycard");
 		payment.setUser(user);
 		payRepo.save(payment);
 	}
@@ -177,8 +178,9 @@ public class InputDefaultDatabase {
       userRepo.save(user);
 
       Payment payment = new Payment();
-      payment.setBank("국민은행");
+      payment.setBank("국민카드");
       payment.setAccountNumber("1234-0416-7189-1005");
+      payment.setExternalPayment("mycard");
       payment.setUser(user);
       payRepo.save(payment);
    }

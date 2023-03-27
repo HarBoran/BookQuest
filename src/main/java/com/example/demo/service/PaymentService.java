@@ -24,6 +24,7 @@ public class PaymentService {
 	}
 
 	public void save(Payment payment) {
+		payment.setExternalPayment("mycard");
 		repo.save(payment);
 	}
 
@@ -40,6 +41,7 @@ public class PaymentService {
 	}
 
 	public void savepayment(Payment payment, User user) {
+		payment.setExternalPayment("mycard");
 		payment.setUser(user);
 		repo.save(payment);
 
