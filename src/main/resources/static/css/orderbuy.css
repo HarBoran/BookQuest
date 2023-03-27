@@ -103,11 +103,13 @@
 
 #delivery_box {
 	width: 800px;
-	height: 270px;
+	/*height: 270px;*/
 	margin: auto;
 	display: flex;
 	flex-direction: column;
+	padding-bottom: 50px;
 	margin-bottom: 150px;
+	border-bottom: 1px solid #CCC;
 }
 
 #delivery_textbox {
@@ -158,13 +160,6 @@
 	padding-left: 8px;
 }
 
-#payment_select {
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	margin-right: auto;
-}
-
 #checkbox {
 	width: 17px;
 	height: 17px;
@@ -174,13 +169,46 @@
 	cursor: pointer;
 }
 
-#button_box {
-	float: right;
-	display: flex;
-	justify-content: space-between;
+#payment_select_box {
+	display: none;
+	justify-content: flex-end;
+	align-items: center;
 	padding-top: 30px;
-	width: 180px;
+	margin-right: auto;
+}
+
+#payment {
+	width: 150px;
+	height: 35px;
+	margin-right: 50px;
+	text-align: center;
+	color: #333;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #fff;
+	background-image: linear-gradient(to bottom, #fff, #f2f2f2);
+	background-repeat: no-repeat;
+	background-position: center right;
+	outline: none;
+}
+
+
+#easyPayment_button_box {
+	display: none;
+	justify-content: flex-end;
+	align-items: center;
+	padding-top: 30px;
+}
+
+#easyPayment_button_box > button{
+	margin: 0 0 0 20px;	
+	width: 150px;
 	height: 36px;
+	border-radius: 6px;
+	background: linear-gradient(to right, #0050FF, #3186F6);
+	border: none;
+	color: white;
+	
 }
 
 #buttonCancel {
@@ -193,12 +221,41 @@
 }
 
 #buttonPayment {
+	width: 150px;
+	height: 36px;
 	border-radius: 6px;
-	background-color: #5747E6;
+	background: linear-gradient(to right, #5747E6, #9C8FFF);
 	border: 1px solid white;
 	color: white;
-	width: 99px;
+}
+
+
+#easyPayment{
+	width: 150px;
 	height: 36px;
+	border-radius: 6px;
+	background: linear-gradient(to right, #0050FF, #3186F6);
+	border: 1px solid white;
+	color: white;
+
+}
+
+.save_button {
+	width: 55px;
+	height: 30px;
+	background-color: #5747E6;
+	color: white;
+	border: none;
+	border-radius: 6px;
+}
+
+.cancel_button {
+	width: 55px;
+	height: 30px;
+	background-color: white;
+	color: #5747E6;
+	border: 2px solid #5747E6;
+	border-radius: 6px;
 }
 
 #address_button {
@@ -270,24 +327,6 @@
 	margin-left: 1%;
 	display: inline-block;
 	vertical-align: middle;
-}
-
-.save_button {
-	width: 55px;
-	height: 30px;
-	background-color: #5747E6;
-	color: white;
-	border: none;
-	border-radius: 6px;
-}
-
-.cancel_button {
-	width: 55px;
-	height: 30px;
-	background-color: white;
-	color: #5747E6;
-	border: 2px solid #5747E6;
-	border-radius: 6px;
 }
 
 input[readonly] {

@@ -4,15 +4,15 @@
 <head>
 
 	<head th:replace="commonspace :: page_head('buyInfoDetails')" />
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<link rel="stylesheet" th:href="@{/css/orderbuy.css}" />
 	<script type="text/javascript" th:src="@{/js/orderbuy.js}"></script>
 	<script type="text/javascript" th:src="@{/js/kakaoAdress.js}"></script>
 	
-	<!--kakaoPay.jsp 생성-->
+	<!--Daum 우편번호 서비스의 API를 로드하는 코드-->
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<!--아임포트 결제 모듈의 스크립트 파일 중 하나로, 실제 결제를 처리하는 로직이 포함되어 있습니다-->
 	<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-
-	<!--결제모듈-->
+	<!--아임포트의 인증 및 기타 기능들을 담당하는 스크립트 파일-->
 	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
 </head>
@@ -71,6 +71,51 @@
       })
    }
 </script>
+
+<script>
+				
+const IMP = window.IMP;
+	IMP.init("imp16604135"); //내코드
+
+	function requestPay(pg) {
+		IMP.request_pay({
+			pg: pg,
+			pay_method: 'card',
+
+			merchant_uid: 'merchant_' + new Date().getTime(),
+			name: '주문명:결제테스트',
+			//결제창에서 보여질 이름
+			amount: "[[${totalPrice}]]",
+			//가격 
+
+			buyer_email: 'Iamport@chai.finance',
+			buyer_name: '포트원 기술지원팀',
+			buyer_tel: '010-1234-5678',
+			buyer_addr: '서울특별시 강남구 삼성동',
+			buyer_postcode: '123-456',
+			m_redirect_url: 'https://www.yourdomain.com/payments/complete'
+			/*  
+				모바일 결제시,
+				결제가 끝나고 랜딩되는 URL을 지정 
+				(카카오페이, 페이코, 다날의 경우는 필요없음. PC와 마찬가지로 callback함수로 결과가 떨어짐) 
+				*/
+		}, function (rsp) {
+			console.log(rsp);
+			if (rsp.success) {
+				var msg = '결제가 완료되었습니다.';
+				msg += '고유ID : ' + rsp.imp_uid;
+				msg += '상점 거래ID : ' + rsp.merchant_uid;
+				msg += '결제 금액 : ' + rsp.paid_amount;
+				msg += '카드 승인번호 : ' + rsp.apply_num;
+			} else {
+				var msg = '결제에 실패하였습니다.';
+				msg += '에러내용 : ' + rsp.error_msg;
+			}
+			alert(msg);
+		});
+	}
+ </script>
+
 
 <body>
 	<div th:replace="commonspace :: menu"></div>
@@ -176,28 +221,30 @@
 				<div id="delivery_textbox">결제수단 선택</div>
 				<div id="root">
 					<button type="button" id="modal_opne_btn" class="addPaymentButton">+ 결제수단 추가</button>
-				</div>
-			</div>
-		
-			<div id="payment_select">
-				<th:block th:each="payment: ${paymentList}">
-					<input type="checkbox" th:field="*{payment}" th:value="${payment.paymentId}"
-						th:text="${payment.bank}" id="checkbox" style="margin-left: 15px;" />
-				</th:block>
+				</div>	
 			</div>
 			
-			
-			
-			<hr>
-
-
-			
-			<div id="button_box">
-<!--				<form method="post" action="/kakaoPay">
-					<button>카카오페이로 결제하기</button>
-				</form>-->
+			<div>
+				<button type="button" id="easyPayment" onclick="showEasyPaymentBox()">간편 결제 하기</button>
+				<button type="button" id="buttonPayment" onclick="showPaymentSelectBox()">일반 결제 하기</button>
 				<input type="button" value="취소" id="buttonCancel" onclick="history.back()" />
+			</div>
+			
+	
+			<div id="payment_select_box">
+				<select name="selectedPayment" th:field="*{payment}">
+					<th:block th:each="payment: ${paymentList}">
+						<option th:value="${payment.paymentId}" th:text="${payment.bank}"/>
+					</th:block>
+				</select>
+				
 				<input type="submit" value="결제하기" id="buttonPayment" onclick="return validateForm()">
+			</div>
+			
+			<div id="easyPayment_button_box">
+				<button type="button" onclick="requestPay('html5_inicis')">통합결제하기</button>
+				<button type="button" onclick="requestPay('kakaopay')">카카오 결제하기</button>
+				<button type="button" onclick="requestPay('tosspay')">토스 결제하기</button>	
 			</div>
 			
 		</form>
@@ -233,7 +280,6 @@
 
 					</span>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -246,14 +292,11 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title" id="modalTitle"></h4>
+						<h4 class="modal-title" id="modalTitle">결제수단 추가하기</h4>
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 					<div class="modal-body">
-
-
-						<input type="hidden" th:field="*{paymentId}" />
-
+							<input type="hidden" th:field="*{paymentId}" />
 						<div>
 							카드를 입력해주세요
 							<input type="text" th:field="*{bank}" id="bank" placeholder="카드명" required>
