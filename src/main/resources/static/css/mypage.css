@@ -160,7 +160,7 @@
 }
 
 .radar-chart_box1 {
-	width: 475px;
+	width: 495px;
 	height: 360px;
 	border: 2px solid #E7E7E7;
 	border-radius: 8px;
@@ -176,7 +176,7 @@
 }
 
 .bar-chart_box1 {
-	width: 500px;
+	width: 480px;
 	height: 360px;
 	border: 2px solid #E7E7E7;
 	border-radius: 8px;
@@ -186,7 +186,7 @@
 }
 
 .bar-chart_box2 {
-	width: 390px;
+	width: 380px;
 	height: 275px;
 	margin-right: 22px;
 }
