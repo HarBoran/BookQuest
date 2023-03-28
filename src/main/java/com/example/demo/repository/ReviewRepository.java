@@ -25,4 +25,6 @@ public interface ReviewRepository extends PagingAndSortingRepository<Review, Int
 	@Query("SELECT SUM(r.starRating) FROM Review r WHERE r.book=:book")
 	public Float sumstar(@Param("book") Book book);
 
+	@Query("SELECT COUNT(r.starRating), starRating FROM Review r WHERE r.book.bookId=:book GROUP BY r.starRating")
+	public List<Object[]> countStarRating(@Param("book") Integer bookId);
 }

@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import com.example.demo.entity.Category;
 import com.example.demo.entity.Review;
 import com.example.demo.entity.User;
 import com.example.demo.entity.Wishlist;
+import com.example.demo.repository.ReviewRepository;
 import com.example.demo.service.BookService;
 import com.example.demo.service.BooksBranchService;
 import com.example.demo.service.CategoryService;
@@ -66,7 +68,10 @@ public class BookController {
 
 	@Autowired
 	private BooksBranchService booksbranchService;
-
+	
+	@Autowired
+	private ReviewRepository reviewRepository;
+	
 	@GetMapping("")
 	public String category_book(Category category, Model model, @Param("keyword") String keyword) {
 		List<Category> listCategories = categoryService.findCategory();
@@ -284,7 +289,6 @@ public class BookController {
 
 	@GetMapping("/detail")
 	public String bookdetail(Book book, Model model, Principal principal) {
-
 		if (principal == null) {
 			model.addAttribute("check", "b");
 			model.addAttribute("bookdetail", book);
@@ -304,7 +308,12 @@ public class BookController {
 			}
 
 			if (!review.isEmpty()) {
+				int bookCount = reviewRepository.countbook(book).intValue();
+				Map<Integer, Long> countStarRating = reviewService.countStarRating(book.getBookId());
+
 				model.addAttribute("avgstar", reviewService.avgstar(book));
+				model.addAttribute("bookCount", bookCount);
+				model.addAttribute("countStarRating", countStarRating);
 			}
 
 		} else {
@@ -339,7 +348,12 @@ public class BookController {
 
 			if (!review.isEmpty()) {
 				bookService.saveavg(book, reviewService.avgstar(book));
+				int bookCount = reviewRepository.countbook(book).intValue();
+				Map<Integer, Long> countStarRating = reviewService.countStarRating(book.getBookId());
+
 				model.addAttribute("avgstar", reviewService.avgstar(book));
+				model.addAttribute("bookCount", bookCount);
+				model.addAttribute("countStarRating", countStarRating);
 			}
 			model.addAttribute("review", new Review());
 			model.addAttribute("cart", new Cart());
@@ -356,6 +370,7 @@ public class BookController {
 				model.addAttribute("outOfStock", "재고수량이 없습니다");
 			}
 		}
+
 		return "bookdetail";
 	}
 

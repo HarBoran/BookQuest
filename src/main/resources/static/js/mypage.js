@@ -17,15 +17,14 @@ $(document).ready(function() {
 		success: function(bookCountsByCategories) {
 			var labels = [];
 			var data = [];
-			var categories = bookCountsByCategories[0];
-			var counts = bookCountsByCategories[1];
-			$.each(categories, function(index, category) {
-				if (counts.hasOwnProperty(category)) {
+			var sortedCounts = Object.entries(bookCountsByCategories[1]).sort((a, b) => b[1] - a[1]);
+			var topCounts = sortedCounts.slice(0, 6).map(([category, count]) => count);
+			$.each(sortedCounts, function(index, [category, count]) {
+				if (topCounts.includes(count)) {
 					labels.push(category);
-					data.push(counts[category]);
+					data.push(count);
 				} else {
-					labels.push(category);
-					data.push(0);
+					return false; // top 6 이외의 데이터는 추가하지 않음
 				}
 			});
 
@@ -33,8 +32,8 @@ $(document).ready(function() {
 				labels: labels,
 				datasets: [
 					{
-						backgroundColor: "rgba(255,99,132,0.2)",
-						borderColor: "rgba(255,99,132,1)",
+						backgroundColor: "rgba(87,71,230,0.7)",
+						borderColor: "rgba(167,159,242,0.6)",
 						data: data,
 					},
 				],
@@ -48,10 +47,27 @@ $(document).ready(function() {
 					}
 				},
 				maintainAspectRatio: false,
-				title: {
-					display: true,
-					text: "Book Count by Category",
+				scales: {
+					y: {
+						grid: {
+							display: false
+						}
+					},
+					x: {
+						ticks: {
+							display: false
+						},
+						grid: {
+							display: false
+						}
+					}
 				},
+				elements: {
+					bar: {
+						borderRadius: 100
+					}
+				},
+				barThickness: 12
 			};
 			var ctx = document.getElementById("bar-chart").getContext("2d");
 			barChart = new Chart(ctx, {
@@ -79,12 +95,15 @@ $(document).ready(function() {
 			var data = [];
 			var categories = bookCountsByCategories[0];
 			var counts = bookCountsByCategories[1];
+			var sortedCounts = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+			var topCategories = sortedCounts.slice(0, 6).map(([category, count]) => category);
 			$.each(categories, function(index, category) {
 				if (counts.hasOwnProperty(category)) {
-					labels.push(category);
-					data.push(counts[category]);
+					if (topCategories.includes(category)) { // top 6 카테고리 중 포함된 경우에만 label에 push
+						labels.push(category);
+						data.push(counts[category]);
+					}
 				} else {
-					labels.push(category);
 					data.push(0);
 				}
 			});
@@ -93,12 +112,12 @@ $(document).ready(function() {
 				labels: labels,
 				datasets: [
 					{
-						backgroundColor: "rgba(255,99,132,0.2)",
-						borderColor: "rgba(255,99,132,1)",
-						pointBackgroundColor: "rgba(255,99,132,1)",
+						backgroundColor: "rgba(87,71,230,0.5)",
+						borderColor: "rgba(167,159,242,0.6)",
+						pointBackgroundColor: "rgba(87,71,230,0.5)",
 						pointBorderColor: "#fff",
 						pointHoverBackgroundColor: "#fff",
-						pointHoverBorderColor: "rgba(255,99,132,1)",
+						pointHoverBorderColor: "rgba(87,71,230,0.9)",
 						data: data,
 					},
 				],
@@ -110,20 +129,15 @@ $(document).ready(function() {
 						display: false,
 					}
 				},
+				maintainAspectRatio: false,
 				scale: {
 					ticks: {
 						beginAtZero: true,
-						min: 0,
-						max: 10,
-						stepSize: 2
-					},
-				},
-				maintainAspectRatio: false,
-				title: {
-					display: true,
-					text: "Book Count by Category",
-				},
+						maxTicksLimit: 5
+					}
+				}
 			};
+
 			var ctx = document.getElementById("radar-chart").getContext("2d");
 			radarChart = new Chart(ctx, {
 				type: "radar",

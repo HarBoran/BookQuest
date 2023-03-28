@@ -17,26 +17,24 @@ import com.example.demo.repository.OrderDetailRepository;
 @Service
 @Transactional
 public class MyPageService {
-   
-   @Autowired
-   private OrderDetailRepository orderDetailRepo;
-   
-   public Map<String, Integer> getBookCountsByCategory(User user) {
-      Pageable pageable = PageRequest.of(0, 6);
-        List<Object[]> results = orderDetailRepo.findCategoriesAndBookCountsByUser(user, pageable);
 
-        Map<String, Integer> bookCountsByCategory = new HashMap<>();
+	@Autowired
+	private OrderDetailRepository orderDetailRepo;
 
-        for (Object[] result : results) {
-            Category category = (Category) result[0];
-            Integer bookCount = ((Number) result[1]).intValue();
-            bookCountsByCategory.put(category.getName(), bookCount);
-        }
+	public Map<String, Integer> getBookCountsByCategory(User user) {
+		List<Object[]> results = orderDetailRepo.findCategoriesAndBookCountsByUser(user);
 
-        return bookCountsByCategory;
-    }
-   
-   public List<String> findNameByCategory(User user) {
-      return orderDetailRepo.findCategoriesAndBookCountsByUser(user);
-   }
+		Map<String, Integer> bookCountsByCategory = new HashMap<>();
+
+		for (Object[] result : results) {
+			Category category = (Category) result[0];
+			Integer bookCount = ((Number) result[1]).intValue();
+			bookCountsByCategory.put(category.getName(), bookCount);
+		}
+		return bookCountsByCategory;
+	}
+
+	public List<String> findNameByCategory(User user) {
+		return orderDetailRepo.findCategoriesByUser(user);
+	}
 }

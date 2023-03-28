@@ -81,7 +81,7 @@ public class InputDefaultDatabase {
 		caRepo.save(new Category("외국어", category000));
 		caRepo.save(new Category("요리/살림", category000));
 		caRepo.save(new Category("유아", category000));
-		caRepo.save(new Category("인문확", category000));
+		caRepo.save(new Category("인문학", category000));
 		caRepo.save(new Category("자기계발", category000));
 		caRepo.save(new Category("잡지", category000));
 		caRepo.save(new Category("장르소설", category000));

@@ -25,11 +25,11 @@ public interface OrderDetailRepository extends PagingAndSortingRepository<OrderD
 	@Query("SELECT c, SUM(od.orderQuantity) " + "FROM Category c " + "JOIN Book b ON c = b.category "
 			+ "LEFT JOIN OrderDetail od ON b = od.book " + "JOIN od.order o " + "WHERE o.user = :user " + "GROUP BY c "
 			+ "ORDER BY SUM(od.orderQuantity) DESC")
-	public List<Object[]> findCategoriesAndBookCountsByUser(@Param("user") User user, Pageable pageable);
+	public List<Object[]> findCategoriesAndBookCountsByUser(@Param("user") User user);
 
 	// 유저가 구매한 책의 카테고리를 가져옴.
 	@Query("SELECT DISTINCT c.name " + "FROM Category c " + "JOIN Book b ON c = b.category "
 			+ "JOIN OrderDetail od ON b = od.book " + "JOIN od.order o " + "WHERE o.user = :user " + "GROUP BY c")
-	public List<String> findCategoriesAndBookCountsByUser(@Param("user") User user);
+	public List<String> findCategoriesByUser(@Param("user") User user);
 
 }

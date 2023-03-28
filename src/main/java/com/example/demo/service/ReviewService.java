@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,15 +43,26 @@ public class ReviewService {
 	}
 
 	public void editReview(Review review, String updateReivew) {
-		
+
 //      if(review.getComment().substring(review.getComment().length()-5).equals("(수정됨)")) {
 //		if(review.getComment().endsWith("(수정됨)")) {
 //			review.setComment(updateReivew);
 //		}else {
 //			review.setComment(updateReivew + "(수정됨)");
 //		}
-		review.setComment(updateReivew);	
+		review.setComment(updateReivew);
 		repo.save(review);
+	}
+
+	public Map<Integer, Long> countStarRating(Integer bookId) {
+		List<Object[]> results = repo.countStarRating(bookId);
+		Map<Integer, Long> starRatingCounts = new HashMap<>();
+		for (Object[] result : results) {
+			Integer starRating = (Integer) result[1];
+			Long count = (Long) result[0];
+			starRatingCounts.put(starRating, count);
+		}
+		return starRatingCounts;
 	}
 
 }

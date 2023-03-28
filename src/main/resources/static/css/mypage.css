@@ -80,7 +80,6 @@
 
 #category_select_div {
 	width: 1000px;
-	display: none;
 	margin: auto;
 	display: flex;
 	flex-direction: row;
@@ -157,31 +156,36 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	margin-bottom: 70px;
 }
 
 .radar-chart_box1 {
-	width: 485px;
+	width: 515px;
 	height: 360px;
 	border: 2px solid #E7E7E7;
 	border-radius: 8px;
+	display: flex;
+	align-items: center;
 }
 
 .radar-chart_box2 {
-	width: 350px;
-	height: 350px;
+	width: 360px;
+	height: 320px;
 	margin: auto;
 }
 
 .bar-chart_box1 {
-	width: 485px;
+	width: 460px;
 	height: 360px;
-	border: 1px solid #DADADA;
+	border: 2px solid #E7E7E7;
 	border-radius: 8px;
+	display: flex;
+	align-items: center;
 }
 
 .bar-chart_box2 {
-	width: 350px;
-	height: 350px;
+	width: 380px;
+	height: 275px;
 	margin: auto;
 }
 
