@@ -19,3 +19,11 @@ function showPaymentSelectBox() {
 		paymentSelectBox.style.display = "none";
 	}
 }
+
+function confirmPayment() {
+	if (confirm("결제하시겠습니까?")) {
+		return true;
+	} else {
+		return false;
+	}
+}

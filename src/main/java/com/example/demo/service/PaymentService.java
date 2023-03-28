@@ -27,6 +27,10 @@ public class PaymentService {
 		payment.setExternalPayment("mycard");
 		repo.save(payment);
 	}
+	
+	public void saveEasyPayment(Payment newEasyPayment) {
+		repo.save(newEasyPayment);	
+	}
 
 	public Payment get(int paymentId) throws Exception {
 		return repo.findById(paymentId).get();
@@ -46,5 +50,11 @@ public class PaymentService {
 		repo.save(payment);
 
 	}
+
+	public Payment findEasyPayment(String easyPayment) {
+		return repo.findEasyPayment(easyPayment);
+	}
+
+
 
 }

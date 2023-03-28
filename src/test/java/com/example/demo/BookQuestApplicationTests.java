@@ -2,29 +2,16 @@ package com.example.demo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
 import com.example.demo.entity.ApiKey;
-import com.example.demo.entity.Book;
-import com.example.demo.entity.Branches;
-import com.example.demo.entity.Cart;
-import com.example.demo.entity.Category;
+import com.example.demo.entity.Payment;
 import com.example.demo.entity.Review;
 import com.example.demo.entity.User;
 import com.example.demo.repository.ApiKeyRepository;
@@ -32,9 +19,9 @@ import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.BranchRepository;
 import com.example.demo.repository.CartRepository;
 import com.example.demo.repository.OrderDetailRepository;
+import com.example.demo.repository.PaymentRepository;
 import com.example.demo.repository.ReviewRepository;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.OrderDetailService;
 
 @DataJpaTest(showSql = true)
 //데이터 베이스의 데이터가 더 우세 하니 바꾸지 말아라
@@ -63,6 +50,9 @@ class BookQuestApplicationTests {
 	
 	@Autowired
 	private ApiKeyRepository apiRepo;
+	
+	@Autowired
+	private PaymentRepository payRepo;
 	
 	@Test
 	public void testEncodePassword() {
@@ -111,6 +101,13 @@ class BookQuestApplicationTests {
 	ApiKey apikey = apiRepo.findByName("OpenAI");
 		System.out.println("apikey = " + apikey);
 	}
+	
+	@Test
+	public void alreadyExistEasyPayment() {
+		String easyPayment = "kakao";
+		Payment alreadyExistEasyPayment =  payRepo.findEasyPayment(easyPayment);
+		System.err.println(alreadyExistEasyPayment);
+		System.err.println(alreadyExistEasyPayment == null);
 
-
+	}
 }

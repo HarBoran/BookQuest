@@ -150,12 +150,31 @@ public class OrderDetailsController {
 	}
 
 	@PostMapping("/orderbuy")
-	public String orderbuyBook(Model model, Principal principal, @ModelAttribute("orders") Order order,
-			@RequestParam("totalPrice") int totalPrice, @RequestParam(name = "bookId") ArrayList<Book> books,
+	public String orderbuyBook(Model model, Principal principal, 
+			@ModelAttribute("orders") Order order,
+			@RequestParam(required = false, name = "easyPayment") String easyPayment,
+			@RequestParam("totalPrice") int totalPrice,
+			@RequestParam(name = "bookId") ArrayList<Book> books,
 			@RequestParam(name = "bookquantity") ArrayList<Integer> bookquantity) {
-		if (bookquantity.size() == 1) {
+
 			String userEmail = principal.getName();
 			User user = userService.getUserByEmail(userEmail);
+				
+		if(!(easyPayment == null || easyPayment.isEmpty())) {
+			Payment alreadyExistEasyPayment =  paymentService.findEasyPayment(easyPayment);
+			if(alreadyExistEasyPayment == null) {
+				Payment newEasyPayment = new Payment();
+				newEasyPayment.setBank(easyPayment);
+				newEasyPayment.setAccountNumber(easyPayment);
+				newEasyPayment.setExternalPayment(easyPayment);
+				newEasyPayment.setUser(user);
+				paymentService.saveEasyPayment(newEasyPayment);
+				order.setPayment(newEasyPayment);
+			}
+			order.setPayment(alreadyExistEasyPayment);
+		}
+		
+		if (bookquantity.size() == 1) {
 			order.setTotalPrice(totalPrice);
 			order.setUser(user);
 			orderService.save(order);
@@ -169,10 +188,6 @@ public class OrderDetailsController {
 				return "redirect:/order/";
 			}
 		} else if (bookquantity.size() > 1) {
-
-			String userEmail = principal.getName();
-			User user = userService.getUserByEmail(userEmail);
-
 			order.setTotalPrice(totalPrice);
 			order.setUser(user);
 			orderService.save(order);
