@@ -223,6 +223,9 @@
 		style="display:block; width: 1000px; margin: auto; margin-bottom:200px;">
 		<h3 style="font-size: 20px; margin-bottom: 28px; font-weight: 600;">책 소개</h3>
 		<div th:text="${book.description}">(책 설명)</div>
+		<div th:if="${bookdetail.title.equals('스즈메의 문단속')}" style="width: 100%; display: flex; justify-content: center; margin-top: 50px;">
+        	<img th:src="@{/images/스즈메.jpg}"/>
+      	</div>
 	</div>
 
 	<div id="review-content" class="tabcontent" style="display:none; margin: auto; width: 1000px; margin-bottom:150px;">
