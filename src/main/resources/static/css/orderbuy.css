@@ -103,13 +103,11 @@
 
 #delivery_box {
 	width: 800px;
-	/*height: 270px;*/
 	margin: auto;
 	display: flex;
 	flex-direction: column;
 	padding-bottom: 50px;
 	margin-bottom: 150px;
-	border-bottom: 1px solid #CCC;
 }
 
 #delivery_textbox {

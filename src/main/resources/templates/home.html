@@ -48,7 +48,7 @@
 		<div id="search_box2">
 			<h1 id="search_text">찾고 싶은 도서명을 검색하세요 <img th:src="@{/images/search_icon2.png}"
 					style="width:30px; height:30px; margin-left:5px;"></h1>
-			<form th:action="@{/book/categories/page/1}" style="text-align:center;">
+			<form th:action="@{/book/fullBook/page/1}" style="text-align:center;">
 				<input type="hidden" name="sortField" th:value="bookId" />
 				<input type="hidden" name="sortDir" th:value="asc" />
 				<input type="hidden" name="category" th:value="null" />

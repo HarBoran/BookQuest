@@ -150,10 +150,10 @@
 
 					<!--<div th:if="${bookbranch == null}" th:text="${branchmsg}" />
 
-					<th:block th:each="bookbranch : ${bookbranch}">
-						<div th:if="${bookbranch!=null}" th:text="재고수량+${bookbranch.quantity}+권"></div>
-						<div th:text="${bookbranch.branches.branchName}"></div>
-					</th:block>-->
+               <th:block th:each="bookbranch : ${bookbranch}">
+                  <div th:if="${bookbranch!=null}" th:text="재고수량+${bookbranch.quantity}+권"></div>
+                  <div th:text="${bookbranch.branches.branchName}"></div>
+               </th:block>-->
 					<br>
 
 					<div th:if="${cartMessage != null}" class="alert alert-success text-center">
@@ -164,8 +164,8 @@
 						<form th:action="@{/cart/save}" th:object="${cart}" method="POST"
 							onsubmit="return putonitem();">
 							<input type="hidden" id="number" th:name="number" value="1">
-							<!--   <input type="button" value="+" onclick="increment()"></input	>
-            				<input type="button" value="-" onclick="decrement()"></input> -->
+							<!--   <input type="button" value="+" onclick="increment()"></input   >
+                        <input type="button" value="-" onclick="decrement()"></input> -->
 							<input type="hidden" th:value="${book.bookId}" name="book" />
 							<button type="submit" id="cart">장바구니</button>
 						</form>
@@ -174,7 +174,7 @@
 							<input type="hidden" name="book" th:value="${book.bookId}" />
 							<input type="hidden" id="bookquantity" th:name="bookquantity" value="1">
 							<!--   <input type="button" value="+" onclick="incrementbook()"></input>
-            				<input type="button" value="-" onclick="decrementbook()"></input> -->
+                        <input type="button" value="-" onclick="decrementbook()"></input> -->
 							<button type="submit" id="buy">바로구매</button>
 						</form>
 
@@ -200,10 +200,10 @@
 						</div>
 					</div>
 
-					<!--					<form th:action="@{/usedBook/selluserd}" method="POST">
-						<input type="hidden" name="book" th:value="${book.bookId}" />
-						<button style="background: none; border: none; outline: none; margin:10px 0">중고 판매하기</button>
-					</form>
+					<!--               <form th:action="@{/usedBook/selluserd}" method="POST">
+                  <input type="hidden" name="book" th:value="${book.bookId}" />
+                  <button style="background: none; border: none; outline: none; margin:10px 0">중고 판매하기</button>
+               </form>
 -->
 				</div>
 			</div>
@@ -297,6 +297,11 @@
 				<div class="bar-chart_box1">
 					<div class="bar-chart_box2">
 						<canvas id="bar-chart"></canvas>
+					</div>
+					<div class="count_box">
+						<div th:each="count : ${countStarRatingDesc}">
+							<p th:text="${count.value}" class="count"></p>
+						</div>
 					</div>
 				</div>
 			</div>

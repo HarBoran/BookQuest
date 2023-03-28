@@ -2,9 +2,14 @@ package com.example.demo.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,6 +48,9 @@ import com.example.demo.service.WishlistService;
 public class BookController {
 
 	@Autowired
+	private ReviewRepository reviewRepository;
+
+	@Autowired
 	private BookService bookService;
 
 	@Autowired
@@ -68,10 +76,7 @@ public class BookController {
 
 	@Autowired
 	private BooksBranchService booksbranchService;
-	
-	@Autowired
-	private ReviewRepository reviewRepository;
-	
+
 	@GetMapping("")
 	public String category_book(Category category, Model model, @Param("keyword") String keyword) {
 		List<Category> listCategories = categoryService.findCategory();
@@ -201,41 +206,6 @@ public class BookController {
 		return "book";
 	}
 
-//	@GetMapping("/categories")
-//	public String listAllBook(Model model) {
-//		List<Category> listCategories = categoryService.findCategory();
-//		List<Book> books = bookService.findAll();
-//
-//		model.addAttribute("listCategories", listCategories);
-//		model.addAttribute("books", books);
-//		model.addAttribute("msg", " 도서찾기");
-//		return "book";
-//	}
-//
-//	@GetMapping("/new")
-//	public String new_book(Category category, Model model) {
-//		List<Book> newbooks = new ArrayList<Book>();
-//		newbooks.addAll(bookService.newbooks(category));
-//		List<Category> listCategories = categoryService.findCategory();
-//
-//		model.addAttribute("books", newbooks);
-//		model.addAttribute("listCategories", listCategories);
-//		model.addAttribute("msg", "신간 도서");
-//		return "book";
-//	}
-//
-//	@GetMapping("/bestseller")
-//	public String bestseller(Model model) {
-//		List<Object> bestseller = new ArrayList<Object>();
-//		bestseller.addAll(orderDetailService.bestseller());
-//		List<Category> listCategories = categoryService.findCategory();	
-//		
-//		model.addAttribute("books", bestseller);
-//		model.addAttribute("msg", "베스트 셀러");
-//		model.addAttribute("listCategories", listCategories);
-//		return "book";
-//	}
-
 	@PostMapping("/review")
 	public String reviewsave(@RequestParam("book") int book, @ModelAttribute("review") Review review, Model model,
 			Principal principal, RedirectAttributes redirectAttributes) {
@@ -310,10 +280,23 @@ public class BookController {
 			if (!review.isEmpty()) {
 				int bookCount = reviewRepository.countbook(book).intValue();
 				Map<Integer, Long> countStarRating = reviewService.countStarRating(book.getBookId());
+				Map<Integer, Long> countStarRatingDesc = reviewService.countStarRatingDesc(book.getBookId());
+
+				// 별점이 없는 항목에는 value 0을 넣어줌.
+				Set<Integer> setA = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5));
+				setA.removeAll(countStarRatingDesc.keySet());
+				setA.forEach(i -> {
+					countStarRatingDesc.put(i, (long) 0);
+				});
+
+				Map<Integer, Long> sortedMap = new TreeMap<>(Collections.reverseOrder()); // TreeMap 객체 생성 시, 역순으로 정렬하는
+																							// Comparator를 전달
+				sortedMap.putAll(countStarRatingDesc); // 기존 Map 객체의 모든 요소를 TreeMap 객체로 복사
 
 				model.addAttribute("avgstar", reviewService.avgstar(book));
 				model.addAttribute("bookCount", bookCount);
 				model.addAttribute("countStarRating", countStarRating);
+				model.addAttribute("countStarRatingDesc", sortedMap);
 			}
 
 		} else {
@@ -350,10 +333,23 @@ public class BookController {
 				bookService.saveavg(book, reviewService.avgstar(book));
 				int bookCount = reviewRepository.countbook(book).intValue();
 				Map<Integer, Long> countStarRating = reviewService.countStarRating(book.getBookId());
+				Map<Integer, Long> countStarRatingDesc = reviewService.countStarRatingDesc(book.getBookId());
+
+				// 별점이 없는 항목에는 value 0을 넣어줌.
+				Set<Integer> setA = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5));
+				setA.removeAll(countStarRatingDesc.keySet());
+				setA.forEach(i -> {
+					countStarRatingDesc.put(i, (long) 0);
+				});
+
+				Map<Integer, Long> sortedMap = new TreeMap<>(Collections.reverseOrder()); // TreeMap 객체 생성 시, 역순으로 정렬하는
+																							// Comparator를 전달
+				sortedMap.putAll(countStarRatingDesc); // 기존 Map 객체의 모든 요소를 TreeMap 객체로 복사
 
 				model.addAttribute("avgstar", reviewService.avgstar(book));
 				model.addAttribute("bookCount", bookCount);
 				model.addAttribute("countStarRating", countStarRating);
+				model.addAttribute("countStarRatingDesc", sortedMap);
 			}
 			model.addAttribute("review", new Review());
 			model.addAttribute("cart", new Cart());
@@ -373,25 +369,4 @@ public class BookController {
 
 		return "bookdetail";
 	}
-
-//	@GetMapping("/sortPrice")
-//	public String sortPrice(Model model) {
-//		List<Category> listCategories = categoryService.findCategory();
-//		model.addAttribute("listCategories", listCategories);
-//		List<Book> sortprice = new ArrayList<Book>();
-//		sortprice.addAll(bookService.sortprice());
-//		model.addAttribute("books", sortprice);
-//		return "book";
-//	}
-//
-//	@GetMapping("/sortTitle")
-//	public String sortTitle(Model model) {
-//		List<Category> listCategories = categoryService.findCategory();
-//		model.addAttribute("listCategories", listCategories);
-//		List<Book> sortTitle = new ArrayList<Book>();
-//		sortTitle.addAll(bookService.sortTitle());
-//		model.addAttribute("books", sortTitle);
-//		return "book";
-//	}
-
 }
