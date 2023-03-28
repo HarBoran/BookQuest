@@ -16,9 +16,11 @@ public interface OrderRepository extends PagingAndSortingRepository<Order, Integ
 
 	@Query("SELECT o FROM Order o WHERE o.user =:user")
 	public List<Order> findOrderByUser(@Param("user") User user);
-
 	
 	@Query("SELECT o FROM Order o WHERE o.deliveryStatus =:deliveryStatus")
-	public List<Order> findByStatus(@Param("deliveryStatus") String deliveryStatus);
+	public List<Order> findByStatus(@Param("deliveryStatus") String deliveryStatus);	
+
+	@Query("SELECT count(o) FROM Order o WHERE o.user =:user and o.deliveryStatus =:deliveryStatus")
+	public int countByDeliveryStatus(@Param("user") User user, @Param("deliveryStatus") String deliveryStatus);
 
 }

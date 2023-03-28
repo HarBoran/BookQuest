@@ -54,6 +54,11 @@
 	justify-content: center;
 }
 
+#customerLevel{
+	font-size: 18px;
+	font-weight: 600;
+}
+
 .user_info,
 .order_history,
 .payment_method {

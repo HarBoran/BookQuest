@@ -42,7 +42,6 @@ public class OrderService {
 		repo.save(order);
 	}
 
-
 	public Optional<Order> findById(int orderId) {
 		return repo.findById(orderId);
 	}
@@ -53,6 +52,10 @@ public class OrderService {
 
 	public List<Order> findAll() {
 		return (List<Order>) repo.findAll();
+	}
+
+	public int countByDeliveryStatus(User user, String deliveryStatus) {
+		return  repo.countByDeliveryStatus(user, deliveryStatus);
 	}
 
 

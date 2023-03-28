@@ -3,6 +3,9 @@ package com.example.demo.service;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
+
+import javax.persistence.Column;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -101,8 +104,20 @@ public class UserService {
 	}
 
 	public void delete(int userId) {
-		repo.deleteById(userId);
-
+		//repo.deleteById(userId);
+		UUID uuid = UUID.randomUUID();
+		User deleteUser = new User();
+		deleteUser.setUserId(userId);
+		deleteUser.setEmail("탈퇴한 회원" + uuid);
+		deleteUser.setPassword("탈퇴한 회원" + uuid);
+		deleteUser.setName("탈퇴한 회원" +  uuid);
+		deleteUser.setAddress1("탈퇴한 회원" +  uuid);
+		deleteUser.setPhone("0000");
+		deleteUser.setSignupDate(LocalDateTime.now());
+		deleteUser.setEnabled(false);
+		deleteUser.setRole("탈퇴한 회원");
+		repo.save(deleteUser);
+		
 	}
 
 	public User get(Integer userId) throws Exception {

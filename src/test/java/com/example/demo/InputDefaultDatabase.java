@@ -148,7 +148,6 @@ public class InputDefaultDatabase {
 		user.setAddress1("주소");
 		user.setName("이름");
 		user.setPhone("010전화번호");
-		user.setPhoto("프로필사진");
 		user.setRole("admin");
 		user.setEnabled(true);
 		user.setSignupDate(LocalDateTime.now());

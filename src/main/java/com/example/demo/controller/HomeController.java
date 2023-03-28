@@ -82,7 +82,7 @@ public class HomeController {
 		
 		String[][] recommendationList = { { "AI가 추천해주는 내 취향 도서", "/book/categories", "randomBooks" },
 							                { "베스트 셀러", "/book/bestseller", "bestseller" },
-							                { "갓 입고된 따끈 따끈 도서orders", "/book/new", "newbooks" },
+							                { "갓 입고된 따끈 따끈 도서", "/book/new", "newbooks" },
 							                { "이 주의 특가 도서 모음ZIP", "/book/sale", "discountBook" } };
 		
 		 if (authentication == null) {

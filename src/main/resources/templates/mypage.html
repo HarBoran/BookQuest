@@ -15,16 +15,18 @@
 
 <body>
 	<div th:replace="commonspace :: menu"></div>
+	
 
+	
 	<div class="icon_and_title">
 		<div class="icon_box">
-			<img th:src="@{/images/level=5Lv.png}" alt="Level_Icon" width="60" height="65">
+			<img th:src="'/BookQuest'+${level[2]}" alt="Level_Icon" width="60" height="65">
 		</div>
 		<div class="level_and_name">
 			<div class="level">
-				<span style="font-size: 12px; margin-right:2px;">5Lv.</span>
-				<span style="color: #5747E6; font-size: 12px; font-weight:500;">열정적인 도서광</span>
-				<img th:src="@{/images/crown.png}" alt="crown" width="13" height="13">
+				<span style="font-size: 12px; margin-right:2px;">[[${level[1]}]]</span>
+				<span style="color: #5747E6; font-size: 12px; font-weight:500;">[[${level[0]}]]</span>
+				<img th:src="'/BookQuest'+${level[3]}" alt="crown" width="13" height="13">
 			</div>
 			<div class="name">
 				<span th:if="${user != null}" th:text="${user.name}"></span>님, 안녕하세요!
@@ -35,15 +37,15 @@
 	<div class="user_info_box">
 		<div class="my_level">
 			<span style="color: #7D7D7D; font-size: 14px; margin-bottom: 14px;">마이 레벨</span>
-			<span style="font-size: 18px; font-weight: 600;">Lv.5</span>
+			<span id = "customerLevel">[[${level[1]}]]</span>
 		</div>
 		<div class="shipping">
 			<span style="color: #7D7D7D; font-size: 14px; margin-bottom: 14px;">배송중</span>
-			<span style="font-size: 18px; font-weight: 600;">0건</span>
+			<span style="font-size: 18px; font-weight: 600;">[[${shipping}]]건</span>
 		</div>
 		<div class="delevered">
 			<span style="color: #7D7D7D; font-size: 14px; margin-bottom: 14px;">배송 완료</span>
-			<span style="font-size: 18px; font-weight: 600;">6건</span>
+			<span style="font-size: 18px; font-weight: 600;">[[${deliveryCompleted}]]건</span>
 		</div>
 		<div class="user_info">
 			<span style="color: #7D7D7D; font-size: 14px;">회원정보</span>

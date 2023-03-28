@@ -13,9 +13,10 @@
 
 	<!--공용css-->
 	<link rel="stylesheet" href="../css/public.css" th:href="@{/css/public.css}" />
-	
+
 	<!--카카오 맵-->
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4b14a3ed849cebf0e25ce40a26fb2f17"></script>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4b14a3ed849cebf0e25ce40a26fb2f17"></script>
 
 	<!--폰트-->
 	<link rel='stylesheet' type='text/css' href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css'>
@@ -77,37 +78,41 @@
 
 						<th:block th:if="${#authentication.name == 'anonymousUser'}">
 							<li class="nav-item">
-								<a class="nav-link" th:href="@{/sign/}">회원 가입</a>
+								<a class="nav-link" th:href="@{/sign/}">회원가입</a>
 							</li>
 						</th:block>
 
 						<th:block sec:authorize="isAuthenticated()">
 							<li class="nav-item">
-								<a class="nav-link" th:href="@{/mypage}">마이페이지</a>
+								<a class="nav-link" th:href="@{/wishlist/}"><img th:src="@{/images/heart.png}"
+										width="21" height="20" style="margin-right: 2px; margin-bottom:2px;"></a>
 							</li>
 						</th:block>
 
 						<th:block sec:authorize="isAuthenticated()">
 							<li class="nav-item">
-								<a class="nav-link" th:href="@{/cart/}">cart</a>
+								<a class="nav-link" th:href="@{/cart/}"><img th:src="@{/images/cart.png}" width="24"
+										height="24" style="margin-bottom:2px;"></a>
 							</li>
 						</th:block>
 
 						<th:block sec:authorize="isAuthenticated()">
 							<li class="nav-item">
-								<a class="nav-link" th:href="@{/wishlist/}">wishlist</a>
+								<a class="nav-link" th:href="@{/mypage}"><img th:src="@{/images/myPage.png}" width="24"
+										height="24" style="margin-bottom:2px;"></a>
 							</li>
 						</th:block>
 
 						<th:block sec:authorize="isAuthenticated()">
 							<li class="nav-item">
 								<form th:action="@{/logout}" method="post" th:hidden="false" name="logoutForm">
-									<input type="submit" class="btn" value="로그아웃" />
+									<input type="submit" class="btn" value="로그아웃"
+										style="color: #7F7F7F; margin-top: 1px;" />
 									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 								</form>
 							</li>
 						</th:block>
-						
+
 						<li class="nav-item">
 							<a class="nav-link" th:href="@{/customerServiceCenter/}">고객센터</a>
 						</li>
@@ -116,7 +121,7 @@
 						<th:block sec:authorize="hasAuthority('admin')">
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-									Admin 메뉴
+									관리자 메뉴
 								</a>
 								<div class="dropdown-menu">
 									<a class="dropdown-item" th:href="@{/admin/newBookRegistration}">신간도서등록</a>
@@ -125,55 +130,29 @@
 								</div>
 							</li>
 						</th:block>
-
+					</ul>
 				</div>
-				</ul>
+
 			</nav>
 		</div>
 	</div>
 
-	<!--<div th:fragment="footer" id="footer">
-		<div style="display: flex; justify-content: center;">
-			<div>
-				<!--왼쪽-->
-				<div style="margin: auto; margin-bottom: 24px;">
-					<img th:src="@{/images/footer_image.png}" style="width: 161px; height: 44px;">
-				</div>
-
-				<div style="margin: auto; color: #EEEEEE; width:400px; height: 78px;">
-					<p style="margin-bottom: 3px; font-weight: 200; font-size: 14px;"> 서울특별시 종로구 묘동 56 단성사 빌딩 3층 </p>
-					<p style="margin-bottom: 3px; font-weight: 200; font-size: 14px;"> 영업시간 | 10:00 ~ 22:00 </p>
-					<p style="margin-bottom: 15px; font-weight: 200; font-size: 14px;"> 휴점 | 설(당일), 추석(당일) </p>
-					<p style="font-weight: 200; font-size: 14px;"> Copyright &copy;BookQuest</p>
-				</div>
-			</div>
-
-
-			<div style="padding-top: 50px ; color: #EEEEEE;">
-				<!--오른쪽-->
-				<p style="margin-bottom: 2px; font-weight: 200; font-size: 14px;"> TEL)010-2980-0318 </p>
-				<p style="margin-bottom: 2px; font-weight: 200; font-size: 14px;"> TEL)010-7749-5107 </p>
-				<p style="margin-bottom: 2px; font-weight: 200; font-size: 14px;"> TEL)010-3157-7950 </p>
-				<p style="margin-bottom: 2px; font-weight: 200; font-size: 14px;"> TEL)010-9935-3240 </p>
-			</div>
-		</div>
-	</div>-->
-
 	<div th:fragment="footer" id="footer">
-       <div style="margin: auto; margin-bottom: 24px;">
-          <img th:src="@{/images/footer_image.png}" style="width: 161px; height: 44px;">
-       </div>
-       
-       <div style="margin: auto; color: #EEEEEE; width:400px; height: 78px;">      
-            <p style="margin-bottom: 3px; font-weight: 200; font-size: 14px;"> 서울특별시 종로구 묘동 56 단성사 빌딩 3층 </p>
-            <p style="margin-bottom: 3px; font-weight: 200; font-size: 14px;"> 영업시간 | 10:00 ~ 22:00 </p>
-            <p style="margin-bottom: 15px; font-weight: 200; font-size: 14px;"> 휴점 | 설(당일), 추석(당일) </p>
-            <p style="margin-bottom: 2px; font-weight: 200; font-size: 12px;"> TEL) 010-2980-0318 &nbsp;|&nbsp; 010-7749-5107</p>
-			<p style="margin-bottom: 2px; font-weight: 200; font-size: 12px;"> TEL) 010-3157-7950 &nbsp;|&nbsp; 010-9935-3240</p>
-            <p style="font-weight: 200; font-size: 14px;"> Copyright &copy;BookQuest</p>  
-        </div>
-    </div>
+		<div style="margin: auto; margin-bottom: 24px;">
+			<img th:src="@{/images/footer_image.png}" style="width: 161px; height: 44px;">
+		</div>
 
+		<div style="margin: auto; color: #EEEEEE; width:400px; height: 78px;">
+			<p style="margin-bottom: 3px; font-weight: 200; font-size: 14px;"> 서울특별시 종로구 묘동 56 단성사 빌딩 3층 </p>
+			<p style="margin-bottom: 3px; font-weight: 200; font-size: 14px;"> 영업시간 | 10:00 ~ 22:00 </p>
+			<p style="margin-bottom: 15px; font-weight: 200; font-size: 14px;"> 휴점 | 설(당일), 추석(당일) </p>
+			<p style="margin-bottom: 2px; font-weight: 200; font-size: 12px;"> TEL) 010-2980-0318 &nbsp;|&nbsp;
+				010-7749-5107</p>
+			<p style="margin-bottom: 2px; font-weight: 200; font-size: 12px;"> TEL) 010-3157-7950 &nbsp;|&nbsp;
+				010-9935-3240</p>
+			<p style="font-weight: 200; font-size: 14px;"> Copyright &copy;BookQuest</p>
+		</div>
+	</div>
 
 </body>
 

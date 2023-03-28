@@ -27,8 +27,7 @@
 
 	<form th:action="@{/order/buyselect}" method="post" onsubmit="return validForm()">
 		<div id="container">
-			<div id="left">
-				
+			<div id="left">				
 				
 				<div th:if="${#lists.isEmpty(cartList)}" style="margin-top: 120px; text-align: center;">
 					<h2 style="font-size: 24px; font-weight:600;">장바구니에 <br> 담긴 상품이 없습니다.</h2>								

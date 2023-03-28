@@ -30,7 +30,7 @@ public class UserController {
 	@GetMapping("/delete/{userId}")
 	public String deleteById(@PathVariable(name = "userId") int userId, RedirectAttributes redirectAttributes) {
 		
-	    //인증 정보 초기화
+	    //인증 정보 초기화, 로그아웃 역활
 	    SecurityContextHolder.clearContext();
 
 	   //카카오 유저면 연결끊기도 같이 진행함

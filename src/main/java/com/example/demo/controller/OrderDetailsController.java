@@ -91,19 +91,23 @@ public class OrderDetailsController {
 
 		if (carts != null && book == null) {
 			int totalPrice = 0;
-			List<Book> books = new ArrayList<>();
+			
+			
+			List<Book> books = new ArrayList<>();			
 			for (int i = 0; i < carts.size(); i++) {
-
 				books.add((carts.get(i).getBook()));
 			}
+			
+			
 			List<Integer> booksQuantity = new ArrayList<>();
 			for (int i = 0; i < carts.size(); i++) {
 				booksQuantity.add((carts.get(i).getBookQuantity()));
 			}
+			
+			
 			for (int i = 0; i < carts.size(); i++) {
 				if (carts.get(i).getBook().getDiscountRate() == 0) {
 					int Price = carts.get(i).getBook().getPrice() * carts.get(i).getBookQuantity();
-
 					totalPrice += Price;
 				} else if (carts.get(i).getBook().getDiscountRate() != 0) {
 					int Price = (int) (carts.get(i).getBook().getPrice()
@@ -137,7 +141,7 @@ public class OrderDetailsController {
 			model.addAttribute("bookquantity", bookquantity);
 			model.addAttribute("paymentList", paymentList);
 			model.addAttribute("user", user.get());
-			model.addAttribute("totalPrice", book.getPrice());
+			model.addAttribute("totalPrice", book.getPrice()*(100-book.getDiscountRate())/100);
 			Order order = new Order();
 			order.setUser(user.get());
 			order.setAddress(user.get().getAddress1());

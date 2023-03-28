@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -58,8 +60,30 @@ public class MyPageController {
 
 		// 유저의 모든 결제수단을 가져옴.
 		List<Payment> paymentList = paymentService.findPaymentByUser(user);
+		
+		//유저의 배송중, 배송완료의 개수를 가져옴
+		int shipping = orderService.countByDeliveryStatus(user, "배송준비중");
+		int deliveryCompleted = orderService.countByDeliveryStatus(user, "배송완료");
+		
+		List level= new ArrayList<>(); 	
+		if (deliveryCompleted < 2) {
+			level = Arrays.asList("책린이", "Lv.1", "/images/level=1Lv.png", "/images/clap.png");
+		} else if (deliveryCompleted < 6 && deliveryCompleted >= 2) {
+			level = Arrays.asList("우수한 독서가", "Lv.2", "/images/level=2Lv.png", "/images/fire.png");
+		} else if (deliveryCompleted < 10 && deliveryCompleted >= 6) {
+			level = Arrays.asList("성실한 독서가", "Lv.3", "/images/level=3Lv.png", "/images/fire.png");
+		} else if (deliveryCompleted < 15 && deliveryCompleted >= 10) {
+			level = Arrays.asList("열정적인 다독왕", "Lv.4", "/images/level=4Lv.png", "/images/crown.png");
+		} else {
+			level = Arrays.asList("살아있는 도서관", "Lv.5", "/images/level=5Lv.png", "/images/crown.png");
+		}
+	
 
-		model.addAttribute("user", user);
+		
+		model.addAttribute("user", user);				
+		model.addAttribute("shipping", shipping);
+		model.addAttribute("deliveryCompleted", deliveryCompleted);
+		model.addAttribute("level", level);
 		model.addAttribute("orderDetails", orderDetails);
 		model.addAttribute("bookCountsByCategory", bookCountsByCategory);
 		model.addAttribute("listCategories", listCategories);

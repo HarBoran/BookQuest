@@ -21,7 +21,9 @@
 		<!-- The slideshow -->
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<img th:src="@{/images/banner.jpg}" width="1100" height="500">
+				<a th:href="@{/book/sale}">
+					<img th:src="@{/images/banner.jpg}" width="1100" height="500">
+				</a>
 			</div>
 			<div class="carousel-item">
 				<a th:href="@{/book/bestseller}">
