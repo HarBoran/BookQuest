@@ -174,8 +174,9 @@ public class OrderDetailsController {
 				newEasyPayment.setUser(user);
 				paymentService.saveEasyPayment(newEasyPayment);
 				order.setPayment(newEasyPayment);
+			}else {
+				order.setPayment(alreadyExistEasyPayment);
 			}
-			order.setPayment(alreadyExistEasyPayment);
 		}
 		
 		if (bookquantity.size() == 1) {

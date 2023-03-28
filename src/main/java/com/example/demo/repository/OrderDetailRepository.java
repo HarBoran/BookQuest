@@ -15,9 +15,11 @@ import com.example.demo.entity.User;
 @Repository
 public interface OrderDetailRepository extends PagingAndSortingRepository<OrderDetail, Integer> {
 
+	// 상세내역 table을 통해 주문내역을 가져옴.
 	@Query("SELECT o FROM OrderDetail o WHERE o.order =:order")
 	public List<OrderDetail> findOrderDetailsByOrder(@Param("order") Order order);
 
+	// 특정 유저의 주문 상세내역을 가져옴.
 	@Query("SELECT od FROM OrderDetail od JOIN FETCH od.book WHERE od.order.user = :user")
 	public List<OrderDetail> findOrderDetailsByUser(@Param("user") User user);
 

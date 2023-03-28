@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -52,20 +53,32 @@ public class MyPageController {
 		// 유저의 모든 주문내역을 가져옴.
 		List<OrderDetail> orderDetails = orderDetailService.findOrderDetailsByUser(user);
 
-		// 유저가 구매한 모든 책의 권수와 카테고리를 가져옴.
+		// 유저가 구매한 모든 책의 카테고리와 권수를 가져옴.
 		Map<String, Integer> bookCountsByCategory = myPageService.getBookCountsByCategory(user);
-
+		List<Map.Entry<String, Integer>> sortedList = new ArrayList<>(bookCountsByCategory.entrySet());
+		// value 값을 기준으로 내림차순 정렬하는 Comparator 객체 생성
+		Comparator<Map.Entry<String, Integer>> valueComparator = (o1, o2) -> o2.getValue().compareTo(o1.getValue());
+		// value 값을 기준으로 정렬된 List 반환
+		sortedList.sort(valueComparator);
+		// 상위 6개의 요소 추출
+		List<Map.Entry<String, Integer>> top6List = sortedList.subList(0, Math.min(6, sortedList.size()));
+		// model로 넘길 list 생성
+		List<Integer> bookCountList = new ArrayList<>();
+		for (Map.Entry<String, Integer> entry : top6List) {
+			bookCountList.add(entry.getValue());
+		}
+		
 		// 유저가 구매한 모든 책의 카테고리 이름을 가져옴.
 		List<String> listCategories = myPageService.findNameByCategory(user);
 
 		// 유저의 모든 결제수단을 가져옴.
 		List<Payment> paymentList = paymentService.findPaymentByUser(user);
-		
-		//유저의 배송중, 배송완료의 개수를 가져옴
+
+		// 유저의 배송중, 배송완료의 개수를 가져옴
 		int shipping = orderService.countByDeliveryStatus(user, "배송준비중");
 		int deliveryCompleted = orderService.countByDeliveryStatus(user, "배송완료");
-		
-		List level= new ArrayList<>(); 	
+
+		List level = new ArrayList<>();
 		if (deliveryCompleted < 2) {
 			level = Arrays.asList("책린이", "Lv.1", "/images/level=1Lv.png", "/images/clap.png");
 		} else if (deliveryCompleted < 6 && deliveryCompleted >= 2) {
@@ -77,10 +90,8 @@ public class MyPageController {
 		} else {
 			level = Arrays.asList("살아있는 도서관", "Lv.5", "/images/level=5Lv.png", "/images/crown.png");
 		}
-	
 
-		
-		model.addAttribute("user", user);				
+		model.addAttribute("user", user);
 		model.addAttribute("shipping", shipping);
 		model.addAttribute("deliveryCompleted", deliveryCompleted);
 		model.addAttribute("level", level);
@@ -88,6 +99,7 @@ public class MyPageController {
 		model.addAttribute("bookCountsByCategory", bookCountsByCategory);
 		model.addAttribute("listCategories", listCategories);
 		model.addAttribute("paymentList", paymentList);
+	    model.addAttribute("bookCountList", bookCountList);
 
 		return "mypage";
 	}

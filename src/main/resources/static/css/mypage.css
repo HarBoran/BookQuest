@@ -54,11 +54,6 @@
 	justify-content: center;
 }
 
-#customerLevel{
-	font-size: 18px;
-	font-weight: 600;
-}
-
 .user_info,
 .order_history,
 .payment_method {
@@ -165,12 +160,13 @@
 }
 
 .radar-chart_box1 {
-	width: 515px;
+	width: 475px;
 	height: 360px;
 	border: 2px solid #E7E7E7;
 	border-radius: 8px;
 	display: flex;
 	align-items: center;
+	padding-left: 25px;
 }
 
 .radar-chart_box2 {
@@ -180,20 +176,34 @@
 }
 
 .bar-chart_box1 {
-	width: 460px;
+	width: 500px;
 	height: 360px;
 	border: 2px solid #E7E7E7;
 	border-radius: 8px;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 }
 
 .bar-chart_box2 {
-	width: 380px;
+	width: 390px;
 	height: 275px;
-	margin: auto;
+	margin-right: 22px;
 }
 
+.count_box {
+	width: 30px;
+	height: 275px;
+	display: flex;
+	flex-direction: column;
+	padding-top: 23px;
+}
+
+.count {
+	font-size: 13px;
+	margin-bottom: 23px;
+	color: #5D5D5D;
+}
 
 table {
 	border: 1ch;

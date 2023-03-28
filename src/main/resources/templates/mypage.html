@@ -15,9 +15,9 @@
 
 <body>
 	<div th:replace="commonspace :: menu"></div>
-	
 
-	
+
+
 	<div class="icon_and_title">
 		<div class="icon_box">
 			<img th:src="'/BookQuest'+${level[2]}" alt="Level_Icon" width="60" height="65">
@@ -37,7 +37,7 @@
 	<div class="user_info_box">
 		<div class="my_level">
 			<span style="color: #7D7D7D; font-size: 14px; margin-bottom: 14px;">마이 레벨</span>
-			<span id = "customerLevel">[[${level[1]}]]</span>
+			<span id="customerLevel">[[${level[1]}]]</span>
 		</div>
 		<div class="shipping">
 			<span style="color: #7D7D7D; font-size: 14px; margin-bottom: 14px;">배송중</span>
@@ -99,6 +99,11 @@
 		<div class="bar-chart_box1">
 			<div class="bar-chart_box2">
 				<canvas id="bar-chart"></canvas>
+			</div>
+			<div class="count_box">
+				<div th:each="count : ${bookCountList}">
+					<p th:text="${count} + 권" class="count"></p>
+				</div>
 			</div>
 		</div>
 	</div>
