@@ -69,16 +69,7 @@
 		<div class="bundleMent">
 			<div style="display: flex; justify-content: space-between; align-items: center;">
 				<div class="recommendation-title" th:text="${recommendation[0]}"></div>
-
-				<img th:if="${recommendation[0]} == 'AI가 추천해주는 내 취향 도서(책리스트 잘못됨)'" th:src="@{/images/book.png}"
-					style="width: 30px; height: 30px; margin-left: 2px;">
-				<img th:if="${recommendation[0]} == '베스트 셀러'" th:src="@{/images/fire.png}"
-					style="width: 30px; height: 30px; margin-left: 2px;">
-				<img th:if="${recommendation[0]} == '갓 입고된 따끈 따끈 도서'" th:src="@{/images/bread.png}"
-					style="width: 30px; height: 30px; margin-left: 2px;">
-				<img th:if="${recommendation[0]} == '이 주의 특가 도서 모음ZIP'" th:src="@{/images/file.png}"
-					style="width: 30px; height: 30px; margin-left: 2px;">
-
+				<img th:src="'/BookQuest'+${recommendation[3]}" style="width: 30px; height: 30px; margin-left: 2px;">
 			</div>
 
 			<div class="recommendation-more">
