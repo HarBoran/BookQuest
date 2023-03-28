@@ -24,18 +24,20 @@ public interface OrderDetailRepository extends PagingAndSortingRepository<OrderD
 	public List<OrderDetail> findOrderDetailsByUser(@Param("user") User user);
 
 	// 유저가 구매한 책의 권수와 카테고리를 가져옴.
-	@Query("SELECT c, SUM(od.orderQuantity) " + "FROM Category c " + "JOIN Book b ON c = b.category "
-			+ "LEFT JOIN OrderDetail od ON b = od.book " + "JOIN od.order o " + "WHERE o.user = :user " + "GROUP BY c "
-			+ "ORDER BY SUM(od.orderQuantity) DESC")
+	@Query("SELECT c, SUM(od.orderQuantity) FROM Category c JOIN Book b ON c = b.category "
+			+ "LEFT JOIN OrderDetail od ON b = od.book " 
+			+ "JOIN od.order o " + "WHERE o.user = :user " 
+			+ "GROUP BY c ORDER BY SUM(od.orderQuantity) DESC")
 	public List<Object[]> findCategoriesAndBookCountsByUser(@Param("user") User user);
 
 	// 유저가 구매한 책의 카테고리를 가져옴.
 	@Query("SELECT DISTINCT c.name " + "FROM Category c " + "JOIN Book b ON c = b.category "
-			+ "JOIN OrderDetail od ON b = od.book " + "JOIN od.order o " + "WHERE o.user = :user " + "GROUP BY c")
+			+ "JOIN OrderDetail od ON b = od.book " 
+			+ "JOIN od.order o " + "WHERE o.user = :user " + "GROUP BY c")
 	public List<String> findCategoriesByUser(@Param("user") User user);
 
-	//SELECT count(DISTINCT od.order_detail_id) FROM orders o JOIN order_details od ON o.order_id = od.order_id WHERE o.user_id = '1';
-	@Query("SELECT COUNT(DISTINCT od.orderDetailId) FROM Order o JOIN o.orderDetail od WHERE o.user = :user")
+	//유저가 구매한 책의 총 권수를 가지고 옴.
+	@Query("SELECT SUM(od.orderQuantity) FROM Order o JOIN o.orderDetail od WHERE o.user = :user AND o.deliveryStatus = '배송완료'")
 	public int countNumberOfBooksPurchased(@Param("user") User user);
 
 

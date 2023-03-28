@@ -78,9 +78,8 @@ public class MyPageController {
 		int shipping = orderService.countByDeliveryStatus(user, "배송준비중");
 		int deliveryCompleted = orderService.countByDeliveryStatus(user, "배송완료");
 		int numbeOfBooksPurchased = orderDetailService.countNumberOfBooksPurchased(user);
-		System.err.println(numbeOfBooksPurchased);
 
-		List level = new ArrayList<>();
+		List<String> level = new ArrayList<>();
 		if (numbeOfBooksPurchased < 2) {
 			level = Arrays.asList("책린이", "Lv.1", "/images/level=1Lv.png", "/images/clap.png");
 		} else if (deliveryCompleted < 6 && deliveryCompleted >= 2) {
