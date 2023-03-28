@@ -34,4 +34,11 @@ public interface OrderDetailRepository extends PagingAndSortingRepository<OrderD
 			+ "JOIN OrderDetail od ON b = od.book " + "JOIN od.order o " + "WHERE o.user = :user " + "GROUP BY c")
 	public List<String> findCategoriesByUser(@Param("user") User user);
 
+	//SELECT count(DISTINCT od.order_detail_id) FROM orders o JOIN order_details od ON o.order_id = od.order_id WHERE o.user_id = '1';
+	@Query("SELECT COUNT(DISTINCT od.orderDetailId) FROM Order o JOIN o.orderDetail od WHERE o.user = :user")
+	public int countNumberOfBooksPurchased(@Param("user") User user);
+
+
+
+	
 }

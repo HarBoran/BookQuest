@@ -41,6 +41,10 @@ public class OrderDetailService {
 		repo.save(orderdetail);
 	}
 
+	public int countNumberOfBooksPurchased(User user) {
+		return repo.countNumberOfBooksPurchased(user);
+	}
+
 
 
 
