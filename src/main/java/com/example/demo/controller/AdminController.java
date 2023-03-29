@@ -113,8 +113,8 @@ public class AdminController {
 			model.addAttribute("books", listBooks);
 		}
 
-		long startCount = (pageNum - 1) * bookService.USERS_PER_PAGE + 1;
-		long endCount = startCount + bookService.USERS_PER_PAGE - 1;
+		long startCount = (pageNum - 1) * bookService.ADMIN_PER_PAGE + 1;
+		long endCount = startCount + bookService.ADMIN_PER_PAGE - 1;
 		if (endCount > page.getTotalElements()) {
 			endCount = page.getTotalElements();
 		}

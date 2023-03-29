@@ -20,6 +20,7 @@ import com.example.demo.repository.BookRepository;
 @Service
 @Transactional
 public class BookService {
+	public final int ADMIN_PER_PAGE =15;
 	public final int USERS_PER_PAGE = 10;
 
 	@Autowired
