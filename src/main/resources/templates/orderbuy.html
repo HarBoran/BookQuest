@@ -239,18 +239,18 @@
 			
 			<div id="easyPayment_button_box">
 				<button type="button" onclick="requestPay('html5_inicis')">
-					<img th:src="@{/images/KGPayment.png}" style="width: 23px; height: 27px; margin-bottom: 20px;">
-					통합결제
+					<img th:src="@{/images/KGPayment.png}" style="width: 23px; height: 33px; padding-bottom: 8px;">
+					<span style="font-size: 19px; font-weight:500;">통합결제</span>
 				</button>
 				<button type="button" onclick="requestPay('kakaopay')">
 					<img th:src="@{/images/kakaopay.png}" style="width: 60px; height: 24px;">
-					카카오페이
+					<span style="font-size: 19px; font-weight:500;">카카오페이</span>
 				</button>
 				<button type="button" onclick="requestPay('tosspay')">
 					<img th:src="@{/images/tosspay.png}" style="width: 64px; height: 26px;">
-					토스페이
-				</button>	
-			</div>		
+					<span style="font-size: 19px; font-weight:500;">토스페이</span>
+				</button>
+			</div>
 		</form>
 		<hr>
 		<div style="display: flex; justify-content: flex-end; padding-top:12px; border-top: 1px solid  #CCC;">
