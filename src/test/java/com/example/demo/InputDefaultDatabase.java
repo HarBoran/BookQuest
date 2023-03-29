@@ -142,11 +142,11 @@ public class InputDefaultDatabase {
 	public void saveNewUser() {
 
 		User user = new User();
-		user.setEmail("1");
+		user.setEmail("3");
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		user.setPassword(passwordEncoder.encode("1"));
+		user.setPassword(passwordEncoder.encode("3"));
 		user.setAddress1("주소");
-		user.setName("이름");
+		user.setName("하민수");
 		user.setPhone("010전화번호");
 		user.setRole("admin");
 		user.setEnabled(true);

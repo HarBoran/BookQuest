@@ -77,10 +77,11 @@ public class MyPageController {
 		// 유저의 배송중, 배송완료의 개수를 가져옴
 		int shipping = orderService.countByDeliveryStatus(user, "배송준비중");
 		int deliveryCompleted = orderService.countByDeliveryStatus(user, "배송완료");
-		int numbeOfBooksPurchased = orderDetailService.countNumberOfBooksPurchased(user);
-
+		
+		Integer numbeOfBooksPurchased = orderDetailService.countNumberOfBooksPurchased(user);
+		
 		List<String> level = new ArrayList<>();
-		if (numbeOfBooksPurchased < 2) {
+		if (numbeOfBooksPurchased == null ||  numbeOfBooksPurchased < 2) {
 			level = Arrays.asList("책린이", "Lv.1", "/images/level=1Lv.png", "/images/clap.png");
 		} else if (deliveryCompleted < 6 && deliveryCompleted >= 2) {
 			level = Arrays.asList("우수한 독서가", "Lv.2", "/images/level=2Lv.png", "/images/fire.png");

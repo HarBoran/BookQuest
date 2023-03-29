@@ -38,7 +38,7 @@ public interface OrderDetailRepository extends PagingAndSortingRepository<OrderD
 
 	//유저가 구매한 책의 총 권수를 가지고 옴.
 	@Query("SELECT SUM(od.orderQuantity) FROM Order o JOIN o.orderDetail od WHERE o.user = :user AND o.deliveryStatus = '배송완료'")
-	public int countNumberOfBooksPurchased(@Param("user") User user);
+	public Integer countNumberOfBooksPurchased(@Param("user") User user);
 
 
 
