@@ -10,7 +10,7 @@ function checkEmailUniqueButton(userId, userEmail) {
 	if (formSubmitting) return; // 폼 제출 중이라면 함수 실행 중지
 	formSubmitting = true; // 폼 제출 상태로 변경
 	
-	url = "[[@{/sign/check_email}]]";
+	url = "@{/sign/check_email}";
 	csrfValue = $("input[name='_csrf']").val();
 	params = {id: userId, email: userEmail, _csrf: csrfValue};
 

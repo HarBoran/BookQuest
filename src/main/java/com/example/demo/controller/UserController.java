@@ -39,19 +39,19 @@ public class UserController {
 	}
 
 	@GetMapping("/update/{userId}")
-	public String editUser(@PathVariable(name = "userId") int userId, Model model, RedirectAttributes rttr)
-			throws Exception {
+	   public String editUser(@PathVariable(name = "userId") int userId, Model model, RedirectAttributes rttr)
+	         throws Exception {
 
-		User user = userService.get(userId);
-		model.addAttribute("user", user);
-		if (user.getPassword() != null) {
-			String check = "yes";
-			model.addAttribute("check", check);
-		}
-		model.addAttribute("edit", "a");
+	      User user = userService.get(userId);
+	      model.addAttribute("user", user);
+	      if (user.getPassword() != null) {
+	         String check = "yes";
+	         model.addAttribute("check", check);
+	      }
+	      model.addAttribute("edit","a");
 
-		return "signUpPage";
+	      return "signUpPage";
 
-	}
+	   }
 
 }
